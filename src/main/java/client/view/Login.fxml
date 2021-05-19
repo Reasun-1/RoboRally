@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="client.view.Login"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <ImageView fitHeight="407.0" fitWidth="635.0" layoutX="1.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/BackgroundImageLoginWindow.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="82.0" layoutY="49.0" prefHeight="196.0" prefWidth="401.0">
+               <children>
+                  <ImageView fitHeight="201.0" fitWidth="445.0" opacity="0.86">
+                     <image>
+                        <Image url="@../resources/BackgroundImage2LoginWindow.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#450303" layoutX="7.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO ROBORALLY" textAlignment="CENTER" wrappingWidth="437.22900390625">
+                     <font>
+                        <Font name="Bodoni 72 Book" size="48.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <TextField alignment="CENTER" layoutX="208.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">
+               <font>
+                  <Font name="Bodoni 72 Book" size="13.0" />
+               </font>
+            </TextField>
+            <Button layoutX="264.0" layoutY="314.0" mnemonicParsing="false" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start" textFill="#270404">
+               <font>
+                  <Font name="Bodoni 72 Book" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>
