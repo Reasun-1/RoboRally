@@ -6,9 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="client.view.Chat"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+   <children>
+      <ScrollPane layoutX="128.0" prefHeight="200.0" prefWidth="200.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextArea fx:id="outOfRoundCards1" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <TextField fx:id="messageField" layoutX="300.0" layoutY="236.0" />
+      <Button fx:id="sendButton" layoutX="380.0" layoutY="301.0" mnemonicParsing="false" onAction="#send" text="Button" />
+      <TextField fx:id="sendTo" layoutX="14.0" layoutY="236.0" />
+   </children>
 </AnchorPane>
