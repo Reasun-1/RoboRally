@@ -10,39 +10,21 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" stylesheets="Gui.css" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <ImageView fitHeight="407.0" fitWidth="635.0" layoutX="1.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/BackgroundImageLoginWindow.jpg" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="backgroundLogin" fitHeight="407.0" fitWidth="635.0" layoutX="1.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true"/>
             <AnchorPane layoutX="82.0" layoutY="49.0" prefHeight="196.0" prefWidth="401.0">
                <children>
-                  <ImageView fitHeight="201.0" fitWidth="445.0" opacity="0.86">
-                     <image>
-                        <Image url="@../resources/BackgroundImage2LoginWindow.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text fill="#450303" layoutX="7.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO ROBORALLY" textAlignment="CENTER" wrappingWidth="437.22900390625">
-                     <font>
-                        <Font name="Bodoni 72 Book" size="48.0" />
-                     </font>
-                  </Text>
+                  <ImageView fx:id="backgroundText" fitHeight="201.0" fitWidth="445.0" opacity="0.86"/>
+                  <Text fx:id="welcomeText" fill="#450303" layoutX="7.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO ROBORALLY" textAlignment="CENTER" wrappingWidth="437.22900390625"/>
                </children>
             </AnchorPane>
-            <TextField alignment="CENTER" layoutX="208.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">
-               <font>
-                  <Font name="Bodoni 72 Book" size="13.0" />
-               </font>
-            </TextField>
-            <Button layoutX="264.0" layoutY="314.0" mnemonicParsing="false" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start" textFill="#270404">
-               <font>
-                  <Font name="Bodoni 72 Book" size="13.0" />
-               </font>
-            </Button>
+            <TextField alignment="CENTER" layoutX="208.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name"/>
+            <Button fx:id="startButton" layoutX="264.0" layoutY="314.0" mnemonicParsing="false" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start" textFill="#270404"/>
          </children>
       </AnchorPane>
    </children>

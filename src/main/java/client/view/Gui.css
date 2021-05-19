@@ -1,0 +1,22 @@
+.label {
+    -fx-font-family: "Bodoni 72 Book";
+}
+
+.text-field {
+    -fx-font-family: "Bodoni 72 Book";
+}
+
+.button {
+    -fx-font-family: "Bodoni 72 Book";
+}
+
+#welcomeText {
+    -fx-font-family: "Bodoni 72 Book";
+}
+
+#backgroundLogin {
+    -fx-image: url('../resources/BackgroundImageLoginWindow.jpg');
+}
+#backgroundText {
+    -fx-image: url('../resources/BackgroundImage2LoginWindow.jpg');
+}
