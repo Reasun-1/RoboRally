@@ -13,6 +13,7 @@ import java.awt.*;
 /**
  * @author can ren
  * @author yuliia shaparenko
+ * @author chiara welz
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class LoginController {
