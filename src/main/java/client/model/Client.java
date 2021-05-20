@@ -1,24 +1,24 @@
 package client.model;
 
-import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.stage.Stage;
-import protocol.MessageBody;
 import protocol.Protocol;
+import protocol.submessagebody.ReceivedChatBody;
+import protocol.submessagebody.SendChatBody;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Client class is responsible for the connection to the server and for storing the properties connected with the GUI.
  * It also holds the main method which starts the Application.
  */
 public class Client extends Application {
+    private static final Logger logger = Logger.getLogger(Client.class.getName());
     // Socket for the TCP connection
     private volatile Socket socket;
     // Writer for outgoing messages
@@ -125,8 +125,8 @@ public class Client extends Application {
     public void executeOrder(String json) throws IOException {
 
         Client client = this;
-        Protocol protocol = Protocol.readJson(json);
-        String messageType = protocol.getMessageType();
+
+        String messageType = Protocol.readJsonMessageType(json);
 
         Platform.runLater(new Runnable() {
             @Override
@@ -137,10 +137,13 @@ public class Client extends Application {
                             socket.close();
                             break;
                         case "ReceivedChat":
-                            String message = protocol.getMessageBody().getMessage();
+                            String message = Protocol.readJsonReceivedChatBody(json).getMessage();
                             CHATHISTORY.set(CHATHISTORY.get() + message + "\n");
+                        case "Error":
+                            String errorMessage = Protocol.readJsonErrorBody(json).getError();
+                            System.out.println(errorMessage);
                     }
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -179,13 +182,10 @@ public class Client extends Application {
      * @param message
      */
     public void sendPersonalMessage(String name, String message) throws JsonProcessingException {
-        MessageBody messageBody = new MessageBody();
-        messageBody.setPrivate(true);
-        messageBody.setTo(name);
-        messageBody.setMessage(message);
-        Protocol protocol = new Protocol("SendChat", messageBody);
-        String json = Protocol.writeJson(protocol);
 
+        Protocol protocol = new Protocol("SendChat", new SendChatBody(name,message));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
         OUT.println(json);
     }
 
@@ -199,6 +199,7 @@ public class Client extends Application {
         if (message.equals("bye")) {
             Protocol protocol = new Protocol("Quit", null);
             String json = Protocol.writeJson(protocol);
+            logger.info(json);
             OUT.println(json);
             // stop the connection
             try {
@@ -213,11 +214,10 @@ public class Client extends Application {
 
         } else {
             // Send message to server
-            MessageBody messageBody = new MessageBody();
-            messageBody.setMessage(message);
-            messageBody.setPrivate(false);
-            Protocol protocol = new Protocol("SendChat", messageBody);
+
+            Protocol protocol = new Protocol("SendChat", new SendChatBody(null, message));
             String json = Protocol.writeJson(protocol);
+            logger.info(json);
             OUT.println(json);
         }
     }

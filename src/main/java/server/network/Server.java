@@ -1,11 +1,8 @@
 package server.network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.stage.Stage;
-import protocol.MessageBody;
 import protocol.Protocol;
-import server.game.Game;
+import protocol.submessagebody.ErrorBody;
+import protocol.submessagebody.ReceivedChatBody;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +10,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 public class Server {
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private final static Server server = new Server();
 
@@ -90,10 +89,7 @@ public class Server {
     public void sendTo(String clientName, String message) {
         //send message to Client clientName
         try {
-            MessageBody messageBody = new MessageBody();
-            messageBody.setPrivate(true);
-            messageBody.setMessage(message);
-            Protocol protocol = new Protocol("ReceivedChat", messageBody);
+            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
             String json = Protocol.writeJson(protocol);
             new PrintWriter(clientList.get(clientName).getSocket().getOutputStream(), true).println(json);
         } catch (IOException e) {
@@ -108,10 +104,7 @@ public class Server {
      */
     public void sendMessageToAll(String message) {
         try {
-            MessageBody messageBody = new MessageBody();
-            messageBody.setPrivate(false);
-            messageBody.setMessage(message);
-            Protocol protocol = new Protocol("ReceivedChat", messageBody);
+            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
             String json = Protocol.writeJson(protocol);
             synchronized (clientList) {
                 for (Enumeration<ServerThread> e = clientList.elements(); e.hasMoreElements(); ) {
@@ -133,9 +126,8 @@ public class Server {
      * @throws IOException
      */
     public void exception(String name, String message) throws IOException {
-        MessageBody messageBody = new MessageBody();
-        messageBody.setError("message");
-        Protocol protocol = new Protocol("Error", messageBody);
+
+        Protocol protocol = new Protocol("Error", new ErrorBody(message));
         String json = Protocol.writeJson(protocol);
         clientList.get(name).makeOrder(json);
     }

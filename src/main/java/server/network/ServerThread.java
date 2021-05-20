@@ -1,7 +1,9 @@
 package server.network;
 
-import protocol.MessageBody;
 import protocol.Protocol;
+import protocol.submessagebody.ErrorBody;
+import protocol.submessagebody.ReceivedChatBody;
+import protocol.submessagebody.SendChatBody;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,9 +11,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Enumeration;
+import java.util.logging.Logger;
 
 
 public class ServerThread implements Runnable {
+
+    private static final Logger logger = Logger.getLogger(ServerThread.class.getName());
 
     private final Socket SOCKET;
     private String clientName;
@@ -63,11 +68,12 @@ public class ServerThread implements Runnable {
                 String json = in.readLine();
                 // if no message from the client, then wait
                 if (json != null) {
+                    logger.info("excuteOrder by server " + json);
                     executeOrder(json);
                 }
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             try {
                 closeConnect();
             } catch (IOException e1) {
@@ -76,17 +82,28 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public void executeOrder(String json) throws IOException {
-        switch (Protocol.readJson(json).getMessageType()) {
+    public void executeOrder(String json) throws IOException, ClassNotFoundException {
+
+        String messageType = Protocol.readJsonMessageType(json);
+        switch (messageType) {
             case "Quit": // terminate the connection
+                logger.info(clientName + " quit.");
                 closeConnect();
                 break;
             case "SendChat": // send private message
-                MessageBody messageBody = Protocol.readJson(json).getMessageBody();
+                logger.info("message arrived server");
+                SendChatBody sendChatBody = null;
+                try {
+                    sendChatBody = Protocol.readJsonSendChatBody(json);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 String message = "";
-                message = messageBody.getMessage();
-                if (messageBody.isPrivate() == true) {
-                    String toClient = messageBody.getTo();
+                message = sendChatBody.getMessage();
+                if (sendChatBody.getTo() != null) {
+                    String toClient = sendChatBody.getTo();
                     if(Server.clientList.containsKey(toClient)){
                         // to target client
                         System.out.println(toClient);
@@ -95,14 +112,13 @@ public class ServerThread implements Runnable {
                         sendPrivateMessage(clientName, clientName + "[private]: " + message);
                     }else{
                         System.out.println("There is no client with this name!"); // optional in terminal
-                        MessageBody mb = new MessageBody();
-                        mb.setError("There is no client with this name!");
-                        Protocol protocol = new Protocol("Error", mb);
+                        Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
                         String js = Protocol.writeJson(protocol);
                         makeOrder(js);
                     }
 
                 } else {
+                    logger.info("send message to all");
                     sendMessage(clientName + ": " + message);
                 }
                 break;
@@ -118,13 +134,9 @@ public class ServerThread implements Runnable {
     private void sendMessage(String message) throws IOException {
         //optional, for server terminal print
         System.out.println(message);
-
-        MessageBody messageBody = new MessageBody();
-        messageBody.setPrivate(false);
-        messageBody.setMessage(message);
-        Protocol protocol = new Protocol("ReceivedChat", messageBody);
+        Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
         String json = Protocol.writeJson(protocol);
-
+        logger.info(json);
         synchronized (Server.clientList) {
             for (Enumeration<ServerThread> e = Server.clientList.elements(); e.hasMoreElements(); ) {
                 new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
