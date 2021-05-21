@@ -137,11 +137,16 @@ public class Client extends Application {
                             socket.close();
                             break;
                         case "ReceivedChat":
+                            logger.info("received chat printed");
                             String message = Protocol.readJsonReceivedChatBody(json).getMessage();
                             CHATHISTORY.set(CHATHISTORY.get() + message + "\n");
+                            break;
                         case "Error":
+                            logger.info("error printed");
+                            logger.info(json);
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
                             System.out.println(errorMessage);
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
