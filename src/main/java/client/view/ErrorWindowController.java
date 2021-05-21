@@ -41,7 +41,7 @@ public class ErrorWindowController {
      */
     @FXML
     private void okButtonClicked(ActionEvent event) {
-        robotIndeed.setSelected(true); //if the "I am a robot" CheckBox is checked then you can press the OK Button
+        //robotIndeed.setSelected(true); //if the "I am a robot" CheckBox is checked then you can press the OK Button
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
     }

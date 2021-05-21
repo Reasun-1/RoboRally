@@ -11,12 +11,12 @@
    <children>
       <ImageView fitHeight="407.0" fitWidth="600.0" layoutY="-3.0">
          <image>
-            <Image url="@tardes-na-academia-inteligencia-artificial-cooperacao-e-robotica-social-1140x641.jpg" />
+            <Image url="@IA-bg.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="139.0" fitWidth="173.0" layoutX="216.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@robot-depressed.gif" />
+            <Image url="@sad_robot.gif" />
          </image>
       </ImageView>
       <CheckBox layoutX="216.0" layoutY="331.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="169.0" text="I am a robot." textAlignment="CENTER" textFill="#f5e7e7">
@@ -43,7 +43,7 @@
          </effect></Label>
       <ImageView fitHeight="91.0" fitWidth="169.0" layoutX="286.0" layoutY="16.0">
          <image>
-            <Image url="@c462515c3e7bd42b3f2385995856e975.gif" />
+            <Image url="@waiting.gif" />
          </image>
       </ImageView>
       <Label layoutX="100.0" layoutY="14.0" prefHeight="51.0" prefWidth="157.0" text="Error!" textAlignment="CENTER" textFill="#b2a7a7" wrapText="true">
