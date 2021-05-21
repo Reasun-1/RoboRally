@@ -3,21 +3,21 @@ package protocol;
 import protocol.submessagebody.ErrorBody;
 import protocol.submessagebody.SendChatBody;
 import server.network.Server;
-import server.network.ServerThread;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 
 /**
+ * this class is specially for decoding json message and execute the order in json
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class ExcuteOrder {
+public class ExecuteOrder {
 
-    private static final Logger logger = Logger.getLogger(ExcuteOrder.class.getName());
+    private static final Logger logger = Logger.getLogger(ExecuteOrder.class.getName());
 
-    public static void excuteOrder(String clientName, String json) throws IOException, ClassNotFoundException {
+    public static void executeOrder(String clientName, String json) throws IOException, ClassNotFoundException {
 
         String messageType = Protocol.readJsonMessageType(json);
         switch (messageType) {

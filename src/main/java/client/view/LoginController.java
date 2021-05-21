@@ -7,12 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
-
-
-
-
-
 /**
  * @author can ren
  * @author yuliia shaparenko
@@ -55,6 +49,4 @@ public class LoginController {
         client.checkName(name.getText());
         stage.close();
     }
-
-
 }

@@ -1,5 +1,6 @@
 package client.model;
 import client.view.ChatController;
+import client.view.ErrorWindowController;
 import client.view.LoginController;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -43,5 +44,23 @@ public class WindowLauncher {
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
+    /**
+     * Create an Error-Window and init the controller with the message to display
+     *
+     * @param message
+     * @throws IOException
+     */
+    public void launchError(String message) throws IOException {
+        Stage stage = new Stage();
+        stage.setTitle("Error");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ErrorWindow.fxml"));
+        Parent root = loader.load();
+        ErrorWindowController ctrl = loader.getController();
+        ctrl.init(message);
+        stage.setScene(new Scene(root, 600, 400));
+        stage.showAndWait();
+        stage.setOnCloseRequest((event) -> Platform.exit());
+    }
 
 }

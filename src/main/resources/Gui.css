@@ -8,11 +8,12 @@
 
 .button {
     -fx-font-family: "Bodoni 72 Book";
+    -fx-text-fill: #270404" ;
 }
 
 #backgroundLogin {
-    -fx-image: url('../resources/BackgroundImageLoginWindow.jpg');
+    -fx-image: url('BackgroundImageLoginWindow.jpg');
 }
 #backgroundText {
-    -fx-image: url('../resources/BackgroundImage2LoginWindow.jpg');
+    -fx-image: url('BackgroundImage2LoginWindow.jpg');
 }

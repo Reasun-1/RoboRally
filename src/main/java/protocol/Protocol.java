@@ -18,6 +18,7 @@ import java.util.logging.Filter;
  */
 public class Protocol {
 
+    // Object messageBody will be reset by subMessageBody and by decoding separately in subMessageBody transformed
     private String messageType;
     private Object messageBody;
 
@@ -47,6 +48,7 @@ public class Protocol {
         return json;
     }
 
+    // optional readJson as Protocol, maybe we need this function later
    /* public static Protocol readJson(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -74,6 +76,7 @@ public class Protocol {
         Object messageBody = protocol.getMessageBody();
 
         SendChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SendChatBody>(){});
+
         return messageBodyDetail;
     }
 
@@ -85,6 +88,7 @@ public class Protocol {
         Object messageBody = protocol.getMessageBody();
 
         ReceivedChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ReceivedChatBody>(){});
+
         return messageBodyDetail;
     }
 
@@ -96,6 +100,7 @@ public class Protocol {
         Object messageBody = protocol.getMessageBody();
 
         ErrorBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ErrorBody>(){});
+
         return messageBodyDetail;
     }
 
@@ -108,8 +113,6 @@ public class Protocol {
         System.out.println(type);
         SendChatBody sendChatBody = Protocol.readJsonSendChatBody(json);
         System.out.println(sendChatBody.getMessage());
-
-
     }
 
 

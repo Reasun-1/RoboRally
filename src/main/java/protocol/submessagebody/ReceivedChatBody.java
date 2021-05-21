@@ -1,14 +1,14 @@
 package protocol.submessagebody;
 
 /**
+ * this class is for detailed messageBody
  * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ReceivedChatBody {
-    //private String from;
-    //private boolean isPrivate;
+
     private String message;
 
+    // empty constructor is required for json
     public ReceivedChatBody() {
     }
 
@@ -17,19 +17,6 @@ public class ReceivedChatBody {
         //this.isPrivate = isPrivate;
         this.message = message;
     }
-
-
-    /*public String getFrom() {
-        return from;
-    }
-
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-     */
-
 
     public String getMessage() {
         return message;

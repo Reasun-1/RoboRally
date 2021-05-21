@@ -1,10 +1,8 @@
 package server.network;
 
-import protocol.ExcuteOrder;
+import protocol.ExecuteOrder;
 import protocol.Protocol;
-import protocol.submessagebody.ErrorBody;
 import protocol.submessagebody.ReceivedChatBody;
-import protocol.submessagebody.SendChatBody;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,7 +59,6 @@ public class ServerThread implements Runnable {
                 }
             }
 
-
             // wait for messages from the client
             boolean flag = true;
             while (flag) {
@@ -70,10 +67,9 @@ public class ServerThread implements Runnable {
                 // if no message from the client, then wait
                 if (json != null) {
                     logger.info("excuteOrder by server " + json);
-                    ExcuteOrder.excuteOrder(clientName,json);
+                    ExecuteOrder.executeOrder(clientName,json); // invoke method in extern class ExcuteOrder
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             try {
                 closeConnect();
@@ -123,8 +119,6 @@ public class ServerThread implements Runnable {
         synchronized (Server.clientList) {
             Server.clientList.remove(clientName);
         }
-
-        // inform the other clients
         //sendMessage(clientName + " has left the room.");
         SOCKET.close();
     }

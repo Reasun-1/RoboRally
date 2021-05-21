@@ -29,7 +29,6 @@ public class Client extends Application {
     private final WindowLauncher LAUNCHER = new WindowLauncher();
     // Name can be chosen in the login process
     private String name;
-
     // Binding to Chat Window for displaying incoming messages
     private final StringProperty CHATHISTORY = new SimpleStringProperty();
 
@@ -143,8 +142,8 @@ public class Client extends Application {
                             break;
                         case "Error":
                             logger.info("error printed");
-                            logger.info(json);
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
+                            LAUNCHER.launchError(errorMessage);
                             System.out.println(errorMessage);
                             break;
                     }
@@ -167,13 +166,12 @@ public class Client extends Application {
             String answer = IN.readLine();
             if (answer.equals("user existed!")) {
                 // Open error Window, then restart the Login
-                //LAUNCHER.launchError("The chosen name already exists. Please choose another name:");
-                //LAUNCHER.launchLogin(this);
+                LAUNCHER.launchError("The chosen name already exists. Please choose another name:");
+                LAUNCHER.launchLogin(this);
                 System.out.println("user existed!");
             } else {
                 // Store the chosen name
                 name = answer;
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -226,6 +224,4 @@ public class Client extends Application {
             OUT.println(json);
         }
     }
-
-
 }

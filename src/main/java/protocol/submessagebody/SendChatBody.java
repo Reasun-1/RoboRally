@@ -1,13 +1,14 @@
 package protocol.submessagebody;
 
 /**
+ * this class is for detailed messageBody
  * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class SendChatBody {
     private String to;
     private String message;
 
+    // empty constructor is required for json
     public SendChatBody() {
     }
 
@@ -16,11 +17,9 @@ public class SendChatBody {
         this.message = message;
     }
 
-
     public String getTo() {
         return to;
     }
-
 
     public String getMessage() {
         return message;
