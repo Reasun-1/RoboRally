@@ -5,7 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
 
+import javax.swing.*;
 import java.awt.*;
 
 
@@ -16,7 +19,7 @@ import java.awt.*;
 
 public class ErrorWindowController {
     @FXML
-    private Checkbox robotIndeed;
+    private JCheckBox robotIndeed;
     @FXML
     private Label errorField; // label provides the change of the error message based on the type of error classified on the Client class
     @FXML
@@ -38,6 +41,7 @@ public class ErrorWindowController {
      */
     @FXML
     private void okButtonClicked(ActionEvent event) {
+        robotIndeed.setSelected(true); //if the "I am a robot" CheckBox is checked then you can press the OK Button
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
     }
