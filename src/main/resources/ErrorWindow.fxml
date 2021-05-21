@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ErrorWindowController">
+   <children>
+      <ImageView fitHeight="407.0" fitWidth="600.0" layoutY="-3.0">
+         <image>
+            <Image url="@IA-bg.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="139.0" fitWidth="173.0" layoutX="216.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@sad_robot.gif" />
+         </image>
+      </ImageView>
+      <CheckBox layoutX="216.0" layoutY="331.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="169.0" text="I am a robot." textAlignment="CENTER" textFill="#f5e7e7">
+         <effect>
+            <Glow />
+         </effect>
+         <font>
+            <Font size="21.0" />
+         </font>
+      </CheckBox>
+      <Label fx:id="errorField" layoutX="59.0" layoutY="61.0" prefHeight="147.0" prefWidth="541.0" textFill="#f8f3f3">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.07" specularConstant="0.58" specularExponent="5.71" surfaceScale="3.41">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></Label>
+      <ImageView fitHeight="91.0" fitWidth="169.0" layoutX="286.0" layoutY="16.0">
+         <image>
+            <Image url="@waiting.gif" />
+         </image>
+      </ImageView>
+      <Label layoutX="100.0" layoutY="14.0" prefHeight="51.0" prefWidth="157.0" text="Error!" textAlignment="CENTER" textFill="#b2a7a7" wrapText="true">
+         <font>
+            <Font name="Serif Regular" size="47.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Button fx:id="okButton" layoutX="470.0" layoutY="357.0" mnemonicParsing="false" onAction="#okButtonClicked" text="OK Mr.Robot!">
+         <effect>
+            <Lighting diffuseConstant="1.07" specularConstant="0.73" specularExponent="30.0" surfaceScale="4.0">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#dacccc" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
