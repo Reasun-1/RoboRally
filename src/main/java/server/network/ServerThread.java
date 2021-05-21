@@ -1,5 +1,6 @@
 package server.network;
 
+import protocol.ExcuteOrder;
 import protocol.Protocol;
 import protocol.submessagebody.ErrorBody;
 import protocol.submessagebody.ReceivedChatBody;
@@ -69,7 +70,7 @@ public class ServerThread implements Runnable {
                 // if no message from the client, then wait
                 if (json != null) {
                     logger.info("excuteOrder by server " + json);
-                    executeOrder(json);
+                    ExcuteOrder.excuteOrder(clientName,json);
                 }
             }
 
@@ -82,56 +83,13 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public void executeOrder(String json) throws IOException, ClassNotFoundException {
-
-        String messageType = Protocol.readJsonMessageType(json);
-        switch (messageType) {
-            case "Quit": // terminate the connection
-                logger.info(clientName + " quit.");
-                closeConnect();
-                break;
-            case "SendChat": // send private message
-                logger.info("message arrived server");
-                SendChatBody sendChatBody = null;
-                try {
-                    sendChatBody = Protocol.readJsonSendChatBody(json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                String message = "";
-                message = sendChatBody.getMessage();
-                if (sendChatBody.getTo() != null) {
-                    String toClient = sendChatBody.getTo();
-                    if(Server.clientList.containsKey(toClient)){
-                        // to target client
-                        System.out.println(toClient);
-                        sendPrivateMessage(toClient, clientName + "[private to you]: " + message);
-                        // also to myself as info
-                        sendPrivateMessage(clientName, clientName + "[private]: " + message);
-                    }else{
-                        System.out.println("There is no client with this name!"); // optional in terminal
-                        Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
-                        String js = Protocol.writeJson(protocol);
-                        makeOrder(js);
-                    }
-
-                } else {
-                    logger.info("send message to all");
-                    sendMessage(clientName + ": " + message);
-                }
-                break;
-        }
-    }
-
     /**
      * send a message to all clients
      *
      * @param message
      * @throws IOException
      */
-    private void sendMessage(String message) throws IOException {
+    public void sendMessage(String message) throws IOException {
         //optional, for server terminal print
         System.out.println(message);
         Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));

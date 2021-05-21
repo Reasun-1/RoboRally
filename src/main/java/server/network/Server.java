@@ -21,7 +21,7 @@ public class Server {
     protected static Hashtable<Integer, String> playerList = new Hashtable<>();
 
     // a set for checking clients´ names
-    protected static final Hashtable<String, ServerThread> clientList = new Hashtable<>();
+    public static final Hashtable<String, ServerThread> clientList = new Hashtable<>();
 
     /**
      * private constructor for singleton implementation
