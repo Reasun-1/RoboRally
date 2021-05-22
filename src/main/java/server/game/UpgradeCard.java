@@ -1,8 +1,8 @@
-package server.feldelement;
+package server.game;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public interface FeldType {
+public class UpgradeCard {
 }

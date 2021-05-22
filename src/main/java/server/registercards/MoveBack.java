@@ -1,8 +1,8 @@
-package server.feldelement;
+package server.registercards;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class Pit {
+public class MoveBack {
 }

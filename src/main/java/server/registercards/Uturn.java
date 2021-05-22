@@ -1,8 +1,8 @@
-package server.card;
+package server.registercards;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class ProgrammCard {
+public class Uturn {
 }

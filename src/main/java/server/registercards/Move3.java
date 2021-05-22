@@ -1,8 +1,8 @@
-package server.board;
+package server.registercards;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public interface Board {
+public class Move3 {
 }
