@@ -1,8 +1,8 @@
-package server.card;
+package server.feldobjects;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public interface RegisterCard {
+public class PushPanel {
 }
