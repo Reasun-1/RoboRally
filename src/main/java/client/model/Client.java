@@ -11,6 +11,7 @@ import protocol.submessagebody.SendChatBody;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -29,8 +30,17 @@ public class Client extends Application {
     private final WindowLauncher LAUNCHER = new WindowLauncher();
     // Name can be chosen in the login process
     private String name;
+    // to remember which register war the last one
+    private int registerPointer;
+
+
     // Binding to Chat Window for displaying incoming messages
     private final StringProperty CHATHISTORY = new SimpleStringProperty();
+    // Binding to ChatAndGame for moving the robots
+    // max.6 players and 4 infos: e.g. [alice,2,5,UP]
+    private final StringProperty[][] PLAYERPOSITIONS = new SimpleStringProperty[6][4];
+    // Bindings enables/disables button "play card" (after played card, send message to next one to play)
+    private final BooleanProperty ISINTURN = new SimpleBooleanProperty(false);
 
 
     public Socket getSocket() {

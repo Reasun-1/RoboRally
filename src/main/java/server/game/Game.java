@@ -11,7 +11,7 @@ public class Game {
     private final static Game game = new Game();
 
     int countPlayer; // total count of players
-    String map; // von players chosen map
+    String mapName; // von players chosen map
 
     List<String> playerNames; // index of List = index of player = anchor for the game!!!
     List<String> robotFigure; // each player has a robot figure
@@ -23,8 +23,8 @@ public class Game {
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
 
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
-    List<List<Integer>> energyCubes; // who has how many cubes
-    List<Integer> energyBank; // total common energy cubes for the game
+    List<Integer> energyCubes; // who has how many cubes
+    int energyBank; // total common energy cubes for the game
     List<HashSet<Integer>> arrivedCheckpoints; // who has arrived which checkpoints;
 
     List<String> playerStatus; // OUTOFBOARD INPLAY
