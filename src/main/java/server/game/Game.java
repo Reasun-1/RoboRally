@@ -76,7 +76,6 @@ public class Game {
      */
     public void setPlayerRobots(String clientName){
 
-
         // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who has which robot
     }
 
