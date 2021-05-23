@@ -1,8 +1,8 @@
-package server.board;
+package server.feldobjects;
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class Course {
+public abstract class FeldObject {
 }

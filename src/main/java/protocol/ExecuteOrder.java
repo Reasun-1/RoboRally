@@ -2,6 +2,7 @@ package protocol;
 
 import protocol.submessagebody.ErrorBody;
 import protocol.submessagebody.SendChatBody;
+import server.game.Game;
 import server.network.Server;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class ExecuteOrder {
                     Server.clientList.get(clientName).sendMessage(clientName + ": " + message);
                 }
                 break;
+
         }
     }
 }
