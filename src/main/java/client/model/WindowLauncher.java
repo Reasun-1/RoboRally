@@ -35,7 +35,7 @@ public class WindowLauncher {
         Stage stage = new Stage();
         stage.setTitle("Chat: " + client.getName());
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Chat.fxml"));
+        loader.setLocation(getClass().getResource("/ChatAndGame.fxml"));
         Parent root = loader.load();
         ChatController ctrl = loader.getController();
         ctrl.init(client);
