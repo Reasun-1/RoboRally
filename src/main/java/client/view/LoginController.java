@@ -21,6 +21,9 @@ public class LoginController {
     @FXML
     private Button startButton;
 
+    @FXML
+    private Label clientID;
+
     private Client client;
 
     /**
@@ -34,6 +37,8 @@ public class LoginController {
         /*With bidirectional binding, the two property values are synchronized so that if either
          property changes, the other property is automatically changed as well */
         name.textProperty().bindBidirectional(LoginViewModel.heroNameProperty());
+
+        clientID.textProperty().bindBidirectional(LoginViewModel.heroNameProperty());
         //heroNameProperty() is a method declared on the LogInViewModel that returns the username required on the TextField
         startButton.disableProperty().bind(LoginViewModel.loginPossibleProperty().not());
     }

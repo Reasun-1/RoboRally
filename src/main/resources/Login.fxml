@@ -20,11 +20,13 @@
                      <image>
                         <Image url="@bg2-LogInWindow.jpg" />
                      </image></ImageView>
-                  <Text fill="#450303" layoutX="7.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO ROBORALLY" textAlignment="CENTER" wrappingWidth="437.22900390625">
+                  <Text fill="#450303" layoutX="4.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO ROBORALLY" textAlignment="CENTER" wrappingWidth="437.22900390625">
                      <font>
                         <Font name="Bodoni 72 Book" size="48.0" />
                      </font>
                   </Text>
+                  <Text layoutX="45.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your ClientID is: " />
+                  <Label fx:id="clientID" layoutX="230.0" layoutY="155.0" />
                </children>
             </AnchorPane>
             <TextField fx:id="name" alignment="CENTER" layoutX="208.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">

@@ -4,10 +4,12 @@ import client.model.Client;
 import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 /**
@@ -18,6 +20,9 @@ public class ChatController {
 
     @FXML
     private TextArea outOfRoundCards1; //registers the written messages on TextField
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane

@@ -112,7 +112,7 @@ public class Client extends Application {
                     json = IN.readLine();
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
-                            executeOrder(json);
+                        executeOrder(json);
                     }
                 }
                 Platform.exit();
