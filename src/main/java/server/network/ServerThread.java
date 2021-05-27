@@ -45,6 +45,7 @@ public class ServerThread implements Runnable {
             logger.info("protocol to client: \n" + js);
             out.println(js);
 
+            //check the protocol version
             boolean versionProofed = false;
 
             while(!versionProofed){
@@ -62,8 +63,10 @@ public class ServerThread implements Runnable {
                 }
             }
 
+            // generate a clientID from server
             clientID = Server.clientIDsPool.pop();
             Server.clientList.put(clientID,this);
+
 
             String string = Protocol.writeJson(new Protocol("Welcome", new WelcomeBody(clientID)));
             logger.info("welcome info printed");

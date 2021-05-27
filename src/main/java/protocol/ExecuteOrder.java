@@ -35,12 +35,19 @@ public class ExecuteOrder {
                 int figureNumber = playerValuesBody.getFigure();
                 String clientName = playerValuesBody.getName();
 
-                if(Server.figuresPoll.contains(figureNumber)){
+                if(Server.clientIDUndRobots.containsValue(figureNumber)){
                     Server.getServer().exception(clientID, "This figure exists already, choose again.");
                 }else{
                     logger.info("addPlayer");
-                    Server.figuresPoll.add(figureNumber);
-                    Server.getServer().handlePlayerAdded(clientID, clientName, figureNumber);
+                    Server.clientIDUndRobots.put(clientID, figureNumber);
+                    Server.clientIDUndNames.put(clientID, clientName);
+
+                    // send infos of previous players also to current player
+                    for(int clientIDEach : Server.clientIDUndNames.keySet()){
+                        String nameEach = Server.clientIDUndNames.get(clientIDEach);
+                        int figureEach = Server.clientIDUndRobots.get(clientIDEach);
+                        Server.getServer().handlePlayerAdded(clientIDEach, nameEach, figureEach);
+                    }
                 }
                 break;
             case "SendChat": // send private message

@@ -38,7 +38,7 @@ public class Client extends Application {
     // client list with all clientIDs
     private List<Integer> clientsList;
     // map: key = clientID, value = robotfigure;
-    private HashMap<Integer, Integer> robotFigureAllClients= new HashMap<>();
+    private HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
     // map : key = clientID, value = name;
     private HashMap<Integer, String> clientNames = new HashMap<>();
 
@@ -49,6 +49,11 @@ public class Client extends Application {
     private final StringProperty CLIENTNAME = new SimpleStringProperty();
     // Binding to Chat Window for displaying incoming messages
     private final StringProperty CHATHISTORY = new SimpleStringProperty();
+    // players who are in server (invoked by PlayerAdded)
+    private final StringProperty PLAYERSINSERVER = new SimpleStringProperty();
+    // players who are ready to play
+    private final StringProperty PLAYERSWHOAREREADY = new SimpleStringProperty();
+
     // Binding to ChatAndGame for moving the robots
     // max.6 players and 4 infos: e.g. [alice,2,5,UP]
     private final StringProperty[][] PLAYERPOSITIONS = new SimpleStringProperty[6][4];
@@ -69,7 +74,9 @@ public class Client extends Application {
         return OUT;
     }
 
-    public int getClientID() { return clientID; }
+    public int getClientID() {
+        return clientID;
+    }
 
     public String getName() {
         return name;
@@ -79,7 +86,17 @@ public class Client extends Application {
         return CHATHISTORY;
     }
 
-    public StringProperty getCLIENTIDASSTRINGPROPERTY() { return CLIENTIDASSTRINGPROPERTY; }
+    public StringProperty PLAYERSINSERVERProperty() {
+        return PLAYERSINSERVER;
+    }
+
+    public StringProperty PLAYERSWHOAREREADYProperty() {
+        return PLAYERSWHOAREREADY;
+    }
+
+    public StringProperty getCLIENTIDASSTRINGPROPERTY() {
+        return CLIENTIDASSTRINGPROPERTY;
+    }
 
     public HashMap<Integer, Integer> getRobotFigureAllClients() {
         return robotFigureAllClients;
@@ -90,10 +107,10 @@ public class Client extends Application {
     }
 
 
-
-
     // Setters
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setRobotFigureAllClients(Integer clientID, Integer figure) {
         robotFigureAllClients.put(clientID, figure);
@@ -123,6 +140,8 @@ public class Client extends Application {
         name = "";
 
         CHATHISTORY.set("");
+        PLAYERSINSERVER.set("");
+        PLAYERSWHOAREREADY.set("");
     }
 
     public static void main(String[] args) {
@@ -139,7 +158,6 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-
         // Open chat and game window after logging in successfully
         //CHATHISTORY.set("Welcome " + name + "\n");
         //LAUNCHER.launchChat(this);
@@ -152,6 +170,7 @@ public class Client extends Application {
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
                         executeOrder(json);
+                        logger.info("json from server: " + json);
                     }
                 }
                 Platform.exit();
@@ -172,6 +191,7 @@ public class Client extends Application {
 
     /**
      * Execute an order from the server by checking the order code and calling the correct method
+     *
      * @throws IOException
      */
     public void executeOrder(String json) throws IOException {
@@ -197,26 +217,26 @@ public class Client extends Application {
                             logger.info("error printed");
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
                             LAUNCHER.launchError(errorMessage);
-                            if(errorMessage.equals("This figure exists already, choose again.")){
+                            if (errorMessage.equals("This figure exists already, choose again.")) {
                                 reLoggin();
                             }
                             break;
                         case "HelloClient":
-                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC",false, "Version 0.1"));
+                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 0.1"));
                             String js = Protocol.writeJson(protocol);
-                            logger.info("protocol from Server: \n" + js );
+                            logger.info("protocol from Server: \n" + js);
                             OUT.println(js);
                             break;
                         case "Welcome":
                             logger.info(json);
                             int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
                             clientID = clientIDfromServer;
-                            CLIENTIDASSTRINGPROPERTY.set(""+clientID);
+                            CLIENTIDASSTRINGPROPERTY.set("" + clientID);
                             logger.info(CLIENTIDASSTRINGPROPERTY.get());
                             logger.info("your clientID is: " + clientID);
                             break;
                         case "Alive":
-                            String alive =Protocol.writeJson(new Protocol("Alive",null));
+                            String alive = Protocol.writeJson(new Protocol("Alive", null));
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
@@ -225,13 +245,22 @@ public class Client extends Application {
                             int clientIDAdded = playerAddedBody.getClientID();
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
-                            robotFigureAllClients.put(clientIDAdded, figureAdded);
-                            clientNames.put(clientIDAdded, nameAdded);
-                            logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
-                            if(clientIDAdded == clientID){
-                                name = nameAdded;
-                                goToChatGame();
+
+                            // for players already in server
+                            if(!clientNames.containsKey(clientIDAdded)){
+
+                                PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
+                                robotFigureAllClients.put(clientIDAdded, figureAdded);
+                                clientNames.put(clientIDAdded, nameAdded);
+                                logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
+
+                                // if the added player is self, then launch the chatAndGame window
+                                if (clientIDAdded == clientID) {
+                                    name = nameAdded;
+                                    goToChatGame();
+                                }
                             }
+
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -243,6 +272,7 @@ public class Client extends Application {
 
     /**
      * launch loggin as separate methode because of thread problem
+     *
      * @throws IOException
      */
     public void reLoggin() throws IOException {
@@ -251,14 +281,17 @@ public class Client extends Application {
 
     /**
      * launch ChatAndGame as separate methode because of thread problem
+     *
      * @throws IOException
      */
     public void goToChatGame() throws IOException {
+        logger.info("got to launch chat");
         LAUNCHER.launchChat(this);
     }
 
     /**
      * Method to be called from LoginWindowController to check the entered name.
+     *
      * @param temp_name
      */
     public void checkName(String temp_name) {

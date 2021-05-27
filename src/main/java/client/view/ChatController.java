@@ -22,6 +22,12 @@ public class ChatController {
     private TextArea outOfRoundCards1; //registers the written messages on TextField
 
     @FXML
+    private TextArea playersInServer;
+
+    @FXML
+    private TextArea playersWhoReady;
+
+    @FXML
     private GridPane gridPane;
 
     @FXML
@@ -45,6 +51,11 @@ public class ChatController {
         //binds the button of sending a message with the chat TextArea that saves all the messages(chat history)
         outOfRoundCards1.textProperty().bindBidirectional(client.getChatHistory());
 
+        //bind the players who are in server
+        playersInServer.textProperty().bindBidirectional(client.PLAYERSINSERVERProperty());
+
+        //bind the players who are ready to play
+        playersWhoReady.textProperty().bindBidirectional(client.PLAYERSWHOAREREADYProperty());
 
     }
 

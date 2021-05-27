@@ -8,19 +8,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Stack;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private final static Server server = new Server();
-    // a set for the accepted ServerThreads
-    protected static Hashtable<Integer, String> playerList = new Hashtable<>();
-    // a set for checking clientIDs
+    // a map for player index in the game: key = playerIndex, value = clientID
+    protected static Hashtable<Integer, Integer> playerList = new Hashtable<>();
+    // a map for the accepted ServerThreads: key = clientID, value = ServerThread
     public static final Hashtable<Integer, ServerThread> clientList = new Hashtable<>();
     // the clientsID to distribute, soon in random 100 numbers
     public static final Stack<Integer> clientIDsPool = new Stack<>(){{
@@ -32,8 +29,13 @@ public class Server {
         push(100);
         push(33);
     }};
-    // all the figure numbers chosen from clients
-    public static final HashSet<Integer> figuresPoll = new HashSet<>();
+
+    // map for clientID - clientName : key = clientID, value = clientName: (give new clients infos of previous players)
+    public static final HashMap<Integer, String> clientIDUndNames = new HashMap<>();
+    // map for clientID - robotFigure : key = clientID, value = robotNum: (give new clients infos of previous players)
+    public static final HashMap<Integer, Integer> clientIDUndRobots = new HashMap<>();
+    // list for clients who are ready: (give new clients infos for previous players)
+    public static List<Integer> playersWhoAreReady = new ArrayList<>();
 
 
     /**
