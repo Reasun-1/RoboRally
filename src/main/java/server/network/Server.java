@@ -145,6 +145,16 @@ public class Server {
     }
 
     /**
+     * send json to one client
+     * @param targetClientID
+     * @param json
+     * @throws IOException
+     */
+    public void makeOrderToOneClient(int targetClientID, String json) throws IOException {
+        new PrintWriter(clientList.get(targetClientID).getSocket().getOutputStream(), true).println(json);
+    }
+
+    /**
      * transmit an error to the client
      */
     public void exception(int clientID, String message) throws IOException {
@@ -160,11 +170,18 @@ public class Server {
      * @param robotFigure
      * @throws IOException
      */
-    public void handlePlayerAdded(int clientID, String clientName, int robotFigure) throws IOException {
+    public void handlePlayerAddedToAll(int clientID, String clientName, int robotFigure) throws IOException {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
         String json = Protocol.writeJson(protocol);
         logger.info("server added player");
         makeOrderToAllClients(json);
+    }
+
+    public void handlePlayerAddedToOne(int targetClient, int clientID, String clientName, int robotFigure) throws IOException {
+        Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server added player");
+        makeOrderToOneClient(targetClient,json);
     }
 
     /**
@@ -179,4 +196,6 @@ public class Server {
         logger.info("server info player status");
         makeOrderToAllClients(json);
     }
+
+
 }

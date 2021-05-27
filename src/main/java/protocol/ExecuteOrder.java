@@ -38,12 +38,15 @@ public class ExecuteOrder {
                     logger.info("addPlayer");
                     Server.clientIDUndRobots.put(clientID, figureNumber);
                     Server.clientIDUndNames.put(clientID, clientName);
+                    // inform all existed players that one new play war added
+                    Server.getServer().handlePlayerAddedToAll(clientID,clientName,figureNumber);
+
 
                     // send infos of previous players also to current player
                     for(int clientIDEach : Server.clientIDUndNames.keySet()){
                         String nameEach = Server.clientIDUndNames.get(clientIDEach);
                         int figureEach = Server.clientIDUndRobots.get(clientIDEach);
-                        Server.getServer().handlePlayerAdded(clientIDEach, nameEach, figureEach);
+                        Server.getServer().handlePlayerAddedToOne(clientID, clientIDEach, nameEach, figureEach);
                     }
                 }
                 break;
