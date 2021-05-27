@@ -166,6 +166,30 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static SetStatusBody readJsonSetStatus(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        SetStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStatusBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static PlayerStatusBody readJsonPlayerStatus(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        PlayerStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerStatusBody>(){});
+
+        return messageBodyDetail;
+    }
+
 
     // only for test
     public static void main(String[] args) throws IOException, ClassNotFoundException {

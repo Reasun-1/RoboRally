@@ -34,8 +34,11 @@ public class Server {
     public static final HashMap<Integer, String> clientIDUndNames = new HashMap<>();
     // map for clientID - robotFigure : key = clientID, value = robotNum: (give new clients infos of previous players)
     public static final HashMap<Integer, Integer> clientIDUndRobots = new HashMap<>();
+    // map for clientID- isReady : key = clientID, value = isReady: (give new clients infos of previous players)
+    public static final HashMap<Integer, Boolean> clientIDUndReady = new HashMap<>();
     // list for clients who are ready: (give new clients infos for previous players)
     public static List<Integer> playersWhoAreReady = new ArrayList<>();
+
 
 
     /**
@@ -161,6 +164,19 @@ public class Server {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
         String json = Protocol.writeJson(protocol);
         logger.info("server added player");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all the clients that someone is ready to play
+     * @param clientID
+     * @param isReady
+     * @throws IOException
+     */
+    public void handlePlayerStatus(int clientID, boolean isReady) throws IOException {
+        Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server info player status");
         makeOrderToAllClients(json);
     }
 }

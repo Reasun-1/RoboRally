@@ -39,7 +39,6 @@ public class ChatController {
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
 
-
     private Client client;
 
     public void init(Client client) {
@@ -72,5 +71,10 @@ public class ChatController {
 
         */
     }
+
+    @FXML
+    private void setReady() throws JsonProcessingException { client.setReady(); }
+    @FXML
+    private void setUnready() throws JsonProcessingException { client.setUnready(); }
 
 }

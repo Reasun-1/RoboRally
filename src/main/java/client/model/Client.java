@@ -41,6 +41,8 @@ public class Client extends Application {
     private HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
     // map : key = clientID, value = name;
     private HashMap<Integer, String> clientNames = new HashMap<>();
+    // map : key = clientID, value = isReady
+    private HashMap<Integer, Boolean> readyClients = new HashMap<>();
 
 
     // clientID als StringProperty to bind with Controller
@@ -246,7 +248,7 @@ public class Client extends Application {
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
 
-                            // for players already in server
+                            // not add infos twice
                             if(!clientNames.containsKey(clientIDAdded)){
 
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
@@ -256,11 +258,19 @@ public class Client extends Application {
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
+                                    logger.info("flag launchen window");
                                     name = nameAdded;
                                     goToChatGame();
                                 }
                             }
-
+                            break;
+                        case "PlayerStatus":
+                            logger.info(json);
+                            PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
+                            int readyClientID = playerStatusBody.getClientID();
+                            boolean isReady = playerStatusBody.isReady();
+                            readyClients.put(readyClientID,isReady);
+                            updateReadyStringProperty();
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -363,5 +373,41 @@ public class Client extends Application {
         String JsonPlayerValues = Protocol.writeJson(protocol);
         logger.info(JsonPlayerValues);
         OUT.println(JsonPlayerValues);
+    }
+
+    /**
+     * client set status, update HashMap readyClients in client- and server- class
+     * @throws JsonProcessingException
+     */
+    public void setReady() throws JsonProcessingException {
+        readyClients.put(clientID, true);
+        Protocol protocol = new Protocol("SetStatus", new SetStatusBody(true));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+    }
+
+    /**
+     * client set status unready, HashMap update readyClients in client- and server- class
+     * @throws JsonProcessingException
+     */
+    public void setUnready() throws JsonProcessingException {
+        readyClients.put(clientID, false);
+        Protocol protocol = new Protocol("SetStatus", new SetStatusBody(false));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+    }
+
+    /**
+     * update StringProperty playerWhoAreReady, which binds the Textarea in GUI
+     */
+    public void updateReadyStringProperty(){
+        PLAYERSWHOAREREADY.set("");
+        for(int clientIDEach : readyClients.keySet()){
+            if(readyClients.get(clientIDEach) == true){
+                PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
+            }
+        }
     }
 }

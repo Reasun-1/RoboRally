@@ -1,9 +1,6 @@
 package protocol;
 
-import protocol.submessagebody.ErrorBody;
-import protocol.submessagebody.HelloServerBody;
-import protocol.submessagebody.PlayerValuesBody;
-import protocol.submessagebody.SendChatBody;
+import protocol.submessagebody.*;
 import server.game.Game;
 import server.network.Server;
 
@@ -49,6 +46,13 @@ public class ExecuteOrder {
                         Server.getServer().handlePlayerAdded(clientIDEach, nameEach, figureEach);
                     }
                 }
+                break;
+            case "SetStatus":
+                logger.info("set Status in ExecuteOrder");
+                SetStatusBody setStatusBody = Protocol.readJsonSetStatus(json);
+                boolean isReady = setStatusBody.isReady();
+                Server.clientIDUndReady.put(clientID, isReady);
+                Server.getServer().handlePlayerStatus(clientID,isReady);
                 break;
             case "SendChat": // send private message
                 logger.info("message arrived server");
