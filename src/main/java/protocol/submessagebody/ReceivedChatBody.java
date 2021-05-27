@@ -1,9 +1,12 @@
 package protocol.submessagebody;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * this class is for detailed messageBody
  * @author can ren
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReceivedChatBody {
 
     private String message;

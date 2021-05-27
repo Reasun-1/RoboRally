@@ -1,9 +1,12 @@
 package protocol.submessagebody;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MovementBody {
     private int clientID;
     private int x;

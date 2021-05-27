@@ -1,9 +1,12 @@
 package protocol.submessagebody;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerAddedBody {
     private int clientID;
     private String name;

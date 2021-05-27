@@ -3,9 +3,7 @@ package protocol;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import protocol.submessagebody.ErrorBody;
-import protocol.submessagebody.ReceivedChatBody;
-import protocol.submessagebody.SendChatBody;
+import protocol.submessagebody.*;
 
 
 import java.io.IOException;
@@ -104,9 +102,47 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static HelloClientBody readJsonHelloClientBody(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        HelloClientBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloClientBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static HelloServerBody readJsonHelloServerBody(String json) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        HelloServerBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloServerBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static WelcomeBody readJsonWelcomeBody(String json) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        WelcomeBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<WelcomeBody>(){});
+
+        return messageBodyDetail;
+    }
+
     // only for test
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Protocol protocol = new Protocol("SendChat", new SendChatBody("alice","hi"));
+        Protocol protocol = new Protocol("SendChat", new SendChatBody("hi", 2));
         String json = Protocol.writeJson(protocol);
         System.out.println(json);
         String type = Protocol.readJsonMessageType(json);

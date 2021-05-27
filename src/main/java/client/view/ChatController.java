@@ -54,7 +54,7 @@ public class ChatController {
         if (sendTo.getText().isEmpty()) {
             client.sendMessage(messageField.getText());
         } else {
-            client.sendPersonalMessage(sendTo.getText(), messageField.getText());
+            client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
         }
         messageField.clear();
         sendTo.clear();

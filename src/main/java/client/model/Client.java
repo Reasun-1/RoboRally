@@ -6,12 +6,16 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.stage.Stage;
 import protocol.Protocol;
+import protocol.submessagebody.HelloServerBody;
+import protocol.submessagebody.PlayerValuesBody;
 import protocol.submessagebody.ReceivedChatBody;
 import protocol.submessagebody.SendChatBody;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -30,10 +34,20 @@ public class Client extends Application {
     private final WindowLauncher LAUNCHER = new WindowLauncher();
     // Name can be chosen in the login process
     private String name;
+    // unique client ID given from server, key between Game, Server, Client and GUI!!
+    private int clientID;
     // to remember which register war the last one
     private int registerPointer;
+    // client list with all clientIDs
+    private List<Integer> clientsList;
+    // map: key = clientID, value = robotfigure;
+    private HashMap<Integer, Integer> robotFigureAllClients= new HashMap<>();
 
 
+    // clientID als StringProperty to bind with Controller
+    private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
+    // client name set by client
+    private final StringProperty CLIENTNAME = new SimpleStringProperty();
     // Binding to Chat Window for displaying incoming messages
     private final StringProperty CHATHISTORY = new SimpleStringProperty();
     // Binding to ChatAndGame for moving the robots
@@ -43,6 +57,7 @@ public class Client extends Application {
     private final BooleanProperty ISINTURN = new SimpleBooleanProperty(false);
 
 
+    // Getters
     public Socket getSocket() {
         return socket;
     }
@@ -55,6 +70,8 @@ public class Client extends Application {
         return OUT;
     }
 
+    public int getClientID() { return clientID; }
+
     public String getName() {
         return name;
     }
@@ -63,6 +80,15 @@ public class Client extends Application {
         return CHATHISTORY;
     }
 
+    public StringProperty getCLIENTIDASSTRINGPROPERTY() { return CLIENTIDASSTRINGPROPERTY; }
+
+
+    // Setters
+    public void setName(String name) { this.name = name; }
+
+    public void setRobotFigureAllClients(Integer clientID, Integer figure) {
+        robotFigureAllClients.put(clientID, figure);
+    }
 
     /**
      * Constructor establishes the TCP-Connection and initializes the remaining variables
@@ -102,8 +128,8 @@ public class Client extends Application {
         LAUNCHER.launchLogin(this);
 
         // Open chat and game window after logging in successfully
-        CHATHISTORY.set("Welcome " + name + "\n");
-        LAUNCHER.launchChat(this);
+        //CHATHISTORY.set("Welcome " + name + "\n");
+        //LAUNCHER.launchChat(this);
         new Thread(() -> {
             try {
                 String json;
@@ -154,7 +180,24 @@ public class Client extends Application {
                             logger.info("error printed");
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
                             LAUNCHER.launchError(errorMessage);
-                            System.out.println(errorMessage);
+                            break;
+                        case "HelloClient":
+                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC",false, "Version 0.1"));
+                            String js = Protocol.writeJson(protocol);
+                            logger.info("protocol from Server: \n" + js );
+                            OUT.println(js);
+                            break;
+                        case "Welcome":
+                            logger.info(json);
+                            int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
+                            clientID = clientIDfromServer;
+                            CLIENTIDASSTRINGPROPERTY.set(""+clientID);
+                            logger.info(CLIENTIDASSTRINGPROPERTY.get());
+                            logger.info("your clientID is: " + clientID);
+                            break;
+                        case "Alive":
+                            String alive =Protocol.writeJson(new Protocol("Alive",null));
+                            OUT.println(alive);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -188,15 +231,10 @@ public class Client extends Application {
         }
     }
 
-    /**
-     * Send a message to only one client.
-     *
-     * @param name
-     * @param message
-     */
-    public void sendPersonalMessage(String name, String message) throws JsonProcessingException {
 
-        Protocol protocol = new Protocol("SendChat", new SendChatBody(name,message));
+    public void sendPersonalMessage(int to, String message) throws JsonProcessingException {
+
+        Protocol protocol = new Protocol("SendChat", new SendChatBody(message, to));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
@@ -228,10 +266,20 @@ public class Client extends Application {
         } else {
             // Send message to server
 
-            Protocol protocol = new Protocol("SendChat", new SendChatBody(null, message));
+            Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
         }
+    }
+
+    /**
+     * give the client name and robot figure to server
+     */
+    public void setPlayerValues() throws JsonProcessingException {
+        Protocol protocol = new Protocol("PlayerValues", new PlayerValuesBody(name, robotFigureAllClients.get(clientID)));
+        String JsonPlayerValues = Protocol.writeJson(protocol);
+        logger.info(JsonPlayerValues);
+        OUT.println(JsonPlayerValues);
     }
 }

@@ -1,8 +1,11 @@
 package server.network;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import protocol.Protocol;
 import protocol.submessagebody.ErrorBody;
+import protocol.submessagebody.HelloClientBody;
 import protocol.submessagebody.ReceivedChatBody;
+import protocol.submessagebody.WelcomeBody;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,18 +13,28 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Stack;
 import java.util.logging.Logger;
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private final static Server server = new Server();
-
     // a set for the accepted ServerThreads
     protected static Hashtable<Integer, String> playerList = new Hashtable<>();
+    // a set for checking clientIDs
+    public static final Hashtable<Integer, ServerThread> clientList = new Hashtable<>();
 
-    // a set for checking clients´ names
-    public static final Hashtable<String, ServerThread> clientList = new Hashtable<>();
+    public static final Stack<Integer> clientIDsPool = new Stack<>(){{
+        push(42);
+        push(25);
+        push(15);
+        push(77);
+        push(85);
+        push(100);
+        push(33);
+    }};
+
 
     /**
      * private constructor for singleton implementation
@@ -82,16 +95,13 @@ public class Server {
 
     /**
      * send a message to a particular client
-     *
-     * @param clientName
-     * @param message
      */
-    public void sendTo(String clientName, String message) {
+    public void sendTo(int from, String message) {
         //send message to Client clientName
         try {
-            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
+            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message, from, true));
             String json = Protocol.writeJson(protocol);
-            new PrintWriter(clientList.get(clientName).getSocket().getOutputStream(), true).println(json);
+            new PrintWriter(clientList.get(from).getSocket().getOutputStream(), true).println(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,9 +112,9 @@ public class Server {
      *
      * @param message
      */
-    public void sendMessageToAll(String message) {
+    public void sendMessageToAll(int from, String message) {
         try {
-            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
+            Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message, from, false));
             String json = Protocol.writeJson(protocol);
             synchronized (clientList) {
                 for (Enumeration<ServerThread> e = clientList.elements(); e.hasMoreElements(); ) {
@@ -116,20 +126,13 @@ public class Server {
         }
     }
 
-
-
     /**
      * transmit an error to the client
-     *
-     * @param name    Name of the client
-     * @param message Error message
-     * @throws IOException
      */
-    public void exception(String name, String message) throws IOException {
-
+    public void exception(int clientID, String message) throws IOException {
         Protocol protocol = new Protocol("Error", new ErrorBody(message));
         String json = Protocol.writeJson(protocol);
-        clientList.get(name).makeOrder(json);
+        clientList.get(clientID).makeOrder(json);
     }
 
 }

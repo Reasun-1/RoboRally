@@ -1,6 +1,7 @@
 package protocol;
 
 import protocol.submessagebody.ErrorBody;
+import protocol.submessagebody.HelloServerBody;
 import protocol.submessagebody.SendChatBody;
 import server.game.Game;
 import server.network.Server;
@@ -18,14 +19,15 @@ public class ExecuteOrder {
 
     private static final Logger logger = Logger.getLogger(ExecuteOrder.class.getName());
 
-    public static void executeOrder(String clientName, String json) throws IOException, ClassNotFoundException {
+    public static void executeOrder(int clientID, String json) throws IOException, ClassNotFoundException {
 
         String messageType = Protocol.readJsonMessageType(json);
         switch (messageType) {
             case "Quit": // terminate the connection
-                logger.info(clientName + " quit.");
-                Server.clientList.get(clientName).closeConnect();
+                logger.info(clientID + " quit.");
+                Server.clientList.get(clientID).closeConnect();
                 break;
+
             case "SendChat": // send private message
                 logger.info("message arrived server");
                 SendChatBody sendChatBody = null;
@@ -38,24 +40,24 @@ public class ExecuteOrder {
                 }
                 String message = "";
                 message = sendChatBody.getMessage();
-                if (sendChatBody.getTo() != null) {
-                    String toClient = sendChatBody.getTo();
+                if (sendChatBody.getTo() != 0) {
+                    int toClient = sendChatBody.getTo();
                     if (Server.clientList.containsKey(toClient)) {
                         // to target client
                         System.out.println(toClient);
-                        Server.clientList.get(clientName).sendPrivateMessage(toClient, clientName + "[private to you]: " + message);
+                        Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID + "[private to you]: " + message);
                         // also to myself as info
-                        Server.clientList.get(clientName).sendPrivateMessage(clientName, clientName + "[private]: " + message);
+                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID + "[private]: " + message);
                     } else {
                         System.out.println("There is no client with this name!"); // optional in terminal
                         Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
                         String js = Protocol.writeJson(protocol);
-                        Server.clientList.get(clientName).makeOrder(js);
+                        Server.clientList.get(clientID).makeOrder(js);
                     }
 
                 } else {
                     logger.info("send message to all");
-                    Server.clientList.get(clientName).sendMessage(clientName + ": " + message);
+                    Server.clientList.get(clientID).sendMessage(clientID,clientID + ": " + message);
                 }
                 break;
 

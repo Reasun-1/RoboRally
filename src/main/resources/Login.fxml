@@ -26,19 +26,20 @@
                      </font>
                   </Text>
                   <Text layoutX="45.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your ClientID is: " />
-                  <Label fx:id="clientID" layoutX="230.0" layoutY="155.0" />
+                  <Label fx:id="clientID" layoutX="197.0" layoutY="155.0" text="number" />
                </children>
             </AnchorPane>
-            <TextField fx:id="name" alignment="CENTER" layoutX="208.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">
+            <TextField fx:id="name" alignment="CENTER" layoutX="82.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">
                <font>
                   <Font name="Bodoni 72 Book" size="13.0" />
                </font>
             </TextField>
-            <Button fx:id="startButton" layoutX="264.0" layoutY="314.0" mnemonicParsing="true" onAction="#loginButton" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start">
+            <Button fx:id="startButton" layoutX="433.0" layoutY="323.0" mnemonicParsing="true" onAction="#loginButton" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start">
                <font>
                   <Font name="Bodoni 72 Book" size="13.0" />
                </font>
             </Button>
+            <TextField fx:id="robotFigure" layoutX="82.0" layoutY="315.0" promptText="Enter your robot figure" />
          </children>
       </AnchorPane>
    </children>
