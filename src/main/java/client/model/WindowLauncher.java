@@ -27,14 +27,14 @@ public class WindowLauncher {
         LoginController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.showAndWait();
-        stage.show();
+        stage.showAndWait();
+        //stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
     public void launchChat(Client client) throws IOException {
         Stage stage = new Stage();
-        stage.setTitle("Chat: " + client.getName());
+        stage.setTitle("Chat: " + client.getClientID());
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/ChatAndGame.fxml"));
         Parent root = loader.load();

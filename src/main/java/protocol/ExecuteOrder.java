@@ -38,6 +38,7 @@ public class ExecuteOrder {
                 if(Server.figuresPoll.contains(figureNumber)){
                     Server.getServer().exception(clientID, "This figure exists already, choose again.");
                 }else{
+                    logger.info("addPlayer");
                     Server.figuresPoll.add(figureNumber);
                     Server.getServer().handlePlayerAdded(clientID, clientName, figureNumber);
                 }

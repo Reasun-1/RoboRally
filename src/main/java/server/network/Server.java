@@ -158,6 +158,7 @@ public class Server {
     public void handlePlayerAdded(int clientID, String clientName, int robotFigure) throws IOException {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
         String json = Protocol.writeJson(protocol);
+        logger.info("server added player");
         makeOrderToAllClients(json);
     }
 }

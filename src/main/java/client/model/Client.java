@@ -137,8 +137,8 @@ public class Client extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // start the login process
-        LAUNCHER.launchLogin(this);
+
+
 
         // Open chat and game window after logging in successfully
         //CHATHISTORY.set("Welcome " + name + "\n");
@@ -164,6 +164,10 @@ public class Client extends Application {
                 }
             }
         }).start();
+
+        // start the login process
+        LAUNCHER.launchLogin(this);
+
     }
 
     /**
@@ -193,6 +197,9 @@ public class Client extends Application {
                             logger.info("error printed");
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
                             LAUNCHER.launchError(errorMessage);
+                            if(errorMessage.equals("This figure exists already, choose again.")){
+                                reLoggin();
+                            }
                             break;
                         case "HelloClient":
                             Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC",false, "Version 0.1"));
@@ -213,6 +220,7 @@ public class Client extends Application {
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
+                            logger.info(json);
                             PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
                             int clientIDAdded = playerAddedBody.getClientID();
                             int figureAdded = playerAddedBody.getFigure();
@@ -220,6 +228,10 @@ public class Client extends Application {
                             robotFigureAllClients.put(clientIDAdded, figureAdded);
                             clientNames.put(clientIDAdded, nameAdded);
                             logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
+                            if(clientIDAdded == clientID){
+                                name = nameAdded;
+                                goToChatGame();
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -230,8 +242,23 @@ public class Client extends Application {
     }
 
     /**
+     * launch loggin as separate methode because of thread problem
+     * @throws IOException
+     */
+    public void reLoggin() throws IOException {
+        LAUNCHER.launchLogin(this);
+    }
+
+    /**
+     * launch ChatAndGame as separate methode because of thread problem
+     * @throws IOException
+     */
+    public void goToChatGame() throws IOException {
+        LAUNCHER.launchChat(this);
+    }
+
+    /**
      * Method to be called from LoginWindowController to check the entered name.
-     *
      * @param temp_name
      */
     public void checkName(String temp_name) {
@@ -298,8 +325,8 @@ public class Client extends Application {
     /**
      * give the client name and robot figure to server
      */
-    public void setPlayerValues() throws JsonProcessingException {
-        Protocol protocol = new Protocol("PlayerValues", new PlayerValuesBody(name, robotFigureAllClients.get(clientID)));
+    public void setPlayerValues(String clientName, int robotFigure) throws JsonProcessingException {
+        Protocol protocol = new Protocol("PlayerValues", new PlayerValuesBody(clientName, robotFigure));
         String JsonPlayerValues = Protocol.writeJson(protocol);
         logger.info(JsonPlayerValues);
         OUT.println(JsonPlayerValues);

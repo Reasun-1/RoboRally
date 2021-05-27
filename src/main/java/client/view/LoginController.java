@@ -60,9 +60,9 @@ public class LoginController {
     private void loginButton(ActionEvent event) throws JsonProcessingException {
         Stage stage = (Stage) startButton.getScene().getWindow();
         //client.checkName(name.getText());
-        client.setName(name.getText());
-        client.setRobotFigureAllClients(client.getClientID(), Integer.valueOf(robotFigure.getText()));
-        client.setPlayerValues();
+        //client.setName(name.getText());
+        //client.setRobotFigureAllClients(client.getClientID(), Integer.valueOf(robotFigure.getText()));
+        client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         stage.close();
     }
 }
