@@ -48,6 +48,15 @@ public class ExecuteOrder {
                         int figureEach = Server.clientIDUndRobots.get(clientIDEach);
                         Server.getServer().handlePlayerAddedToOne(clientID, clientIDEach, nameEach, figureEach);
                     }
+
+                    // send status of previous players to current player
+                    if(!Server.clientIDUndReady.isEmpty()){
+                        for(int clientIDEach : Server.clientIDUndReady.keySet()){
+                            Boolean isReadyEach = Server.clientIDUndReady.get(clientIDEach);
+                            Server.getServer().handlePlayerStatusToOne(clientID,clientIDEach,isReadyEach);
+                        }
+                    }
+
                 }
                 break;
             case "SetStatus":

@@ -177,6 +177,14 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
+    /**
+     * inform the new player about the infos of previous players in server
+     * @param targetClient
+     * @param clientID
+     * @param clientName
+     * @param robotFigure
+     * @throws IOException
+     */
     public void handlePlayerAddedToOne(int targetClient, int clientID, String clientName, int robotFigure) throws IOException {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
         String json = Protocol.writeJson(protocol);
@@ -193,9 +201,15 @@ public class Server {
     public void handlePlayerStatus(int clientID, boolean isReady) throws IOException {
         Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
         String json = Protocol.writeJson(protocol);
-        logger.info("server info player status");
+        logger.info("server inform player status");
         makeOrderToAllClients(json);
     }
 
 
+    public void handlePlayerStatusToOne(int targetClient, int clientID, boolean isReady) throws IOException {
+        Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server inform status of previous players");
+        makeOrderToOneClient(targetClient,json);
+    }
 }
