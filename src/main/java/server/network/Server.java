@@ -2,16 +2,14 @@ package server.network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import protocol.Protocol;
-import protocol.submessagebody.ErrorBody;
-import protocol.submessagebody.HelloClientBody;
-import protocol.submessagebody.ReceivedChatBody;
-import protocol.submessagebody.WelcomeBody;
+import protocol.submessagebody.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -24,7 +22,7 @@ public class Server {
     protected static Hashtable<Integer, String> playerList = new Hashtable<>();
     // a set for checking clientIDs
     public static final Hashtable<Integer, ServerThread> clientList = new Hashtable<>();
-
+    // the clientsID to distribute, soon in random 100 numbers
     public static final Stack<Integer> clientIDsPool = new Stack<>(){{
         push(42);
         push(25);
@@ -34,6 +32,8 @@ public class Server {
         push(100);
         push(33);
     }};
+    // all the figure numbers chosen from clients
+    public static final HashSet<Integer> figuresPoll = new HashSet<>();
 
 
     /**
@@ -127,6 +127,19 @@ public class Server {
     }
 
     /**
+     * send json to all clients
+     * @param json
+     * @throws IOException
+     */
+    public void makeOrderToAllClients(String json) throws IOException {
+        synchronized (clientList) {
+            for (Enumeration<ServerThread> e = clientList.elements(); e.hasMoreElements(); ) {
+                new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
+            }
+        }
+    }
+
+    /**
      * transmit an error to the client
      */
     public void exception(int clientID, String message) throws IOException {
@@ -135,4 +148,16 @@ public class Server {
         clientList.get(clientID).makeOrder(json);
     }
 
+    /**
+     * inform all the clients that one new player war added
+     * @param clientID
+     * @param clientName
+     * @param robotFigure
+     * @throws IOException
+     */
+    public void handlePlayerAdded(int clientID, String clientName, int robotFigure) throws IOException {
+        Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
+        String json = Protocol.writeJson(protocol);
+        makeOrderToAllClients(json);
+    }
 }

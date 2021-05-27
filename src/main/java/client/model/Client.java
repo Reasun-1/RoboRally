@@ -6,10 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.stage.Stage;
 import protocol.Protocol;
-import protocol.submessagebody.HelloServerBody;
-import protocol.submessagebody.PlayerValuesBody;
-import protocol.submessagebody.ReceivedChatBody;
-import protocol.submessagebody.SendChatBody;
+import protocol.submessagebody.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -42,6 +39,8 @@ public class Client extends Application {
     private List<Integer> clientsList;
     // map: key = clientID, value = robotfigure;
     private HashMap<Integer, Integer> robotFigureAllClients= new HashMap<>();
+    // map : key = clientID, value = name;
+    private HashMap<Integer, String> clientNames = new HashMap<>();
 
 
     // clientID als StringProperty to bind with Controller
@@ -82,12 +81,26 @@ public class Client extends Application {
 
     public StringProperty getCLIENTIDASSTRINGPROPERTY() { return CLIENTIDASSTRINGPROPERTY; }
 
+    public HashMap<Integer, Integer> getRobotFigureAllClients() {
+        return robotFigureAllClients;
+    }
+
+    public HashMap<Integer, String> getClientNames() {
+        return clientNames;
+    }
+
+
+
 
     // Setters
     public void setName(String name) { this.name = name; }
 
     public void setRobotFigureAllClients(Integer clientID, Integer figure) {
         robotFigureAllClients.put(clientID, figure);
+    }
+
+    public void setClientNames(Integer clientID, String name) {
+        clientNames.put(clientID, name);
     }
 
     /**
@@ -198,6 +211,15 @@ public class Client extends Application {
                         case "Alive":
                             String alive =Protocol.writeJson(new Protocol("Alive",null));
                             OUT.println(alive);
+                            break;
+                        case "PlayerAdded":
+                            PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
+                            int clientIDAdded = playerAddedBody.getClientID();
+                            int figureAdded = playerAddedBody.getFigure();
+                            String nameAdded = playerAddedBody.getName();
+                            robotFigureAllClients.put(clientIDAdded, figureAdded);
+                            clientNames.put(clientIDAdded, nameAdded);
+                            logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

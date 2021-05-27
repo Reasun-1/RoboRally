@@ -2,6 +2,7 @@ package protocol;
 
 import protocol.submessagebody.ErrorBody;
 import protocol.submessagebody.HelloServerBody;
+import protocol.submessagebody.PlayerValuesBody;
 import protocol.submessagebody.SendChatBody;
 import server.game.Game;
 import server.network.Server;
@@ -28,6 +29,19 @@ public class ExecuteOrder {
                 Server.clientList.get(clientID).closeConnect();
                 break;
 
+            case "PlayerValues":
+                logger.info("check player figures");
+                PlayerValuesBody playerValuesBody = Protocol.readJsonPlayerValues(json);
+                int figureNumber = playerValuesBody.getFigure();
+                String clientName = playerValuesBody.getName();
+
+                if(Server.figuresPoll.contains(figureNumber)){
+                    Server.getServer().exception(clientID, "This figure exists already, choose again.");
+                }else{
+                    Server.figuresPoll.add(figureNumber);
+                    Server.getServer().handlePlayerAdded(clientID, clientName, figureNumber);
+                }
+                break;
             case "SendChat": // send private message
                 logger.info("message arrived server");
                 SendChatBody sendChatBody = null;
