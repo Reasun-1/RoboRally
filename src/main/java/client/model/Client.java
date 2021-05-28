@@ -175,9 +175,6 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-        // Open chat and game window after logging in successfully
-        //CHATHISTORY.set("Welcome " + name + "\n");
-        //LAUNCHER.launchChat(this);
         new Thread(() -> {
             try {
                 String json;
@@ -186,7 +183,6 @@ public class Client extends Application {
                     json = IN.readLine();
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
-
                         executeOrder(json);
                         logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
@@ -216,9 +212,9 @@ public class Client extends Application {
 
         logger.info("by executeOrder " +  Thread.currentThread().getName());
         Client client = this;
-
         String messageType = Protocol.readJsonMessageType(json);
 
+        Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -240,7 +236,8 @@ public class Client extends Application {
                                 socket.close();
                             }
                             if (errorMessage.equals("This figure exists already, choose again.")) {
-                                reLoggin();
+                                //reLoggin();
+                                LAUNCHER.launchLogin(client);
                             }
                             break;
                         case "HelloClient":
@@ -280,7 +277,8 @@ public class Client extends Application {
                                 if (clientIDAdded == clientID) {
                                     logger.info("flag launchen window");
                                     name = nameAdded;
-                                    goToChatGame();
+                                    //goToChatGame();
+                                    LAUNCHER.launchChat(client);
                                 }
                             }
                             break;
@@ -314,24 +312,6 @@ public class Client extends Application {
         });
     }
 
-    /**
-     * launch loggin as separate methode because of thread problem
-     *
-     * @throws IOException
-     */
-    public void reLoggin() throws IOException {
-        LAUNCHER.launchLogin(this);
-    }
-
-    /**
-     * launch ChatAndGame as separate methode because of thread problem
-     *
-     * @throws IOException
-     */
-    public void goToChatGame() throws IOException {
-        logger.info("got to launch chat " + Thread.currentThread().getName());
-        LAUNCHER.launchChat(this);
-    }
 
     /**
      * Method to be called from LoginWindowController to check the entered name.
