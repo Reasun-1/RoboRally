@@ -3,6 +3,9 @@ package server.network;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import protocol.Protocol;
 import protocol.submessagebody.*;
+import server.feldobjects.FeldObject;
+import server.feldobjects.Pit;
+import server.feldobjects.PushPanel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -228,6 +231,21 @@ public class Server {
         Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
         String json = Protocol.writeJson(protocol);
         logger.info("server inform all players about selected map");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * give the map as 3D-List to all players to rebuild in GUI
+     * @param mapName
+     * @throws IOException
+     */
+    public void handleGameStarted(String mapName) throws IOException {
+        // dummy map: soon with right maps
+        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit(1,"rr"))));
+
+        Protocol protocol = new Protocol("GameStarted", new GameStartedBody(threeDListAsMap));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server sends map");
         makeOrderToAllClients(json);
     }
 }

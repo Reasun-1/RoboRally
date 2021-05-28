@@ -7,6 +7,8 @@ import javafx.beans.property.*;
 import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
+import server.feldobjects.FeldObject;
+import server.feldobjects.Pit;
 
 import java.io.*;
 import java.net.Socket;
@@ -184,6 +186,7 @@ public class Client extends Application {
                     json = IN.readLine();
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
+
                         executeOrder(json);
                         logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
@@ -211,6 +214,7 @@ public class Client extends Application {
      */
     public void executeOrder(String json) throws IOException {
 
+        logger.info("by executeOrder " +  Thread.currentThread().getName());
         Client client = this;
 
         String messageType = Protocol.readJsonMessageType(json);
@@ -246,7 +250,7 @@ public class Client extends Application {
                             OUT.println(js);
                             break;
                         case "Welcome":
-                            logger.info(json);
+                            logger.info(json + Thread.currentThread().getName());
                             int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
                             clientID = clientIDfromServer;
                             CLIENTIDASSTRINGPROPERTY.set("" + clientID);
@@ -280,6 +284,8 @@ public class Client extends Application {
                                 }
                             }
                             break;
+
+
                         case "PlayerStatus":
                             logger.info(json);
                             PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
@@ -293,7 +299,12 @@ public class Client extends Application {
                             MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
                             String mapName = mapSelectedBody.getMap();
                             INFORMATION.set("");
-                            INFORMATION.set(mapName + " was chosen.");
+                            INFORMATION.set("Map " + mapName + " was chosen.");
+                            break;
+                        case "GameStarted":
+                            GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
+                            List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                            System.out.println(((Pit)gameMap.get(0).get(0).get(0)).getName());
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

@@ -72,6 +72,21 @@ public class ExecuteOrder {
                 String mapName = selectMapBody.getAvailableMaps().get(0);
                 Game.getInstance().setMap3DList(mapName);
                 Server.getServer().handleMapSelected(mapName);
+
+                // if there are more than 2 clients, start the game
+                int numReadyClients = 0;
+                for(int clientIDEach : Server.clientIDUndReady.keySet()){
+                    if(Server.clientIDUndReady.get(clientIDEach) == true){
+                        numReadyClients++;
+                    }
+                }
+                logger.info("number of ready clients: " +  numReadyClients);
+                if(numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size()){
+                    logger.info("number enough, to play");
+                    Server.getServer().handleGameStarted(mapName);
+                }else{
+                    Server.getServer().exception(clientID, "Not all players are ready or not enough players(>1), please wait and choose map again.");
+                }
                 break;
             case "SendChat": // send private message
                 logger.info("message arrived server");

@@ -1,8 +1,12 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import protocol.Protocol;
 import server.feldobjects.FeldObject;
+import server.feldobjects.Pit;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,5 +26,11 @@ public class GameStartedBody {
 
     public List<List<List<FeldObject>>> getGameMap() {
         return gameMap;
+    }
+
+    public static void main(String[] args) throws JsonProcessingException {
+        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit(1,"rr"))));
+        String js = Protocol.writeJson(new Protocol("GameStarted", new GameStartedBody(threeDListAsMap)));
+        System.out.println(js);
     }
 }

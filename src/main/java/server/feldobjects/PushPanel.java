@@ -4,5 +4,5 @@ package server.feldobjects;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class PushPanel {
+public class PushPanel extends FeldObject{
 }
