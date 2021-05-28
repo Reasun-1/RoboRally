@@ -27,8 +27,8 @@ public class WindowLauncher {
         LoginController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        stage.showAndWait();
-        //stage.show();
+        //stage.showAndWait();
+        stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
 

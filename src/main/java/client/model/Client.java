@@ -10,9 +10,7 @@ import protocol.submessagebody.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -42,7 +40,7 @@ public class Client extends Application {
     // map : key = clientID, value = name;
     private HashMap<Integer, String> clientNames = new HashMap<>();
     // map : key = clientID, value = isReady
-    private HashMap<Integer, Boolean> readyClients = new HashMap<>();
+    private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
 
 
     // clientID als StringProperty to bind with Controller
@@ -51,6 +49,8 @@ public class Client extends Application {
     private final StringProperty CLIENTNAME = new SimpleStringProperty();
     // Binding to Chat Window for displaying incoming messages
     private final StringProperty CHATHISTORY = new SimpleStringProperty();
+    // Information Window: inform what to do next!
+    private final StringProperty INFORMATION = new SimpleStringProperty();
     // players who are in server (invoked by PlayerAdded)
     private final StringProperty PLAYERSINSERVER = new SimpleStringProperty();
     // players who are ready to play
@@ -61,6 +61,8 @@ public class Client extends Application {
     private final StringProperty[][] PLAYERPOSITIONS = new SimpleStringProperty[6][4];
     // Bindings enables/disables button "play card" (after played card, send message to next one to play)
     private final BooleanProperty ISINTURN = new SimpleBooleanProperty(false);
+    // who is in the first place of ready list, is allowed to select a map
+    private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
 
 
     // Getters
@@ -108,6 +110,13 @@ public class Client extends Application {
         return clientNames;
     }
 
+    public BooleanProperty CANSELECTMAPProperty() { return CANSELECTMAP; }
+
+    public StringProperty INFORMATIONProperty() { return INFORMATION; }
+
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -140,8 +149,12 @@ public class Client extends Application {
 
         // Start with an empty name, will be set during Login
         name = "";
+        clientNames.clear();
+        robotFigureAllClients.clear();
+        readyClients.clear();
 
         CHATHISTORY.set("");
+        INFORMATION.set("");
         PLAYERSINSERVER.set("");
         PLAYERSWHOAREREADY.set("");
     }
@@ -172,7 +185,7 @@ public class Client extends Application {
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
                         executeOrder(json);
-                        logger.info("json from server: " + json);
+                        logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
                 }
                 Platform.exit();
@@ -219,6 +232,9 @@ public class Client extends Application {
                             logger.info("error printed");
                             String errorMessage = Protocol.readJsonErrorBody(json).getError();
                             LAUNCHER.launchError(errorMessage);
+                            if (errorMessage.equals("Version wrong! disconnected.")) {
+                                socket.close();
+                            }
                             if (errorMessage.equals("This figure exists already, choose again.")) {
                                 reLoggin();
                             }
@@ -242,14 +258,14 @@ public class Client extends Application {
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
-                            logger.info(json);
+                            logger.info(json + Thread.currentThread().getName());
                             PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
                             int clientIDAdded = playerAddedBody.getClientID();
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
 
                             // not add infos twice
-                            if(!clientNames.containsKey(clientIDAdded)){
+                            if (!clientNames.containsKey(clientIDAdded)) {
 
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
                                 robotFigureAllClients.put(clientIDAdded, figureAdded);
@@ -269,8 +285,15 @@ public class Client extends Application {
                             PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
                             int readyClientID = playerStatusBody.getClientID();
                             boolean isReady = playerStatusBody.isReady();
-                            readyClients.put(readyClientID,isReady);
+                            readyClients.put(readyClientID, isReady);
                             updateReadyStringProperty();
+                            break;
+                        case "MapSelected":
+                            logger.info(json);
+                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                            String mapName = mapSelectedBody.getMap();
+                            INFORMATION.set("");
+                            INFORMATION.set(mapName + " was chosen.");
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -295,7 +318,7 @@ public class Client extends Application {
      * @throws IOException
      */
     public void goToChatGame() throws IOException {
-        logger.info("got to launch chat");
+        logger.info("got to launch chat " + Thread.currentThread().getName());
         LAUNCHER.launchChat(this);
     }
 
@@ -377,6 +400,7 @@ public class Client extends Application {
 
     /**
      * client set status, update HashMap readyClients in client- and server- class
+     *
      * @throws JsonProcessingException
      */
     public void setReady() throws JsonProcessingException {
@@ -389,6 +413,7 @@ public class Client extends Application {
 
     /**
      * client set status unready, HashMap update readyClients in client- and server- class
+     *
      * @throws JsonProcessingException
      */
     public void setUnready() throws JsonProcessingException {
@@ -402,12 +427,41 @@ public class Client extends Application {
     /**
      * update StringProperty playerWhoAreReady, which binds the Textarea in GUI
      */
-    public void updateReadyStringProperty(){
+    public void updateReadyStringProperty() {
         PLAYERSWHOAREREADY.set("");
-        for(int clientIDEach : readyClients.keySet()){
-            if(readyClients.get(clientIDEach) == true){
+        for (int clientIDEach : readyClients.keySet()) {
+            if (readyClients.get(clientIDEach) == true) {
                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
+                // reset boolean canSelectMap to all false
+                CANSELECTMAP.set(false);
             }
         }
+
+        // search in ready list: who is the first to set ready, can choose a map
+        for(int clientIDEach : readyClients.keySet()){
+            if(readyClients.get(clientIDEach) == true){
+                if(clientIDEach == clientID){
+                    CANSELECTMAP.set(true);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * invoked by client, who selects a map
+     * @param mapName
+     */
+    public void selectMap(String mapName) throws JsonProcessingException {
+        ArrayList<String> mapList = new ArrayList<>();
+        mapList.add(mapName);
+        Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+    }
+
+    public void rebuildMap(){
+        //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
     }
 }

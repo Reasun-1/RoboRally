@@ -42,13 +42,14 @@ public class ExecuteOrder {
                     Server.getServer().handlePlayerAddedToAll(clientID,clientName,figureNumber);
 
 
-                    // send infos of previous players also to current player
-                    for(int clientIDEach : Server.clientIDUndNames.keySet()){
-                        String nameEach = Server.clientIDUndNames.get(clientIDEach);
-                        int figureEach = Server.clientIDUndRobots.get(clientIDEach);
-                        Server.getServer().handlePlayerAddedToOne(clientID, clientIDEach, nameEach, figureEach);
+                    if(Server.clientIDUndNames.size() != 1){
+                        // send infos of previous players also to current player
+                        for(int clientIDEach : Server.clientIDUndNames.keySet()){
+                            String nameEach = Server.clientIDUndNames.get(clientIDEach);
+                            int figureEach = Server.clientIDUndRobots.get(clientIDEach);
+                            Server.getServer().handlePlayerAddedToOne(clientID, clientIDEach, nameEach, figureEach);
+                        }
                     }
-
                     // send status of previous players to current player
                     if(!Server.clientIDUndReady.isEmpty()){
                         for(int clientIDEach : Server.clientIDUndReady.keySet()){
@@ -56,7 +57,6 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID,clientIDEach,isReadyEach);
                         }
                     }
-
                 }
                 break;
             case "SetStatus":
@@ -65,6 +65,13 @@ public class ExecuteOrder {
                 boolean isReady = setStatusBody.isReady();
                 Server.clientIDUndReady.put(clientID, isReady);
                 Server.getServer().handlePlayerStatus(clientID,isReady);
+                break;
+            case "SelectMap":
+                logger.info("set Map in ExecuteOrder");
+                SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
+                String mapName = selectMapBody.getAvailableMaps().get(0);
+                Game.getInstance().setMap3DList(mapName);
+                Server.getServer().handleMapSelected(mapName);
                 break;
             case "SendChat": // send private message
                 logger.info("message arrived server");

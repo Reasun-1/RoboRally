@@ -190,6 +190,29 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static MapSelectedBody readJsonMapSelected(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        MapSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MapSelectedBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static SelectMapBody readJsonSelectMap(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        SelectMapBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectMapBody>(){});
+
+        return messageBodyDetail;
+    }
 
     // only for test
     public static void main(String[] args) throws IOException, ClassNotFoundException {

@@ -34,10 +34,19 @@ public class ChatController {
     private TextField messageField; //bind the typed message with message history scroll pane
 
     @FXML
+    private TextField information; // bind INFORMATION StringProperty in Client
+
+    @FXML
+    private TextField mapName; // info invoked by button select map
+
+    @FXML
     private TextField sendTo; //send Message to a specific player on private
 
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
+
+    @FXML
+    private Button selectMap; // bind the BooleanProperty canSelectMap in Client
 
     private Client client;
 
@@ -55,6 +64,12 @@ public class ChatController {
 
         //bind the players who are ready to play
         playersWhoReady.textProperty().bindBidirectional(client.PLAYERSWHOAREREADYProperty());
+
+        //bind the player who can select the map
+        selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
+
+        //bind Information StringProperty in Client to get the current info
+        information.textProperty().bindBidirectional(client.INFORMATIONProperty());
 
     }
 
@@ -76,5 +91,7 @@ public class ChatController {
     private void setReady() throws JsonProcessingException { client.setReady(); }
     @FXML
     private void setUnready() throws JsonProcessingException { client.setUnready(); }
+    @FXML
+    private void selectMapEvent() throws JsonProcessingException {client.selectMap(mapName.getText());}
 
 }

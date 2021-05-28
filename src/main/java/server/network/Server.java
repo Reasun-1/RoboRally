@@ -35,7 +35,7 @@ public class Server {
     // map for clientID - robotFigure : key = clientID, value = robotNum: (give new clients infos of previous players)
     public static final HashMap<Integer, Integer> clientIDUndRobots = new HashMap<>();
     // map for clientID- isReady : key = clientID, value = isReady: (give new clients infos of previous players)
-    public static final HashMap<Integer, Boolean> clientIDUndReady = new HashMap<>();
+    public static final LinkedHashMap<Integer, Boolean> clientIDUndReady = new LinkedHashMap<>();
     // list for clients who are ready: (give new clients infos for previous players)
     public static List<Integer> playersWhoAreReady = new ArrayList<>();
 
@@ -205,11 +205,29 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
-
+    /**
+     * inform the new player about the status of previous players in server
+     * @param targetClient
+     * @param clientID
+     * @param isReady
+     * @throws IOException
+     */
     public void handlePlayerStatusToOne(int targetClient, int clientID, boolean isReady) throws IOException {
         Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
         String json = Protocol.writeJson(protocol);
         logger.info("server inform status of previous players");
         makeOrderToOneClient(targetClient,json);
+    }
+
+    /**
+     * inform all players about the selected map
+     * @param mapName
+     * @throws IOException
+     */
+    public void handleMapSelected(String mapName) throws IOException {
+        Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server inform all players about selected map");
+        makeOrderToAllClients(json);
     }
 }

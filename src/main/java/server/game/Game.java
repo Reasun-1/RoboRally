@@ -79,15 +79,9 @@ public class Game {
         // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who has which robot
     }
 
-    /**
-     * transform json-play-map to list as board
-     * @param json
-     */
-    public void initBoard(String json){
+   public void setMap3DList(String mapName){
 
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS: which board has been chosen
-    }
-
+   }
     /**
      * if the client is offline, should be removed from game
      */
