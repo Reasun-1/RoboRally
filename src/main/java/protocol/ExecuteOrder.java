@@ -101,6 +101,7 @@ public class ExecuteOrder {
                 }
                 String message = "";
                 message = sendChatBody.getMessage();
+                // private message
                 if (sendChatBody.getTo() != -1) {
                     int toClient = sendChatBody.getTo();
                     if (Server.clientList.containsKey(toClient)) {
@@ -108,14 +109,14 @@ public class ExecuteOrder {
                         System.out.println(toClient);
                         Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID + "[private to you]: " + message);
                         // also to myself as info
-                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID + "[private]: " + message);
+                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID + "[private to " + toClient + "]: " + message);
                     } else {
                         System.out.println("There is no client with this name!"); // optional in terminal
                         Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
                         String js = Protocol.writeJson(protocol);
                         Server.clientList.get(clientID).makeOrder(js);
                     }
-
+                // public message
                 } else {
                     logger.info("send message to all");
                     Server.clientList.get(clientID).sendMessage(clientID,clientID + ": " + message);
