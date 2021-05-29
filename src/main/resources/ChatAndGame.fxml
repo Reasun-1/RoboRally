@@ -84,6 +84,9 @@
                         <Button layoutX="-29.0" layoutY="311.0" mnemonicParsing="false" onAction="#setUnready" text="Not Ready!" />
                         <TextField fx:id="mapName" layoutX="-42.0" layoutY="360.0" prefHeight="36.0" prefWidth="135.0" promptText="map name" />
                         <Button fx:id="selectMap" layoutX="-44.0" layoutY="396.0" mnemonicParsing="false" onAction="#selectMapEvent" text="select map" />
+                        <TextField fx:id="startPointX" layoutX="-39.0" layoutY="442.0" prefHeight="36.0" prefWidth="39.0" promptText="x" />
+                        <TextField fx:id="startPointY" layoutX="6.0" layoutY="442.0" prefHeight="36.0" prefWidth="39.0" promptText="y" />
+                        <Button fx:id="setStartPoint" layoutX="51.0" layoutY="442.0" mnemonicParsing="false" onAction="#setStartPointEvent" text="setStartPoint" />
                      </children></AnchorPane>
                     </children>
                 </HBox>

@@ -69,6 +69,10 @@ public class Client extends Application {
     private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
+    // player who can set start point, binds with selectStartPoint button in GUI
+    private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
+    // binds with player position in GUI
+    private final HashMap<Integer, List<IntegerProperty>> POSITIONS = new HashMap<>();
 
 
 
@@ -124,6 +128,8 @@ public class Client extends Application {
     public BooleanProperty ISCURRENTPLAYERProperty() { return ISCURRENTPLAYER; }
 
     public StringProperty GAMEPHASEProperty() { return GAMEPHASE; }
+
+    public BooleanProperty CANSETSTARTPOINTProperty() { return CANSETSTARTPOINT; }
 
 
 
@@ -338,12 +344,26 @@ public class Client extends Application {
                                 if(GAMEPHASE.get().equals("Aufbauphase")){
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to set start point");
+                                    CANSETSTARTPOINT.set(true);
                                 }
 
                             }else{
                                 INFORMATION.set("");
                                 INFORMATION.set(currentID + " is in turn. Please wait.");
                             }
+                            break;
+                        case "StartingPointTaken":
+                            StartingPointTakenBody startingPointTakenBody = Protocol.readJsonStartingPointTaken(json);
+                            int clientWhoSetPoint = startingPointTakenBody.getClientID();
+                            int clientX = startingPointTakenBody.getX();
+                            int clientY = startingPointTakenBody.getY();
+                            IntegerProperty x = new SimpleIntegerProperty(clientX);
+                            IntegerProperty y = new SimpleIntegerProperty(clientY);
+                            List<IntegerProperty> position = new ArrayList<>();
+                            position.add(x);
+                            position.add(y);
+                            POSITIONS.put(clientWhoSetPoint, position);
+                            logger.info("" + POSITIONS.get(clientWhoSetPoint));
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -502,5 +522,20 @@ public class Client extends Application {
 
     public void rebuildMap(){
         //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
+    }
+
+    /**
+     * set start point to inform the server
+     * @param x
+     * @param y
+     * @throws JsonProcessingException
+     */
+    public void setStartPoint(int x, int y) throws JsonProcessingException {
+        Protocol protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+        //disable the set point button
+        CANSETSTARTPOINT.set(false);
     }
 }

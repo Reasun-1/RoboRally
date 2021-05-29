@@ -250,6 +250,30 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static SetStartingPointBody readJsonSetStartingPoint(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        SetStartingPointBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStartingPointBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static StartingPointTakenBody readJsonStartingPointTaken(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        StartingPointTakenBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<StartingPointTakenBody>(){});
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

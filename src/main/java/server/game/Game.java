@@ -58,6 +58,10 @@ public class Game {
         }
     }
 
+    public void setStartPoint(int clientID, int x, int y){
+        // TODO: do in HashMap
+    }
+
     /**
      * invoked from Game: initAndStartGame
      * init and shuffle undrawn card deck

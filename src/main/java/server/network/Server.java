@@ -6,6 +6,7 @@ import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
 import server.feldobjects.PushPanel;
+import server.game.Game;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -272,4 +273,18 @@ public class Server {
         logger.info("server informs current player id");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all clients who has chosen which start point
+     * @param clientID
+     * @param x
+     * @param y
+     */
+    public void handleStartingPointTaken(int clientID, int x, int y) throws IOException {
+        Protocol protocol = new Protocol("StartingPointTaken", new StartingPointTakenBody(x, y, clientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs set starting point");
+        makeOrderToAllClients(json);
+    }
+
 }

@@ -46,10 +46,19 @@ public class ChatController {
     private TextField sendTo; //send Message to a specific player on private
 
     @FXML
+    private TextField startPointX;
+
+    @FXML
+    private TextField startPointY;
+
+    @FXML
     private Button sendButton; //send from messageField a typed message to message history
 
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
+
+    @FXML
+    private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
 
     private Client client;
 
@@ -70,6 +79,9 @@ public class ChatController {
 
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
+
+        //bind the player who can select a start point
+        setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
@@ -98,4 +110,8 @@ public class ChatController {
     @FXML
     private void selectMapEvent() throws JsonProcessingException {client.selectMap(mapName.getText());}
 
+    @FXML
+    private void setStartPointEvent() throws JsonProcessingException {
+        client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
+    }
 }
