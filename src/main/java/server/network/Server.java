@@ -21,7 +21,7 @@ public class Server {
     // a map for player index in the game: key = playerIndex, value = clientID
     protected static Hashtable<Integer, Integer> playerList = new Hashtable<>();
     // a map for the accepted ServerThreads: key = clientID, value = ServerThread
-    public static final Hashtable<Integer, ServerThread> clientList = new Hashtable<>();
+    public static final LinkedHashMap<Integer, ServerThread> clientList = new LinkedHashMap<>();
     // the clientsID to distribute, soon in random 100 numbers
     public static final Stack<Integer> clientIDsPool = new Stack<>(){{
         push(42);
@@ -124,9 +124,10 @@ public class Server {
             Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message, from, false));
             String json = Protocol.writeJson(protocol);
             synchronized (clientList) {
-                for (Enumeration<ServerThread> e = clientList.elements(); e.hasMoreElements(); ) {
-                    new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
-                }
+               for(int clientID : clientList.keySet()){
+                   ServerThread serverThread = clientList.get(clientID);
+                   new PrintWriter(serverThread.getSocket().getOutputStream(), true).println(json);
+               }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,8 +141,9 @@ public class Server {
      */
     public void makeOrderToAllClients(String json) throws IOException {
         synchronized (clientList) {
-            for (Enumeration<ServerThread> e = clientList.elements(); e.hasMoreElements(); ) {
-                new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
+            for(int clientID : clientList.keySet()){
+                ServerThread serverThread = clientList.get(clientID);
+                new PrintWriter(serverThread.getSocket().getOutputStream(), true).println(json);
             }
         }
     }

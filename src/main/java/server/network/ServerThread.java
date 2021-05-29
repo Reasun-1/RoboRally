@@ -105,8 +105,9 @@ public class ServerThread implements Runnable {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         synchronized (Server.clientList) {
-            for (Enumeration<ServerThread> e = Server.clientList.elements(); e.hasMoreElements(); ) {
-                new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
+            for(int clientID : Server.clientList.keySet()){
+                ServerThread serverThread = Server.clientList.get(clientID);
+                new PrintWriter(serverThread.getSocket().getOutputStream(), true).println(json);
             }
         }
     }
