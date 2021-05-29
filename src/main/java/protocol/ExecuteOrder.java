@@ -84,6 +84,7 @@ public class ExecuteOrder {
                 if(numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size()){
                     logger.info("number enough, to play");
                     Server.getServer().handleGameStarted(mapName);
+                    Server.getServer().handleActivePhase(0);
                 }else{
                     Server.getServer().exception(clientID, "Not all players are ready or not enough players(>1), please wait and choose map again.");
                 }

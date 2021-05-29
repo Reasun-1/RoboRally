@@ -65,6 +65,9 @@ public class Client extends Application {
     private final BooleanProperty ISINTURN = new SimpleBooleanProperty(false);
     // who is in the first place of ready list, is allowed to select a map
     private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
+    // player who is in turn
+    private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
+
 
 
     // Getters
@@ -116,6 +119,7 @@ public class Client extends Application {
 
     public StringProperty INFORMATIONProperty() { return INFORMATION; }
 
+    public BooleanProperty ISCURRENTPLAYERProperty() { return ISCURRENTPLAYER; }
 
 
 
@@ -285,8 +289,6 @@ public class Client extends Application {
                                 }
                             }
                             break;
-
-
                         case "PlayerStatus":
                             logger.info(json);
                             PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
@@ -306,6 +308,22 @@ public class Client extends Application {
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
                             System.out.println(((Pit)gameMap.get(0).get(0).get(0)).getName());
+                            break;
+                        case "ActivePhase":
+                            ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
+                            int phase = activePhaseBody.getPhase();
+                            String phaseString = "";
+                            if(phase == 0){
+                                phaseString = "Aufbauphase";
+                            }else if(phase == 1){
+                                phaseString = "Upgradephase";
+                            }else if(phase == 2){
+                                phaseString = "Programmierphase";
+                            }else{
+                                phaseString = "Aktivierungsphase";
+                            }
+                            INFORMATION.set("");
+                            INFORMATION.set("This is " + phaseString);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

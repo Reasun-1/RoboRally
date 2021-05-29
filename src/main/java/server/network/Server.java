@@ -249,4 +249,15 @@ public class Server {
         logger.info("server sends map");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all players, which phase is on
+     * @param phase
+     */
+    public void handleActivePhase(int phase) throws IOException {
+        Protocol protocol = new Protocol("ActivePhase", new ActivePhaseBody(phase));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server sends phase info");
+        makeOrderToAllClients(json);
+    }
 }
