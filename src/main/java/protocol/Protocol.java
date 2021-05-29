@@ -275,6 +275,7 @@ public class Protocol {
     }
 
     public static YourCardsBody readJsonYourCards(String json) throws IOException {
+
         ObjectMapper objectMapper = new ObjectMapper();
 
         Protocol protocol = objectMapper.readValue(json, Protocol.class);
@@ -282,6 +283,19 @@ public class Protocol {
         Object messageBody = protocol.getMessageBody();
 
         YourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<YourCardsBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static NotYourCardsBody readJsonNotYourCards(String json) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        NotYourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<NotYourCardsBody>(){});
 
         return messageBodyDetail;
     }

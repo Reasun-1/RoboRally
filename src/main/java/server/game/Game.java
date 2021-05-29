@@ -1,10 +1,12 @@
 package server.game;
 
 import server.feldobjects.FeldObject;
+import server.network.Server;
 import server.registercards.Again;
 import server.registercards.Move2;
 import server.registercards.RegisterCard;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Game {
@@ -43,7 +45,7 @@ public class Game {
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
     public static HashMap<Integer, Position> playerPositions= new HashMap<>(); // current position of each player
-
+    public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
 
     /**
      * constructor Game:
@@ -57,9 +59,32 @@ public class Game {
      * set the parameters of the game
      */
     public void initGame(){
+        // only for test!!
         // soon: shuffle card with correct count of cards
+        List<RegisterCard> list = new ArrayList<>();
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Move2("PROGRAMME", "move2"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Move2("PROGRAMME", "move2"));
+        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Again("PROGRAMME", "again"));
+
+
+        List<RegisterCard> list2 = new ArrayList<>();
+        list2.add(new Again("PROGRAMME", "again"));
+        list2.add(new Again("PROGRAMME", "again"));
+        list2.add(new Again("PROGRAMME", "again"));
+
+        List<List<RegisterCard>> ll = new ArrayList<>();
+        ll.add(list);
+        ll.add(list2);
+        int num = 0;
         for(int clientID : clientIDs){
-            undrawnCards.put(clientID, Arrays.asList(new Again("PROGRAMME", "again"), new Move2("PROGRAMME", "move2")));
+            undrawnCards.put(clientID, ll.get(num++));
         }
     }
 
@@ -68,17 +93,43 @@ public class Game {
      * convert undrawn cards from object to Strings for server
      * @return
      */
-    public HashMap<Integer, List<String>> gameHandleYourCards(){
-        HashMap<Integer, List<String>> undrawnCardsAllClients = new HashMap<>();
+    public HashMap<Integer, List<String>> gameHandleYourCards() throws IOException {
+        // before new storage for count, clear the count
+        restToDrawCardCount.clear();
+
+        HashMap<Integer, List<String>> drawCardsAllClients = new HashMap<>();
+
         for(int clientID : undrawnCards.keySet()){
             List<String> list = new ArrayList<>();
-            for(RegisterCard card : undrawnCards.get(clientID)){
-                String cardName = card.getCardName();
-                list.add(cardName);
+            int cardCount = undrawnCards.get(clientID).size();
+
+            // if undrawnCards more than 5, draw 5; otherwise draw all the cars
+            if(cardCount >= 5){
+                for (int i = 0; i < 5; i++) {
+                    String cardName = undrawnCards.get(clientID).get(i).getCardName();
+                    list.add(cardName);
+                }
+                // the first 5 cards have been drawn, remove them from deck
+                for (int i = 0; i < 5; i++) {
+                    undrawnCards.get(clientID).remove(0);
+                }
+                Server.getServer().handleNotYourCards(clientID, 5);
+
+            }else{ // if undrawnCards less than 6, draw all
+
+                for (int i = 0; i < cardCount; i++) {
+                    String cardName = undrawnCards.get(clientID).get(i).getCardName();
+                    list.add(cardName);
+                }
+                // all the cards have been drawn, clear deck
+                undrawnCards.get(clientID).clear();
+                int restToDrawCardNum = 5-cardCount;
+                restToDrawCardCount.put(clientID, restToDrawCardNum);
+                Server.getServer().handleNotYourCards(clientID, cardCount);
             }
-            undrawnCardsAllClients.put(clientID, list);
+            drawCardsAllClients.put(clientID, list);
         }
-        return undrawnCardsAllClients;
+        return drawCardsAllClients;
     }
 
 

@@ -373,7 +373,15 @@ public class Client extends Application {
                             for(String card : cardsInHand){
                                 MYDRAWNCARDS.add(new SimpleStringProperty(card));
                             }
+                            INFORMATION.set("");
+                            INFORMATION.set("Begin programming!");
                             logger.info(MYDRAWNCARDS.toString());
+                            break;
+                        case "NotYourCards":
+                            NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
+                            int client = notYourCardsBody.getClientID();
+                            int cardCount = notYourCardsBody.getCardsInHand();
+                            logger.info(client + "have got " + cardCount + " cards");
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -528,6 +536,7 @@ public class Client extends Application {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
+        CANSELECTMAP.set(false);
     }
 
     public void rebuildMap(){

@@ -143,7 +143,6 @@ public class ExecuteOrder {
                 }else if(Server.clientListPointer == Server.clientList.size()){
                     Server.getServer().handleActivePhase(2);
                     Server.getServer().handleYourCards();
-                    Server.getServer().handleNotYourCards(clientID);
                 }
                 break;
 

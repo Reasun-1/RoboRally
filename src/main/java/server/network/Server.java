@@ -310,7 +310,14 @@ public class Server {
      * inform others about how many card you have drawn
      * @param yourID
      */
-    public void handleNotYourCards(int yourID){
+    public void handleNotYourCards(int yourID, int numberOfCards) throws IOException {
 
+        for(int clientID : clientList.keySet()){
+            if(clientID != yourID){
+                Protocol protocol = new Protocol("NotYourCards", new NotYourCardsBody(yourID, numberOfCards));
+                String json = Protocol.writeJson(protocol);
+                makeOrderToOneClient(clientID, json);
+            }
+        }
     }
 }
