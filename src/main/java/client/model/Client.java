@@ -57,6 +57,8 @@ public class Client extends Application {
     private final StringProperty PLAYERSINSERVER = new SimpleStringProperty();
     // players who are ready to play
     private final StringProperty PLAYERSWHOAREREADY = new SimpleStringProperty();
+    // show the info about game phase
+    private final StringProperty GAMEPHASE = new SimpleStringProperty();
 
     // Binding to ChatAndGame for moving the robots
     // max.6 players and 4 infos: e.g. [alice,2,5,UP]
@@ -120,6 +122,10 @@ public class Client extends Application {
     public StringProperty INFORMATIONProperty() { return INFORMATION; }
 
     public BooleanProperty ISCURRENTPLAYERProperty() { return ISCURRENTPLAYER; }
+
+    public StringProperty GAMEPHASEProperty() { return GAMEPHASE; }
+
+
 
 
 
@@ -322,8 +328,22 @@ public class Client extends Application {
                             }else{
                                 phaseString = "Aktivierungsphase";
                             }
-                            INFORMATION.set("");
-                            INFORMATION.set("This is " + phaseString);
+                            GAMEPHASE.set(phaseString);
+                            break;
+                        case "CurrentPlayer":
+                            CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
+                            int currentID = currentPlayerBody.getClientID();
+                            if(currentID == clientID){
+                                ISCURRENTPLAYER.set(true);
+                                if(GAMEPHASE.get().equals("Aufbauphase")){
+                                    INFORMATION.set("");
+                                    INFORMATION.set("You are in turn to set start point");
+                                }
+
+                            }else{
+                                INFORMATION.set("");
+                                INFORMATION.set(currentID + " is in turn. Please wait.");
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -450,6 +470,7 @@ public class Client extends Application {
                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
                 // reset boolean canSelectMap to all false
                 CANSELECTMAP.set(false);
+                INFORMATION.set("");
             }
         }
 
@@ -457,6 +478,8 @@ public class Client extends Application {
         for(int clientIDEach : readyClients.keySet()){
             if(readyClients.get(clientIDEach) == true){
                 if(clientIDEach == clientID){
+                    INFORMATION.set("");
+                    INFORMATION.set("You are first in ready list, choose a map.");
                     CANSELECTMAP.set(true);
                 }
                 break;

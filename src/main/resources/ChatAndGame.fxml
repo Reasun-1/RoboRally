@@ -134,5 +134,6 @@
             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
+      <TextArea fx:id="currentPhase" layoutX="215.0" layoutY="-7.0" prefHeight="36.0" prefWidth="200.0" promptText="Game Phase" />
     </children>
 </AnchorPane>

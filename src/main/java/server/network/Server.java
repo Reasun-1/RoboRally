@@ -22,6 +22,8 @@ public class Server {
     protected static Hashtable<Integer, Integer> playerList = new Hashtable<>();
     // a map for the accepted ServerThreads: key = clientID, value = ServerThread
     public static final LinkedHashMap<Integer, ServerThread> clientList = new LinkedHashMap<>();
+    // for set start point in aufbauPhase
+    public static int clientListPointer = 0;
     // the clientsID to distribute, soon in random 100 numbers
     public static final Stack<Integer> clientIDsPool = new Stack<>(){{
         push(42);
@@ -258,6 +260,16 @@ public class Server {
         Protocol protocol = new Protocol("ActivePhase", new ActivePhaseBody(phase));
         String json = Protocol.writeJson(protocol);
         logger.info("server sends phase info");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform players who is the current player
+     */
+    public void handleCurrentPlayer(int currentClientID) throws IOException {
+        Protocol protocol = new Protocol("CurrentPlayer", new CurrentPlayerBody(currentClientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs current player id");
         makeOrderToAllClients(json);
     }
 }

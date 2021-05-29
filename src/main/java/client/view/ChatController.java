@@ -28,6 +28,9 @@ public class ChatController {
     private TextArea playersWhoReady;
 
     @FXML
+    private TextArea currentPhase;
+
+    @FXML
     private GridPane gridPane;
 
     @FXML
@@ -70,6 +73,9 @@ public class ChatController {
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
+
+        //bind GAMEPHASE in client
+        currentPhase.textProperty().bindBidirectional(client.GAMEPHASEProperty());
 
     }
 

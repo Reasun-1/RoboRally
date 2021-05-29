@@ -85,6 +85,11 @@ public class ExecuteOrder {
                     logger.info("number enough, to play");
                     Server.getServer().handleGameStarted(mapName);
                     Server.getServer().handleActivePhase(0);
+
+                    // find the first client, who first logged in
+                    int clientFirst= (Integer)Server.clientList.keySet().toArray()[Server.clientListPointer];
+                    Server.clientListPointer++;
+                    Server.getServer().handleCurrentPlayer(clientFirst);
                 }else{
                     Server.getServer().exception(clientID, "Not all players are ready or not enough players(>1), please wait and choose map again.");
                 }
