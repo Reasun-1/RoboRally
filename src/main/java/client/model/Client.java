@@ -198,6 +198,8 @@ public class Client extends Application {
             }
         }).start();
 
+        // IMPORTANT! ImplicitExit = false: when no GUI-Windows on, GUI-Thread will not exit.
+        Platform.setImplicitExit(false);
         // start the login process
         LAUNCHER.launchLogin(this);
 
@@ -214,6 +216,7 @@ public class Client extends Application {
         Client client = this;
         String messageType = Protocol.readJsonMessageType(json);
 
+        // IMPORTANT! ImplicitExit = false: when no GUI-Windows on, GUI-Thread will not exit.
         Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
             @Override
@@ -338,8 +341,13 @@ public class Client extends Application {
     }
 
 
+    /**
+     * send message to a certain person
+     * @param to
+     * @param message
+     * @throws JsonProcessingException
+     */
     public void sendPersonalMessage(int to, String message) throws JsonProcessingException {
-
         Protocol protocol = new Protocol("SendChat", new SendChatBody(message, to));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
@@ -371,7 +379,6 @@ public class Client extends Application {
 
         } else {
             // Send message to server
-
             Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
             String json = Protocol.writeJson(protocol);
             logger.info(json);

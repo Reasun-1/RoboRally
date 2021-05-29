@@ -100,7 +100,7 @@ public class ExecuteOrder {
                 }
                 String message = "";
                 message = sendChatBody.getMessage();
-                if (sendChatBody.getTo() != 0) {
+                if (sendChatBody.getTo() != -1) {
                     int toClient = sendChatBody.getTo();
                     if (Server.clientList.containsKey(toClient)) {
                         // to target client

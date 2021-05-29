@@ -117,7 +117,6 @@ public class Server {
 
     /**
      * server sends message to all clients
-     *
      * @param message
      */
     public void sendMessageToAll(int from, String message) {

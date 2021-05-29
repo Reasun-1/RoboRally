@@ -76,15 +76,13 @@ public class ChatController {
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-       /* if (sendTo.getText().isEmpty()) {
+       if (sendTo.getText().isEmpty()) {
             client.sendMessage(messageField.getText());
         } else {
             client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
         }
         messageField.clear();
         sendTo.clear();
-
-        */
     }
 
     @FXML
