@@ -1,10 +1,11 @@
 package server.game;
 
 import server.feldobjects.FeldObject;
+import server.registercards.Again;
+import server.registercards.Move2;
 import server.registercards.RegisterCard;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Game {
 
@@ -13,11 +14,12 @@ public class Game {
     int countPlayer; // total count of players
     String mapName; // von players chosen map
 
+
     List<String> playerNames; // index of List = index of player = anchor for the game!!!
     List<String> robotFigure; // each player has a robot figure
     List<Integer> priorityEachRound; // e.g. [2,0,1] means player number 2 has first priority in this round
 
-    List<List<RegisterCard>> undrawnCards; // decks of undrawn cards of all players
+
     List<List<RegisterCard>> discardedCards; // decks of discarded cards of all players
     List<List<RegisterCard>> registers; // registers of all players
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
@@ -28,11 +30,20 @@ public class Game {
     List<HashSet<Integer>> arrivedCheckpoints; // who has arrived which checkpoints;
 
     List<String> playerStatus; // OUTOFBOARD INPLAY
-    List<Position> playerPositions; //
 
-    List<List<List<FeldObject>>> board;
+
+
 
     boolean isGameOver; // true for game over
+
+
+    //==========================================================================
+    public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
+    public static HashMap<Integer, Position> positions = new HashMap<>(); // key = clientID, value = where player stands
+    public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
+    public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
+    public static HashMap<Integer, Position> playerPositions= new HashMap<>(); // current position of each player
+
 
     /**
      * constructor Game:
@@ -43,31 +54,34 @@ public class Game {
     }
 
     /**
-     * initial game and player info, every player draws cards for first round
+     * set the parameters of the game
      */
-    public void initAndStartGame(){
-
-        // TODO init all the lists in Game in respect of player number
-
-        for (int i = 0; i < playerNames.size(); i++) {
-
-            shuffleUndrawnCardDeck(i);
-            drawRegiCards(i);
-
-            // TODO SEND INFO VIA SERVER TO EACH CLIENT: which cards have been drawn
+    public void initGame(){
+        // soon: shuffle card with correct count of cards
+        for(int clientID : clientIDs){
+            undrawnCards.put(clientID, Arrays.asList(new Again("PROGRAMME", "again"), new Move2("PROGRAMME", "move2")));
         }
     }
 
-    public void setStartPoint(int clientID, int x, int y){
-        // TODO: do in HashMap
+    /**
+     * key = clientID, value = list of undrawn cards
+     * convert undrawn cards from object to Strings for server
+     * @return
+     */
+    public HashMap<Integer, List<String>> gameHandleYourCards(){
+        HashMap<Integer, List<String>> undrawnCardsAllClients = new HashMap<>();
+        for(int clientID : undrawnCards.keySet()){
+            List<String> list = new ArrayList<>();
+            for(RegisterCard card : undrawnCards.get(clientID)){
+                String cardName = card.getCardName();
+                list.add(cardName);
+            }
+            undrawnCardsAllClients.put(clientID, list);
+        }
+        return undrawnCardsAllClients;
     }
 
-    /**
-     * invoked from Game: initAndStartGame
-     * init and shuffle undrawn card deck
-     */
-    public void shuffleUndrawnCardDeck(int PlayerIndex){
-    }
+
 
     /**
      * invoked from Game: initAndStartGame

@@ -13,9 +13,27 @@ public class Again extends RegisterCard{
     String cardName; // detailed name of each card
     int cardCount; // only as info for shuffle the cards
 
+    public Again() {
+    }
+
     public Again(String cardType, String cardName) {
         this.cardType = cardType;
         this.cardName = cardName;
+    }
+
+    @Override
+    public String getCardType() {
+        return cardType;
+    }
+
+    @Override
+    public String getCardName() {
+        return cardName;
+    }
+
+    @Override
+    public int getCardCount() {
+        return cardCount;
     }
 
     @Override

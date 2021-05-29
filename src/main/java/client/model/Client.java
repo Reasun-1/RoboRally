@@ -73,6 +73,8 @@ public class Client extends Application {
     private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with player position in GUI
     private final HashMap<Integer, List<IntegerProperty>> POSITIONS = new HashMap<>();
+    // binds with drawnCards in GUI
+    private final List<StringProperty> MYDRAWNCARDS = new ArrayList<>();
 
 
 
@@ -365,6 +367,14 @@ public class Client extends Application {
                             POSITIONS.put(clientWhoSetPoint, position);
                             logger.info("" + POSITIONS.get(clientWhoSetPoint));
                             break;
+                        case "YourCards":
+                            YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
+                            List<String> cardsInHand = yourCardsBody.getCardsInHand();
+                            for(String card : cardsInHand){
+                                MYDRAWNCARDS.add(new SimpleStringProperty(card));
+                            }
+                            logger.info(MYDRAWNCARDS.toString());
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -535,7 +545,9 @@ public class Client extends Application {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
-        //disable the set point button
+        // you are not current player any more and disable the set point button
         CANSETSTARTPOINT.set(false);
+        ISCURRENTPLAYER.set(false);
+        INFORMATION.set("");
     }
 }

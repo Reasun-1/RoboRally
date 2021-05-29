@@ -7,6 +7,7 @@ import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
 import server.feldobjects.PushPanel;
 import server.game.Game;
+import server.game.Position;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -182,6 +183,8 @@ public class Server {
         String json = Protocol.writeJson(protocol);
         logger.info("server added player");
         makeOrderToAllClients(json);
+
+        Game.clientIDs.add(clientID);
     }
 
     /**
@@ -246,11 +249,13 @@ public class Server {
     public void handleGameStarted(String mapName) throws IOException {
         // dummy map: soon with right maps
         List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit(1,"rr"))));
-
         Protocol protocol = new Protocol("GameStarted", new GameStartedBody(threeDListAsMap));
         String json = Protocol.writeJson(protocol);
         logger.info("server sends map");
         makeOrderToAllClients(json);
+
+        Game.board = threeDListAsMap;
+        Game.getInstance().initGame();
     }
 
     /**
@@ -285,6 +290,27 @@ public class Server {
         String json = Protocol.writeJson(protocol);
         logger.info("server informs set starting point");
         makeOrderToAllClients(json);
+
+        Game.positions.put(clientID,new Position(x, y, null));
     }
 
+    /**
+     * distribute cards to each player privately
+     */
+    public void handleYourCards() throws IOException {
+        HashMap<Integer, List<String>> cardsAllClients = Game.getInstance().gameHandleYourCards();
+        for(int clientID : cardsAllClients.keySet()){
+            Protocol protocol = new Protocol("YourCards", new YourCardsBody(cardsAllClients.get(clientID)));
+            String json = Protocol.writeJson(protocol);
+            makeOrderToOneClient(clientID, json);
+        }
+    }
+
+    /**
+     * inform others about how many card you have drawn
+     * @param yourID
+     */
+    public void handleNotYourCards(int yourID){
+
+    }
 }

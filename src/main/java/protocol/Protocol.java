@@ -274,6 +274,18 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static YourCardsBody readJsonYourCards(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        YourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<YourCardsBody>(){});
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

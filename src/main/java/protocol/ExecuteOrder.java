@@ -131,7 +131,7 @@ public class ExecuteOrder {
                 SetStartingPointBody setStartingPointBody = Protocol.readJsonSetStartingPoint(json);
                 int x = setStartingPointBody.getX();
                 int y = setStartingPointBody.getY();
-                Game.getInstance().setStartPoint(clientID, x, y);
+
                 Server.getServer().handleStartingPointTaken(clientID, x, y);
 
                 // if next client exists, then it´s his/her turn
@@ -139,9 +139,12 @@ public class ExecuteOrder {
                     int clientCurren= (Integer)Server.clientList.keySet().toArray()[Server.clientListPointer];
                     Server.clientListPointer++;
                     Server.getServer().handleCurrentPlayer(clientCurren);
+                    // if all players haven chosen start points, go to next phase
+                }else if(Server.clientListPointer == Server.clientList.size()){
+                    Server.getServer().handleActivePhase(2);
+                    Server.getServer().handleYourCards();
+                    Server.getServer().handleNotYourCards(clientID);
                 }
-
-
                 break;
 
         }
