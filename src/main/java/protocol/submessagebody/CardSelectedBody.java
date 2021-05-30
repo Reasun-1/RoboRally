@@ -8,21 +8,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CardSelectedBody {
-    private int CardSelected;
+    private int clientID;
     private int register;
     private boolean filled;
 
     public CardSelectedBody() {
     }
 
-    public CardSelectedBody(int cardSelected, int register, boolean filled) {
-        CardSelected = cardSelected;
+    public CardSelectedBody(int clientID, int register, boolean filled) {
+        this.clientID = clientID;
         this.register = register;
         this.filled = filled;
     }
 
-    public int getCardSelected() {
-        return CardSelected;
+    public int getClientID() {
+        return clientID;
     }
 
     public int getRegister() {

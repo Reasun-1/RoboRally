@@ -21,8 +21,6 @@ public class Game {
     List<String> robotFigure; // each player has a robot figure
     List<Integer> priorityEachRound; // e.g. [2,0,1] means player number 2 has first priority in this round
 
-
-    List<List<RegisterCard>> registers; // registers of all players
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
 
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
@@ -44,6 +42,7 @@ public class Game {
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
     public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
+    public static HashMap<Integer, RegisterCard[]> registersAllClients = new HashMap<>(); // registers of all players
 
     /**
      * constructor Game:
@@ -58,6 +57,12 @@ public class Game {
      * set the parameters of the game
      */
     public void initGame() {
+        // init registers with 5 slots for all clients
+        for(int client : clientIDs){
+            RegisterCard[] registers = new RegisterCard[5];
+            registersAllClients.put(client, registers);
+        }
+
         // only for test!!
         // soon: shuffle card with correct count of cards
         List<RegisterCard> list = new ArrayList<>();

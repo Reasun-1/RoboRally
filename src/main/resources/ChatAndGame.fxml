@@ -138,5 +138,6 @@
          </rowConstraints>
       </GridPane>
       <TextArea fx:id="currentPhase" layoutX="215.0" layoutY="-7.0" prefHeight="36.0" prefWidth="200.0" promptText="Game Phase" />
+      <Button fx:id="setRegister01" layoutX="1061.0" layoutY="511.0" mnemonicParsing="false" onAction="#setRegisterEvent" text="setR1" />
     </children>
 </AnchorPane>

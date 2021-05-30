@@ -60,6 +60,9 @@ public class ChatController {
     @FXML
     private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
 
+    @FXML
+    private Button setRegister01; // invoke methode setRegisterEvent()
+
     private Client client;
 
     public void init(Client client) {
@@ -113,5 +116,14 @@ public class ChatController {
     @FXML
     private void setStartPointEvent() throws JsonProcessingException {
         client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
+    }
+
+    @FXML
+    private void setRegisterEvent() throws JsonProcessingException {
+        // soon: bind with imageView
+        // only for test
+        String cardName = "again";
+        int registerNum = 1;
+        client.setRegister(cardName, registerNum);
     }
 }

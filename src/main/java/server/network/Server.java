@@ -344,4 +344,18 @@ public class Server {
         logger.info("server informs shuffle");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all clients who has set/clear which register
+     * @param clientID
+     * @param registerNum
+     * @param isFilled
+     * @throws IOException
+     */
+    public void handleCardSelected(int clientID, int registerNum, boolean isFilled) throws IOException {
+        Protocol protocol = new Protocol("CardSelected", new CardSelectedBody(clientID, registerNum, isFilled));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs card selected");
+        makeOrderToAllClients(json);
+    }
 }

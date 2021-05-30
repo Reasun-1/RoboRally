@@ -75,6 +75,8 @@ public class Client extends Application {
     private final HashMap<Integer, List<IntegerProperty>> POSITIONS = new HashMap<>();
     // binds with drawnCards in GUI
     private final List<StringProperty> MYDRAWNCARDS = new ArrayList<>();
+    // binds myRegister slots in GUI
+    private final StringProperty[] MYREGISTER = new StringProperty[5];
 
 
 
@@ -133,7 +135,9 @@ public class Client extends Application {
 
     public BooleanProperty CANSETSTARTPOINTProperty() { return CANSETSTARTPOINT; }
 
+    public List<StringProperty> getMYDRAWNCARDS() { return MYDRAWNCARDS; }
 
+    public StringProperty[] getMYREGISTER() { return MYREGISTER; }
 
 
 
@@ -177,6 +181,11 @@ public class Client extends Application {
         INFORMATION.set("");
         PLAYERSINSERVER.set("");
         PLAYERSWHOAREREADY.set("");
+
+        // init MYREGISTER[]
+        for (int i = 0; i < 5; i++) {
+            MYREGISTER[i] = new SimpleStringProperty();
+        }
     }
 
     public static void main(String[] args) {
@@ -388,6 +397,14 @@ public class Client extends Application {
                             int clientShuffle = shuffleCodingBody.getClientID();
                             logger.info(clientShuffle + " is shuffling");
                             break;
+                        case "CardSelected":
+                            CardSelectedBody cardSelectedBody = Protocol.readJsonCardSelected(json);
+                            int clientSelectedCard = cardSelectedBody.getClientID();
+                            int registerSelected = cardSelectedBody.getRegister();
+                            boolean filled = cardSelectedBody.isFilled();
+                            // optional soon: in GUI verbinden
+                            logger.info( clientSelectedCard + " has for register " + registerSelected + filled);
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -563,5 +580,28 @@ public class Client extends Application {
         CANSETSTARTPOINT.set(false);
         ISCURRENTPLAYER.set(false);
         INFORMATION.set("");
+    }
+
+    /**
+     * client set/clear register slot
+     * @param cardName
+     * @param registerNum
+     * @throws JsonProcessingException
+     */
+    public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
+        if(cardName != null){
+            Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
+            String json = Protocol.writeJson(protocol);
+            MYREGISTER[registerNum-1].set(cardName);
+            logger.info(json);
+            OUT.println(json);
+        }else{
+            Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(null, registerNum));
+            String json = Protocol.writeJson(protocol);
+            MYREGISTER[registerNum-1].set("");
+            logger.info(json);
+            OUT.println(json);
+        }
+
     }
 }

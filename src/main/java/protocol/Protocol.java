@@ -312,6 +312,30 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static SelectedCardBody readJsonSelectedCard(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        SelectedCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectedCardBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static CardSelectedBody readJsonCardSelected(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CardSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardSelectedBody>(){});
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
