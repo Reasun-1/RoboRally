@@ -8,8 +8,11 @@ import server.registercards.RegisterCard;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class Game {
+
+    private static final Logger logger = Logger.getLogger(Game.class.getName());
 
     private final static Game game = new Game();
 
@@ -17,8 +20,8 @@ public class Game {
     String mapName; // von players chosen map
 
 
-    List<String> playerNames; // index of List = index of player = anchor for the game!!!
-    List<String> robotFigure; // each player has a robot figure
+
+
     List<Integer> priorityEachRound; // e.g. [2,0,1] means player number 2 has first priority in this round
 
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
@@ -195,20 +198,24 @@ public class Game {
         return drawCardsAllClients;
     }
 
-
     /**
-     * invoked from Game: initAndStartGame
+     * invoke method in class Timer(in another thread)
      */
-    public void drawRegiCards(int PlayerIndex) {
+    public void startTimer(){
+        Thread thread = new Thread(Timer.timer);
+        thread.start();
+        logger.info("game starts timer");
     }
 
     /**
-     * invoked from client side: set robot figure to a client (index as anchor in list)
+     * if all players finished programming within 30 seconds, timer stops
      */
-    public void setPlayerRobots(String clientName) {
-
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who has which robot
+    public void stopTimer(){
+        Timer.flag = false;
+        logger.info("game stops timer");
     }
+
+
 
     public void setMap3DList(String mapName) {
 
@@ -223,52 +230,9 @@ public class Game {
         // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who was removed
     }
 
-    /**
-     * when the client finished programming, will send thd infos of register cards to server
-     * then the list of register cards will be set
-     *
-     * @param clientName
-     */
-    public void setRegisterCards(String clientName) {
 
-    }
 
-    /**
-     * invoked from client by button(only when all finished programming, button can be activated)
-     * TODO button from GUI
-     */
-    public void activatePhase() {
 
-        checkAndSetPriority();
-
-        for (int i = 0; i < playerNames.size(); i++) {
-            int playerIndex = priorityEachRound.get(i);
-            String clientName = playerNames.get(playerIndex);
-
-            // do RegiCard function
-
-            // do Tile function in board (incl. damage)
-
-            // remove RegiCard from register list
-
-            // TODO SEND INFO VIA SERVER TO EACH CLIENT: the current position of robot
-        }
-
-        shootLaser();
-
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS:
-        // send a message to all clients to tell the RegiCard is played, so that one card will disappears in GUI
-
-        checkGameOver();
-
-        if (!isGameOver) {
-            for (int i = 0; i < playerNames.size(); i++) {
-                drawRegiCards(i);
-
-                // TODO TODO SEND INFO VIA SERVER TO ALL CLIENTS: who has drawn which cards
-            }
-        }
-    }
 
     /**
      * invoked from Game: activatePhase
@@ -286,7 +250,7 @@ public class Game {
         setRobotLaserLine();
 
         // check damage for each robot
-        for (int i = 0; i < playerNames.size(); i++) {
+        for (int i = 0; i < clientIDs.size(); i++) {
         }
 
         clearRobotLaseLine();

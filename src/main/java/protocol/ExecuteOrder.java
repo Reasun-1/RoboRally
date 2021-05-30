@@ -172,10 +172,14 @@ public class ExecuteOrder {
 
                 // if only one client finished programming, timer starts
                 if(Game.selectionFinishList.size() == 1){
+                    Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
                     // if all clients finished programming, next phase begins
                 }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
-
+                    Game.getInstance().stopTimer();
+                    // Aktivierungsphase beginns
+                    // set priority for this turn
+                    // set player in turn
                 }
                 break;
         }
