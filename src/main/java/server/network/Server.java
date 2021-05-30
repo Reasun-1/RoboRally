@@ -307,6 +307,19 @@ public class Server {
     }
 
     /**
+     * for the situation that drawn cards deck hasn´t enough cards, redraw
+     * @param clientID
+     * @param newCards
+     * @throws IOException
+     */
+    public void handleYourNewCards(int clientID, List<String> newCards) throws IOException {
+        Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server inform new cards");
+        makeOrderToOneClient(clientID, json);
+    }
+
+    /**
      * inform others about how many card you have drawn
      * @param yourID
      */
@@ -319,5 +332,16 @@ public class Server {
                 makeOrderToOneClient(clientID, json);
             }
         }
+    }
+
+    /**
+     * if undrawn deck has not enough cards, shuffle the discarded cards deck und draw the rest cards
+     * @param clientID
+     */
+    public void handleShuffleCoding(int clientID) throws IOException {
+        Protocol protocol = new Protocol("ShuffleCoding", new ShuffleCodingBody(clientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs shuffle");
+        makeOrderToAllClients(json);
     }
 }

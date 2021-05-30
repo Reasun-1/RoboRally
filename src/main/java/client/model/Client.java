@@ -383,6 +383,11 @@ public class Client extends Application {
                             int cardCount = notYourCardsBody.getCardsInHand();
                             logger.info(client + "have got " + cardCount + " cards");
                             break;
+                        case "ShuffleCoding":
+                            ShuffleCodingBody shuffleCodingBody = Protocol.readJsonShuffleCoding(json);
+                            int clientShuffle = shuffleCodingBody.getClientID();
+                            logger.info(clientShuffle + " is shuffling");
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

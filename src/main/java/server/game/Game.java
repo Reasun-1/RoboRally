@@ -22,7 +22,6 @@ public class Game {
     List<Integer> priorityEachRound; // e.g. [2,0,1] means player number 2 has first priority in this round
 
 
-    List<List<RegisterCard>> discardedCards; // decks of discarded cards of all players
     List<List<RegisterCard>> registers; // registers of all players
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
 
@@ -34,21 +33,21 @@ public class Game {
     List<String> playerStatus; // OUTOFBOARD INPLAY
 
 
-
-
     boolean isGameOver; // true for game over
 
 
     //==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
+    public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
     public static HashMap<Integer, Position> positions = new HashMap<>(); // key = clientID, value = where player stands
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
-    public static HashMap<Integer, Position> playerPositions= new HashMap<>(); // current position of each player
+    public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
 
     /**
      * constructor Game:
+     *
      * @return only one instance of the Game
      */
     public static Game getInstance() {
@@ -58,7 +57,7 @@ public class Game {
     /**
      * set the parameters of the game
      */
-    public void initGame(){
+    public void initGame() {
         // only for test!!
         // soon: shuffle card with correct count of cards
         List<RegisterCard> list = new ArrayList<>();
@@ -73,7 +72,6 @@ public class Game {
         list.add(new Again("PROGRAMME", "again"));
         list.add(new Again("PROGRAMME", "again"));
 
-
         List<RegisterCard> list2 = new ArrayList<>();
         list2.add(new Again("PROGRAMME", "again"));
         list2.add(new Again("PROGRAMME", "again"));
@@ -83,14 +81,35 @@ public class Game {
         ll.add(list);
         ll.add(list2);
         int num = 0;
-        for(int clientID : clientIDs){
+        for (int clientID : clientIDs) {
             undrawnCards.put(clientID, ll.get(num++));
         }
+
+        // only for test
+        List<RegisterCard> dis1 = new ArrayList<>();
+        dis1.add(new Move2("PROGRAMME", "move2"));
+        dis1.add(new Move2("PROGRAMME", "move2"));
+        dis1.add(new Move2("PROGRAMME", "move2"));
+        dis1.add(new Move2("PROGRAMME", "move2"));
+        List<RegisterCard> dis2 = new ArrayList<>();
+        dis2.add(new Again("PROGRAMME", "again"));
+        dis2.add(new Again("PROGRAMME", "again"));
+        dis2.add(new Again("PROGRAMME", "again"));
+        dis2.add(new Again("PROGRAMME", "again"));
+        List<List<RegisterCard>> ww = new ArrayList<>();
+        ww.add(dis1);
+        ww.add(dis2);
+        int num1 = 0;
+        for (int clientID : clientIDs) {
+            discardedCards.put(clientID, ww.get(num1++));
+        }
+
     }
 
     /**
      * key = clientID, value = list of undrawn cards
      * convert undrawn cards from object to Strings for server
+     *
      * @return
      */
     public HashMap<Integer, List<String>> gameHandleYourCards() throws IOException {
@@ -99,15 +118,18 @@ public class Game {
 
         HashMap<Integer, List<String>> drawCardsAllClients = new HashMap<>();
 
-        for(int clientID : undrawnCards.keySet()){
+        for (int clientID : undrawnCards.keySet()) {
             List<String> list = new ArrayList<>();
             int cardCount = undrawnCards.get(clientID).size();
 
             // if undrawnCards more than 5, draw 5; otherwise draw all the cars
-            if(cardCount >= 5){
+            if (cardCount >= 5) {
                 for (int i = 0; i < 5; i++) {
-                    String cardName = undrawnCards.get(clientID).get(i).getCardName();
+                    RegisterCard card = undrawnCards.get(clientID).get(i);
+                    String cardName = card.getCardName();
                     list.add(cardName);
+                    // add the drawn cards to discarded card deck
+                    discardedCards.get(clientID).add(card);
                 }
                 // the first 5 cards have been drawn, remove them from deck
                 for (int i = 0; i < 5; i++) {
@@ -115,46 +137,80 @@ public class Game {
                 }
                 Server.getServer().handleNotYourCards(clientID, 5);
 
-            }else{ // if undrawnCards less than 6, draw all
+            } else { // if undrawnCards less than 5, draw all
 
                 for (int i = 0; i < cardCount; i++) {
-                    String cardName = undrawnCards.get(clientID).get(i).getCardName();
+                    RegisterCard cd = undrawnCards.get(clientID).get(i);
+                    String cardName = cd.getCardName();
                     list.add(cardName);
                 }
+                // temporary list for storage the drawn cards
+                List<RegisterCard> tempListForDrawnCards = new ArrayList<>();
+                tempListForDrawnCards.addAll(undrawnCards.get(clientID));
+
                 // all the cards have been drawn, clear deck
                 undrawnCards.get(clientID).clear();
-                int restToDrawCardNum = 5-cardCount;
+                int restToDrawCardNum = 5 - cardCount;
                 restToDrawCardCount.put(clientID, restToDrawCardNum);
+
                 Server.getServer().handleNotYourCards(clientID, cardCount);
+                Server.getServer().handleShuffleCoding(clientID);
+
+                // put discarded cards deck into undrawn deck
+                undrawnCards.get(clientID).addAll(discardedCards.get(clientID));
+                // put drawn cards in this round into discarded deck
+                discardedCards.get(clientID).clear();
+                discardedCards.get(clientID).addAll(tempListForDrawnCards);
+
+                // give the rest cars to the client
+                List<String> newCards = new ArrayList<>();
+                for (int i = 0; i < restToDrawCardNum; i++) {
+                    RegisterCard card = undrawnCards.get(clientID).get(i);
+                    String cardName = card.getCardName();
+                    newCards.add(cardName);
+                }
+                Server.getServer().handleYourNewCards(clientID, newCards);
+                Server.getServer().handleNotYourCards(clientID, restToDrawCardNum);
+
+                // remove the new drawn cards and put them in discarded deck
+                for (int i = 0; i < restToDrawCardNum; i++) {
+                    discardedCards.get(clientID).add(undrawnCards.get(clientID).get(0));
+                    undrawnCards.get(clientID).remove(0);
+                }
             }
             drawCardsAllClients.put(clientID, list);
+            // only for test
+            for(int clientNum : clientIDs){
+                System.out.println(clientNum + " undrawncardsNum: " + undrawnCards.get(clientNum).size());
+                System.out.println(clientNum + " discardedNum: " +  discardedCards.get(clientNum).size());
+            }
         }
         return drawCardsAllClients;
     }
 
 
-
     /**
      * invoked from Game: initAndStartGame
      */
-    public void drawRegiCards(int PlayerIndex){
+    public void drawRegiCards(int PlayerIndex) {
     }
 
     /**
      * invoked from client side: set robot figure to a client (index as anchor in list)
      */
-    public void setPlayerRobots(String clientName){
+    public void setPlayerRobots(String clientName) {
 
         // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who has which robot
     }
 
-   public void setMap3DList(String mapName){
+    public void setMap3DList(String mapName) {
 
-   }
+    }
+
     /**
      * if the client is offline, should be removed from game
      */
-    public void removePlayer(String clientName){
+    public void removePlayer(String clientName) {
 
 
         // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who was removed
@@ -163,9 +219,10 @@ public class Game {
     /**
      * when the client finished programming, will send thd infos of register cards to server
      * then the list of register cards will be set
+     *
      * @param clientName
      */
-    public void setRegisterCards(String clientName){
+    public void setRegisterCards(String clientName) {
 
     }
 
@@ -173,7 +230,7 @@ public class Game {
      * invoked from client by button(only when all finished programming, button can be activated)
      * TODO button from GUI
      */
-    public void activatePhase(){
+    public void activatePhase() {
 
         checkAndSetPriority();
 
@@ -197,7 +254,7 @@ public class Game {
 
         checkGameOver();
 
-        if(!isGameOver){
+        if (!isGameOver) {
             for (int i = 0; i < playerNames.size(); i++) {
                 drawRegiCards(i);
 
@@ -210,14 +267,14 @@ public class Game {
      * invoked from Game: activatePhase
      * analog game rules, priority list will be reset
      */
-    public void checkAndSetPriority(){
+    public void checkAndSetPriority() {
 
     }
 
     /**
      * invoked from Game: activatePhase
      */
-    public void shootLaser(){
+    public void shootLaser() {
 
         setRobotLaserLine();
 
@@ -233,20 +290,20 @@ public class Game {
      * invoked from Game: shootLaser
      * calculate the line of robot laser, set the line into board list (3D)
      */
-    public void setRobotLaserLine(){
+    public void setRobotLaserLine() {
     }
 
     /**
      * invoked from Game: shootLaser
      * erase the line of robot laser from board list (3D), ready for next turn
      */
-    public void clearRobotLaseLine(){
+    public void clearRobotLaseLine() {
     }
 
     /**
      * if all checkpoints are reached, game is over
      */
-    public void checkGameOver(){
+    public void checkGameOver() {
         // TODO SEND INFO VIA SERVER TO EACH CLIENT: game is over and who is the winner
     }
 }

@@ -300,6 +300,18 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static ShuffleCodingBody readJsonShuffleCoding(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ShuffleCodingBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ShuffleCodingBody>(){});
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
