@@ -191,6 +191,17 @@ public class ExecuteOrder {
                     Game.priorityEachTurn.remove(0);
                 }
                 break;
+            case "PlayCard":
+                PlayCardBody playCardBody = Protocol.readJsonPlayCard(json);
+                String cardName = playCardBody.getCard();
+                // server inform others which card was by whom played
+                Server.getServer().handleCardPlayed(clientID, cardName);
+                // logic function in Game: move or turn
+                // server informs others about the move/turn result
+
+                // check if priority list in Game is empty, if empty=> reset priority and check if Game.registerPointer == 0? if == 0, then round over, got "yourCards"
+                // inform the next player in turn
+                break;
         }
     }
 

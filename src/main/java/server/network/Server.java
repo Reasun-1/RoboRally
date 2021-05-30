@@ -440,4 +440,13 @@ public class Server {
         logger.info("server inform cards of current register");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform others about which card was played by whom
+     * @param clientID
+     * @param cardName
+     */
+    public void handleCardPlayed(int clientID, String cardName){
+
+    }
 }
