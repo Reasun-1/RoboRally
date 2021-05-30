@@ -336,6 +336,21 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static SelectionFinishedBody readJsonSelectionFinished(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        SelectionFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectionFinishedBody>(){});
+
+        return messageBodyDetail;
+    }
+
+
+
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

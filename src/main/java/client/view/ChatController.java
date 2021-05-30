@@ -63,6 +63,9 @@ public class ChatController {
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
 
+    @FXML
+    private Button finish; // invoke methede finishEvent()
+
     private Client client;
 
     public void init(Client client) {
@@ -91,6 +94,9 @@ public class ChatController {
 
         //bind GAMEPHASE in client
         currentPhase.textProperty().bindBidirectional(client.GAMEPHASEProperty());
+
+        //bind CANCLICKFINISH in client
+        finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
 
     }
 
@@ -126,4 +132,7 @@ public class ChatController {
         int registerNum = 1;
         client.setRegister(cardName, registerNum);
     }
+
+    @FXML
+    private void finishEvent() throws JsonProcessingException { client.selectFinish(); }
 }

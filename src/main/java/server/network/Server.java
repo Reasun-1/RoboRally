@@ -358,4 +358,15 @@ public class Server {
         logger.info("server informs card selected");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * as first clients finished programming, timer starts
+     * @throws IOException
+     */
+    public void handleTimerStarted() throws IOException {
+        Protocol protocol = new Protocol("TimerStarted", null);
+        String json = Protocol.writeJson(protocol);
+        logger.info("server starts timer");
+        makeOrderToAllClients(json);
+    }
 }

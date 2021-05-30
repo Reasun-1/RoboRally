@@ -43,6 +43,8 @@ public class Game {
     public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
     public static HashMap<Integer, RegisterCard[]> registersAllClients = new HashMap<>(); // registers of all players
+    public static List<Integer> selectionFinishList = new ArrayList<>(); // clientID who finished programming
+
 
     /**
      * constructor Game:

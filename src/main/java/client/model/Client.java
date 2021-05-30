@@ -77,6 +77,10 @@ public class Client extends Application {
     private final List<StringProperty> MYDRAWNCARDS = new ArrayList<>();
     // binds myRegister slots in GUI
     private final StringProperty[] MYREGISTER = new StringProperty[5];
+    // bind button finish in GUI
+    private final BooleanProperty CANCLICKFINISH = new SimpleBooleanProperty(false);
+    // shows whether the timer is on
+    private final BooleanProperty ISTIMERON = new SimpleBooleanProperty(false);
 
 
 
@@ -138,6 +142,9 @@ public class Client extends Application {
     public List<StringProperty> getMYDRAWNCARDS() { return MYDRAWNCARDS; }
 
     public StringProperty[] getMYREGISTER() { return MYREGISTER; }
+
+    public BooleanProperty CANCLICKFINISHProperty() { return CANCLICKFINISH; }
+
 
 
 
@@ -402,8 +409,13 @@ public class Client extends Application {
                             int clientSelectedCard = cardSelectedBody.getClientID();
                             int registerSelected = cardSelectedBody.getRegister();
                             boolean filled = cardSelectedBody.isFilled();
+                            CANCLICKFINISH.set(true);
                             // optional soon: in GUI verbinden
                             logger.info( clientSelectedCard + " has for register " + registerSelected + filled);
+                            break;
+                        case "TimerStarted":
+                            ISTIMERON.set(true);
+                            logger.info("timer is on");
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -603,5 +615,13 @@ public class Client extends Application {
             OUT.println(json);
         }
 
+    }
+
+    public void selectFinish() throws JsonProcessingException {
+        Protocol protocol = new Protocol("SelectionFinished", new SelectionFinishedBody(clientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        CANCLICKFINISH.set(false);
+        OUT.println(json);
     }
 }

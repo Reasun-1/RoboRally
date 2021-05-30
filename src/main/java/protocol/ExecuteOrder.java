@@ -165,6 +165,19 @@ public class ExecuteOrder {
                     Server.getServer().handleCardSelected(clientID, registerNum, false);
                 }
                 break;
+            case "SelectionFinished":
+                SelectionFinishedBody selectionFinishedBody = Protocol.readJsonSelectionFinished(json);
+                int clientFinished = selectionFinishedBody.getClientID();
+                Game.selectionFinishList.add(clientFinished);
+
+                // if only one client finished programming, timer starts
+                if(Game.selectionFinishList.size() == 1){
+                    Server.getServer().handleTimerStarted();
+                    // if all clients finished programming, next phase begins
+                }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
+
+                }
+                break;
         }
     }
 
