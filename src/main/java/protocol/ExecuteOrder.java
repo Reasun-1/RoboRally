@@ -178,9 +178,17 @@ public class ExecuteOrder {
                 }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
                     Game.getInstance().stopTimer();
                     logger.info("executeOrder all clients finished programming in time");
+
                     // Aktivierungsphase beginns
+                    Server.getServer().handleActivePhase(3);
+                    // inform all clients about current register cards of all
+                    Server.getServer().handleCurrentCards();
                     // set priority for this turn
+                    Game.getInstance().checkAndSetPriority();
                     // set player in turn
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+                    Game.priorityEachTurn.remove(0);
                 }
                 break;
         }

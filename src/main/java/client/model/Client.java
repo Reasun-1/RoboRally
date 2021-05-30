@@ -9,6 +9,7 @@ import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
+import server.game.Register;
 
 import java.io.*;
 import java.net.Socket;
@@ -81,6 +82,8 @@ public class Client extends Application {
     private final BooleanProperty CANCLICKFINISH = new SimpleBooleanProperty(false);
     // shows whether the timer is on
     private final BooleanProperty ISTIMERON = new SimpleBooleanProperty(false);
+    // bind button canPlayNextRegister in GUI
+    private final BooleanProperty CANPLAYNEXTREGISTER = new SimpleBooleanProperty(false);
 
 
 
@@ -144,6 +147,9 @@ public class Client extends Application {
     public StringProperty[] getMYREGISTER() { return MYREGISTER; }
 
     public BooleanProperty CANCLICKFINISHProperty() { return CANCLICKFINISH; }
+
+    public BooleanProperty CANPLAYNEXTREGISTERProperty() { return CANPLAYNEXTREGISTER; }
+
 
 
 
@@ -363,6 +369,10 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to set start point");
                                     CANSETSTARTPOINT.set(true);
+                                }else if(GAMEPHASE.get().equals("Aktivierungsphase")){
+                                    INFORMATION.set("");
+                                    INFORMATION.set("You are in turn to play next register card.");
+                                    CANPLAYNEXTREGISTER.set(true);
                                 }
 
                             }else{
@@ -416,6 +426,25 @@ public class Client extends Application {
                         case "TimerStarted":
                             ISTIMERON.set(true);
                             logger.info("timer is on");
+                            break;
+                        case "TimerEnded":
+                            TimerEndedBody timerEndedBody = Protocol.readJsonTimerEnded(json);
+                            List<Integer> clientIDs = timerEndedBody.getClientIDs();
+                            logger.info(clientIDs + " did not finish.");
+                            break;
+                        case "CardsYouGotNow":
+                            CardsYouGotNowBody cardsYouGotNowBody = Protocol.readJsonCardsYouGotNow(json);
+                            List<String> cards = cardsYouGotNowBody.getCards();
+                            for (int i = 0; i < 5; i++) {
+                                MYREGISTER[i].set(cards.get(i));
+                            }
+                            break;
+                        case "CurrentCards":
+                            CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
+                            List<Register> currentRegistersAllClients = currentCardsBody.getCurrentRegistersAllClients();
+                            for(Register rg : currentRegistersAllClients){
+                                logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -617,11 +646,27 @@ public class Client extends Application {
 
     }
 
+    /**
+     * when one client finished selecting card for one register, tell is to server
+     * @throws JsonProcessingException
+     */
     public void selectFinish() throws JsonProcessingException {
         Protocol protocol = new Protocol("SelectionFinished", new SelectionFinishedBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         CANCLICKFINISH.set(false);
         OUT.println(json);
+    }
+
+    /**
+     * client plays one card in the current register
+     * @param cardName
+     */
+    public void playNextRegister(String cardName) throws JsonProcessingException {
+        Protocol protocol = new Protocol("PlayCard", new PlayCardBody(cardName));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+        CANPLAYNEXTREGISTER.set(false);
     }
 }

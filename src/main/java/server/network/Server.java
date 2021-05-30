@@ -8,6 +8,8 @@ import server.feldobjects.Pit;
 import server.feldobjects.PushPanel;
 import server.game.Game;
 import server.game.Position;
+import server.game.Register;
+import server.registercards.RegisterCard;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -367,6 +369,75 @@ public class Server {
         Protocol protocol = new Protocol("TimerStarted", null);
         String json = Protocol.writeJson(protocol);
         logger.info("server starts timer");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * if some one did not finish when time is out, handle time ended
+     * @param clientsWhoNotFinished
+     * @throws IOException
+     */
+    public void handleTimerEnded(List<Integer> clientsWhoNotFinished) throws IOException {
+        Protocol protocol = new Protocol("TimerEnded", new TimerEndedBody(clientsWhoNotFinished));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server inform who did not finish in time");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * if some one did not finish in time, will get 5 random cards for register slots
+     * @param whoNotFinishedInTime
+     * @throws JsonProcessingException
+     */
+    public void handleCardsYouGotNow(List<Integer> whoNotFinishedInTime) throws JsonProcessingException {
+        for(int clientID : whoNotFinishedInTime){
+            List<RegisterCard> cards = Game.discardedCards.get(clientID);
+            List<RegisterCard> cardsGot = cards.subList(cards.size() - 5, cards.size());
+            RegisterCard[] arrCardsGot = new RegisterCard[5];
+            for (int i = 0; i < 5; i++) {
+               arrCardsGot[i] = cardsGot.get(i);
+            }
+            Game.registersAllClients.put(clientID, arrCardsGot);
+            // convert card list to cardName as string list for json
+            List<String> cardStrings = new ArrayList<>();
+            for(RegisterCard card : cardsGot){
+                cardStrings.add(card.getCardName());
+            }
+            Protocol protocol = new Protocol("CardsYouGotNow", new CardsYouGotNowBody(cardStrings));
+            String json = Protocol.writeJson(protocol);
+            logger.info("server inform who got which random cards");
+        }
+    }
+
+    /**
+     * inform about which cards are in current registers of all clients
+     */
+    public void handleCurrentCards() throws IOException {
+        List<Register> list = new ArrayList<>();
+
+        for(int clientID : Game.clientIDs){
+            // if current register slot is not empty
+            if(Game.registersAllClients.get(clientID)[Game.registerPointer] != null){
+                RegisterCard registerCard = Game.registersAllClients.get(clientID)[Game.registerPointer];
+                String cardName = registerCard.getCardName();
+                list.add(new Register(clientID, cardName));
+            }else{
+                list.add(new Register(clientID, null));
+            }
+
+        }
+
+        Game.registerPointer++;
+        // if all register slots have been played
+        if(Game.registerPointer == Game.clientIDs.size()){
+            Game.registerPointer = 0;
+            // clear all the register slots in game
+            Game.registersAllClients.clear();
+        }
+
+        Protocol protocol = new Protocol("CurrentCards", new CurrentCardsBody(list));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server inform cards of current register");
         makeOrderToAllClients(json);
     }
 }

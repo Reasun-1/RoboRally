@@ -88,6 +88,7 @@
                         <TextField fx:id="startPointY" layoutX="6.0" layoutY="442.0" prefHeight="36.0" prefWidth="39.0" promptText="y" />
                         <Button fx:id="setStartPoint" layoutX="51.0" layoutY="442.0" mnemonicParsing="false" onAction="#setStartPointEvent" text="setStartPoint" />
                         <Button fx:id="finish" layoutX="32.0" layoutY="485.0" mnemonicParsing="false" onAction="#finishEvent" text="Finish" />
+                        <Button fx:id="canPlayNextRegister" layoutX="-35.0" layoutY="525.0" mnemonicParsing="false" onAction="#playNextRegistserEvent" text="playNextRegister" />
                      </children></AnchorPane>
                     </children>
                 </HBox>

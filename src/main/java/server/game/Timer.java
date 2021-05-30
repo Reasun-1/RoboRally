@@ -1,5 +1,9 @@
 package server.game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import server.network.Server;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,37 +44,62 @@ public class Timer implements Runnable {
 
         // if time runs 30 seconds out, check who did not finish
         if(count == 30){
-
             // make a temp list to calculate who did not finish programming
             List<Integer> whoNotFinishProgramming = new ArrayList<>();
             whoNotFinishProgramming.addAll(Game.clientIDs);
             // remove who has finished
             for(int clientFinished : Game.selectionFinishList){
-                whoNotFinishProgramming = removeOneClientFromList(whoNotFinishProgramming, clientFinished);
+                whoNotFinishProgramming = Game.removeOneClientFromList(whoNotFinishProgramming, clientFinished);
             }
+            logger.info("Timer info: clientsFinished: " + Game.selectionFinishList);
+            logger.info("Timer info: restClients: " + whoNotFinishProgramming);
             // if someone not finished programming within 30 seconds, invoke CardsYouGotNow in Server
             if(whoNotFinishProgramming.size() != 0){
                 logger.info("Timer : time out, random cards");
+                // server informs who did not finished in time
+                try {
+                    Server.getServer().handleTimerEnded(whoNotFinishProgramming);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 // give 5 random cards to each unfinished clients
+                try {
+                    Server.getServer().handleCardsYouGotNow(whoNotFinishProgramming);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
                 // Aktivierungsphase beginns
+                try {
+                    Server.getServer().handleActivePhase(3);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // inform all clients about current register cards of all
+                try {
+                    Server.getServer().handleCurrentCards();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 // set priority for this turn
+                Game.getInstance().checkAndSetPriority();
+
                 // set player in turn
+                int curClient = Game.priorityEachTurn.get(0);
+                try {
+                    Server.getServer().handleCurrentPlayer(curClient);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Game.priorityEachTurn.remove(0);
             }
         }
-
     }
 
-    // help function to remove one client from a list
-    public static List<Integer> removeOneClientFromList(List<Integer> list, int clientID){
-        Iterator iterator = list.iterator();
-        while (iterator.hasNext()){
-            Object cur = iterator.next();
-            if(cur.equals(5)){
-                iterator.remove();
-            }
-        }
-        return list;
-    }
+
 
     // main only for test
     public static void main(String[] args) throws InterruptedException {

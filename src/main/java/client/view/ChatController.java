@@ -64,7 +64,10 @@ public class ChatController {
     private Button setRegister01; // invoke methode setRegisterEvent()
 
     @FXML
-    private Button finish; // invoke methede finishEvent()
+    private Button finish; // invoke methode finishEvent()
+
+    @FXML
+    private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
 
     private Client client;
 
@@ -97,6 +100,9 @@ public class ChatController {
 
         //bind CANCLICKFINISH in client
         finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
+
+        //bind CANPLAYNEXTREGISTER in client
+        canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
     }
 
@@ -135,4 +141,10 @@ public class ChatController {
 
     @FXML
     private void finishEvent() throws JsonProcessingException { client.selectFinish(); }
+
+    @FXML
+    private void playNextRegistserEvent() throws JsonProcessingException {
+        String cardName = "again";
+        client.playNextRegister(cardName);
+    }
 }

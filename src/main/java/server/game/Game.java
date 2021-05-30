@@ -22,8 +22,6 @@ public class Game {
 
 
 
-    List<Integer> priorityEachRound; // e.g. [2,0,1] means player number 2 has first priority in this round
-
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
 
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
@@ -47,7 +45,8 @@ public class Game {
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
     public static HashMap<Integer, RegisterCard[]> registersAllClients = new HashMap<>(); // registers of all players
     public static List<Integer> selectionFinishList = new ArrayList<>(); // clientID who finished programming
-
+    public static List<Integer> priorityEachTurn = new ArrayList<>(); // e.g. [22,33,11] means clientID 22 has first priority in this round
+    public static int registerPointer = 0; // to point the current register
 
     /**
      * constructor Game:
@@ -215,6 +214,31 @@ public class Game {
         logger.info("game stops timer");
     }
 
+    /**
+     * invoked from ExecuteOrder seletionFinished
+     * analog game rules, priority list will be reset
+     */
+    public void checkAndSetPriority() {
+        // soon: calculate distance to set priority
+        // here only for test
+        for (int clientID : clientIDs){
+            priorityEachTurn.add(clientID);
+        }
+    }
+
+    // help function to remove one client from a list
+    public static List<Integer> removeOneClientFromList(List<Integer> list, int clientID){
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()){
+            Object cur = iterator.next();
+            if(cur.equals(clientID)){
+                iterator.remove();
+            }
+        }
+        return list;
+    }
+
+
 
 
     public void setMap3DList(String mapName) {
@@ -234,13 +258,6 @@ public class Game {
 
 
 
-    /**
-     * invoked from Game: activatePhase
-     * analog game rules, priority list will be reset
-     */
-    public void checkAndSetPriority() {
-
-    }
 
     /**
      * invoked from Game: activatePhase

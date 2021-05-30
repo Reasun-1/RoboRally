@@ -348,8 +348,41 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static TimerEndedBody readJsonTimerEnded(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
 
+        Object messageBody = protocol.getMessageBody();
+
+        TimerEndedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<TimerEndedBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static CardsYouGotNowBody readJsonCardsYouGotNow(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CardsYouGotNowBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardsYouGotNowBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static CurrentCardsBody readJsonCurrentCards(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CurrentCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CurrentCardsBody>(){});
+
+        return messageBodyDetail;
+    }
 
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
