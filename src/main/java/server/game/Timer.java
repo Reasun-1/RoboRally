@@ -38,21 +38,26 @@ public class Timer implements Runnable {
         // after timer stops, invoke other methods
         System.out.println("Timer: timer ended");
 
-        // make a temp list to calculate who did not finish programming
-        List<Integer> whoNotFinishProgramming = new ArrayList<>();
-        whoNotFinishProgramming.addAll(Game.clientIDs);
-        // remove who has finished
-        for(int clientFinished : Game.selectionFinishList){
-            whoNotFinishProgramming = removeOneClientFromList(whoNotFinishProgramming, clientFinished);
+        // if time runs 30 seconds out, check who did not finish
+        if(count == 30){
+
+            // make a temp list to calculate who did not finish programming
+            List<Integer> whoNotFinishProgramming = new ArrayList<>();
+            whoNotFinishProgramming.addAll(Game.clientIDs);
+            // remove who has finished
+            for(int clientFinished : Game.selectionFinishList){
+                whoNotFinishProgramming = removeOneClientFromList(whoNotFinishProgramming, clientFinished);
+            }
+            // if someone not finished programming within 30 seconds, invoke CardsYouGotNow in Server
+            if(whoNotFinishProgramming.size() != 0){
+                logger.info("Timer : time out, random cards");
+                // give 5 random cards to each unfinished clients
+                // Aktivierungsphase beginns
+                // set priority for this turn
+                // set player in turn
+            }
         }
-        // if someone not finished programming within 30 seconds, invoke CardsYouGotNow in Server
-        if(whoNotFinishProgramming.size() != 0){
-            logger.info("Timer : time out, random cards");
-            // give 5 random cards to each unfinished clients
-            // Aktivierungsphase beginns
-            // set priority for this turn
-            // set player in turn
-        }
+
     }
 
     // help function to remove one client from a list

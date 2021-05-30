@@ -177,6 +177,7 @@ public class ExecuteOrder {
                     // if all clients finished programming, next phase begins
                 }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
                     Game.getInstance().stopTimer();
+                    logger.info("executeOrder all clients finished programming in time");
                     // Aktivierungsphase beginns
                     // set priority for this turn
                     // set player in turn
