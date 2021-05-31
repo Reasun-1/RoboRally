@@ -5,6 +5,19 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="Gui.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.LoginController">
    <children>
@@ -14,7 +27,7 @@
                <image>
                   <Image url="@bg1-LoginWindow.jpg" />
                </image></ImageView>
-            <AnchorPane layoutX="82.0" layoutY="49.0" prefHeight="196.0" prefWidth="401.0">
+            <AnchorPane layoutX="81.0" layoutY="24.0" prefHeight="196.0" prefWidth="401.0">
                <children>
                   <ImageView fitHeight="201.0" fitWidth="445.0" opacity="0.86">
                      <image>
@@ -25,21 +38,121 @@
                         <Font name="Bodoni 72 Book" size="48.0" />
                      </font>
                   </Text>
-                  <Text layoutX="45.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your ClientID is: " />
-                  <Label fx:id="clientID" layoutX="197.0" layoutY="155.0" text="number" />
+                  <HBox layoutY="155.0" prefHeight="48.0" prefWidth="446.0">
+                     <children>
+                        <AnchorPane prefHeight="48.0" prefWidth="125.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your ClientID is: " textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="clientID" text="number">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
-            <TextField fx:id="name" alignment="CENTER" layoutX="82.0" layoutY="270.0" opacity="0.91" prefHeight="26.0" prefWidth="194.0" promptText="Enter your name">
-               <font>
-                  <Font name="Bodoni 72 Book" size="13.0" />
-               </font>
-            </TextField>
-            <Button fx:id="startButton" layoutX="433.0" layoutY="323.0" mnemonicParsing="true" onAction="#loginButton" opacity="0.89" prefHeight="26.0" prefWidth="80.0" text="Start">
+            <AnchorPane layoutX="87.0" layoutY="232.0" prefHeight="110.0" prefWidth="431.0">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="442.0" layoutX="-5.0" opacity="0.9" pickOnBounds="true">
+                     <image>
+                        <Image url="@bg2-LogInWindow.jpg" />
+                     </image>
+                  </ImageView>
+                  <GridPane layoutX="-4.0" layoutY="7.0" prefHeight="95.0" prefWidth="446.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="73.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="73.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="73.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="73.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="73.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="70.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Robots/Hulk.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                           <image>
+                              <Image url="@images/Robots/Spinbot.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                           <image>
+                              <Image url="@images/Robots/Squashbot.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                           <image>
+                              <Image url="@images/Robots/Trundlebot.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                           <image>
+                              <Image url="@images/Robots/Twitch.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
+                           <image>
+                              <Image url="@images/Robots/Twonky.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LHulk" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Hulk (1)" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font></Label>
+                        <Label fx:id="LSpinbot" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Spinbot (2)" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Trundlebot (4)" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Twitch (5)" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Twonky (6)" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="74.0" text="Squashbot (3)" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <Button fx:id="startButton" layoutX="447.0" layoutY="353.0" mnemonicParsing="true" onAction="#loginButton" opacity="0.89" prefHeight="27.0" prefWidth="74.0" text="Start">
                <font>
                   <Font name="Bodoni 72 Book" size="13.0" />
                </font>
             </Button>
-            <TextField fx:id="robotFigure" layoutX="82.0" layoutY="315.0" promptText="Enter your robot figure" />
+            <TextField fx:id="robotFigure" alignment="CENTER" layoutX="81.0" layoutY="353.0" prefHeight="26.0" prefWidth="150.0" promptText="chose your robot NR">
+               <font>
+                  <Font size="11.0" />
+               </font></TextField>
+            <TextField fx:id="name" alignment="CENTER" layoutX="238.0" layoutY="353.0" prefHeight="26.0" prefWidth="200.0" promptText="Enter your name">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
    </children>
