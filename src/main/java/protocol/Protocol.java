@@ -396,6 +396,30 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static CardPlayedBody readJsonCardPlayed(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CardPlayedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardPlayedBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static RebootBody readJsonReboot(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        RebootBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootBody>(){});
+
+        return messageBodyDetail;
+    }
+
 
 
 

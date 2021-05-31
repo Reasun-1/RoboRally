@@ -38,15 +38,18 @@ public class Game {
     //==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
-    public static HashMap<Integer, Position> positions = new HashMap<>(); // key = clientID, value = where player stands
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
     public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
+    public static HashMap<Integer, Position> startPositionsAllClients = new HashMap<>(); // storage of all start positions
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
     public static HashMap<Integer, RegisterCard[]> registersAllClients = new HashMap<>(); // registers of all players
     public static List<Integer> selectionFinishList = new ArrayList<>(); // clientID who finished programming
     public static List<Integer> priorityEachTurn = new ArrayList<>(); // e.g. [22,33,11] means clientID 22 has first priority in this round
     public static int registerPointer = 0; // to point the current register
+    public static HashMap<Integer, Position> positionsAllClients = new HashMap<>(); // current positions of all clients: key=clientID, value=Position
+    public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
+    public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
 
     /**
      * constructor Game:
@@ -61,11 +64,21 @@ public class Game {
      * set the parameters of the game
      */
     public void initGame() {
-        // init registers with 5 slots for all clients
+
         for(int client : clientIDs){
+            // init registers with 5 slots for all clients
             RegisterCard[] registers = new RegisterCard[5];
             registersAllClients.put(client, registers);
+
+            // init directions of all clients to RIGHT
+            directionsAllClients.put(client, Direction.RIGHT);
+
+            // init activePlayerList with all clients
+            activePlayersList.add(client);
         }
+
+
+
 
         // only for test!!
         // soon: shuffle card with correct count of cards
@@ -221,7 +234,7 @@ public class Game {
     public void checkAndSetPriority() {
         // soon: calculate distance to set priority
         // here only for test
-        for (int clientID : clientIDs){
+        for (int clientID : activePlayersList){
             priorityEachTurn.add(clientID);
         }
     }
@@ -238,7 +251,55 @@ public class Game {
         return list;
     }
 
+    /**
+     * execute the logical functions for the played card
+     * @param clientID
+     * @param card
+     */
+    public void playCard(int clientID, RegisterCard card) throws IOException {
+        card.doCardFunction(clientID);
+    }
 
+    /**
+     * check if a client´s position out of board
+     * @param clientID
+     * @param position
+     * @return
+     */
+    public boolean checkOnBoard(int clientID, Position position) throws IOException {
+        // if out of board, reboot and clear the registers and remove from priorityList
+        if(position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9){
+            reboot(clientID);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * if one player out of board, reboot
+     * @param clientID
+     */
+    public void reboot(int clientID) throws IOException {
+        // set robots position to start point
+        Position startPosition = startPositionsAllClients.get(clientID);
+        int startX = startPosition.getX();
+        int startY = startPosition.getY();
+        playerPositions.get(clientID).setX(startX);
+        playerPositions.get(clientID).setY(startY);
+
+        // set robots direction to right
+        directionsAllClients.put(clientID, Direction.RIGHT);
+
+        // clear client´s registers
+        registersAllClients.put(clientID, new RegisterCard[5]);
+
+        // remove client from activePlayersList
+        removeOneClientFromList(activePlayersList, clientID);
+
+        // inform others about reboot client
+        Server.getServer().handleReboot(clientID);
+
+    }
 
 
     public void setMap3DList(String mapName) {

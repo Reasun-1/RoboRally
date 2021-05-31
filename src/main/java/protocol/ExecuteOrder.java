@@ -2,6 +2,7 @@ package protocol;
 
 import protocol.submessagebody.*;
 import server.game.Game;
+import server.game.Position;
 import server.network.Server;
 import server.registercards.Again;
 import server.registercards.Move2;
@@ -136,6 +137,11 @@ public class ExecuteOrder {
                 int x = setStartingPointBody.getX();
                 int y = setStartingPointBody.getY();
 
+                // set client´s position in Game
+                Game.playerPositions.put(clientID,new Position(x, y));
+                // storage all clients´ start positions
+                Game.startPositionsAllClients.put(clientID, new Position(x, y));
+                // inform others about the client´s position
                 Server.getServer().handleStartingPointTaken(clientID, x, y);
 
                 // if next client exists, then it´s his/her turn
@@ -192,15 +198,21 @@ public class ExecuteOrder {
                 }
                 break;
             case "PlayCard":
+                logger.info("executeOrder playCard");
                 PlayCardBody playCardBody = Protocol.readJsonPlayCard(json);
                 String cardName = playCardBody.getCard();
                 // server inform others which card was by whom played
                 Server.getServer().handleCardPlayed(clientID, cardName);
                 // logic function in Game: move or turn
-                // server informs others about the move/turn result
+                RegisterCard card = convertCardToObject(cardName);
+                Game.getInstance().playCard(clientID, card);
 
+                // check turnOver
+                // check RoundOver
+                // check GameOver
+                // inform the nextPlayer
                 // check if priority list in Game is empty, if empty=> reset priority and check if Game.registerPointer == 0? if == 0, then round over, got "yourCards"
-                // inform the next player in turn
+
                 break;
         }
     }

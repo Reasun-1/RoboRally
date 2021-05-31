@@ -292,8 +292,6 @@ public class Server {
         String json = Protocol.writeJson(protocol);
         logger.info("server informs set starting point");
         makeOrderToAllClients(json);
-
-        Game.positions.put(clientID,new Position(x, y, null));
     }
 
     /**
@@ -448,5 +446,16 @@ public class Server {
      */
     public void handleCardPlayed(int clientID, String cardName){
 
+    }
+
+    /**
+     * inform others about reboot client
+     * @param clientID
+     */
+    public void handleReboot(int clientID) throws IOException {
+        Protocol protocol = new Protocol("Reboot", new RebootBody(clientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs reboot client");
+        makeOrderToAllClients(json);
     }
 }

@@ -8,10 +8,9 @@ public class Position {
     public Position() {
     }
 
-    public Position(int x, int y, Direction direction) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
-        this.direction = direction;
     }
 
     public int getX() {
@@ -22,9 +21,6 @@ public class Position {
         return y;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
 
     public void setX(int x) {
         this.x = x;
@@ -34,16 +30,4 @@ public class Position {
         this.y = y;
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    @Override
-    public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                ", direction=" + direction +
-                '}';
-    }
 }

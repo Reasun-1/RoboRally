@@ -44,8 +44,13 @@ public class Client extends Application {
     private HashMap<Integer, String> clientNames = new HashMap<>();
     // map : key = clientID, value = isReady
     private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
+    // storage of my start positions for all clients
+    private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
 
 
+
+
+    //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
     // client name set by client
@@ -60,20 +65,12 @@ public class Client extends Application {
     private final StringProperty PLAYERSWHOAREREADY = new SimpleStringProperty();
     // show the info about game phase
     private final StringProperty GAMEPHASE = new SimpleStringProperty();
-
-    // Binding to ChatAndGame for moving the robots
-    // max.6 players and 4 infos: e.g. [alice,2,5,UP]
-    private final StringProperty[][] PLAYERPOSITIONS = new SimpleStringProperty[6][4];
-    // Bindings enables/disables button "play card" (after played card, send message to next one to play)
-    private final BooleanProperty ISINTURN = new SimpleBooleanProperty(false);
     // who is in the first place of ready list, is allowed to select a map
     private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
     // player who can set start point, binds with selectStartPoint button in GUI
     private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
-    // binds with player position in GUI
-    private final HashMap<Integer, List<IntegerProperty>> POSITIONS = new HashMap<>();
     // binds with drawnCards in GUI
     private final List<StringProperty> MYDRAWNCARDS = new ArrayList<>();
     // binds myRegister slots in GUI
@@ -84,6 +81,8 @@ public class Client extends Application {
     private final BooleanProperty ISTIMERON = new SimpleBooleanProperty(false);
     // bind button canPlayNextRegister in GUI
     private final BooleanProperty CANPLAYNEXTREGISTER = new SimpleBooleanProperty(false);
+    // binding current positions of all clients
+    private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
 
 
 
@@ -198,6 +197,21 @@ public class Client extends Application {
         // init MYREGISTER[]
         for (int i = 0; i < 5; i++) {
             MYREGISTER[i] = new SimpleStringProperty();
+        }
+
+
+        for (int client : clientNames.keySet()){
+            // init CURRENTPOSITIONS
+            SimpleIntegerProperty x = new SimpleIntegerProperty();
+            SimpleIntegerProperty y = new SimpleIntegerProperty();
+            IntegerProperty[] position = new IntegerProperty[2];
+            position[0] = x;
+            position[1] = y;
+            CURRENTPOSITIONS.put(client, position);
+
+            // init start positions of all clients
+            int[] startPos = new int[2];
+            startPositionsAllClients.put(client, startPos);
         }
     }
 
@@ -385,13 +399,16 @@ public class Client extends Application {
                             int clientWhoSetPoint = startingPointTakenBody.getClientID();
                             int clientX = startingPointTakenBody.getX();
                             int clientY = startingPointTakenBody.getY();
-                            IntegerProperty x = new SimpleIntegerProperty(clientX);
-                            IntegerProperty y = new SimpleIntegerProperty(clientY);
-                            List<IntegerProperty> position = new ArrayList<>();
-                            position.add(x);
-                            position.add(y);
-                            POSITIONS.put(clientWhoSetPoint, position);
-                            logger.info("" + POSITIONS.get(clientWhoSetPoint));
+
+                            // store the start position
+                            startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
+                            startPositionsAllClients.get(clientWhoSetPoint)[1] = clientX;
+
+                            // set current position
+                            CURRENTPOSITIONS.get(clientWhoSetPoint)[0].set(clientX);
+                            CURRENTPOSITIONS.get(clientWhoSetPoint)[1].set(clientY);
+
+                            logger.info("" + CURRENTPOSITIONS.get(clientWhoSetPoint));
                             break;
                         case "YourCards":
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
@@ -445,6 +462,27 @@ public class Client extends Application {
                             for(Register rg : currentRegistersAllClients){
                                 logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
                             }
+                            break;
+                        case "CardPlayed":
+                            CardPlayedBody cardPlayedBody = Protocol.readJsonCardPlayed(json);
+                            int clientWhoPlayed = cardPlayedBody.getClientID();
+                            String cardNamePlayed = cardPlayedBody.getCard();
+                            logger.info("client " + clientWhoPlayed + " has played " + cardNamePlayed);
+                            break;
+                        case "Reboot":
+                            RebootBody rebootBody = Protocol.readJsonReboot(json);
+                            int clientReboot = rebootBody.getClientID();
+                            // set client to start point
+                            int startX = startPositionsAllClients.get(clientReboot)[0];
+                            int startY = startPositionsAllClients.get(clientReboot)[1];
+                            CURRENTPOSITIONS.get(clientReboot)[0].set(startX);
+                            CURRENTPOSITIONS.get(clientReboot)[1].set(startY);
+
+                            // clear all my registers if I reboot
+                            if(clientReboot == clientID){
+                                MYDRAWNCARDS.clear();
+                            }
+                            logger.info("client reboot to start point");
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

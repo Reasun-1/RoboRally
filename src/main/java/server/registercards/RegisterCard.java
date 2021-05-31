@@ -1,5 +1,7 @@
 package server.registercards;
 
+import java.io.IOException;
+
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
@@ -21,4 +23,6 @@ public abstract class RegisterCard {
     public int getCardCount() {
         return cardCount;
     }
+
+    public void doCardFunction(int clientID) throws IOException {}
 }

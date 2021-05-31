@@ -44,8 +44,9 @@ public class Again extends RegisterCard{
                 '}';
     }
 
-    public void doAgain(){
-        System.out.println("testtest"); // only test
+    @Override
+    public void doCardFunction(int clientID) {
+        System.out.println("doFunction of card again");
     }
 
     // only test
@@ -54,6 +55,6 @@ public class Again extends RegisterCard{
         test.add(new Again("PROGRAMM", "AGAIN"));
         System.out.println(test.get(0));
         Again again = (Again)test.get(0);
-        again.doAgain();
+        again.doCardFunction(2);
     }
 }
