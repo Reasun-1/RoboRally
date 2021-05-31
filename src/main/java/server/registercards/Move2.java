@@ -61,12 +61,15 @@ public class Move2 extends RegisterCard{
                 break;
         }
 
-        // check if robot out of board
+        // check if robot is still on board
         boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
 
-        // if robot still on board, do board functon
+        // if robot still on board, do board function
         if(isOnBoard){
+            // do the effect of board element
 
+            // check again if robot is still on board
+           Game.getInstance().checkOnBoard(clientID, newPosition);
         }
     }
 }

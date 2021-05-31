@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RebootDirectionBody {
-    private String right;
+    private String direction;
 
     public RebootDirectionBody() {
     }
 
     public RebootDirectionBody(String right) {
-        this.right = right;
+        this.direction = right;
     }
 
-    public String getRight() {
-        return right;
+    public String getDirection() {
+        return direction;
     }
 }

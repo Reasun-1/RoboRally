@@ -27,7 +27,6 @@ public class Game {
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
     List<Integer> energyCubes; // who has how many cubes
     int energyBank; // total common energy cubes for the game
-    List<HashSet<Integer>> arrivedCheckpoints; // who has arrived which checkpoints;
 
     List<String> playerStatus; // OUTOFBOARD INPLAY
 
@@ -50,6 +49,7 @@ public class Game {
     public static HashMap<Integer, Position> positionsAllClients = new HashMap<>(); // current positions of all clients: key=clientID, value=Position
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
+    public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
 
     /**
      * constructor Game:
@@ -75,6 +75,9 @@ public class Game {
 
             // init activePlayerList with all clients
             activePlayersList.add(client);
+
+            // init arrivedCheckpoints list
+            arrivedCheckpoints.put(client, new HashSet<>());
         }
 
 
@@ -83,19 +86,19 @@ public class Game {
         // only for test!!
         // soon: shuffle card with correct count of cards
         List<RegisterCard> list = new ArrayList<>();
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Move2("PROGRAMME", "move2"));
+        list.add(new Move2("PROGRAMME", "move2"));
+        list.add(new Move2("PROGRAMME", "move2"));
         list.add(new Again("PROGRAMME", "again"));
         list.add(new Move2("PROGRAMME", "move2"));
         list.add(new Again("PROGRAMME", "again"));
         list.add(new Again("PROGRAMME", "again"));
         list.add(new Move2("PROGRAMME", "move2"));
         list.add(new Again("PROGRAMME", "again"));
-        list.add(new Again("PROGRAMME", "again"));
+        list.add(new Move2("PROGRAMME", "move2"));
 
         List<RegisterCard> list2 = new ArrayList<>();
-        list2.add(new Again("PROGRAMME", "again"));
+        list2.add(new Move2("PROGRAMME", "move2"));
         list2.add(new Again("PROGRAMME", "again"));
         list2.add(new Again("PROGRAMME", "again"));
 
@@ -114,10 +117,10 @@ public class Game {
         dis1.add(new Move2("PROGRAMME", "move2"));
         dis1.add(new Move2("PROGRAMME", "move2"));
         List<RegisterCard> dis2 = new ArrayList<>();
+        dis2.add(new Move2("PROGRAMME", "move2"));
+        dis2.add(new Move2("PROGRAMME", "move2"));
         dis2.add(new Again("PROGRAMME", "again"));
-        dis2.add(new Again("PROGRAMME", "again"));
-        dis2.add(new Again("PROGRAMME", "again"));
-        dis2.add(new Again("PROGRAMME", "again"));
+        dis2.add(new Move2("PROGRAMME", "move2"));
         List<List<RegisterCard>> ww = new ArrayList<>();
         ww.add(dis1);
         ww.add(dis2);
@@ -269,7 +272,7 @@ public class Game {
     public boolean checkOnBoard(int clientID, Position position) throws IOException {
         // if out of board, reboot and clear the registers and remove from priorityList
         if(position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9){
-            reboot(clientID);
+            reboot(clientID, "right");
             return false;
         }
         return true;
@@ -279,7 +282,7 @@ public class Game {
      * if one player out of board, reboot
      * @param clientID
      */
-    public void reboot(int clientID) throws IOException {
+    public void reboot(int clientID, String direction) throws IOException {
         // set robots position to start point
         Position startPosition = startPositionsAllClients.get(clientID);
         int startX = startPosition.getX();
@@ -298,7 +301,52 @@ public class Game {
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
+    }
 
+    /**
+     * if the priority list is empty, there is no more client to play in this turn
+     * then this turn is over, reset priority
+     * @return
+     */
+    public boolean checkTurnOver(){
+        if(priorityEachTurn.size() == 0){
+            checkAndSetPriority();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * check if all the register slots have been played
+     * @return
+     */
+    public boolean checkRoundOver(){
+        if(registerPointer == 5){
+            registerPointer = 0;
+            // clear all the register slots in game
+            registersAllClients.clear();
+            // set all clients active
+            activePlayersList.clear();
+            for(int clientID : clientIDs){
+                activePlayersList.add(clientID);
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    public boolean checkGameOver() throws IOException {
+        for(int client : clientIDs){
+            // soon size() to number of checkpoints
+            if(arrivedCheckpoints.get(client).size() == 1){
+                Server.getServer().handleGameFinished(client);
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -349,10 +397,5 @@ public class Game {
     public void clearRobotLaseLine() {
     }
 
-    /**
-     * if all checkpoints are reached, game is over
-     */
-    public void checkGameOver() {
-        // TODO SEND INFO VIA SERVER TO EACH CLIENT: game is over and who is the winner
-    }
+
 }

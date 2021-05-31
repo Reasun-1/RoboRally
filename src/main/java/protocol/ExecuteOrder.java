@@ -1,6 +1,7 @@
 package protocol;
 
 import protocol.submessagebody.*;
+import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
 import server.network.Server;
@@ -208,11 +209,38 @@ public class ExecuteOrder {
                 Game.getInstance().playCard(clientID, card);
 
                 // check turnOver
-                // check RoundOver
-                // check GameOver
-                // inform the nextPlayer
-                // check if priority list in Game is empty, if empty=> reset priority and check if Game.registerPointer == 0? if == 0, then round over, got "yourCards"
-
+                boolean isTurnOver = Game.getInstance().checkTurnOver();
+                if(isTurnOver){
+                    // if turn is over, check if round is over
+                    boolean isRoundOver = Game.getInstance().checkRoundOver();
+                    if(isRoundOver){
+                        // if round over, check if game is over
+                        boolean isGameOver = Game.getInstance().checkGameOver();
+                        // if game is not over, play new round
+                        if(!isGameOver){ // if game not over but round over, distribute new cards to clients
+                            Server.getServer().handleYourCards();
+                            // set player in turn
+                            int curClient = Game.priorityEachTurn.get(0);
+                            Server.getServer().handleCurrentPlayer(curClient);
+                            Game.priorityEachTurn.remove(0);
+                        }
+                    }
+                    // if turn is over but round is not over, inform next player to play
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+                    Game.priorityEachTurn.remove(0);
+                }
+                // if turn is not over inform next player to play
+                int curClient = Game.priorityEachTurn.get(0);
+                Server.getServer().handleCurrentPlayer(curClient);
+                Game.priorityEachTurn.remove(0);
+                break;
+            case "RebootDirection":
+                RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
+                String reDirection = rebootDirectionBody.getDirection();
+                Direction direction = Direction.convertStringToDirection(reDirection);
+                Game.directionsAllClients.put(clientID, direction);
+                logger.info("executeOder reboot direction");
                 break;
         }
     }

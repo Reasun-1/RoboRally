@@ -420,6 +420,30 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static RebootDirectionBody readJsonRebootDirection(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        RebootDirectionBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootDirectionBody>(){});
+
+        return messageBodyDetail;
+    }
+
+    public static GameFinishedBody readJsonGameFinished(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        GameFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<GameFinishedBody>(){});
+
+        return messageBodyDetail;
+    }
+
 
 
 

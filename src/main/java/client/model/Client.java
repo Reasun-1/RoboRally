@@ -83,6 +83,8 @@ public class Client extends Application {
     private final BooleanProperty CANPLAYNEXTREGISTER = new SimpleBooleanProperty(false);
     // binding current positions of all clients
     private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
+    // to bind..
+    private final HashMap<Integer, String> currentDirection = new HashMap<>();
 
 
 
@@ -468,6 +470,8 @@ public class Client extends Application {
                             int clientWhoPlayed = cardPlayedBody.getClientID();
                             String cardNamePlayed = cardPlayedBody.getCard();
                             logger.info("client " + clientWhoPlayed + " has played " + cardNamePlayed);
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + clientWhoPlayed + " played " + cardNamePlayed);
                             break;
                         case "Reboot":
                             RebootBody rebootBody = Protocol.readJsonReboot(json);
@@ -478,11 +482,20 @@ public class Client extends Application {
                             CURRENTPOSITIONS.get(clientReboot)[0].set(startX);
                             CURRENTPOSITIONS.get(clientReboot)[1].set(startY);
 
+
                             // clear all my registers if I reboot
                             if(clientReboot == clientID){
                                 MYDRAWNCARDS.clear();
+                                // soon in GUI
+                                handleRebootDirection("right");
                             }
                             logger.info("client reboot to start point");
+                            break;
+                        case "GameFinished":
+                            GameFinishedBody gameFinishedBody = Protocol.readJsonGameFinished(json);
+                            int winner = gameFinishedBody.getClientID();
+                            INFORMATION.set("");
+                            INFORMATION.set("Game finished! The winner is: " + winner);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -706,5 +719,12 @@ public class Client extends Application {
         logger.info(json);
         OUT.println(json);
         CANPLAYNEXTREGISTER.set(false);
+    }
+
+    public void handleRebootDirection(String direction) throws JsonProcessingException {
+        Protocol protocol = new Protocol("RebootDirection", new RebootDirectionBody(direction));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
     }
 }

@@ -413,7 +413,7 @@ public class Server {
     public void handleCurrentCards() throws IOException {
         List<Register> list = new ArrayList<>();
 
-        for(int clientID : Game.clientIDs){
+        for(int clientID : Game.activePlayersList){
             // if current register slot is not empty
             if(Game.registersAllClients.get(clientID)[Game.registerPointer] != null){
                 RegisterCard registerCard = Game.registersAllClients.get(clientID)[Game.registerPointer];
@@ -426,12 +426,6 @@ public class Server {
         }
 
         Game.registerPointer++;
-        // if all register slots have been played
-        if(Game.registerPointer == Game.clientIDs.size()){
-            Game.registerPointer = 0;
-            // clear all the register slots in game
-            Game.registersAllClients.clear();
-        }
 
         Protocol protocol = new Protocol("CurrentCards", new CurrentCardsBody(list));
         String json = Protocol.writeJson(protocol);
@@ -444,8 +438,11 @@ public class Server {
      * @param clientID
      * @param cardName
      */
-    public void handleCardPlayed(int clientID, String cardName){
-
+    public void handleCardPlayed(int clientID, String cardName) throws IOException {
+        Protocol protocol = new Protocol("CardPlayed", new CardPlayedBody(clientID, cardName));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs who played which card");
+        makeOrderToAllClients(json);
     }
 
     /**
@@ -456,6 +453,14 @@ public class Server {
         Protocol protocol = new Protocol("Reboot", new RebootBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs reboot client");
+        makeOrderToAllClients(json);
+    }
+
+
+    public void handleGameFinished(int clientID) throws IOException {
+        Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs game finished");
         makeOrderToAllClients(json);
     }
 }
