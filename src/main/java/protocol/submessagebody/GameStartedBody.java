@@ -29,7 +29,7 @@ public class GameStartedBody {
     }
 
     public static void main(String[] args) throws JsonProcessingException {
-        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit(1,"rr"))));
+        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit("rr"))));
         String js = Protocol.writeJson(new Protocol("GameStarted", new GameStartedBody(threeDListAsMap)));
         System.out.println(js);
     }

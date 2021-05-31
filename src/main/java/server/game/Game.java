@@ -1,6 +1,7 @@
 package server.game;
 
 import server.feldobjects.FeldObject;
+import server.feldobjects.Pit;
 import server.network.Server;
 import server.registercards.Again;
 import server.registercards.Move2;
@@ -13,24 +14,12 @@ import java.util.logging.Logger;
 public class Game {
 
     private static final Logger logger = Logger.getLogger(Game.class.getName());
-
     private final static Game game = new Game();
 
-    int countPlayer; // total count of players
-    String mapName; // von players chosen map
-
-
-
-
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
-
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
     List<Integer> energyCubes; // who has how many cubes
     int energyBank; // total common energy cubes for the game
-
-    List<String> playerStatus; // OUTOFBOARD INPLAY
-
-
     boolean isGameOver; // true for game over
 
 
@@ -80,7 +69,16 @@ public class Game {
             arrivedCheckpoints.put(client, new HashSet<>());
         }
 
-
+        // init board (start board + game board)
+        for (int i = 0; i < 10; i++) {
+            List<List<FeldObject>> row = new ArrayList<>();
+            for (int j = 0; j < 13; j++) {
+                List<FeldObject> zelle = new ArrayList<>();
+                row.add(zelle);
+            }
+            board.add(row);
+        }
+        board.get(0).get(0).add(new Pit("pit"));
 
 
         // only for test!!
@@ -395,6 +393,33 @@ public class Game {
      * erase the line of robot laser from board list (3D), ready for next turn
      */
     public void clearRobotLaseLine() {
+    }
+
+    // only for test:
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            List<List<FeldObject>> row = new ArrayList<>();
+            for (int j = 0; j < 13; j++) {
+                List<FeldObject> zelle = new ArrayList<>();
+                row.add(zelle);
+            }
+            board.add(row);
+        }
+
+        board.get(1).get(1).add(new Pit("pit"));
+        System.out.println(board.size());
+        System.out.println(board.get(0).size());
+        System.out.println(board.get(0).get(0));
+        System.out.println("================");
+
+        //System.out.println(board.get(0).get(5).get(0).getType());
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.get(0).size(); j++) {
+                System.out.print(board.get(i).get(j) + " ");
+            }
+            System.out.println("");
+        }
     }
 
 

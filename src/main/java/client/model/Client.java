@@ -359,7 +359,7 @@ public class Client extends Application {
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
-                            System.out.println(((Pit)gameMap.get(0).get(0).get(0)).getName());
+                            System.out.println(((Pit)gameMap.get(0).get(0).get(0)).getType());
                             break;
                         case "ActivePhase":
                             ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);

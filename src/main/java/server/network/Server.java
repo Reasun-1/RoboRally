@@ -249,15 +249,13 @@ public class Server {
      * @throws IOException
      */
     public void handleGameStarted(String mapName) throws IOException {
+        Game.getInstance().initGame();
         // dummy map: soon with right maps
-        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit(1,"rr"))));
-        Protocol protocol = new Protocol("GameStarted", new GameStartedBody(threeDListAsMap));
+
+        Protocol protocol = new Protocol("GameStarted", new GameStartedBody(Game.board));
         String json = Protocol.writeJson(protocol);
         logger.info("server sends map");
         makeOrderToAllClients(json);
-
-        Game.board = threeDListAsMap;
-        Game.getInstance().initGame();
     }
 
     /**

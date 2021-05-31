@@ -5,22 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pit extends FeldObject{
 
-    private int number;
-    private String name;
+    String type;
 
     public Pit() {
     }
 
-    public Pit(int number, String name) {
-        this.number = number;
-        this.name = name;
+    public Pit(String type) {
+        this.type = type;
     }
 
-    public int getNumber() {
-        return number;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public String getName() {
-        return name;
-    }
 }
