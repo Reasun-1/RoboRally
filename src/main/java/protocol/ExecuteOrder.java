@@ -71,13 +71,21 @@ public class ExecuteOrder {
                 boolean isReady = setStatusBody.isReady();
                 Server.clientIDUndReady.put(clientID, isReady);
                 Server.getServer().handlePlayerStatus(clientID, isReady);
+
+                for(int clientIDEach : Server.clientIDUndReady.keySet()){
+                    if(Server.clientIDUndReady.get(clientIDEach) == true){
+                           Server.getServer().handleSelectMap(clientIDEach);
+                        break;
+                    }
+                }
                 break;
-            case "SelectMap":
+            case "MapSelected":
                 logger.info("set Map in ExecuteOrder");
-                SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
-                String mapName = selectMapBody.getAvailableMaps().get(0);
+
+                MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                String mapName = mapSelectedBody.getMap();
+
                 Game.getInstance().setMap3DList(mapName);
-                Server.getServer().handleMapSelected(mapName);
 
                 // if there are more than 2 clients, start the game
                 int numReadyClients = 0;

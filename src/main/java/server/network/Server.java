@@ -232,15 +232,17 @@ public class Server {
     }
 
     /**
-     * inform all players about the selected map
-     * @param mapName
+     * inform the first ready client to select a map
+     * @param clientID
      * @throws IOException
      */
-    public void handleMapSelected(String mapName) throws IOException {
-        Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
+    public void handleSelectMap(int clientID) throws IOException {
+        ArrayList<String> mapList = new ArrayList<>();
+        mapList.add("DizzyHighway");
+        Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
         String json = Protocol.writeJson(protocol);
-        logger.info("server inform all players about selected map");
-        makeOrderToAllClients(json);
+        logger.info("server informs first ready player to select a map");
+        makeOrderToOneClient(clientID, json);
     }
 
     /**

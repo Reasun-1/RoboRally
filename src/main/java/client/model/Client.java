@@ -176,8 +176,10 @@ public class Client extends Application {
      */
     public Client() throws IOException {
 
-        // Always connect to localhost and fixed port (maybe ask for ip and port?)
+        // Always connect to localhost and fixed port
         socket = new Socket("127.0.0.1", 5200);
+        // test server
+        //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
 
         // Create writer to send messages to server via the TCP-socket
         OUT = new PrintWriter(socket.getOutputStream(), true);
@@ -349,17 +351,19 @@ public class Client extends Application {
                             readyClients.put(readyClientID, isReady);
                             updateReadyStringProperty();
                             break;
-                        case "MapSelected":
+                        case "SelectMap":
                             logger.info(json);
-                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
-                            String mapName = mapSelectedBody.getMap();
+                            SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
+                            List<String> availableMaps = selectMapBody.getAvailableMaps();
                             INFORMATION.set("");
-                            INFORMATION.set("Map " + mapName + " was chosen.");
+                            INFORMATION.set("Select a map from: " + availableMaps);
+                            CANSELECTMAP.set(true);
                             break;
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
-                            System.out.println(((Pit)gameMap.get(0).get(0).get(0)).getType());
+                            System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
+                            System.out.println((gameMap.get(0).get(0).get(0)).getType());
                             break;
                         case "ActivePhase":
                             ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
@@ -625,28 +629,15 @@ public class Client extends Application {
                 INFORMATION.set("");
             }
         }
-
-        // search in ready list: who is the first to set ready, can choose a map
-        for(int clientIDEach : readyClients.keySet()){
-            if(readyClients.get(clientIDEach) == true){
-                if(clientIDEach == clientID){
-                    INFORMATION.set("");
-                    INFORMATION.set("You are first in ready list, choose a map.");
-                    CANSELECTMAP.set(true);
-                }
-                break;
-            }
-        }
     }
 
     /**
      * invoked by client, who selects a map
      * @param mapName
+     * @throws JsonProcessingException
      */
-    public void selectMap(String mapName) throws JsonProcessingException {
-        ArrayList<String> mapList = new ArrayList<>();
-        mapList.add(mapName);
-        Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
+    public void handleMapSelected(String mapName) throws JsonProcessingException {
+        Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);

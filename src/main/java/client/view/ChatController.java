@@ -123,7 +123,7 @@ public class ChatController {
     @FXML
     private void setUnready() throws JsonProcessingException { client.setUnready(); }
     @FXML
-    private void selectMapEvent() throws JsonProcessingException {client.selectMap(mapName.getText());}
+    private void selectMapEvent() throws JsonProcessingException {client.handleMapSelected(mapName.getText());}
 
     @FXML
     private void setStartPointEvent() throws JsonProcessingException {
