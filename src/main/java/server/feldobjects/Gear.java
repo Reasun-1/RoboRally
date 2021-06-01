@@ -1,34 +1,30 @@
 package server.feldobjects;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javafx.geometry.Orientation;
 
 import java.util.List;
 
 /**
- * The FeldObject Push panel: Push panels push any robot resting on them into the
- * next space in the direction the push panel faces. The panels activate only in
- * the register that corresponds to the number on them.
+ * The FeldObject Gear: Gears rotate robots resting on them 90 degrees
+ * in the direction of the arrows.
  *
- * @author can ren
- * @create $(YEAR) -$(MONTH)-$(DAY)
+ * @author Jonas Gottal
+ * @author Can Ren
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PushPanel extends FeldObject{
+public class Gear extends FeldObject{
 
     private String type;
     private String isOnBoard;
     private List<String> orientations;
-    private List<Integer> registers;
 
-    public PushPanel() {
+    public Gear() {
     }
 
-    public PushPanel(String type, String isOnBoard, List<String> orientations, List<Integer> registers) {
+    public Gear(String type, String isOnBoard, List<String> orientations) {
         this.type = type;
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
-        this.registers = registers;
     }
 
     @Override
@@ -44,11 +40,6 @@ public class PushPanel extends FeldObject{
     @Override
     public List<String> getOrientations() {
         return orientations;
-    }
-
-    @Override
-    public List<Integer> getRegisters() {
-        return registers;
     }
 
     @Override

@@ -5,30 +5,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
- * The FeldObject Push panel: Push panels push any robot resting on them into the
- * next space in the direction the push panel faces. The panels activate only in
- * the register that corresponds to the number on them.
+ * The FeldObject Board laser: Board Lasers fire, hitting any robots in their line of sight.
+ * Board lasers cannot fire through walls, the priority antenna, or hit more than one robot,
+ * and they shoot from the red and white pointer.
+ * (Take a SPAM damage card for each laser that hits you.)
  *
- * @author can ren
- * @create $(YEAR) -$(MONTH)-$(DAY)
+ * @author Jonas Gottal
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PushPanel extends FeldObject{
+public class Laser extends FeldObject{
 
     private String type;
     private String isOnBoard;
     private List<String> orientations;
-    private List<Integer> registers;
+    private int count;
 
-    public PushPanel() {
+    public Laser() {
     }
 
-    public PushPanel(String type, String isOnBoard, List<String> orientations, List<Integer> registers) {
+    public Laser(String type, String isOnBoard, List<String> orientations, int count) {
         this.type = type;
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
-        this.registers = registers;
+        this.count = count;
     }
 
     @Override
@@ -47,8 +47,8 @@ public class PushPanel extends FeldObject{
     }
 
     @Override
-    public List<Integer> getRegisters() {
-        return registers;
+    public int getCount() {
+        return count;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Client extends Application {
     private HashMap<Integer, String> clientNames = new HashMap<>();
     // map : key = clientID, value = isReady
     private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
-    // storage of my start positions for all clients
+    // storage of my start positions for all clients: key=clientID, value = [x,y]
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
 
 
@@ -203,20 +203,6 @@ public class Client extends Application {
             MYREGISTER[i] = new SimpleStringProperty();
         }
 
-
-        for (int client : clientNames.keySet()){
-            // init CURRENTPOSITIONS
-            SimpleIntegerProperty x = new SimpleIntegerProperty();
-            SimpleIntegerProperty y = new SimpleIntegerProperty();
-            IntegerProperty[] position = new IntegerProperty[2];
-            position[0] = x;
-            position[1] = y;
-            CURRENTPOSITIONS.put(client, position);
-
-            // init start positions of all clients
-            int[] startPos = new int[2];
-            startPositionsAllClients.put(client, startPos);
-        }
     }
 
     public static void main(String[] args) {
@@ -364,6 +350,7 @@ public class Client extends Application {
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
                             System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
                             System.out.println((gameMap.get(0).get(0).get(0)).getType());
+                            initGameForClients();
                             break;
                         case "ActivePhase":
                             ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
@@ -642,6 +629,26 @@ public class Client extends Application {
         logger.info(json);
         OUT.println(json);
         CANSELECTMAP.set(false);
+    }
+
+    /**
+     * can not init these info with constructor client(), because of the sequence of Application: init -> start -> over
+     */
+    public void initGameForClients(){
+
+        for (int client : clientNames.keySet()){
+            // init CURRENTPOSITIONS
+            SimpleIntegerProperty x = new SimpleIntegerProperty();
+            SimpleIntegerProperty y = new SimpleIntegerProperty();
+            IntegerProperty[] position = new IntegerProperty[2];
+            position[0] = x;
+            position[1] = y;
+            CURRENTPOSITIONS.put(client, position);
+
+            // init start positions of all clients
+            int[] startPos = new int[2];
+            startPositionsAllClients.put(client, startPos);
+        }
     }
 
     public void rebuildMap(){

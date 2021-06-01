@@ -3,11 +3,7 @@ package server.network;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import protocol.Protocol;
 import protocol.submessagebody.*;
-import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
-import server.feldobjects.PushPanel;
 import server.game.Game;
-import server.game.Position;
 import server.game.Register;
 import server.registercards.RegisterCard;
 

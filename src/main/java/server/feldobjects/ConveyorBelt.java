@@ -1,34 +1,32 @@
 package server.feldobjects;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import server.game.Direction;
 
 import java.util.List;
 
 /**
- * The FeldObject Push panel: Push panels push any robot resting on them into the
- * next space in the direction the push panel faces. The panels activate only in
- * the register that corresponds to the number on them.
+ * The FeldObject Conveyor belt:  conveyor belts move any robot resting on them
+ * one or two spaces in the direction of the arrows.
  *
- * @author can ren
- * @create $(YEAR) -$(MONTH)-$(DAY)
+ * @author Jonas Gottal
+ * @author Can Ren
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PushPanel extends FeldObject{
+public class ConveyorBelt extends FeldObject{
 
     private String type;
     private String isOnBoard;
+    private int speed;
     private List<String> orientations;
-    private List<Integer> registers;
 
-    public PushPanel() {
+    public ConveyorBelt() {
     }
 
-    public PushPanel(String type, String isOnBoard, List<String> orientations, List<Integer> registers) {
+    public ConveyorBelt(String type, String isOnBoard, int speed, List<String> orientations) {
         this.type = type;
         this.isOnBoard = isOnBoard;
+        this.speed = speed;
         this.orientations = orientations;
-        this.registers = registers;
     }
 
     @Override
@@ -42,13 +40,13 @@ public class PushPanel extends FeldObject{
     }
 
     @Override
-    public List<String> getOrientations() {
-        return orientations;
+    public int getSpeed() {
+        return speed;
     }
 
     @Override
-    public List<Integer> getRegisters() {
-        return registers;
+    public List<String> getOrientations() {
+        return orientations;
     }
 
     @Override

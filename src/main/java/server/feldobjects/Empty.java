@@ -1,17 +1,24 @@
 package server.feldobjects;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * The FeldObject Empty: PlaceHolder without any Function
+ *
+ * @author Jonas Gottal
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pit extends FeldObject{
+public class Empty extends FeldObject{
 
     private String type;
     private String isOnBoard;
 
-    public Pit() {
+    /**
+     * Instantiates a new Empty.
+     */
+    public Empty() {
     }
 
-    public Pit(String type, String isOnBoard) {
+    public Empty(String type, String isOnBoard) {
         this.type = type;
         this.isOnBoard = isOnBoard;
     }
@@ -28,6 +35,7 @@ public class Pit extends FeldObject{
 
     @Override
     public void doBoardFunction(int clientID) {
+
         //TODO
     }
 }

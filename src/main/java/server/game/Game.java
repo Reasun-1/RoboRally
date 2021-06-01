@@ -78,7 +78,7 @@ public class Game {
             }
             board.add(row);
         }
-        board.get(0).get(0).add(new Pit("pit"));
+        board.get(0).get(0).add(new Pit("Pit","5B"));
 
 
         // only for test!!
@@ -407,7 +407,7 @@ public class Game {
             board.add(row);
         }
 
-        board.get(1).get(1).add(new Pit("pit"));
+        board.get(1).get(1).add(new Pit("Pit","5B"));
         System.out.println(board.size());
         System.out.println(board.get(0).size());
         System.out.println(board.get(0).get(0));

@@ -29,7 +29,7 @@ public class TestBody {
     }
 
     public static void main(String[] args) throws IOException {
-        Protocol protocol = new Protocol("TestBody", new TestBody((FeldObject) new Pit("gg")));
+        Protocol protocol = new Protocol("TestBody", new TestBody((FeldObject) new Pit("Pit", "5B")));
         String json = Protocol.writeJson(protocol);
         System.out.println(json);
 
