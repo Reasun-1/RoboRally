@@ -1,5 +1,6 @@
 package server.game;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
 import server.maps.Board;
@@ -25,6 +26,7 @@ public class Game {
     //==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
+    @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS)
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
     public static String mapName = null; // storage for map name
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
@@ -471,7 +473,7 @@ public class Game {
             board.add(row);
         }
 
-        board.get(1).get(1).add(new Pit("Pit","5B"));
+        board.get(1).get(1).add(new Pit("5B"));
         System.out.println(board.size());
         System.out.println(board.get(0).size());
         System.out.println(board.get(0).get(0));

@@ -11,21 +11,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StartPoint extends FeldObject{
 
-    String type;
+   // String type;
     String isOnBoard;
 
     public StartPoint() {
     }
 
-    public StartPoint(String type, String isOnBoard) {
-        this.type = type;
+    public StartPoint(String isOnBoard) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
     }
 
-    @Override
+   /* @Override
     public String getType() {
         return type;
     }
+
+    */
 
     @Override
     public String getIsOnBoard() {

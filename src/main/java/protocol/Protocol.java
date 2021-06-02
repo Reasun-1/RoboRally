@@ -2,8 +2,10 @@ package protocol;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import protocol.submessagebody.*;
+import server.feldobjects.*;
 
 
 import java.io.IOException;
@@ -216,6 +218,11 @@ public class Protocol {
 
     public static GameStartedBody readJsonGameStarted(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+
+        //objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.registerSubtypes(Antenna.class, CheckPoint.class, ConveyorBelt.class, Empty.class, EnergySpace.class, Gear.class,Laser.class,Pit.class,PushPanel.class,RestartPoint.class,StartPoint.class,Wall.class);
+
+
 
         Protocol protocol = objectMapper.readValue(json, Protocol.class);
 

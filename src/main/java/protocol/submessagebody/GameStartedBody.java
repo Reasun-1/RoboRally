@@ -1,6 +1,7 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import protocol.Protocol;
 import server.feldobjects.FeldObject;
@@ -15,6 +16,8 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameStartedBody {
+
+    //@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS)
     private List<List<List<FeldObject>>> gameMap;
 
     public GameStartedBody() {
@@ -29,7 +32,7 @@ public class GameStartedBody {
     }
 
     public static void main(String[] args) throws JsonProcessingException {
-        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit("Pit", "5B"))));
+        List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit("5B"))));
         String js = Protocol.writeJson(new Protocol("GameStarted", new GameStartedBody(threeDListAsMap)));
         System.out.println(js);
     }

@@ -14,7 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConveyorBelt extends FeldObject{
 
-    private String type;
+    //private String type;
     private String isOnBoard;
     private int speed;
     private List<String> orientations;
@@ -22,17 +22,19 @@ public class ConveyorBelt extends FeldObject{
     public ConveyorBelt() {
     }
 
-    public ConveyorBelt(String type, String isOnBoard, int speed, List<String> orientations) {
-        this.type = type;
+    public ConveyorBelt( String isOnBoard, int speed, List<String> orientations) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
         this.speed = speed;
         this.orientations = orientations;
     }
 
-    @Override
+   /* @Override
     public String getType() {
         return type;
     }
+
+    */
 
     @Override
     public String getIsOnBoard() {

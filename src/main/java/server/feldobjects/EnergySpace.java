@@ -12,23 +12,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnergySpace extends FeldObject{
 
-    private String type;
+
     private String isOnBoard;
     private int count;
 
     public EnergySpace() {
     }
 
-    public EnergySpace(String type, String isOnBoard, int count) {
-        this.type = type;
+    public EnergySpace(String isOnBoard, int count) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
         this.count = count;
     }
 
-    @Override
+   /* @Override
     public String getType() {
         return type;
     }
+
+    */
 
     @Override
     public String getIsOnBoard() {

@@ -14,23 +14,25 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Gear extends FeldObject{
 
-    private String type;
+    //private String type;
     private String isOnBoard;
     private List<String> orientations;
 
     public Gear() {
     }
 
-    public Gear(String type, String isOnBoard, List<String> orientations) {
-        this.type = type;
+    public Gear(String isOnBoard, List<String> orientations) {
+
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

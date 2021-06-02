@@ -10,21 +10,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pit extends FeldObject{
 
-    private String type;
+   // private String type;
     private String isOnBoard;
 
     public Pit() {
     }
 
-    public Pit(String type, String isOnBoard) {
-        this.type = type;
+    public Pit(String isOnBoard) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

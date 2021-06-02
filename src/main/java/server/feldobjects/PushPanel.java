@@ -17,7 +17,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PushPanel extends FeldObject{
 
-    private String type;
+    //private String type;
     private String isOnBoard;
     private List<String> orientations;
     private List<Integer> registers;
@@ -25,17 +25,19 @@ public class PushPanel extends FeldObject{
     public PushPanel() {
     }
 
-    public PushPanel(String type, String isOnBoard, List<String> orientations, List<Integer> registers) {
-        this.type = type;
+    public PushPanel(String isOnBoard, List<String> orientations, List<Integer> registers) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
         this.registers = registers;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

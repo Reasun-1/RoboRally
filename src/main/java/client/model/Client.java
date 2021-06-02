@@ -188,9 +188,9 @@ public class Client extends Application {
     public Client() throws IOException {
 
         // Always connect to localhost and fixed port
-        socket = new Socket("127.0.0.1", 5200);
+        //socket = new Socket("127.0.0.1", 5200);
         // test server
-        //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
+        socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
 
         // Create writer to send messages to server via the TCP-socket
         OUT = new PrintWriter(socket.getOutputStream(), true);
@@ -360,7 +360,7 @@ public class Client extends Application {
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
                             System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                            System.out.println((gameMap.get(0).get(0).get(0)).getType());
+                            System.out.println((gameMap.get(0).get(0).get(0)).getIsOnBoard() + gameMap.get(0).get(0).get(0).getIsOnBoard() +gameMap.get(0).get(2).get(0).getOrientations());
                             initGameForClients();
                             break;
                         case "ActivePhase":

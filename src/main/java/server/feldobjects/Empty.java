@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Empty extends FeldObject{
 
-    private String type;
+    //private String type;
     private String isOnBoard;
 
     /**
@@ -18,15 +18,17 @@ public class Empty extends FeldObject{
     public Empty() {
     }
 
-    public Empty(String type, String isOnBoard) {
-        this.type = type;
+    public Empty(String isOnBoard) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

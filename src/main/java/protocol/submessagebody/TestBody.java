@@ -29,13 +29,13 @@ public class TestBody {
     }
 
     public static void main(String[] args) throws IOException {
-        Protocol protocol = new Protocol("TestBody", new TestBody((FeldObject) new Pit("Pit", "5B")));
+        Protocol protocol = new Protocol("TestBody", new TestBody((FeldObject) new Pit("5B")));
         String json = Protocol.writeJson(protocol);
         System.out.println(json);
 
         TestBody testBody = Protocol.readJsonTest(json);
         Pit fo = (Pit)testBody.getFo();
-        System.out.println(fo.getType());
+
 
     }
 }

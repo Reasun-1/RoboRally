@@ -10,21 +10,24 @@ import java.util.List;
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 // JsonTypeInfo IMPORTANT!! for extends relation between two classes
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+//@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public abstract class FeldObject {
 
-    String type;
+    //String type;
     String isOnBoard;
     int speed;
     List<String> orientations;
     List<Integer> registers;
     int count;
 
-    public String getType() {
-        return type;
+   /* public String getType() {
+        return this.type;
     }
+
+    */
 
     public String getIsOnBoard() {
         return isOnBoard;

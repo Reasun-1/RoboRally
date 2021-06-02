@@ -13,23 +13,25 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wall extends FeldObject{
 
-    private String type;
+   // private String type;
     private String isOnBoard;
     private List<String> orientations;
 
     public Wall() {
     }
 
-    public Wall(String type, String isOnBoard, List<String> orientations) {
-        this.type = type;
+    public Wall( String isOnBoard, List<String> orientations) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

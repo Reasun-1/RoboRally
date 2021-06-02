@@ -16,7 +16,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Laser extends FeldObject{
 
-    private String type;
+   // private String type;
     private String isOnBoard;
     private List<String> orientations;
     private int count;
@@ -24,17 +24,19 @@ public class Laser extends FeldObject{
     public Laser() {
     }
 
-    public Laser(String type, String isOnBoard, List<String> orientations, int count) {
-        this.type = type;
+    public Laser(String isOnBoard, List<String> orientations, int count) {
+
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
         this.count = count;
     }
 
-    @Override
+   /* @Override
     public String getType() {
         return type;
     }
+
+    */
 
     @Override
     public String getIsOnBoard() {

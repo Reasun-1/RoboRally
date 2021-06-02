@@ -10,21 +10,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestartPoint extends FeldObject{
 
-    String type;
+    //String type;
     String isOnBoard;
 
     public RestartPoint() {
     }
 
-    public RestartPoint(String type, String isOnBoard) {
-        this.type = type;
+    public RestartPoint( String isOnBoard) {
+      //  this.type = type;
         this.isOnBoard = isOnBoard;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {

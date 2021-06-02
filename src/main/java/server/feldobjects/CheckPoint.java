@@ -14,23 +14,25 @@ import javafx.scene.robot.Robot;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckPoint extends FeldObject{
 
-    private String type;
+    //private String type;
     private String isOnBoard;
     private int count;
 
     public CheckPoint() {
     }
 
-    public CheckPoint(String type, String isOnBoard, int count) {
-        this.type = type;
+    public CheckPoint(String isOnBoard, int count) {
+        //this.type = type;
         this.isOnBoard = isOnBoard;
         this.count = count;
     }
 
-    @Override
+    /*@Override
     public String getType() {
         return type;
     }
+
+     */
 
     @Override
     public String getIsOnBoard() {
