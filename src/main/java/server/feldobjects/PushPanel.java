@@ -9,6 +9,7 @@ import java.util.List;
  * next space in the direction the push panel faces. The panels activate only in
  * the register that corresponds to the number on them.
  *
+ * @author Jonas Gottal
  * @author can ren
  * @create $(YEAR) -$(MONTH)-$(DAY)
  */

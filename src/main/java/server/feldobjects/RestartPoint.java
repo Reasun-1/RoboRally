@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Jonas Gottal
- * @author Can Ren
+ * @author can ren
+ * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pit extends FeldObject{
+public class RestartPoint extends FeldObject{
 
-    private String type;
-    private String isOnBoard;
+    String type;
+    String isOnBoard;
 
-    public Pit() {
+    public RestartPoint() {
     }
 
-    public Pit(String type, String isOnBoard) {
+    public RestartPoint(String type, String isOnBoard) {
         this.type = type;
         this.isOnBoard = isOnBoard;
     }

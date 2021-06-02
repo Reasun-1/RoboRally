@@ -1,5 +1,6 @@
 package server.feldobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 // JsonTypeInfo IMPORTANT!! for extends relation between two classes
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public abstract class FeldObject {

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * Robot lasers cannot fire through walls or shoot more than one robot.
  * (Remember to take a SPAM damage card for each laser that hits you.)
  *
+ * @author Jonas Gottal
  * @author can ren
  * @create $(YEAR) -$(MONTH)-$(DAY)
  */
