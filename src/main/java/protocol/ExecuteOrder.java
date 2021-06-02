@@ -72,20 +72,15 @@ public class ExecuteOrder {
                 Server.clientIDUndReady.put(clientID, isReady);
                 Server.getServer().handlePlayerStatus(clientID, isReady);
 
+                // first client who ist ready can select a map
                 for(int clientIDEach : Server.clientIDUndReady.keySet()){
                     if(Server.clientIDUndReady.get(clientIDEach) == true){
                            Server.getServer().handleSelectMap(clientIDEach);
                         break;
                     }
                 }
-                break;
-            case "MapSelected":
-                logger.info("set Map in ExecuteOrder");
 
-                MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
-                String mapName = mapSelectedBody.getMap();
-
-                // if there are more than 2 clients, start the game
+                // if there are more than 2 clients and all clients are ready, start the game
                 int numReadyClients = 0;
                 for (int clientIDEach : Server.clientIDUndReady.keySet()) {
                     if (Server.clientIDUndReady.get(clientIDEach) == true) {
@@ -95,18 +90,27 @@ public class ExecuteOrder {
                 logger.info("number of ready clients: " + numReadyClients);
                 if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size()) {
                     logger.info("number enough, to play");
-                    Game.getInstance().initGame();
-                    Game.getInstance().setMap3DList(mapName);
-                    Server.getServer().handleGameStarted(mapName);
+
+                    Server.getServer().handleGameStarted(Game.mapName);
                     Server.getServer().handleActivePhase(0);
 
                     // find the first client, who first logged in
                     int clientFirst = (Integer) Server.clientList.keySet().toArray()[Server.clientListPointer];
                     Server.clientListPointer++;
                     Server.getServer().handleCurrentPlayer(clientFirst);
-                } else {
-                    Server.getServer().exception(clientID, "Not all players are ready or not enough players(>1), please wait and choose map again.");
                 }
+                break;
+            case "MapSelected":
+                logger.info("set Map in ExecuteOrder");
+
+                MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                String mapName = mapSelectedBody.getMap();
+
+                Game.mapName = mapName;
+                Game.getInstance().initGame();
+                Game.getInstance().initBoard();
+                Game.getInstance().setMap3DList(mapName);
+
                 break;
             case "SendChat": // send private message
                 logger.info("message arrived server");

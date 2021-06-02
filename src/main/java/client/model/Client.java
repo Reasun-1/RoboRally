@@ -48,8 +48,6 @@ public class Client extends Application {
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
 
 
-
-
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
@@ -85,7 +83,6 @@ public class Client extends Application {
     private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
     // to bind..
     private final HashMap<Integer, String> currentDirection = new HashMap<>();
-
 
 
     // Getters
@@ -133,27 +130,41 @@ public class Client extends Application {
         return clientNames;
     }
 
-    public BooleanProperty CANSELECTMAPProperty() { return CANSELECTMAP; }
+    public BooleanProperty CANSELECTMAPProperty() {
+        return CANSELECTMAP;
+    }
 
-    public StringProperty INFORMATIONProperty() { return INFORMATION; }
+    public StringProperty INFORMATIONProperty() {
+        return INFORMATION;
+    }
 
-    public BooleanProperty ISCURRENTPLAYERProperty() { return ISCURRENTPLAYER; }
+    public BooleanProperty ISCURRENTPLAYERProperty() {
+        return ISCURRENTPLAYER;
+    }
 
-    public StringProperty GAMEPHASEProperty() { return GAMEPHASE; }
+    public StringProperty GAMEPHASEProperty() {
+        return GAMEPHASE;
+    }
 
-    public BooleanProperty CANSETSTARTPOINTProperty() { return CANSETSTARTPOINT; }
+    public BooleanProperty CANSETSTARTPOINTProperty() {
+        return CANSETSTARTPOINT;
+    }
 
-    public List<StringProperty> getMYDRAWNCARDS() { return MYDRAWNCARDS; }
+    public List<StringProperty> getMYDRAWNCARDS() {
+        return MYDRAWNCARDS;
+    }
 
-    public StringProperty[] getMYREGISTER() { return MYREGISTER; }
+    public StringProperty[] getMYREGISTER() {
+        return MYREGISTER;
+    }
 
-    public BooleanProperty CANCLICKFINISHProperty() { return CANCLICKFINISH; }
+    public BooleanProperty CANCLICKFINISHProperty() {
+        return CANCLICKFINISH;
+    }
 
-    public BooleanProperty CANPLAYNEXTREGISTERProperty() { return CANPLAYNEXTREGISTER; }
-
-
-
-
+    public BooleanProperty CANPLAYNEXTREGISTERProperty() {
+        return CANPLAYNEXTREGISTER;
+    }
 
 
     // Setters
@@ -256,7 +267,7 @@ public class Client extends Application {
      */
     public void executeOrder(String json) throws IOException {
 
-        logger.info("by executeOrder " +  Thread.currentThread().getName());
+        logger.info("by executeOrder " + Thread.currentThread().getName());
         Client client = this;
         String messageType = Protocol.readJsonMessageType(json);
 
@@ -356,13 +367,13 @@ public class Client extends Application {
                             ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
                             int phase = activePhaseBody.getPhase();
                             String phaseString = "";
-                            if(phase == 0){
+                            if (phase == 0) {
                                 phaseString = "Aufbauphase";
-                            }else if(phase == 1){
+                            } else if (phase == 1) {
                                 phaseString = "Upgradephase";
-                            }else if(phase == 2){
+                            } else if (phase == 2) {
                                 phaseString = "Programmierphase";
-                            }else{
+                            } else {
                                 phaseString = "Aktivierungsphase";
                             }
                             GAMEPHASE.set(phaseString);
@@ -370,19 +381,19 @@ public class Client extends Application {
                         case "CurrentPlayer":
                             CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
                             int currentID = currentPlayerBody.getClientID();
-                            if(currentID == clientID){
+                            if (currentID == clientID) {
                                 ISCURRENTPLAYER.set(true);
-                                if(GAMEPHASE.get().equals("Aufbauphase")){
+                                if (GAMEPHASE.get().equals("Aufbauphase")) {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to set start point");
                                     CANSETSTARTPOINT.set(true);
-                                }else if(GAMEPHASE.get().equals("Aktivierungsphase")){
+                                } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
                                 }
 
-                            }else{
+                            } else {
                                 INFORMATION.set("");
                                 INFORMATION.set(currentID + " is in turn. Please wait.");
                             }
@@ -406,7 +417,7 @@ public class Client extends Application {
                         case "YourCards":
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
-                            for(String card : cardsInHand){
+                            for (String card : cardsInHand) {
                                 MYDRAWNCARDS.add(new SimpleStringProperty(card));
                             }
                             INFORMATION.set("");
@@ -431,7 +442,7 @@ public class Client extends Application {
                             boolean filled = cardSelectedBody.isFilled();
                             CANCLICKFINISH.set(true);
                             // optional soon: in GUI verbinden
-                            logger.info( clientSelectedCard + " has for register " + registerSelected + filled);
+                            logger.info(clientSelectedCard + " has for register " + registerSelected + filled);
                             break;
                         case "TimerStarted":
                             ISTIMERON.set(true);
@@ -452,7 +463,7 @@ public class Client extends Application {
                         case "CurrentCards":
                             CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
                             List<Register> currentRegistersAllClients = currentCardsBody.getCurrentRegistersAllClients();
-                            for(Register rg : currentRegistersAllClients){
+                            for (Register rg : currentRegistersAllClients) {
                                 logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
                             }
                             break;
@@ -475,7 +486,7 @@ public class Client extends Application {
 
 
                             // clear all my registers if I reboot
-                            if(clientReboot == clientID){
+                            if (clientReboot == clientID) {
                                 MYDRAWNCARDS.clear();
                                 // soon in GUI
                                 handleRebootDirection("right");
@@ -524,6 +535,7 @@ public class Client extends Application {
 
     /**
      * send message to a certain person
+     *
      * @param to
      * @param message
      * @throws JsonProcessingException
@@ -620,6 +632,7 @@ public class Client extends Application {
 
     /**
      * invoked by client, who selects a map
+     *
      * @param mapName
      * @throws JsonProcessingException
      */
@@ -634,9 +647,9 @@ public class Client extends Application {
     /**
      * can not init these info with constructor client(), because of the sequence of Application: init -> start -> over
      */
-    public void initGameForClients(){
+    public void initGameForClients() {
 
-        for (int client : clientNames.keySet()){
+        for (int client : clientNames.keySet()) {
             // init CURRENTPOSITIONS
             SimpleIntegerProperty x = new SimpleIntegerProperty();
             SimpleIntegerProperty y = new SimpleIntegerProperty();
@@ -651,12 +664,13 @@ public class Client extends Application {
         }
     }
 
-    public void rebuildMap(){
+    public void rebuildMap() {
         //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
     }
 
     /**
      * set start point to inform the server
+     *
      * @param x
      * @param y
      * @throws JsonProcessingException
@@ -674,21 +688,22 @@ public class Client extends Application {
 
     /**
      * client set/clear register slot
+     *
      * @param cardName
      * @param registerNum
      * @throws JsonProcessingException
      */
     public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
-        if(cardName != null){
+        if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);
-            MYREGISTER[registerNum-1].set(cardName);
+            MYREGISTER[registerNum - 1].set(cardName);
             logger.info(json);
             OUT.println(json);
-        }else{
+        } else {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(null, registerNum));
             String json = Protocol.writeJson(protocol);
-            MYREGISTER[registerNum-1].set("");
+            MYREGISTER[registerNum - 1].set("");
             logger.info(json);
             OUT.println(json);
         }
@@ -697,6 +712,7 @@ public class Client extends Application {
 
     /**
      * when one client finished selecting card for one register, tell is to server
+     *
      * @throws JsonProcessingException
      */
     public void selectFinish() throws JsonProcessingException {
@@ -709,6 +725,7 @@ public class Client extends Application {
 
     /**
      * client plays one card in the current register
+     *
      * @param cardName
      */
     public void playNextRegister(String cardName) throws JsonProcessingException {

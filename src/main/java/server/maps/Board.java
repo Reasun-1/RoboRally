@@ -2,8 +2,10 @@ package server.maps;
 
 import server.feldobjects.*;
 import server.game.Game;
+import server.network.Server;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * @author Jonas Gottal
@@ -11,8 +13,10 @@ import java.util.ArrayList;
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Board {
+    private static final Logger logger = Logger.getLogger(Board.class.getName());
 
     public static void buildDizzyHighway(){
+        logger.info("Board sets map of Dizzy Highway.");
         // fill first row with board elements
         Game.board.get(0).get(0).add(new Empty("Empty", "Start A"));
         Game.board.get(0).get(1).add(new Empty("Empty", "Start A"));
@@ -35,10 +39,6 @@ public class Board {
         Game.board.get(1).get(3).add(new Empty("Empty", "Start A"));
         Game.board.get(1).get(4).add(new ConveyorBelt("ConveyorBelt", "5B", 2, new ArrayList<>(){{add("bottom");add("top");add("right");}}));
         Game.board.get(1).get(5).add(new ConveyorBelt("ConveyorBelt", "5B", 2, new ArrayList<>(){{add("left");add("top");add("right");}}));
-
-
-        // für grüne Gear:
-        new Gear("Gear", "5B", new ArrayList<>(){{add("clockwise");}});
 
     }
 

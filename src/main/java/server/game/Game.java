@@ -4,9 +4,7 @@ import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
 import server.maps.Board;
 import server.network.Server;
-import server.registercards.Again;
-import server.registercards.MoveII;
-import server.registercards.RegisterCard;
+import server.registercards.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,6 +26,7 @@ public class Game {
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
+    public static String mapName = null; // storage for map name
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
     public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
     public static HashMap<Integer, Position> startPositionsAllClients = new HashMap<>(); // storage of all start positions
@@ -70,23 +69,45 @@ public class Game {
             arrivedCheckpoints.put(client, new HashSet<>());
         }
 
-        // init board (start board + game board)
-        for (int i = 0; i < 10; i++) {
-            List<List<FeldObject>> row = new ArrayList<>();
-            for (int j = 0; j < 13; j++) {
-                List<FeldObject> zelle = new ArrayList<>();
-                row.add(zelle);
+        // init undrawn and discarded cards deck for each player
+        for(int client : clientIDs){
+            // for undrawn cards
+            List<RegisterCard> cards = new ArrayList<>();
+
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
             }
-            board.add(row);
+            for (int i = 0; i < BackUp.cardCount; i++) {
+                cards.add(new BackUp());
+            }
+            for (int i = 0; i < MoveI.cardCount; i++) {
+                cards.add(new MoveI());
+            }
+            for (int i = 0; i < MoveII.cardCount; i++) {
+                cards.add(new MoveII());
+            }
+            for (int i = 0; i < MoveIII.cardCount; i++) {
+                cards.add(new MoveIII());
+            }
+            for (int i = 0; i < PowerUp.cardCount; i++) {
+                cards.add(new PowerUp());
+            }
+            for (int i = 0; i < TurnLeft.cardCount; i++) {
+                cards.add(new TurnLeft());
+            }
+            for (int i = 0; i < TurnRight.cardCount; i++) {
+                cards.add(new TurnRight());
+            }
+            for (int i = 0; i < UTurn.cardCount; i++) {
+                cards.add(new UTurn());
+            }
+            undrawnCards.put(client, cards);
+
+            // for discarded cards
+            List<RegisterCard> discards = new ArrayList<>();
+            discardedCards.put(client, discards);
         }
 
-        // init undrawn cards deck for each player
-        for(int client : clientIDs){
-            List<RegisterCard> cards = new ArrayList<>();
-            for (int i = 0; i < Again.cardCount; i++) {
-                
-            }
-        }
 
 
         /*
@@ -138,6 +159,35 @@ public class Game {
 
          */
     }
+
+    /**
+     * init Board
+     */
+    public void initBoard(){
+        // init board (start board + game board)
+        for (int i = 0; i < 10; i++) {
+            List<List<FeldObject>> row = new ArrayList<>();
+            for (int j = 0; j < 13; j++) {
+                List<FeldObject> zelle = new ArrayList<>();
+                row.add(zelle);
+            }
+            board.add(row);
+        }
+    }
+
+    /**
+     * invoked fom "MapSelected" in ExecuteOrder
+     * @param mapName
+     */
+    public void setMap3DList(String mapName) {
+        logger.info("Game sets map.");
+        switch (mapName){
+            case "Dizzy Highway":
+                Board.buildDizzyHighway();
+                break;
+        }
+    }
+
 
     /**
      * key = clientID, value = list of undrawn cards
@@ -357,19 +407,6 @@ public class Game {
         return false;
     }
 
-
-    /**
-     * invoked fom "MapSelected" in ExecuteOrder
-     * @param mapName
-     */
-    public void setMap3DList(String mapName) {
-        switch (mapName){
-            case "Dizzy Highway":
-                Board.buildDizzyHighway();
-                break;
-
-        }
-    }
 
     /**
      * if the client is offline, should be removed from game
