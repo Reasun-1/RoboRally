@@ -8,19 +8,18 @@ import server.game.Position;
 
 import java.io.IOException;
 
-public class Move2 extends RegisterCard{
-
+public class MoveII extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
     int cardCount; // only as info for shuffle the cards
 
-    public Move2() {
-    }
+    public MoveII() {
 
-    public Move2(String cardType, String cardName) {
-        this.cardType = cardType;
-        this.cardName = cardName;
+        this.cardType = "PROGRAMME";
+        this.cardName = "MoveII";
+        this.cardCount = 3;
+
     }
 
     @Override
@@ -66,8 +65,6 @@ public class Move2 extends RegisterCard{
 
         // if robot still on board, do board function
         if(isOnBoard){
-            // do the effect of board element
-
             // check again if robot is still on board
            Game.getInstance().checkOnBoard(clientID, newPosition);
         }

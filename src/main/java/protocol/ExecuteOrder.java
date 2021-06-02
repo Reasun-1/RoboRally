@@ -6,7 +6,7 @@ import server.game.Game;
 import server.game.Position;
 import server.network.Server;
 import server.registercards.Again;
-import server.registercards.Move2;
+import server.registercards.MoveII;
 import server.registercards.RegisterCard;
 
 import java.io.IOException;
@@ -259,10 +259,10 @@ public class ExecuteOrder {
      * @return
      */
     public static RegisterCard convertCardToObject(String cardName){
-        if(cardName.equals("again")){
-            return new Again("PROGRAMME", "again");
-        }else if(cardName.equals("move2")){
-            return new Move2("PROGRAMME", "move2");
+        if(cardName.equals("Again")){
+            return new Again();
+        }else if(cardName.equals("MoveII")){
+            return new MoveII();
         }else{
             return null;
         }

@@ -1,9 +1,6 @@
 package server.maps;
 
-import server.feldobjects.ConveyorBelt;
-import server.feldobjects.Empty;
-import server.feldobjects.EnergySpace;
-import server.feldobjects.StartPoint;
+import server.feldobjects.*;
 import server.game.Game;
 
 import java.util.ArrayList;
@@ -40,6 +37,8 @@ public class Board {
         Game.board.get(1).get(5).add(new ConveyorBelt("ConveyorBelt", "5B", 2, new ArrayList<>(){{add("left");add("top");add("right");}}));
 
 
+        // für grüne Gear:
+        new Gear("Gear", "5B", new ArrayList<>(){{add("clockwise");}});
 
     }
 

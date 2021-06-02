@@ -5,7 +5,7 @@ import server.feldobjects.Pit;
 import server.maps.Board;
 import server.network.Server;
 import server.registercards.Again;
-import server.registercards.Move2;
+import server.registercards.MoveII;
 import server.registercards.RegisterCard;
 
 import java.io.IOException;
@@ -84,21 +84,21 @@ public class Game {
         // only for test!!
         // soon: shuffle card with correct count of cards
         List<RegisterCard> list = new ArrayList<>();
-        list.add(new Move2("PROGRAMME", "move2"));
-        list.add(new Move2("PROGRAMME", "move2"));
-        list.add(new Move2("PROGRAMME", "move2"));
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Move2("PROGRAMME", "move2"));
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Move2("PROGRAMME", "move2"));
-        list.add(new Again("PROGRAMME", "again"));
-        list.add(new Move2("PROGRAMME", "move2"));
+        list.add(new MoveII());
+        list.add(new MoveII());
+        list.add(new MoveII());
+        list.add(new Again());
+        list.add(new MoveII());
+        list.add(new Again());
+        list.add(new Again());
+        list.add(new MoveII());
+        list.add(new Again());
+        list.add(new MoveII());
 
         List<RegisterCard> list2 = new ArrayList<>();
-        list2.add(new Move2("PROGRAMME", "move2"));
-        list2.add(new Again("PROGRAMME", "again"));
-        list2.add(new Again("PROGRAMME", "again"));
+        list2.add(new MoveII());
+        list2.add(new Again());
+        list2.add(new Again());
 
         List<List<RegisterCard>> ll = new ArrayList<>();
         ll.add(list);
@@ -110,15 +110,15 @@ public class Game {
 
         // only for test
         List<RegisterCard> dis1 = new ArrayList<>();
-        dis1.add(new Move2("PROGRAMME", "move2"));
-        dis1.add(new Move2("PROGRAMME", "move2"));
-        dis1.add(new Move2("PROGRAMME", "move2"));
-        dis1.add(new Move2("PROGRAMME", "move2"));
+        dis1.add(new MoveII());
+        dis1.add(new MoveII());
+        dis1.add(new MoveII());
+        dis1.add(new MoveII());
         List<RegisterCard> dis2 = new ArrayList<>();
-        dis2.add(new Move2("PROGRAMME", "move2"));
-        dis2.add(new Move2("PROGRAMME", "move2"));
-        dis2.add(new Again("PROGRAMME", "again"));
-        dis2.add(new Move2("PROGRAMME", "move2"));
+        dis2.add(new MoveII());
+        dis2.add(new MoveII());
+        dis2.add(new Again());
+        dis2.add(new MoveII());
         List<List<RegisterCard>> ww = new ArrayList<>();
         ww.add(dis1);
         ww.add(dis2);

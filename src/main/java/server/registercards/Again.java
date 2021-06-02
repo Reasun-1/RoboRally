@@ -14,11 +14,9 @@ public class Again extends RegisterCard{
     int cardCount; // only as info for shuffle the cards
 
     public Again() {
-    }
-
-    public Again(String cardType, String cardName) {
-        this.cardType = cardType;
-        this.cardName = cardName;
+        this.cardType = "PROGRAMME";
+        this.cardName = "Again";
+        this.cardCount = 2;
     }
 
     @Override
@@ -46,13 +44,14 @@ public class Again extends RegisterCard{
 
     @Override
     public void doCardFunction(int clientID) {
+        //TODO
         System.out.println("doFunction of card again");
     }
 
     // only test
     public static void main(String[] args) {
         List<RegisterCard> test = new ArrayList<>();
-        test.add(new Again("PROGRAMM", "AGAIN"));
+        test.add(new Again());
         System.out.println(test.get(0));
         Again again = (Again)test.get(0);
         again.doCardFunction(2);

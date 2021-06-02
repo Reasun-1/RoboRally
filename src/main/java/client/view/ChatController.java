@@ -134,7 +134,7 @@ public class ChatController {
     private void setRegisterEvent() throws JsonProcessingException {
         // soon: bind with imageView
         // only for test
-        String cardName = "again";
+        String cardName = "Again";
         int registerNum = 1;
         client.setRegister(cardName, registerNum);
     }
@@ -144,7 +144,7 @@ public class ChatController {
 
     @FXML
     private void playNextRegistserEvent() throws JsonProcessingException {
-        String cardName = "again";
+        String cardName = "Again";
         client.playNextRegister(cardName);
     }
 }

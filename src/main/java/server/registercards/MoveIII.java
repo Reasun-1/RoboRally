@@ -6,16 +6,16 @@ import java.io.IOException;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class TurnLeft extends RegisterCard{
+public class MoveIII extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
     int cardCount; // only as info for shuffle the cards
 
-    public TurnLeft() {
+    public MoveIII() {
         this.cardType = "PROGRAMME";
-        this.cardName = "TurnLeft";
-        this.cardCount = 3;
+        this.cardName = "MoveIII";
+        this.cardCount = 1;
     }
 
     @Override
