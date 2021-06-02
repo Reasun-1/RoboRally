@@ -9,12 +9,11 @@ import java.io.IOException;
 public class Trojan extends RegisterCard{
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 12; // only as info for shuffle the cards
 
     public Trojan() {
         this.cardType = "DAMAGE";
         this.cardName = "Trojan";
-        this.cardCount = 12;
     }
 
     @Override

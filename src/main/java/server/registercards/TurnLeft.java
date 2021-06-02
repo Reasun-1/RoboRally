@@ -10,12 +10,11 @@ public class TurnLeft extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 3; // only as info for shuffle the cards
 
     public TurnLeft() {
         this.cardType = "PROGRAMME";
         this.cardName = "TurnLeft";
-        this.cardCount = 3;
     }
 
     @Override

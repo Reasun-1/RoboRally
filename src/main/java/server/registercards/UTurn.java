@@ -10,12 +10,11 @@ public class UTurn extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 1; // only as info for shuffle the cards
 
     public UTurn() {
         this.cardType = "PROGRAMME";
         this.cardName = "UTurn";
-        this.cardCount = 1;
     }
 
     @Override

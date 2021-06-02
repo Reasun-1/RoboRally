@@ -9,12 +9,11 @@ import java.io.IOException;
 public class PowerUp extends RegisterCard{
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 1; // only as info for shuffle the cards
 
     public PowerUp() {
         this.cardType = "PROGRAMME";
         this.cardName = "PowerUp";
-        this.cardCount = 1;
     }
 
     @Override

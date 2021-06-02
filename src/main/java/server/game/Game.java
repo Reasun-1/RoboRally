@@ -80,7 +80,16 @@ public class Game {
             board.add(row);
         }
 
+        // init undrawn cards deck for each player
+        for(int client : clientIDs){
+            List<RegisterCard> cards = new ArrayList<>();
+            for (int i = 0; i < Again.cardCount; i++) {
+                
+            }
+        }
 
+
+        /*
         // only for test!!
         // soon: shuffle card with correct count of cards
         List<RegisterCard> list = new ArrayList<>();
@@ -127,6 +136,7 @@ public class Game {
             discardedCards.put(clientID, ww.get(num1++));
         }
 
+         */
     }
 
     /**

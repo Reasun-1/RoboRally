@@ -9,12 +9,11 @@ import java.io.IOException;
 public class Virus extends RegisterCard{
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount =18; // only as info for shuffle the cards
 
     public Virus() {
         this.cardType = "DAMAGE";
         this.cardName = "Virus";
-        this.cardCount = 18;
     }
 
     @Override

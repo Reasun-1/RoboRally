@@ -11,12 +11,11 @@ public class Again extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 2; // only as info for shuffle the cards
 
     public Again() {
         this.cardType = "PROGRAMME";
         this.cardName = "Again";
-        this.cardCount = 2;
     }
 
     @Override

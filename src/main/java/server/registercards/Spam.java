@@ -10,12 +10,11 @@ public class Spam extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 38; // only as info for shuffle the cards
 
     public Spam() {
         this.cardType = "DAMAGE";
         this.cardName = "Spam";
-        this.cardCount = 38;
     }
 
     @Override

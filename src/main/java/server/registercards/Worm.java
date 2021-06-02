@@ -9,12 +9,11 @@ import java.io.IOException;
 public class Worm extends RegisterCard{
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 6; // only as info for shuffle the cards
 
     public Worm() {
         this.cardType = "DAMAGE";
         this.cardName = "Worm";
-        this.cardCount = 6;
     }
 
     @Override

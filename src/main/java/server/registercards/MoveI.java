@@ -10,12 +10,11 @@ public class MoveI extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 5; // only as info for shuffle the cards
 
     public MoveI() {
         this.cardType = "PROGRAMME";
         this.cardName = "MoveI";
-        this.cardCount = 5;
     }
 
     @Override
