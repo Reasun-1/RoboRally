@@ -10,16 +10,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EnergySpaces extends FeldObject{
+public class EnergySpace extends FeldObject{
 
     private String type;
     private String isOnBoard;
     private int count;
 
-    public EnergySpaces() {
+    public EnergySpace() {
     }
 
-    public EnergySpaces(String type, String isOnBoard, int count) {
+    public EnergySpace(String type, String isOnBoard, int count) {
         this.type = type;
         this.isOnBoard = isOnBoard;
         this.count = count;

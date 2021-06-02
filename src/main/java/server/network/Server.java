@@ -247,7 +247,6 @@ public class Server {
      * @throws IOException
      */
     public void handleGameStarted(String mapName) throws IOException {
-        Game.getInstance().initGame();
         // dummy map: soon with right maps
 
         Protocol protocol = new Protocol("GameStarted", new GameStartedBody(Game.board));

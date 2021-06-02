@@ -2,6 +2,7 @@ package server.game;
 
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
+import server.maps.Board;
 import server.network.Server;
 import server.registercards.Again;
 import server.registercards.Move2;
@@ -78,7 +79,6 @@ public class Game {
             }
             board.add(row);
         }
-        board.get(0).get(0).add(new Pit("Pit","5B"));
 
 
         // only for test!!
@@ -348,8 +348,17 @@ public class Game {
     }
 
 
+    /**
+     * invoked fom "MapSelected" in ExecuteOrder
+     * @param mapName
+     */
     public void setMap3DList(String mapName) {
+        switch (mapName){
+            case "Dizzy Highway":
+                Board.buildDizzyHighway();
+                break;
 
+        }
     }
 
     /**

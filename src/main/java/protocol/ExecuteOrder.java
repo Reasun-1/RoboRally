@@ -85,8 +85,6 @@ public class ExecuteOrder {
                 MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
                 String mapName = mapSelectedBody.getMap();
 
-                Game.getInstance().setMap3DList(mapName);
-
                 // if there are more than 2 clients, start the game
                 int numReadyClients = 0;
                 for (int clientIDEach : Server.clientIDUndReady.keySet()) {
@@ -97,6 +95,8 @@ public class ExecuteOrder {
                 logger.info("number of ready clients: " + numReadyClients);
                 if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size()) {
                     logger.info("number enough, to play");
+                    Game.getInstance().initGame();
+                    Game.getInstance().setMap3DList(mapName);
                     Server.getServer().handleGameStarted(mapName);
                     Server.getServer().handleActivePhase(0);
 
