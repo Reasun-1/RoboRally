@@ -367,8 +367,10 @@ public class Game {
      * @return
      */
     public boolean checkTurnOver(){
+        logger.info("Game checks turn over");
         if(priorityEachTurn.size() == 0){
             checkAndSetPriority();
+            registerPointer++;
             return true;
         }else{
             return false;
@@ -380,15 +382,20 @@ public class Game {
      * @return
      */
     public boolean checkRoundOver(){
+        logger.info("Game checks round over");
         if(registerPointer == 5){
             registerPointer = 0;
-            // clear all the register slots in game
-            registersAllClients.clear();
-            // set all clients active
+
             activePlayersList.clear();
             for(int clientID : clientIDs){
+                // set all clients active
                 activePlayersList.add(clientID);
+                // reset all the register slots with no cards in game
+                RegisterCard[] registers = new RegisterCard[5];
+                registersAllClients.put(clientID, registers);
             }
+            // reset selection finish list to null for the next round selection
+            selectionFinishList.clear();
             return true;
         }else{
             return false;
@@ -397,6 +404,7 @@ public class Game {
 
 
     public boolean checkGameOver() throws IOException {
+        logger.info("Game checks game over.");
         for(int client : clientIDs){
             // soon size() to number of checkpoints
             if(arrivedCheckpoints.get(client).size() == 1){

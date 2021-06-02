@@ -440,7 +440,6 @@ public class Client extends Application {
                             int clientSelectedCard = cardSelectedBody.getClientID();
                             int registerSelected = cardSelectedBody.getRegister();
                             boolean filled = cardSelectedBody.isFilled();
-                            CANCLICKFINISH.set(true);
                             // optional soon: in GUI verbinden
                             logger.info(clientSelectedCard + " has for register " + registerSelected + filled);
                             break;
@@ -700,12 +699,14 @@ public class Client extends Application {
             MYREGISTER[registerNum - 1].set(cardName);
             logger.info(json);
             OUT.println(json);
+            CANCLICKFINISH.set(true);
         } else {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(null, registerNum));
             String json = Protocol.writeJson(protocol);
             MYREGISTER[registerNum - 1].set("");
             logger.info(json);
             OUT.println(json);
+            CANCLICKFINISH.set(true);
         }
 
     }

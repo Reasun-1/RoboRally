@@ -230,17 +230,15 @@ public class ExecuteOrder {
                         boolean isGameOver = Game.getInstance().checkGameOver();
                         // if game is not over, play new round
                         if(!isGameOver){ // if game not over but round over, distribute new cards to clients
+                            logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
-                            // set player in turn
-                            int curClient = Game.priorityEachTurn.get(0);
-                            Server.getServer().handleCurrentPlayer(curClient);
-                            Game.priorityEachTurn.remove(0);
+                            // inform all players: programming phase begins
+                            Server.getServer().handleActivePhase(3);
+                            break;
+                        }else{
+                            break;
                         }
                     }
-                    // if turn is over but round is not over, inform next player to play
-                    int curClient = Game.priorityEachTurn.get(0);
-                    Server.getServer().handleCurrentPlayer(curClient);
-                    Game.priorityEachTurn.remove(0);
                 }
                 // if turn is not over inform next player to play
                 int curClient = Game.priorityEachTurn.get(0);
