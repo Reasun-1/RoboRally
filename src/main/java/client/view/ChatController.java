@@ -106,6 +106,14 @@ public class ChatController {
     private ImageView DrawnCard3;
     @FXML
     private ImageView DrawnCard4;
+    @FXML
+    private ImageView DrawnCard5;
+    @FXML
+    private ImageView DrawnCard6;
+    @FXML
+    private ImageView DrawnCard7;
+    @FXML
+    private ImageView DrawnCard8;
 
 
     public void init(Client client) {
@@ -159,6 +167,24 @@ public class ChatController {
                     case "MoveI":
                         curImage = imageMove1;
                         break;
+                    case "MoveII":
+                        curImage = imageMove2;
+                        break;
+                    case "MoveIII":
+                        curImage = imageMove3;
+                        break;
+                    case "PowerUp":
+                        curImage = imagePowerUp;
+                        break;
+                    case "TurnLeft":
+                        curImage = imageTurnL;
+                        break;
+                    case "TurnRight":
+                        curImage = imageTurnR;
+                        break;
+                    case "UTurn":
+                        curImage = imageTurnU;
+                        break;
                 }
 
                 switch (curCardIndex){
@@ -177,15 +203,19 @@ public class ChatController {
                     case 4:
                         DrawnCard4.setImage(curImage);
                         break;
+                    case 5:
+                        DrawnCard5.setImage(curImage);
+                        break;
+                    case 6:
+                        DrawnCard6.setImage(curImage);
+                        break;
+                    case 7:
+                        DrawnCard7.setImage(curImage);
+                        break;
+                    case 8:
+                        DrawnCard8.setImage(curImage);
+                        break;
                 }
-/*
-                DrawnCard0.setImage(imageAgain);
-                DrawnCard1.setImage(imageMove1);
-                DrawnCard2.setImage(imageMove3);
-                DrawnCard3.setImage(imagePowerUp);
-                DrawnCard4.setImage(imageMoveBack);
-
- */
             }
         });
         /*

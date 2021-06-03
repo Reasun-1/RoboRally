@@ -357,7 +357,7 @@ public class Client extends Application {
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
                             System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                            System.out.println((gameMap.get(0).get(0).get(0)).getIsOnBoard() + gameMap.get(0).get(0).get(0).getIsOnBoard() +gameMap.get(0).get(2).get(0).getOrientations());
+                            System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() +gameMap.get(0).get(2).get(0).getOrientations());
                             initGameForClients();
                             break;
                         case "ActivePhase":
