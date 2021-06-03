@@ -207,22 +207,22 @@ public class Game {
             List<String> list = new ArrayList<>();
             int cardCount = undrawnCards.get(clientID).size();
 
-            // if undrawnCards more than 5, draw 5; otherwise draw all the cars
-            if (cardCount >= 5) {
-                for (int i = 0; i < 5; i++) {
+            // if undrawnCards more than 9, draw 9; otherwise draw all the cars
+            if (cardCount >= 9) {
+                for (int i = 0; i < 9; i++) {
                     RegisterCard card = undrawnCards.get(clientID).get(i);
                     String cardName = card.getCardName();
                     list.add(cardName);
                     // add the drawn cards to discarded card deck
                     discardedCards.get(clientID).add(card);
                 }
-                // the first 5 cards have been drawn, remove them from deck
-                for (int i = 0; i < 5; i++) {
+                // the first 9 cards have been drawn, remove them from deck
+                for (int i = 0; i < 9; i++) {
                     undrawnCards.get(clientID).remove(0);
                 }
-                Server.getServer().handleNotYourCards(clientID, 5);
+                Server.getServer().handleNotYourCards(clientID, 9);
 
-            } else { // if undrawnCards less than 5, draw all
+            } else { // if undrawnCards less than 9, draw all
 
                 for (int i = 0; i < cardCount; i++) {
                     RegisterCard cd = undrawnCards.get(clientID).get(i);
