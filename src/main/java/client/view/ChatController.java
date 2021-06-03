@@ -4,6 +4,7 @@ import client.model.Client;
 import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -189,71 +190,102 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 System.out.println("drawn cards in GUI changed.");
-                int curCardIndex = client.MYCARDSProperty().size() - 1;
-                String curCard = client.MYCARDSProperty().get(curCardIndex);
-                Image curImage = null;
-                switch (curCard) {
-                    case "Again":
-                        curImage = imageAgain;
-                        break;
-                    case "BackUp":
-                        curImage = imageMoveBack;
-                        break;
-                    case "MoveI":
-                        curImage = imageMove1;
-                        break;
-                    case "MoveII":
-                        curImage = imageMove2;
-                        break;
-                    case "MoveIII":
-                        curImage = imageMove3;
-                        break;
-                    case "PowerUp":
-                        curImage = imagePowerUp;
-                        break;
-                    case "TurnLeft":
-                        curImage = imageTurnL;
-                        break;
-                    case "TurnRight":
-                        curImage = imageTurnR;
-                        break;
-                    case "UTurn":
-                        curImage = imageTurnU;
-                        break;
+
+                if(client.MYCARDSProperty().size() > 0){
+                    int curCardIndex = client.MYCARDSProperty().size() - 1;
+                    String curCard = client.MYCARDSProperty().get(curCardIndex);
+                    Image curImage = null;
+                    switch (curCard) {
+                        case "Again":
+                            curImage = imageAgain;
+                            break;
+                        case "BackUp":
+                            curImage = imageMoveBack;
+                            break;
+                        case "MoveI":
+                            curImage = imageMove1;
+                            break;
+                        case "MoveII":
+                            curImage = imageMove2;
+                            break;
+                        case "MoveIII":
+                            curImage = imageMove3;
+                            break;
+                        case "PowerUp":
+                            curImage = imagePowerUp;
+                            break;
+                        case "TurnLeft":
+                            curImage = imageTurnL;
+                            break;
+                        case "TurnRight":
+                            curImage = imageTurnR;
+                            break;
+                        case "UTurn":
+                            curImage = imageTurnU;
+                            break;
+                    }
+
+                    switch (curCardIndex) {
+                        case 0:
+                            DrawnCard0.setImage(curImage);
+                            break;
+                        case 1:
+                            DrawnCard1.setImage(curImage);
+                            break;
+                        case 2:
+                            DrawnCard2.setImage(curImage);
+                            break;
+                        case 3:
+                            DrawnCard3.setImage(curImage);
+                            break;
+                        case 4:
+                            DrawnCard4.setImage(curImage);
+                            break;
+                        case 5:
+                            DrawnCard5.setImage(curImage);
+                            break;
+                        case 6:
+                            DrawnCard6.setImage(curImage);
+                            break;
+                        case 7:
+                            DrawnCard7.setImage(curImage);
+                            break;
+                        case 8:
+                            DrawnCard8.setImage(curImage);
+                            break;
+                    }
                 }
 
-                switch (curCardIndex) {
-                    case 0:
-                        DrawnCard0.setImage(curImage);
-                        break;
-                    case 1:
-                        DrawnCard1.setImage(curImage);
-                        break;
-                    case 2:
-                        DrawnCard2.setImage(curImage);
-                        break;
-                    case 3:
-                        DrawnCard3.setImage(curImage);
-                        break;
-                    case 4:
-                        DrawnCard4.setImage(curImage);
-                        break;
-                    case 5:
-                        DrawnCard5.setImage(curImage);
-                        break;
-                    case 6:
-                        DrawnCard6.setImage(curImage);
-                        break;
-                    case 7:
-                        DrawnCard7.setImage(curImage);
-                        break;
-                    case 8:
-                        DrawnCard8.setImage(curImage);
-                        break;
-                }
             }
         });
 
+        // bind flagRoundOver for new round
+        client.flagRoundOverProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                // reset drwanCards in client
+                client.MYCARDSProperty().clear();
+                DrawnCard0.setImage(imageDiscard);
+                DrawnCard1.setImage(imageDiscard);
+                DrawnCard2.setImage(imageDiscard);
+                DrawnCard3.setImage(imageDiscard);
+                DrawnCard4.setImage(imageDiscard);
+                DrawnCard5.setImage(imageDiscard);
+                DrawnCard6.setImage(imageDiscard);
+                DrawnCard7.setImage(imageDiscard);
+                DrawnCard8.setImage(imageDiscard);
+                // reset MYREGISTER[]
+                for (int i = 0; i < 5; i++) {
+                    client.getMYREGISTER()[i] = new SimpleStringProperty("");
+                }
+                Register1.setImage(imageDiscard);
+                Register2.setImage(imageDiscard);
+                Register3.setImage(imageDiscard);
+                Register4.setImage(imageDiscard);
+                Register5.setImage(imageDiscard);
+
+            }
+        });
     }
 
     //only for test
@@ -298,23 +330,22 @@ public class ChatController {
     }
 
     @FXML
-    private void setRegisterEvent() throws JsonProcessingException {
-        // soon: bind with imageView
-        // only for test
-        String cardName = "Again";
-        int registerNum = 1;
-        client.setRegister(cardName, registerNum);
-    }
-
-    @FXML
     private void finishEvent() throws JsonProcessingException {
         client.selectFinish();
     }
 
     @FXML
     private void playNextRegistserEvent() throws JsonProcessingException {
-        String cardName = "Again";
+        // get current register card
+        String cardName = client.getMYREGISTER()[client.registerPointer].get();
         client.playNextRegister(cardName);
+        client.registerPointer++;
+        System.out.println("registerpointer " + client.registerPointer);
+        // if round over, reset register pointer to 0 for next round
+        if(client.registerPointer == 5){
+            System.out.println("round over checked by GUI");
+            client.registerPointer = 0;
+        }
     }
 
 

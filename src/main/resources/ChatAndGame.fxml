@@ -356,7 +356,6 @@
                                              </font>
                                           </Button>
                                           <AnchorPane layoutX="91.0" layoutY="10.0" prefHeight="34.0" prefWidth="25.0" />
-                                          <Button fx:id="setRegister01" mnemonicParsing="false" onAction="#setRegisterEvent" text="setR1" />
                                        </children>
                                     </HBox>
                                  </children>

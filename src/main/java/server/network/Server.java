@@ -1,6 +1,7 @@
 package server.network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.scene.effect.Bloom;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.game.Game;
@@ -421,6 +422,7 @@ public class Server {
         }
 
         Game.registerPointer++;
+        logger.info("Server checked registerPointer " + Game.registerPointer);
 
         Protocol protocol = new Protocol("CurrentCards", new CurrentCardsBody(list));
         String json = Protocol.writeJson(protocol);

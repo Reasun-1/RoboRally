@@ -39,7 +39,7 @@ public class MoveII extends RegisterCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         Direction currentDirection = Game.directionsAllClients.get(clientID);
-        Position currentPosition = Game.positionsAllClients.get(clientID);
+        Position currentPosition = Game.playerPositions.get(clientID);
         int curX = currentPosition.getX();
         int curY = currentPosition.getY();
         // set new Position
@@ -62,10 +62,5 @@ public class MoveII extends RegisterCard{
         // check if robot is still on board
         boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
 
-        // if robot still on board, do board function
-        if(isOnBoard){
-            // check again if robot is still on board
-           Game.getInstance().checkOnBoard(clientID, newPosition);
-        }
     }
 }

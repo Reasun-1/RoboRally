@@ -37,7 +37,7 @@ public class Client extends Application {
     // unique client ID given from server, key between Game, Server, Client and GUI!!
     private int clientID;
     // to remember which register war the last one
-    private int registerPointer;
+    public int registerPointer = 0;
     // client list with all clientIDs
     private List<Integer> clientsList;
     // map: key = clientID, value = robotfigure;
@@ -48,6 +48,8 @@ public class Client extends Application {
     private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
     // storage of my start positions for all clients: key=clientID, value = [x,y]
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
+
+
 
 
     //=================================Properties================================
@@ -85,6 +87,8 @@ public class Client extends Application {
     private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
     // to bind..
     private final HashMap<Integer, String> currentDirection = new HashMap<>();
+    // flag property for listner to know that round is over
+    private IntegerProperty flagRoundOver = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -164,6 +168,7 @@ public class Client extends Application {
         return CANPLAYNEXTREGISTER;
     }
 
+    public IntegerProperty flagRoundOverProperty() { return flagRoundOver;}
 
     // Setters
     public void setName(String name) {
@@ -413,6 +418,8 @@ public class Client extends Application {
                             break;
                         case "YourCards":
                             logger.info("clients your cards");
+                            // GUI-Listner binds to flagRoundOver to reset GUI for new round
+                            flagRoundOver.set(flagRoundOver.getValue()+1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 

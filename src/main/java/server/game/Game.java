@@ -37,7 +37,6 @@ public class Game {
     public static List<Integer> selectionFinishList = new ArrayList<>(); // clientID who finished programming
     public static List<Integer> priorityEachTurn = new ArrayList<>(); // e.g. [22,33,11] means clientID 22 has first priority in this round
     public static int registerPointer = 0; // to point the current register
-    public static HashMap<Integer, Position> positionsAllClients = new HashMap<>(); // current positions of all clients: key=clientID, value=Position
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
@@ -385,9 +384,9 @@ public class Game {
      */
     public boolean checkRoundOver(){
         logger.info("Game checks round over");
-        if(registerPointer == 5){
+        if(registerPointer == 6){
             registerPointer = 0;
-
+            logger.info("Game checked registerPointer for round over: " + registerPointer);
             activePlayersList.clear();
             for(int clientID : clientIDs){
                 // set all clients active
