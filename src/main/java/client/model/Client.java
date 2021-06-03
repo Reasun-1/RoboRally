@@ -70,7 +70,7 @@ public class Client extends Application {
     // player who can set start point, binds with selectStartPoint button in GUI
     private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
-    private final List<StringProperty> MYDRAWNCARDS = new ArrayList<>();
+    private final StringProperty[] MYDRAWNCARDS = new StringProperty[9];
     // binds myRegister slots in GUI
     private final StringProperty[] MYREGISTER = new StringProperty[5];
     // bind button finish in GUI
@@ -150,9 +150,7 @@ public class Client extends Application {
         return CANSETSTARTPOINT;
     }
 
-    public List<StringProperty> getMYDRAWNCARDS() {
-        return MYDRAWNCARDS;
-    }
+    public StringProperty[] getMYDRAWNCARDS() { return MYDRAWNCARDS; }
 
     public StringProperty[] getMYREGISTER() {
         return MYREGISTER;
@@ -211,7 +209,12 @@ public class Client extends Application {
 
         // init MYREGISTER[]
         for (int i = 0; i < 5; i++) {
-            MYREGISTER[i] = new SimpleStringProperty();
+            MYREGISTER[i] = new SimpleStringProperty("");
+        }
+
+        // init MYDRAWNCARDS for bindings
+        for (int i = 0; i < 9; i++) {
+            MYDRAWNCARDS[i] = new SimpleStringProperty("");
         }
 
     }
@@ -415,14 +418,19 @@ public class Client extends Application {
                             logger.info("" + CURRENTPOSITIONS.get(clientWhoSetPoint));
                             break;
                         case "YourCards":
+                            logger.info("clients your cards");
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
-                            for (String card : cardsInHand) {
-                                MYDRAWNCARDS.add(new SimpleStringProperty(card));
+
+                            for (int i = 0; i < 9; i++) {
+                                if(MYDRAWNCARDS[i].get() == "" && cardsInHand.size() > 0){
+                                    MYDRAWNCARDS[i].set(cardsInHand.get(0));
+                                    cardsInHand.remove(0);
+                                }
                             }
                             INFORMATION.set("");
                             INFORMATION.set("Begin programming!");
-                            logger.info(MYDRAWNCARDS.toString());
+                            logger.info(MYDRAWNCARDS[0].get());
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
@@ -486,7 +494,9 @@ public class Client extends Application {
 
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
-                                MYDRAWNCARDS.clear();
+                                for (int i = 0; i < 5; i++) {
+                                    MYREGISTER[i].set("");
+                                }
                                 // soon in GUI
                                 handleRebootDirection("right");
                             }

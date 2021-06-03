@@ -197,15 +197,14 @@
                                        <children>
                                           <VBox prefHeight="145.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="testImageView" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
-                                                   </image>
-                                                </ImageView>
+                                                   </image></ImageView>
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="32.0" text="set" />
+                                                      <Button fx:id="testButton" mnemonicParsing="false" onAction="#testButtonClick" prefHeight="26.0" prefWidth="32.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>

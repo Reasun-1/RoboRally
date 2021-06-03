@@ -4,19 +4,27 @@ import client.model.Client;
 import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
+
 
 /**
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {
+
+    private Client client;
 
     @FXML
     private TextArea outOfRoundCards1; //registers the written messages on TextField
@@ -69,7 +77,41 @@ public class ChatController {
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
 
-    private Client client;
+    @FXML
+    private ImageView testImageView;
+
+    @FXML
+    private Button testButton;
+
+    //====================DrawnCardsBindings===================================
+    Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
+    Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
+    Image imageMove1 = new Image(getClass().getResource("/images/Cards/C-Move1.jpg").toExternalForm());
+    Image imageMove2 = new Image(getClass().getResource("/images/Cards/C-Move2.jpg").toExternalForm());
+    Image imageMove3 = new Image(getClass().getResource("/images/Cards/C-Move3.jpg").toExternalForm());
+    Image imageMoveBack = new Image(getClass().getResource("/images/Cards/C-MoveBack.jpg").toExternalForm());
+    Image imagePowerUp = new Image(getClass().getResource("/images/Cards/C-PowerUp.jpg").toExternalForm());
+    Image imageTurnL = new Image(getClass().getResource("/images/Cards/C-TurnL.jpg").toExternalForm());
+    Image imageTurnR = new Image(getClass().getResource("/images/Cards/C-TurnR.jpg").toExternalForm());
+    Image imageTurnU = new Image(getClass().getResource("/images/Cards/C-TurnU.jpg").toExternalForm());
+
+    @FXML
+    private ImageView DrawnCard0;
+    @FXML
+    private ImageView DrawnCard1;
+    @FXML
+    private ImageView DrawnCard2;
+    @FXML
+    private ImageView DrawnCard3;
+    @FXML
+    private ImageView DrawnCard4;
+
+    private StringProperty drawnCard1;
+    private StringProperty drawnCard2;
+    private StringProperty drawnCard3;
+    private StringProperty drawnCard4;
+    private StringProperty drawnCard5;
+
 
     public void init(Client client) {
         this.client = client;
@@ -104,12 +146,32 @@ public class ChatController {
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
+        //====================Bindings for drawnCards===================
+        StringProperty mydrawnCard0 = client.getMYDRAWNCARDS()[0];
+        mydrawnCard0.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                System.out.println(t1);
+                System.out.println("drawn card 1 changed!!");
+                testImageView.setImage(imageAgain);
+            }
+        });
+
+    }
+
+    //only for test
+    @FXML
+    public void testButtonClick() {
+        System.out.println("button clicked.");
+
+        System.out.println(imageAgain.getHeight());
+        testImageView.setImage(imageAgain);
     }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-       if (sendTo.getText().isEmpty()) {
+        if (sendTo.getText().isEmpty()) {
             client.sendMessage(messageField.getText());
         } else {
             client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
@@ -119,11 +181,19 @@ public class ChatController {
     }
 
     @FXML
-    private void setReady() throws JsonProcessingException { client.setReady(); }
+    private void setReady() throws JsonProcessingException {
+        client.setReady();
+    }
+
     @FXML
-    private void setUnready() throws JsonProcessingException { client.setUnready(); }
+    private void setUnready() throws JsonProcessingException {
+        client.setUnready();
+    }
+
     @FXML
-    private void selectMapEvent() throws JsonProcessingException {client.handleMapSelected(mapName.getText());}
+    private void selectMapEvent() throws JsonProcessingException {
+        client.handleMapSelected(mapName.getText());
+    }
 
     @FXML
     private void setStartPointEvent() throws JsonProcessingException {
@@ -140,7 +210,9 @@ public class ChatController {
     }
 
     @FXML
-    private void finishEvent() throws JsonProcessingException { client.selectFinish(); }
+    private void finishEvent() throws JsonProcessingException {
+        client.selectFinish();
+    }
 
     @FXML
     private void playNextRegistserEvent() throws JsonProcessingException {
