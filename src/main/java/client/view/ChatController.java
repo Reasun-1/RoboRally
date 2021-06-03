@@ -37,7 +37,7 @@ public class ChatController {
     @FXML
     private TextArea currentPhase;
     @FXML
-    private GridPane gridPane;
+    private GridPane gridPaneBoard;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
@@ -472,5 +472,11 @@ public class ChatController {
                 Register5.setImage(image);
                 break;
         }
+    }
+    public void testBoardButtonEvent(){
+        ImageView boardElemen = new ImageView(imageCheckpoint1);
+        boardElemen.setFitHeight(43);
+        boardElemen.setFitWidth(43);
+        gridPaneBoard.add(boardElemen,1,1);
     }
 }
