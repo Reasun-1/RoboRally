@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
@@ -70,7 +72,7 @@ public class Client extends Application {
     // player who can set start point, binds with selectStartPoint button in GUI
     private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
-    private final StringProperty[] MYDRAWNCARDS = new StringProperty[9];
+    private final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
     private final StringProperty[] MYREGISTER = new StringProperty[5];
     // bind button finish in GUI
@@ -150,11 +152,9 @@ public class Client extends Application {
         return CANSETSTARTPOINT;
     }
 
-    public StringProperty[] getMYDRAWNCARDS() { return MYDRAWNCARDS; }
+    public ListProperty<String> MYCARDSProperty() { return MYCARDS; }
 
-    public StringProperty[] getMYREGISTER() {
-        return MYREGISTER;
-    }
+    public StringProperty[] getMYREGISTER() { return MYREGISTER; }
 
     public BooleanProperty CANCLICKFINISHProperty() {
         return CANCLICKFINISH;
@@ -211,12 +211,6 @@ public class Client extends Application {
         for (int i = 0; i < 5; i++) {
             MYREGISTER[i] = new SimpleStringProperty("");
         }
-
-        // init MYDRAWNCARDS for bindings
-        for (int i = 0; i < 9; i++) {
-            MYDRAWNCARDS[i] = new SimpleStringProperty("");
-        }
-
     }
 
     public static void main(String[] args) {
@@ -422,15 +416,13 @@ public class Client extends Application {
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
-                            for (int i = 0; i < 9; i++) {
-                                if(MYDRAWNCARDS[i].get() == "" && cardsInHand.size() > 0){
-                                    MYDRAWNCARDS[i].set(cardsInHand.get(0));
-                                    cardsInHand.remove(0);
-                                }
+                            for(String card : cardsInHand){
+                                MYCARDS.add(card);
                             }
+
                             INFORMATION.set("");
                             INFORMATION.set("Begin programming!");
-                            logger.info(MYDRAWNCARDS[0].get());
+
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);

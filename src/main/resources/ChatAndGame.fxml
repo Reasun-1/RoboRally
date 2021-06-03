@@ -197,7 +197,7 @@
                                        <children>
                                           <VBox prefHeight="145.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="testImageView" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard0" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image></ImageView>
@@ -212,7 +212,7 @@
                                           <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                           <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -228,7 +228,7 @@
                                           <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                           <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -247,7 +247,7 @@
                                        <children>
                                           <VBox prefHeight="145.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -263,7 +263,7 @@
                                           <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                           <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -279,7 +279,7 @@
                                           <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="25.0" />
                                           <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -298,7 +298,7 @@
                                        <children>
                                           <VBox prefHeight="145.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -314,7 +314,7 @@
                                           <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                           <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>
@@ -330,7 +330,7 @@
                                           <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                           <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                              <children>
-                                                <ImageView fx:id="DrawnCard9" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@images/Cards/C-Discard.jpg" />
                                                    </image>

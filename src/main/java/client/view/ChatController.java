@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -106,12 +107,6 @@ public class ChatController {
     @FXML
     private ImageView DrawnCard4;
 
-    private StringProperty drawnCard1;
-    private StringProperty drawnCard2;
-    private StringProperty drawnCard3;
-    private StringProperty drawnCard4;
-    private StringProperty drawnCard5;
-
 
     public void init(Client client) {
         this.client = client;
@@ -147,15 +142,68 @@ public class ChatController {
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
         //====================Bindings for drawnCards===================
+        client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
+            @Override
+            public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
+                System.out.println("drawn cards in GUI changed.");
+                int curCardIndex = client.MYCARDSProperty().size()-1;
+                String curCard = client.MYCARDSProperty().get(curCardIndex);
+                Image curImage = null;
+                switch (curCard){
+                    case "Again":
+                        curImage = imageAgain;
+                        break;
+                    case "BackUp":
+                        curImage = imageMoveBack;
+                        break;
+                    case "MoveI":
+                        curImage = imageMove1;
+                        break;
+                }
+
+                switch (curCardIndex){
+                    case 0:
+                        DrawnCard0.setImage(curImage);
+                        break;
+                    case 1:
+                        DrawnCard1.setImage(curImage);
+                        break;
+                    case 2:
+                        DrawnCard2.setImage(curImage);
+                        break;
+                    case 3:
+                        DrawnCard3.setImage(curImage);
+                        break;
+                    case 4:
+                        DrawnCard4.setImage(curImage);
+                        break;
+                }
+/*
+                DrawnCard0.setImage(imageAgain);
+                DrawnCard1.setImage(imageMove1);
+                DrawnCard2.setImage(imageMove3);
+                DrawnCard3.setImage(imagePowerUp);
+                DrawnCard4.setImage(imageMoveBack);
+
+ */
+            }
+        });
+        /*
         StringProperty mydrawnCard0 = client.getMYDRAWNCARDS()[0];
         mydrawnCard0.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                System.out.println(t1);
-                System.out.println("drawn card 1 changed!!");
-                testImageView.setImage(imageAgain);
+                System.out.println("drawn cards in GUI changed.");
+
+                DrawnCard0.setImage(imageAgain);
+                DrawnCard1.setImage(imageMove1);
+                DrawnCard2.setImage(imageMove3);
+                DrawnCard3.setImage(imagePowerUp);
+                DrawnCard4.setImage(imageMoveBack);
             }
         });
+
+         */
 
     }
 
