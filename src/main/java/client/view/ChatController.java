@@ -115,6 +115,8 @@ public class ChatController {
     @FXML
     private ImageView DrawnCard8;
 
+    //============================MapBindings===========================================
+    Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
 
     public void init(Client client) {
         this.client = client;
@@ -218,22 +220,6 @@ public class ChatController {
                 }
             }
         });
-        /*
-        StringProperty mydrawnCard0 = client.getMYDRAWNCARDS()[0];
-        mydrawnCard0.addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                System.out.println("drawn cards in GUI changed.");
-
-                DrawnCard0.setImage(imageAgain);
-                DrawnCard1.setImage(imageMove1);
-                DrawnCard2.setImage(imageMove3);
-                DrawnCard3.setImage(imagePowerUp);
-                DrawnCard4.setImage(imageMoveBack);
-            }
-        });
-
-         */
 
     }
 
