@@ -29,58 +29,40 @@ public class ChatController {
 
     @FXML
     private TextArea outOfRoundCards1; //registers the written messages on TextField
-
     @FXML
     private TextArea playersInServer;
-
     @FXML
     private TextArea playersWhoReady;
-
     @FXML
     private TextArea currentPhase;
-
     @FXML
     private GridPane gridPane;
-
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-
     @FXML
     private TextField information; // bind INFORMATION StringProperty in Client
-
     @FXML
     private TextField mapName; // info invoked by button select map
-
     @FXML
     private TextField sendTo; //send Message to a specific player on private
-
     @FXML
     private TextField startPointX;
-
     @FXML
     private TextField startPointY;
-
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
-
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
-
     @FXML
     private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
-
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
-
     @FXML
     private Button finish; // invoke methode finishEvent()
-
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
-
     @FXML
     private ImageView testImageView;
-
     @FXML
     private Button testButton;
 
@@ -114,6 +96,57 @@ public class ChatController {
     private ImageView DrawnCard7;
     @FXML
     private ImageView DrawnCard8;
+
+    @FXML
+    private ImageView Register1;
+    @FXML
+    private ImageView Register2;
+    @FXML
+    private ImageView Register3;
+    @FXML
+    private ImageView Register4;
+    @FXML
+    private ImageView Register5;
+
+    @FXML
+    private TextField drawnC0;
+    @FXML
+    private TextField drawnC1;
+    @FXML
+    private TextField drawnC2;
+    @FXML
+    private TextField drawnC3;
+    @FXML
+    private TextField drawnC4;
+    @FXML
+    private TextField drawnC5;
+    @FXML
+    private TextField drawnC6;
+    @FXML
+    private TextField drawnC7;
+    @FXML
+    private TextField drawnC8;
+
+    @FXML
+    private Button drawnB0;
+    @FXML
+    private Button drawnB1;
+    @FXML
+    private Button drawnB2;
+    @FXML
+    private Button drawnB3;
+    @FXML
+    private Button drawnB4;
+    @FXML
+    private Button drawnB5;
+    @FXML
+    private Button drawnB6;
+    @FXML
+    private Button drawnB7;
+    @FXML
+    private Button drawnB8;
+
+
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -156,10 +189,10 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 System.out.println("drawn cards in GUI changed.");
-                int curCardIndex = client.MYCARDSProperty().size()-1;
+                int curCardIndex = client.MYCARDSProperty().size() - 1;
                 String curCard = client.MYCARDSProperty().get(curCardIndex);
                 Image curImage = null;
-                switch (curCard){
+                switch (curCard) {
                     case "Again":
                         curImage = imageAgain;
                         break;
@@ -189,7 +222,7 @@ public class ChatController {
                         break;
                 }
 
-                switch (curCardIndex){
+                switch (curCardIndex) {
                     case 0:
                         DrawnCard0.setImage(curImage);
                         break;
@@ -282,5 +315,33 @@ public class ChatController {
     private void playNextRegistserEvent() throws JsonProcessingException {
         String cardName = "Again";
         client.playNextRegister(cardName);
+    }
+
+    //=========================EventDrawnCards=================================
+
+    @FXML
+    public void drawnButton0() {
+        System.out.println("drawnButton0 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC0.getText());
+        Image image = DrawnCard0.getImage();
+        switch (regNum){
+            case 1:
+                Register1.setImage(image);
+                break;
+            case 2:
+                Register2.setImage(image);
+                break;
+            case 3:
+                Register3.setImage(image);
+                break;
+            case 4:
+                Register4.setImage(image);
+                break;
+            case 5:
+                Register5.setImage(image);
+                break;
+        }
+
     }
 }

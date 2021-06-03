@@ -203,8 +203,8 @@
                                                    </image></ImageView>
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button fx:id="testButton" mnemonicParsing="false" onAction="#testButtonClick" prefHeight="26.0" prefWidth="32.0" text="set" />
+                                                      <TextField fx:id="drawnC0" />
+                                                      <Button fx:id="drawnB0" mnemonicParsing="false" onAction="#drawnButton0" prefHeight="26.0" prefWidth="32.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -219,8 +219,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC1" />
+                                                      <Button fx:id="drawnB1" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -235,8 +235,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC2" />
+                                                      <Button fx:id="drawnB2" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -254,8 +254,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC3" />
+                                                      <Button fx:id="drawnB3" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -270,8 +270,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC4" />
+                                                      <Button fx:id="drawnB4" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -286,8 +286,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC5" />
+                                                      <Button fx:id="drawnB5" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -305,8 +305,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC6" />
+                                                      <Button fx:id="drawnB6" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -321,8 +321,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC7" />
+                                                      <Button fx:id="drawnB7" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -337,8 +337,8 @@
                                                 </ImageView>
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
-                                                      <TextField />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <TextField fx:id="drawnC8" />
+                                                      <Button fx:id="drawnB8" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -369,7 +369,7 @@
                      <children>
                         <VBox prefHeight="167.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="Register1" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
@@ -384,7 +384,7 @@
                         <AnchorPane prefHeight="187.0" prefWidth="15.0" />
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="Register2" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
@@ -399,7 +399,7 @@
                         <AnchorPane layoutX="110.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                         <VBox layoutX="135.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="Register3" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
@@ -414,7 +414,7 @@
                         <AnchorPane layoutX="235.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                         <VBox layoutX="260.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="Register4" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
@@ -429,7 +429,7 @@
                         <AnchorPane layoutX="360.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                         <VBox layoutX="385.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="Register5" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
