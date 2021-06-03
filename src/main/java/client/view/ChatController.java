@@ -317,6 +317,7 @@ public class ChatController {
         client.playNextRegister(cardName);
     }
 
+
     //=========================EventDrawnCards=================================
 
     @FXML
@@ -325,6 +326,84 @@ public class ChatController {
         // set Image to right register
         int regNum = Integer.valueOf(drawnC0.getText());
         Image image = DrawnCard0.getImage();
+        setRegCard(regNum, image);
+    }
+
+    @FXML
+    public void drawnButton1() {
+        System.out.println("drawnButton1 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC1.getText());
+        Image image = DrawnCard1.getImage();
+        setRegCard(regNum, image);
+    }
+    @FXML
+    public void drawnButton2() {
+        System.out.println("drawnButton2 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC2.getText());
+        Image image = DrawnCard2.getImage();
+        setRegCard(regNum, image);
+    }
+    @FXML
+    public void drawnButton3() {
+        System.out.println("drawnButton3 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC3.getText());
+        Image image = DrawnCard3.getImage();
+        setRegCard(regNum, image);
+    }
+    @FXML
+    public void drawnButton4() {
+        System.out.println("drawnButton4 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC4.getText());
+        Image image = DrawnCard4.getImage();
+        setRegCard(regNum, image);
+    }
+
+    @FXML
+    public void drawnButton5() {
+        System.out.println("drawnButton5 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC5.getText());
+        Image image = DrawnCard5.getImage();
+        setRegCard(regNum, image);
+    }
+
+    @FXML
+    public void drawnButton6() {
+        System.out.println("drawnButton6 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC6.getText());
+        Image image = DrawnCard6.getImage();
+        setRegCard(regNum, image);
+    }
+
+    @FXML
+    public void drawnButton7() {
+        System.out.println("drawnButton7 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC7.getText());
+        Image image = DrawnCard7.getImage();
+        setRegCard(regNum, image);
+    }
+
+    @FXML
+    public void drawnButton8() {
+        System.out.println("drawnButton8 clicked.");
+        // set Image to right register
+        int regNum = Integer.valueOf(drawnC8.getText());
+        Image image = DrawnCard8.getImage();
+        setRegCard(regNum, image);
+    }
+
+    /**
+     * for each drawnButton function
+     * @param regNum
+     * @param image
+     */
+    public void setRegCard(int regNum, Image image){
         switch (regNum){
             case 1:
                 Register1.setImage(image);
@@ -342,6 +421,5 @@ public class ChatController {
                 Register5.setImage(image);
                 break;
         }
-
     }
 }

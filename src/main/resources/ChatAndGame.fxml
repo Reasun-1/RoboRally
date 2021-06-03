@@ -220,7 +220,7 @@
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC1" />
-                                                      <Button fx:id="drawnB1" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB1" mnemonicParsing="false" onAction="#drawnButton1" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -236,7 +236,7 @@
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC2" />
-                                                      <Button fx:id="drawnB2" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB2" mnemonicParsing="false" onAction="#drawnButton2" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -255,7 +255,7 @@
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC3" />
-                                                      <Button fx:id="drawnB3" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB3" mnemonicParsing="false" onAction="#drawnButton3" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -271,7 +271,7 @@
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC4" />
-                                                      <Button fx:id="drawnB4" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB4" mnemonicParsing="false" onAction="#drawnButton4" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -287,7 +287,7 @@
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC5" />
-                                                      <Button fx:id="drawnB5" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB5" mnemonicParsing="false" onAction="#drawnButton5" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -306,7 +306,7 @@
                                                 <HBox prefHeight="30.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC6" />
-                                                      <Button fx:id="drawnB6" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB6" mnemonicParsing="false" onAction="#drawnButton6" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -322,7 +322,7 @@
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC7" />
-                                                      <Button fx:id="drawnB7" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB7" mnemonicParsing="false" onAction="#drawnButton7" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -338,7 +338,7 @@
                                                 <HBox prefHeight="37.0" prefWidth="80.0">
                                                    <children>
                                                       <TextField fx:id="drawnC8" />
-                                                      <Button fx:id="drawnB8" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                      <Button fx:id="drawnB8" mnemonicParsing="false" onAction="#drawnButton8" prefHeight="25.0" prefWidth="47.0" text="set" />
                                                    </children>
                                                 </HBox>
                                              </children>
