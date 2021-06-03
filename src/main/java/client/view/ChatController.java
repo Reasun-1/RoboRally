@@ -321,81 +321,101 @@ public class ChatController {
     //=========================EventDrawnCards=================================
 
     @FXML
-    public void drawnButton0() {
+    public void drawnButton0() throws JsonProcessingException {
         System.out.println("drawnButton0 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC0.getText());
         Image image = DrawnCard0.getImage();
         setRegCard(regNum, image);
+
+        // send selected card message to server
+        String cardName0 = client.MYCARDSProperty().get(0);
+        client.setRegister(cardName0, regNum);
     }
 
     @FXML
-    public void drawnButton1() {
+    public void drawnButton1() throws JsonProcessingException {
         System.out.println("drawnButton1 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC1.getText());
         Image image = DrawnCard1.getImage();
         setRegCard(regNum, image);
+        String cardName1 = client.MYCARDSProperty().get(1);
+        client.setRegister(cardName1, regNum);
     }
     @FXML
-    public void drawnButton2() {
+    public void drawnButton2() throws JsonProcessingException {
         System.out.println("drawnButton2 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC2.getText());
         Image image = DrawnCard2.getImage();
         setRegCard(regNum, image);
+        String cardName2 = client.MYCARDSProperty().get(2);
+        client.setRegister(cardName2, regNum);
     }
     @FXML
-    public void drawnButton3() {
+    public void drawnButton3() throws JsonProcessingException {
         System.out.println("drawnButton3 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC3.getText());
         Image image = DrawnCard3.getImage();
         setRegCard(regNum, image);
+        String cardName3 = client.MYCARDSProperty().get(3);
+        client.setRegister(cardName3, regNum);
     }
     @FXML
-    public void drawnButton4() {
+    public void drawnButton4() throws JsonProcessingException {
         System.out.println("drawnButton4 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC4.getText());
         Image image = DrawnCard4.getImage();
         setRegCard(regNum, image);
+        String cardName4 = client.MYCARDSProperty().get(4);
+        client.setRegister(cardName4, regNum);
     }
 
     @FXML
-    public void drawnButton5() {
+    public void drawnButton5() throws JsonProcessingException {
         System.out.println("drawnButton5 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC5.getText());
         Image image = DrawnCard5.getImage();
         setRegCard(regNum, image);
+        String cardName5 = client.MYCARDSProperty().get(5);
+        client.setRegister(cardName5, regNum);
     }
 
     @FXML
-    public void drawnButton6() {
+    public void drawnButton6() throws JsonProcessingException {
         System.out.println("drawnButton6 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC6.getText());
         Image image = DrawnCard6.getImage();
         setRegCard(regNum, image);
+        String cardName6 = client.MYCARDSProperty().get(6);
+        client.setRegister(cardName6, regNum);
     }
 
     @FXML
-    public void drawnButton7() {
+    public void drawnButton7() throws JsonProcessingException {
         System.out.println("drawnButton7 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC7.getText());
         Image image = DrawnCard7.getImage();
         setRegCard(regNum, image);
+        String cardName7 = client.MYCARDSProperty().get(7);
+        client.setRegister(cardName7, regNum);
     }
 
     @FXML
-    public void drawnButton8() {
+    public void drawnButton8() throws JsonProcessingException {
         System.out.println("drawnButton8 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC8.getText());
         Image image = DrawnCard8.getImage();
         setRegCard(regNum, image);
+        String cardName8 = client.MYCARDSProperty().get(8);
+        client.setRegister(cardName8, regNum);
     }
 
     /**
