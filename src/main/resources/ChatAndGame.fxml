@@ -404,7 +404,7 @@
                               </ImageView>
                               <HBox prefHeight="30.0" prefWidth="80.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                    <Button mnemonicParsing="false" onAction="#clearRegister1" prefHeight="25.0" prefWidth="100.0" text="remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -419,7 +419,7 @@
                               </ImageView>
                               <HBox prefHeight="30.0" prefWidth="80.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                    <Button mnemonicParsing="false" onAction="#clearRegister2" prefHeight="25.0" prefWidth="100.0" text="remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -434,7 +434,7 @@
                               </ImageView>
                               <HBox prefHeight="30.0" prefWidth="80.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                    <Button mnemonicParsing="false" onAction="#clearRegister3" prefHeight="25.0" prefWidth="100.0" text="remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -449,7 +449,7 @@
                               </ImageView>
                               <HBox prefHeight="30.0" prefWidth="80.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                    <Button mnemonicParsing="false" onAction="#clearRegister4" prefHeight="25.0" prefWidth="100.0" text="remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -464,7 +464,7 @@
                               </ImageView>
                               <HBox prefHeight="30.0" prefWidth="80.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                    <Button mnemonicParsing="false" onAction="#clearRegister5" prefHeight="25.0" prefWidth="100.0" text="remove" />
                                  </children>
                               </HBox>
                            </children>

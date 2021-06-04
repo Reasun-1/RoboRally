@@ -332,15 +332,6 @@ public class ChatController {
             }
         });
 
-        //bind flag direction for listener
-        client.flagDirectionsProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                HashMap<Integer, Direction> currentDirections = client.getCurrentDirections();
-
-            }
-        });
-
         //bind myFigure for listener
         client.flagMyFigureProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -673,6 +664,28 @@ public class ChatController {
                 Register5.setImage(image);
                 break;
         }
+    }
+
+    // clear each register
+    public void clearRegister1() throws JsonProcessingException {
+        client.setRegister(null, 1);
+        Register1.setImage(imageDiscard);
+    }
+    public void clearRegister2() throws JsonProcessingException {
+        client.setRegister(null, 2);
+        Register2.setImage(imageDiscard);
+    }
+    public void clearRegister3() throws JsonProcessingException {
+        client.setRegister(null, 3);
+        Register3.setImage(imageDiscard);
+    }
+    public void clearRegister4() throws JsonProcessingException {
+        client.setRegister(null, 4);
+        Register4.setImage(imageDiscard);
+    }
+    public void clearRegister5() throws JsonProcessingException {
+        client.setRegister(null, 5);
+        Register5.setImage(imageDiscard);
     }
 
     /**
