@@ -63,6 +63,9 @@ public class MoveII extends RegisterCard{
         // check if robot is still on board
         boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
         if(isOnBoard){
+            // set new Position in Game
+            Game.playerPositions.put(clientID, newPosition);
+            // transport new Position to client
             Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
         }
 

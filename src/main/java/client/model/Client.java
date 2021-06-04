@@ -558,6 +558,24 @@ public class Client extends Application {
                             currentPositions.get(movedClient)[1] = toY;
                             flagPositions.set(flagPositionsProperty().getValue()+1);
                             break;
+                        case "PlayerTurning":
+                            PlayerTurningBody playerTurningBody = Protocol.readJsonPlayerTurning(json);
+                            int turnedClient = playerTurningBody.getClientID();
+                            String turnDirection = playerTurningBody.getRotation();
+
+                            // update client direction in client class
+                            Direction curDir = currentDirections.get(turnedClient);
+                            Direction newDir = null;
+                            if(turnDirection.equals("clockwise")){
+                                newDir = Direction.turnClock(curDir);
+                            }else if(turnDirection.equals("counterclockwise")){
+                               newDir = Direction.turnCounterClock(curDir);
+                            }
+
+                            // tell GUI-Listener about the update
+                            currentDirections.put(turnedClient, newDir);
+                            flagPositions.set(flagPositions.get()+1);
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

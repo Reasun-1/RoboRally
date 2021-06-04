@@ -75,7 +75,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SendChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SendChatBody>(){});
+        SendChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SendChatBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -87,7 +88,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        ReceivedChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ReceivedChatBody>(){});
+        ReceivedChatBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ReceivedChatBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -99,7 +101,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        ErrorBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ErrorBody>(){});
+        ErrorBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ErrorBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -111,7 +114,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        HelloClientBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloClientBody>(){});
+        HelloClientBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloClientBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -124,7 +128,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        HelloServerBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloServerBody>(){});
+        HelloServerBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<HelloServerBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -137,7 +142,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        WelcomeBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<WelcomeBody>(){});
+        WelcomeBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<WelcomeBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -150,7 +156,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        PlayerValuesBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerValuesBody>(){});
+        PlayerValuesBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerValuesBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -163,7 +170,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        PlayerAddedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerAddedBody>(){});
+        PlayerAddedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerAddedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -175,7 +183,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SetStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStatusBody>(){});
+        SetStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStatusBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -187,7 +196,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        PlayerStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerStatusBody>(){});
+        PlayerStatusBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerStatusBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -199,7 +209,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        MapSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MapSelectedBody>(){});
+        MapSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MapSelectedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -211,7 +222,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SelectMapBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectMapBody>(){});
+        SelectMapBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectMapBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -220,13 +232,14 @@ public class Protocol {
         ObjectMapper objectMapper = new ObjectMapper();
 
         //objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
-        objectMapper.registerSubtypes(Antenna.class, CheckPoint.class, ConveyorBelt.class, Empty.class, EnergySpace.class, Gear.class,Laser.class,Pit.class,PushPanel.class,RestartPoint.class,StartPoint.class,Wall.class);
+        objectMapper.registerSubtypes(Antenna.class, CheckPoint.class, ConveyorBelt.class, Empty.class, EnergySpace.class, Gear.class, Laser.class, Pit.class, PushPanel.class, RestartPoint.class, StartPoint.class, Wall.class);
 
         Protocol protocol = objectMapper.readValue(json, Protocol.class);
 
         Object messageBody = protocol.getMessageBody();
 
-        GameStartedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<GameStartedBody>(){});
+        GameStartedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<GameStartedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -238,11 +251,12 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        ActivePhaseBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ActivePhaseBody>(){});
+        ActivePhaseBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ActivePhaseBody>() {
+        });
 
         return messageBodyDetail;
     }
-    
+
     public static CurrentPlayerBody readJsonCurrentPlayer(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -250,7 +264,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        CurrentPlayerBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CurrentPlayerBody>(){});
+        CurrentPlayerBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CurrentPlayerBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -262,7 +277,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SetStartingPointBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStartingPointBody>(){});
+        SetStartingPointBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SetStartingPointBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -274,7 +290,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        StartingPointTakenBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<StartingPointTakenBody>(){});
+        StartingPointTakenBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<StartingPointTakenBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -287,7 +304,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        YourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<YourCardsBody>(){});
+        YourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<YourCardsBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -300,7 +318,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        NotYourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<NotYourCardsBody>(){});
+        NotYourCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<NotYourCardsBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -312,7 +331,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        ShuffleCodingBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ShuffleCodingBody>(){});
+        ShuffleCodingBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ShuffleCodingBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -324,7 +344,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SelectedCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectedCardBody>(){});
+        SelectedCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectedCardBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -336,7 +357,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        CardSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardSelectedBody>(){});
+        CardSelectedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardSelectedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -348,7 +370,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        SelectionFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectionFinishedBody>(){});
+        SelectionFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<SelectionFinishedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -360,7 +383,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        TimerEndedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<TimerEndedBody>(){});
+        TimerEndedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<TimerEndedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -372,7 +396,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        CardsYouGotNowBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardsYouGotNowBody>(){});
+        CardsYouGotNowBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardsYouGotNowBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -384,7 +409,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        CurrentCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CurrentCardsBody>(){});
+        CurrentCardsBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CurrentCardsBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -396,7 +422,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        PlayCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayCardBody>(){});
+        PlayCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayCardBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -408,7 +435,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        CardPlayedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardPlayedBody>(){});
+        CardPlayedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CardPlayedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -420,7 +448,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        RebootBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootBody>(){});
+        RebootBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -432,7 +461,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        RebootDirectionBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootDirectionBody>(){});
+        RebootDirectionBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RebootDirectionBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -444,7 +474,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        GameFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<GameFinishedBody>(){});
+        GameFinishedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<GameFinishedBody>() {
+        });
 
         return messageBodyDetail;
     }
@@ -456,12 +487,24 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        MovementBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MovementBody>(){});
+        MovementBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MovementBody>() {
+        });
 
         return messageBodyDetail;
     }
 
+    public static PlayerTurningBody readJsonPlayerTurning(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        PlayerTurningBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<PlayerTurningBody>() {
+        });
+
+        return messageBodyDetail;
+    }
 
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -470,7 +513,8 @@ public class Protocol {
 
         Object messageBody = protocol.getMessageBody();
 
-        TestBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<TestBody>(){});
+        TestBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<TestBody>() {
+        });
 
         return messageBodyDetail;
     }

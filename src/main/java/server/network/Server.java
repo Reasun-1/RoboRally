@@ -479,4 +479,11 @@ public class Server {
         logger.info("server informs positions");
         makeOrderToAllClients(json);
     }
+
+    public void handlePlayerTurning(int clientID, String turnDirection) throws IOException {
+        Protocol protocol = new Protocol("PlayerTurning", new PlayerTurningBody(clientID, turnDirection));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs turnDirection");
+        makeOrderToAllClients(json);
+    }
 }

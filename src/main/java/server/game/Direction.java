@@ -25,4 +25,44 @@ public enum Direction {
         return direction;
     }
 
+    public static Direction turnClock(Direction curDir){
+        Direction newDir = null;
+        switch (curDir){
+            case RIGHT:
+                newDir = UP;
+                break;
+            case DOWN:
+                newDir = RIGHT;
+                break;
+            case LEFT:
+                newDir = DOWN;
+                break;
+            case UP:
+                newDir = LEFT;
+                break;
+        }
+        return newDir;
+    }
+
+    public static Direction turnCounterClock(Direction curDir){
+        Direction newDir = null;
+        switch (curDir){
+            case RIGHT:
+                newDir = UP;
+                break;
+            case DOWN:
+                newDir = RIGHT;
+                break;
+            case LEFT:
+                newDir = DOWN;
+                break;
+            case UP:
+                newDir = LEFT;
+                break;
+        }
+        return newDir;
+    }
+
+
+
 }
