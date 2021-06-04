@@ -45,8 +45,6 @@ public class ChatController {
     @FXML
     private GridPane gridPaneBoard;
     @FXML
-    private GridPane gridPaneRobot;
-    @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
     private TextField information; // bind INFORMATION StringProperty in Client
@@ -635,6 +633,6 @@ public class ChatController {
         boardElemen.setFitHeight(43);
         boardElemen.setFitWidth(43);
         //boardElemen.setRotate(boardElemen.getRotate() + 90);
-        gridPaneRobot.add(boardElemen,5,1);
+        gridPaneBoard.add(boardElemen,5,1);
     }
 }
