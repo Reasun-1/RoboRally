@@ -170,37 +170,37 @@ public class ChatController {
     Image GearTLeft = new Image(getClass().getResource("/images/Gear/Gear-Tleft.png").toExternalForm());
     Image GearTRight = new Image(getClass().getResource("/images/Gear/Gear-Tright.png").toExternalForm());
 
-    Image BoardLasers1 = new Image(getClass().getResource("/image/Lasers/BoardLasers1.png").toExternalForm());
-    Image BoardLasers2 = new Image(getClass().getResource("/image/Lasers/BoardLasers2.png").toExternalForm());
-    Image BoardLasers3 = new Image(getClass().getResource("/image/Lasers/BoardLasers3.png").toExternalForm());
-    Image Lasers1 = new Image(getClass().getResource("/image/Lasers/Lasers1.png").toExternalForm());
-    Image Lasers2 = new Image(getClass().getResource("/image/Lasers/Lasers2.png").toExternalForm());
-    Image Lasers3 = new Image(getClass().getResource("/image/Lasers/Lasers3.png").toExternalForm());
+    Image BoardLasers1 = new Image(getClass().getResource("/images/Lasers/BoardLasers1.png").toExternalForm());
+    Image BoardLasers2 = new Image(getClass().getResource("/images/Lasers/BoardLasers2.png").toExternalForm());
+    Image BoardLasers3 = new Image(getClass().getResource("/images/Lasers/BoardLasers3.png").toExternalForm());
+    Image Lasers1 = new Image(getClass().getResource("/images/Lasers/Lasers1.png").toExternalForm());
+    Image Lasers2 = new Image(getClass().getResource("/images/Lasers/Lasers2.png").toExternalForm());
+    Image Lasers3 = new Image(getClass().getResource("/images/Lasers/Lasers3.png").toExternalForm());
 
-    Image PushPanel1 = new Image(getClass().getResource("/image/PushPanel/PushPanel-1.png").toExternalForm());
-    Image PushPanel1_3_5 = new Image(getClass().getResource("/image/PushPanel/PushPanel-1-3-5.png").toExternalForm());
-    Image PushPanel2 = new Image(getClass().getResource("/image/PushPanel/PushPanel-2.png").toExternalForm());
-    Image PushPanel2_4 = new Image(getClass().getResource("/image/PushPanel/PushPanel-2-4.png").toExternalForm());
-    Image PushPanel3 = new Image(getClass().getResource("/image/PushPanel/PushPanel-3.png").toExternalForm());
-    Image PushPanel4 = new Image(getClass().getResource("/image/PushPanel/PushPanel-4.png").toExternalForm());
-    Image PushPanel5 = new Image(getClass().getResource("/image/PushPanel/PushPanel-5.png").toExternalForm());
+    Image PushPanel1 = new Image(getClass().getResource("/images/PushPanel/PushPanel-1.png").toExternalForm());
+    Image PushPanel1_3_5 = new Image(getClass().getResource("/images/PushPanel/PushPanel-1-3-5.png").toExternalForm());
+    Image PushPanel2 = new Image(getClass().getResource("/images/PushPanel/PushPanel-2.png").toExternalForm());
+    Image PushPanel2_4 = new Image(getClass().getResource("/images/PushPanel/PushPanel-2-4.png").toExternalForm());
+    Image PushPanel3 = new Image(getClass().getResource("/images/PushPanel/PushPanel-3.png").toExternalForm());
+    Image PushPanel4 = new Image(getClass().getResource("/images/PushPanel/PushPanel-4.png").toExternalForm());
+    Image PushPanel5 = new Image(getClass().getResource("/images/PushPanel/PushPanel-5.png").toExternalForm());
 
-    Image HulkBot = new Image(getClass().getResource("/image/Robots/Hulk.png").toExternalForm());
-    Image SpinBot = new Image(getClass().getResource("/image/Robots/Spinbot.png").toExternalForm());
-    Image SquashBot = new Image(getClass().getResource("/image/Robots/Squashbot.png").toExternalForm());
-    Image TrundleBot = new Image(getClass().getResource("/image/Robots/Trundlebot.png").toExternalForm());
-    Image TwitchBot = new Image(getClass().getResource("/image/Robots/Twitch.png").toExternalForm());
-    Image TwonkyBot = new Image(getClass().getResource("/image/Robots/Twonky.png").toExternalForm());
+    Image HulkBot = new Image(getClass().getResource("/images/Robots/Hulk.png").toExternalForm());
+    Image SpinBot = new Image(getClass().getResource("/images/Robots/Spinbot.png").toExternalForm());
+    Image SquashBot = new Image(getClass().getResource("/images/Robots/Squashbot.png").toExternalForm());
+    Image TrundleBot = new Image(getClass().getResource("/images/Robots/Trundlebot.png").toExternalForm());
+    Image TwitchBot = new Image(getClass().getResource("/images/Robots/Twitch.png").toExternalForm());
+    Image TwonkyBot = new Image(getClass().getResource("/images/Robots/Twonky.png").toExternalForm());
 
-    Image Startpoint1 = new Image(getClass().getResource("/image/Startpoints/Start-1.png").toExternalForm());
-    Image Startpoint2 = new Image(getClass().getResource("/image/Startpoints/Start-2.png").toExternalForm());
-    Image Startpoint3 = new Image(getClass().getResource("/image/Startpoints/Start-3.png").toExternalForm());
-    Image Startpoint4 = new Image(getClass().getResource("/image/Startpoints/Start-4.png").toExternalForm());
-    Image Startpoint5 = new Image(getClass().getResource("/image/Startpoints/Start-5.png").toExternalForm());
-    Image Startpoint6 = new Image(getClass().getResource("/image/Startpoints/Start-6.png").toExternalForm());
+    Image Startpoint1 = new Image(getClass().getResource("/images/Startpoints/Start-1.png").toExternalForm());
+    Image Startpoint2 = new Image(getClass().getResource("/images/Startpoints/Start-2.png").toExternalForm());
+    Image Startpoint3 = new Image(getClass().getResource("/images/Startpoints/Start-3.png").toExternalForm());
+    Image Startpoint4 = new Image(getClass().getResource("/images/Startpoints/Start-4.png").toExternalForm());
+    Image Startpoint5 = new Image(getClass().getResource("/images/Startpoints/Start-5.png").toExternalForm());
+    Image Startpoint6 = new Image(getClass().getResource("/images/Startpoints/Start-6.png").toExternalForm());
 
-    Image WallNormal = new Image(getClass().getResource("/image/Wall/Walls.png").toExternalForm());
-    Image WallEdge = new Image(getClass().getResource("/image/Wall/Walls-Edge.png").toExternalForm());
+    Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
+    Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
 
     public void init(Client client) {
         this.client = client;
@@ -527,6 +527,7 @@ public class ChatController {
         ImageView boardElemen = new ImageView(imageCheckpoint1);
         boardElemen.setFitHeight(43);
         boardElemen.setFitWidth(43);
+        boardElemen.setRotate(boardElemen.getRotate() + 90);
         gridPaneBoard.add(boardElemen,1,1);
     }
 }
