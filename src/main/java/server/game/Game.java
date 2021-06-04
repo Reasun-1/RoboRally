@@ -104,61 +104,11 @@ public class Game {
             }
             undrawnCards.put(client, cards);
 
-            // for discarded cards
+            // init for discarded cards
             List<RegisterCard> discards = new ArrayList<>();
             discardedCards.put(client, discards);
+
         }
-
-
-
-        /*
-        // only for test!!
-        // soon: shuffle card with correct count of cards
-        List<RegisterCard> list = new ArrayList<>();
-        list.add(new MoveII());
-        list.add(new MoveII());
-        list.add(new MoveII());
-        list.add(new Again());
-        list.add(new MoveII());
-        list.add(new Again());
-        list.add(new Again());
-        list.add(new MoveII());
-        list.add(new Again());
-        list.add(new MoveII());
-
-        List<RegisterCard> list2 = new ArrayList<>();
-        list2.add(new MoveII());
-        list2.add(new Again());
-        list2.add(new Again());
-
-        List<List<RegisterCard>> ll = new ArrayList<>();
-        ll.add(list);
-        ll.add(list2);
-        int num = 0;
-        for (int clientID : clientIDs) {
-            undrawnCards.put(clientID, ll.get(num++));
-        }
-
-        // only for test
-        List<RegisterCard> dis1 = new ArrayList<>();
-        dis1.add(new MoveII());
-        dis1.add(new MoveII());
-        dis1.add(new MoveII());
-        dis1.add(new MoveII());
-        List<RegisterCard> dis2 = new ArrayList<>();
-        dis2.add(new MoveII());
-        dis2.add(new MoveII());
-        dis2.add(new Again());
-        dis2.add(new MoveII());
-        List<List<RegisterCard>> ww = new ArrayList<>();
-        ww.add(dis1);
-        ww.add(dis2);
-        int num1 = 0;
-        for (int clientID : clientIDs) {
-            discardedCards.put(clientID, ww.get(num1++));
-        }
-
-         */
     }
 
     /**

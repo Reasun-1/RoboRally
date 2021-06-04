@@ -343,6 +343,7 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 List<List<List<FeldObject>>> mapInGUI = client.getMapInGUI();
+                System.out.println(mapInGUI.size());
                 setMapInGUI(mapInGUI);
             }
         });
@@ -641,6 +642,7 @@ public class ChatController {
      * @param map
      */
     public void setMapInGUI(List<List<List<FeldObject>>> map){
+        System.out.println("flag setMap GUI");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 13; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
@@ -731,6 +733,6 @@ public class ChatController {
         gridPaneBoard.add(boardElemen,5,1);
 
          */
-        gridPaneBoard.getChildren().clear();
+       // gridPaneBoard.getChildren().clear();
     }
 }

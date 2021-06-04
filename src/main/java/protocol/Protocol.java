@@ -222,8 +222,6 @@ public class Protocol {
         //objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
         objectMapper.registerSubtypes(Antenna.class, CheckPoint.class, ConveyorBelt.class, Empty.class, EnergySpace.class, Gear.class,Laser.class,Pit.class,PushPanel.class,RestartPoint.class,StartPoint.class,Wall.class);
 
-
-
         Protocol protocol = objectMapper.readValue(json, Protocol.class);
 
         Object messageBody = protocol.getMessageBody();
@@ -451,6 +449,17 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static MovementBody readJsonMovement(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        MovementBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<MovementBody>(){});
+
+        return messageBodyDetail;
+    }
 
 
 

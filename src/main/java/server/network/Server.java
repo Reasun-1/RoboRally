@@ -454,10 +454,29 @@ public class Server {
     }
 
 
+    /**
+     * inform all clients game is finished
+     * @param clientID
+     * @throws IOException
+     */
     public void handleGameFinished(int clientID) throws IOException {
         Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs game finished");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all clients who has moved to where
+     * @param clientID
+     * @param toX
+     * @param toY
+     * @throws IOException
+     */
+    public void handleMovement(int clientID, int toX, int toY) throws IOException {
+        Protocol protocol = new Protocol("Movement", new MovementBody(clientID, toX, toY));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs positions");
         makeOrderToAllClients(json);
     }
 }

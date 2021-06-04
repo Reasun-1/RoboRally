@@ -444,12 +444,6 @@ public class Client extends Application {
 
                             // update flag current positions
                             flagPositions.set(flagPositions.getValue()+1);
-                            /*
-                            // set current position
-                            CURRENTPOSITIONS.get(clientWhoSetPoint)[0].set(clientX);
-                            CURRENTPOSITIONS.get(clientWhoSetPoint)[1].set(clientY);
-
-                             */
 
                             logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
                             break;
@@ -543,6 +537,15 @@ public class Client extends Application {
                             int winner = gameFinishedBody.getClientID();
                             INFORMATION.set("");
                             INFORMATION.set("Game finished! The winner is: " + winner);
+                            break;
+                        case "Movement":
+                            MovementBody movementBody = Protocol.readJsonMovement(json);
+                            int movedClient = movementBody.getClientID();
+                            int toX = movementBody.getX();
+                            int toY = movementBody.getY();
+                            currentPositions.get(movedClient)[0] = toX;
+                            currentPositions.get(movedClient)[1] = toY;
+                            flagPositions.set(flagPositionsProperty().getValue()+1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

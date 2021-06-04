@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
+import server.network.Server;
 
 import java.io.IOException;
 
@@ -61,6 +62,9 @@ public class MoveII extends RegisterCard{
 
         // check if robot is still on board
         boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
+        if(isOnBoard){
+            Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
+        }
 
     }
 }
