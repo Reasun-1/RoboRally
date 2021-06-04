@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import server.feldobjects.FeldObject;
+import server.game.Direction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -255,8 +256,30 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
 
+                // reset robot gridpane
                 gridPaneRobot.getChildren().clear();
+                // reset all rotates of imageViews
+
+                // get robots current direction
                 for(int clientNum : client.getCurrentPositions().keySet()){
+                    Direction direction = client.getCurrentDirections().get(clientNum);
+                    int rotateGrad = 0;
+                    switch (direction){
+                        case RIGHT:
+                            rotateGrad = 90;
+                            break;
+                        case DOWN:
+                            rotateGrad = 180;
+                            break;
+                        case LEFT:
+                            rotateGrad = 270;
+                            break;
+                        case UP:
+                            rotateGrad = 0;
+                            break;
+                    }
+
+                    // get robots current position
                     int curX = client.getCurrentPositions().get(clientNum)[0];
                     int curY = client.getCurrentPositions().get(clientNum)[1];
                     int clientFig = client.getRobotFigureAllClients().get(clientNum);
@@ -265,41 +288,56 @@ public class ChatController {
                             ImageView imgV1 = new ImageView(HulkBot);
                             imgV1.setFitHeight(43);
                             imgV1.setFitWidth(43);
+                            imgV1.setRotate(imgV1.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV1,curX, curY);
                             break;
                         case 2:
                             ImageView imgV2 = new ImageView(SpinBot);
                             imgV2.setFitHeight(43);
                             imgV2.setFitWidth(43);
+                            imgV2.setRotate(imgV2.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV2,curX, curY);
                             break;
                         case 3:
                             ImageView imgV3 = new ImageView(SquashBot);
                             imgV3.setFitHeight(43);
                             imgV3.setFitWidth(43);
+                            imgV3.setRotate(imgV3.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV3,curX, curY);
                             break;
                         case 4:
                             ImageView imgV4 = new ImageView(TrundleBot);
                             imgV4.setFitHeight(43);
                             imgV4.setFitWidth(43);
+                            imgV4.setRotate(imgV4.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV4,curX, curY);
                             break;
                         case 5:
                             ImageView imgV5 = new ImageView(TwitchBot);
                             imgV5.setFitHeight(43);
                             imgV5.setFitWidth(43);
+                            imgV5.setRotate(imgV5.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV5,curX, curY);
                             break;
                         case 6:
                             ImageView imgV6 = new ImageView(TwonkyBot);
                             imgV6.setFitHeight(43);
                             imgV6.setFitWidth(43);
+                            imgV6.setRotate(imgV6.getRotate()+rotateGrad);
                             gridPaneRobot.add(imgV6,curX, curY);
                             myFigure.setImage(TwonkyBot);
                             break;
                     }
                 }
+            }
+        });
+
+        //bind flag direction for listener
+        client.flagDirectionsProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                HashMap<Integer, Direction> currentDirections = client.getCurrentDirections();
+
             }
         });
 

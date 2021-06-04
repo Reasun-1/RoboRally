@@ -11,6 +11,7 @@ import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
+import server.game.Direction;
 import server.game.Register;
 
 import java.io.*;
@@ -51,6 +52,8 @@ public class Client extends Application {
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
     // current positions of all clients
     private final HashMap<Integer, int[]> currentPositions = new HashMap<>();
+    // current directions of all clients
+    private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
 
@@ -91,8 +94,6 @@ public class Client extends Application {
     private final BooleanProperty CANPLAYNEXTREGISTER = new SimpleBooleanProperty(false);
     // binding current positions of all clients
     private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
-    // to bind..
-    private final HashMap<Integer, String> currentDirection = new HashMap<>();
     // flag property for listner to know that round is over
     private IntegerProperty flagRoundOver = new SimpleIntegerProperty(0);
     // flag property for map-updating
@@ -101,6 +102,8 @@ public class Client extends Application {
     private IntegerProperty flagMyFigure = new SimpleIntegerProperty(0);
     // flag property for positionsAllRobots
     private IntegerProperty flagPositions = new SimpleIntegerProperty(0);
+    // flag property for directions all robots
+    private IntegerProperty flagDirections = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -190,7 +193,14 @@ public class Client extends Application {
 
     public IntegerProperty flagPositionsProperty() { return flagPositions; }
 
+    public IntegerProperty flagDirectionsProperty() { return flagDirections;}
+
     public HashMap<Integer, int[]> getCurrentPositions() { return currentPositions; }
+
+    public HashMap<Integer, Direction> getCurrentDirections() { return currentDirections;}
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -444,6 +454,7 @@ public class Client extends Application {
 
                             // update flag current positions
                             flagPositions.set(flagPositions.getValue()+1);
+                            //flagDirections.set(flagDirections.getValue()+1);
 
                             logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
                             break;
@@ -698,16 +709,6 @@ public class Client extends Application {
     public void initGameForClients() {
 
         for (int client : clientNames.keySet()) {
-            /*
-            // init CURRENTPOSITIONS
-            SimpleIntegerProperty x = new SimpleIntegerProperty();
-            SimpleIntegerProperty y = new SimpleIntegerProperty();
-            IntegerProperty[] position = new IntegerProperty[2];
-            position[0] = x;
-            position[1] = y;
-            CURRENTPOSITIONS.put(client, position);
-
-             */
 
             // init start positions of all clients
             int[] startPos = new int[2];
@@ -716,6 +717,9 @@ public class Client extends Application {
             // init current positions
             int[] currentPo = new int[2];
             currentPositions.put(client, currentPo);
+
+            // init curren positions
+            currentDirections.put(client, Direction.RIGHT);
         }
     }
 
