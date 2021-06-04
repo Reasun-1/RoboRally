@@ -18,6 +18,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
+import server.feldobjects.FeldObject;
+
+import java.util.List;
 
 
 /**
@@ -234,6 +237,15 @@ public class ChatController {
 
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
+
+        //====================Bindings for Map=========================
+        client.flagMapUpdateProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                List<List<List<FeldObject>>> mapInGUI = client.getMapInGUI();
+                setMapInGUI(mapInGUI);
+            }
+        });
 
         //====================Bindings for drawnCards===================
         client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
@@ -523,6 +535,29 @@ public class ChatController {
                 break;
         }
     }
+
+    /**
+     * set Map in GUI
+     * @param map
+     */
+    public void setMapInGUI(List<List<List<FeldObject>>> map){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 13; j++) {
+                List<FeldObject> feldObjects = map.get(i).get(j);
+                for(FeldObject obj : feldObjects){
+                    if(!obj.getClass().getSimpleName().equals("Empty")){
+                        ImageView boardElemen = new ImageView(BlueConveyorBelts);
+                        boardElemen.setFitHeight(43);
+                        boardElemen.setFitWidth(43);
+                        gridPaneBoard.add(boardElemen,i,j);
+                    }
+                }
+            }
+        }
+    }
+
+
+
     public void testBoardButtonEvent(){
         ImageView boardElemen = new ImageView(imageCheckpoint1);
         boardElemen.setFitHeight(43);

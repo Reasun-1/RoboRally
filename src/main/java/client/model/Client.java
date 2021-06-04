@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  * It also holds the main method which starts the Application.
  */
 public class Client extends Application {
+
     private static final Logger logger = Logger.getLogger(Client.class.getName());
     // Socket for the TCP connection
     private volatile Socket socket;
@@ -48,6 +49,8 @@ public class Client extends Application {
     private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
     // storage of my start positions for all clients: key=clientID, value = [x,y]
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
+    // 3D-map for GUI
+    private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
 
 
 
@@ -89,6 +92,8 @@ public class Client extends Application {
     private final HashMap<Integer, String> currentDirection = new HashMap<>();
     // flag property for listner to know that round is over
     private IntegerProperty flagRoundOver = new SimpleIntegerProperty(0);
+    // flag property for map-updating
+    private IntegerProperty flagMapUpdate = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -169,6 +174,10 @@ public class Client extends Application {
     }
 
     public IntegerProperty flagRoundOverProperty() { return flagRoundOver;}
+
+    public IntegerProperty flagMapUpdateProperty() { return flagMapUpdate; }
+
+    public List<List<List<FeldObject>>> getMapInGUI() { return mapInGUI; }
 
     // Setters
     public void setName(String name) {
@@ -361,6 +370,9 @@ public class Client extends Application {
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                            mapInGUI = gameMap;
+                            // update flag for MapUpdate, so that viewController can listen
+                            flagMapUpdate.set(flagMapUpdate.getValue()+1);
                             System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
                             System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() +gameMap.get(0).get(2).get(0).getOrientations());
                             initGameForClients();
