@@ -121,7 +121,7 @@
                                              <children>
                                                 <ImageView fitHeight="460.0" fitWidth="589.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@images/Raster.jpg" />
+                                                      <Image url="@images/RasterXY.jpg" />
                                                    </image>
                                                 </ImageView>
                                              </children>

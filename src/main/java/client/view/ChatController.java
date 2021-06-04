@@ -26,6 +26,8 @@ import java.util.List;
 /**
  * @author can ren
  * @author rajna fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {
