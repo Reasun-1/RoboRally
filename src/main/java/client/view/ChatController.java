@@ -188,6 +188,9 @@ public class ChatController {
     Image PushPanel4 = new Image(getClass().getResource("/images/PushPanel/PushPanel-4.png").toExternalForm());
     Image PushPanel5 = new Image(getClass().getResource("/images/PushPanel/PushPanel-5.png").toExternalForm());
 
+    Image Antenna = new Image(getClass().getResource("/images/Antenna.png").toExternalForm());
+    Image Pits = new Image(getClass().getResource("/images/Pits.png").toExternalForm());
+
     Image HulkBot = new Image(getClass().getResource("/images/Robots/Hulk.png").toExternalForm());
     Image SpinBot = new Image(getClass().getResource("/images/Robots/Spinbot.png").toExternalForm());
     Image SquashBot = new Image(getClass().getResource("/images/Robots/Squashbot.png").toExternalForm());
@@ -546,10 +549,75 @@ public class ChatController {
                 List<FeldObject> feldObjects = map.get(i).get(j);
                 for(FeldObject obj : feldObjects){
                     if(!obj.getClass().getSimpleName().equals("Empty")){
-                        ImageView boardElemen = new ImageView(BlueConveyorBelts);
-                        boardElemen.setFitHeight(43);
-                        boardElemen.setFitWidth(43);
-                        gridPaneBoard.add(boardElemen,i,j);
+
+                        switch (obj.getClass().getSimpleName()){
+                            case "Antenna":
+                                ImageView antennaImg = new ImageView(Antenna);
+                                antennaImg.setFitHeight(43);
+                                antennaImg.setFitWidth(43);
+                                gridPaneBoard.add(antennaImg,j,i);
+                                break;
+                            case "CheckPoint":
+                                ImageView checkpointImg = new ImageView(imageCheckpoint1);
+                                checkpointImg.setFitHeight(43);
+                                checkpointImg.setFitWidth(43);
+                                gridPaneBoard.add(checkpointImg,j,i);
+                                break;
+                            case "ConveyorBelt":
+                                ImageView beltImg = new ImageView(BlueConveyorBelts);
+                                beltImg.setFitHeight(43);
+                                beltImg.setFitWidth(43);
+                                gridPaneBoard.add(beltImg,j,i);
+                                break;
+                            case "EnergySpace":
+                                ImageView energyImg = new ImageView(EnergyOn);
+                                energyImg.setFitHeight(43);
+                                energyImg.setFitWidth(43);
+                                gridPaneBoard.add(energyImg,j,i);
+                                break;
+                            case "Gear":
+                                ImageView gearImg = new ImageView(GearTLeft);
+                                gearImg.setFitHeight(43);
+                                gearImg.setFitWidth(43);
+                                gridPaneBoard.add(gearImg,j,i);
+                                break;
+                            case "Laser":
+                                ImageView laserImg = new ImageView(Lasers1);
+                                laserImg.setFitHeight(43);
+                                laserImg.setFitWidth(43);
+                                gridPaneBoard.add(laserImg,j,i);
+                                break;
+                            case "Pit":
+                                ImageView pitImg = new ImageView(Pits);
+                                pitImg.setFitHeight(43);
+                                pitImg.setFitWidth(43);
+                                gridPaneBoard.add(pitImg,j,i);
+                                break;
+                            case "PushPanel":
+                                ImageView pushImg = new ImageView(PushPanel1);
+                                pushImg.setFitHeight(43);
+                                pushImg.setFitWidth(43);
+                                gridPaneBoard.add(pushImg,j,i);
+                                break;
+                            case "RestartPoint":
+                                ImageView restartImg = new ImageView(Startpoint6);
+                                restartImg.setFitHeight(43);
+                                restartImg.setFitWidth(43);
+                                gridPaneBoard.add(restartImg,j,i);
+                                break;
+                            case "StartPoint":
+                                ImageView startImg = new ImageView(Startpoint1);
+                                startImg.setFitHeight(43);
+                                startImg.setFitWidth(43);
+                                gridPaneBoard.add(startImg,j,i);
+                                break;
+                            case "Wall":
+                                ImageView wallImg = new ImageView(WallNormal);
+                                wallImg.setFitHeight(43);
+                                wallImg.setFitWidth(43);
+                                gridPaneBoard.add(wallImg,j,i);
+                                break;
+                        }
                     }
                 }
             }
@@ -562,7 +630,7 @@ public class ChatController {
         ImageView boardElemen = new ImageView(imageCheckpoint1);
         boardElemen.setFitHeight(43);
         boardElemen.setFitWidth(43);
-        boardElemen.setRotate(boardElemen.getRotate() + 90);
-        gridPaneBoard.add(boardElemen,1,1);
+        //boardElemen.setRotate(boardElemen.getRotate() + 90);
+        gridPaneBoard.add(boardElemen,5,1);
     }
 }
