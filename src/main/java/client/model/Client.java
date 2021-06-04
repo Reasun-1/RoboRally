@@ -529,9 +529,10 @@ public class Client extends Application {
                             // set client to start point
                             int startX = startPositionsAllClients.get(clientReboot)[0];
                             int startY = startPositionsAllClients.get(clientReboot)[1];
-                            CURRENTPOSITIONS.get(clientReboot)[0].set(startX);
-                            CURRENTPOSITIONS.get(clientReboot)[1].set(startY);
 
+                            currentPositions.get(clientReboot)[0] = startX;
+                            currentPositions.get(clientReboot)[1] = startY;
+                            flagPositions.set(flagDirections.getValue()+1);
 
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
@@ -539,7 +540,7 @@ public class Client extends Application {
                                     MYREGISTER[i].set("");
                                 }
                                 // soon in GUI
-                                handleRebootDirection("right");
+                                //handleRebootDirection("right");
                             }
                             logger.info("client reboot to start point");
                             break;
