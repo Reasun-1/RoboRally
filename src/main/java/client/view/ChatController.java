@@ -46,6 +46,8 @@ public class ChatController {
     @FXML
     private GridPane gridPaneBoard;
     @FXML
+    private GridPane gridPaneRobot;
+    @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
     private TextField information; // bind INFORMATION StringProperty in Client
@@ -247,6 +249,59 @@ public class ChatController {
 
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
+
+        //bind position update for listener
+        client.flagPositionsProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+
+                gridPaneRobot.getChildren().clear();
+                for(int clientNum : client.getCurrentPositions().keySet()){
+                    int curX = client.getCurrentPositions().get(clientNum)[0];
+                    int curY = client.getCurrentPositions().get(clientNum)[1];
+                    int clientFig = client.getRobotFigureAllClients().get(clientNum);
+                    switch (clientFig){
+                        case 1:
+                            ImageView imgV1 = new ImageView(HulkBot);
+                            imgV1.setFitHeight(43);
+                            imgV1.setFitWidth(43);
+                            gridPaneRobot.add(imgV1,curX, curY);
+                            break;
+                        case 2:
+                            ImageView imgV2 = new ImageView(SpinBot);
+                            imgV2.setFitHeight(43);
+                            imgV2.setFitWidth(43);
+                            gridPaneRobot.add(imgV2,curX, curY);
+                            break;
+                        case 3:
+                            ImageView imgV3 = new ImageView(SquashBot);
+                            imgV3.setFitHeight(43);
+                            imgV3.setFitWidth(43);
+                            gridPaneRobot.add(imgV3,curX, curY);
+                            break;
+                        case 4:
+                            ImageView imgV4 = new ImageView(TrundleBot);
+                            imgV4.setFitHeight(43);
+                            imgV4.setFitWidth(43);
+                            gridPaneRobot.add(imgV4,curX, curY);
+                            break;
+                        case 5:
+                            ImageView imgV5 = new ImageView(TwitchBot);
+                            imgV5.setFitHeight(43);
+                            imgV5.setFitWidth(43);
+                            gridPaneRobot.add(imgV5,curX, curY);
+                            break;
+                        case 6:
+                            ImageView imgV6 = new ImageView(TwonkyBot);
+                            imgV6.setFitHeight(43);
+                            imgV6.setFitWidth(43);
+                            gridPaneRobot.add(imgV6,curX, curY);
+                            myFigure.setImage(TwonkyBot);
+                            break;
+                    }
+                }
+            }
+        });
 
         //bind myFigure for listener
         client.flagMyFigureProperty().addListener(new ChangeListener<Number>() {
@@ -669,10 +724,13 @@ public class ChatController {
 
 
     public void testBoardButtonEvent(){
-        ImageView boardElemen = new ImageView(HulkBot);
+        /*ImageView boardElemen = new ImageView(HulkBot);
         boardElemen.setFitHeight(43);
         boardElemen.setFitWidth(43);
         //boardElemen.setRotate(boardElemen.getRotate() + 90);
         gridPaneBoard.add(boardElemen,5,1);
+
+         */
+        gridPaneBoard.getChildren().clear();
     }
 }

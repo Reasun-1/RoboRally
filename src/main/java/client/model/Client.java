@@ -49,6 +49,8 @@ public class Client extends Application {
     private LinkedHashMap<Integer, Boolean> readyClients = new LinkedHashMap<>();
     // storage of my start positions for all clients: key=clientID, value = [x,y]
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
+    // current positions of all clients
+    private final HashMap<Integer, int[]> currentPositions = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
 
@@ -97,6 +99,8 @@ public class Client extends Application {
     private IntegerProperty flagMapUpdate = new SimpleIntegerProperty(0);
     // flag property for myFigure
     private IntegerProperty flagMyFigure = new SimpleIntegerProperty(0);
+    // flag property for positionsAllRobots
+    private IntegerProperty flagPositions = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -184,8 +188,9 @@ public class Client extends Application {
 
     public IntegerProperty flagMyFigureProperty() { return flagMyFigure; }
 
+    public IntegerProperty flagPositionsProperty() { return flagPositions; }
 
-
+    public HashMap<Integer, int[]> getCurrentPositions() { return currentPositions; }
 
     // Setters
     public void setName(String name) {
@@ -433,12 +438,20 @@ public class Client extends Application {
                             // store the start position
                             startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
                             startPositionsAllClients.get(clientWhoSetPoint)[1] = clientX;
+                            // set current position
+                            currentPositions.get(clientWhoSetPoint)[0] = clientX;
+                            currentPositions.get(clientWhoSetPoint)[1] = clientY;
 
+                            // update flag current positions
+                            flagPositions.set(flagPositions.getValue()+1);
+                            /*
                             // set current position
                             CURRENTPOSITIONS.get(clientWhoSetPoint)[0].set(clientX);
                             CURRENTPOSITIONS.get(clientWhoSetPoint)[1].set(clientY);
 
-                            logger.info("" + CURRENTPOSITIONS.get(clientWhoSetPoint));
+                             */
+
+                            logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
                             break;
                         case "YourCards":
                             logger.info("clients your cards");
@@ -682,6 +695,7 @@ public class Client extends Application {
     public void initGameForClients() {
 
         for (int client : clientNames.keySet()) {
+            /*
             // init CURRENTPOSITIONS
             SimpleIntegerProperty x = new SimpleIntegerProperty();
             SimpleIntegerProperty y = new SimpleIntegerProperty();
@@ -690,9 +704,15 @@ public class Client extends Application {
             position[1] = y;
             CURRENTPOSITIONS.put(client, position);
 
+             */
+
             // init start positions of all clients
             int[] startPos = new int[2];
             startPositionsAllClients.put(client, startPos);
+
+            // init current positions
+            int[] currentPo = new int[2];
+            currentPositions.put(client, currentPo);
         }
     }
 
