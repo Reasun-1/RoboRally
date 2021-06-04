@@ -55,6 +55,7 @@ public class Client extends Application {
 
 
 
+
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
@@ -94,6 +95,8 @@ public class Client extends Application {
     private IntegerProperty flagRoundOver = new SimpleIntegerProperty(0);
     // flag property for map-updating
     private IntegerProperty flagMapUpdate = new SimpleIntegerProperty(0);
+    // flag property for myFigure
+    private IntegerProperty flagMyFigure = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -178,6 +181,11 @@ public class Client extends Application {
     public IntegerProperty flagMapUpdateProperty() { return flagMapUpdate; }
 
     public List<List<List<FeldObject>>> getMapInGUI() { return mapInGUI; }
+
+    public IntegerProperty flagMyFigureProperty() { return flagMyFigure; }
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -338,16 +346,20 @@ public class Client extends Application {
                             if (!clientNames.containsKey(clientIDAdded)) {
 
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
+                                logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
+                                // update clientsFigure list and clients list
                                 robotFigureAllClients.put(clientIDAdded, figureAdded);
                                 clientNames.put(clientIDAdded, nameAdded);
-                                logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
                                     logger.info("flag launchen window");
                                     name = nameAdded;
+
                                     //goToChatGame();
                                     LAUNCHER.launchChat(client);
+                                    // update flag for listener
+                                    flagMyFigure.set(flagMyFigure.getValue()+1);
                                 }
                             }
                             break;

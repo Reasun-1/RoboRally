@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import server.feldobjects.FeldObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -68,6 +69,8 @@ public class ChatController {
     private Button finish; // invoke methode finishEvent()
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
+    @FXML
+    private ImageView myFigure;
     @FXML
     private ImageView testImageView;
     @FXML
@@ -207,6 +210,8 @@ public class ChatController {
     Image Startpoint5 = new Image(getClass().getResource("/images/Startpoints/Start-5.png").toExternalForm());
     Image Startpoint6 = new Image(getClass().getResource("/images/Startpoints/Start-6.png").toExternalForm());
 
+    Image Reboot = new Image(getClass().getResource("/images/Reboot.jpg").toExternalForm());
+
     Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
     Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
 
@@ -242,6 +247,41 @@ public class ChatController {
 
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
+
+        //bind myFigure for listener
+        client.flagMyFigureProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                HashMap<Integer, Integer> robotFigureAllClients = client.getRobotFigureAllClients();
+               for(int clientNum : robotFigureAllClients.keySet()){
+                   if(clientNum == client.getClientID()){
+                       int figNum = robotFigureAllClients.get(clientNum);
+                       switch (figNum){
+                           case 1:
+                               myFigure.setImage(HulkBot);
+                               break;
+                           case 2:
+                               myFigure.setImage(SpinBot);
+                               break;
+                           case 3:
+                               myFigure.setImage(SquashBot);
+                               break;
+                           case 4:
+                               myFigure.setImage(TrundleBot);
+                               break;
+                           case 5:
+                               myFigure.setImage(TwitchBot);
+                               break;
+                           case 6:
+                               myFigure.setImage(TwonkyBot);
+                               break;
+                       }
+                   }
+               }
+            }
+        });
+
+
 
         //====================Bindings for Map=========================
         client.flagMapUpdateProperty().addListener(new ChangeListener<Number>() {
@@ -602,7 +642,7 @@ public class ChatController {
                                 gridPaneBoard.add(pushImg,j,i);
                                 break;
                             case "RestartPoint":
-                                ImageView restartImg = new ImageView(Startpoint6);
+                                ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
                                 gridPaneBoard.add(restartImg,j,i);
