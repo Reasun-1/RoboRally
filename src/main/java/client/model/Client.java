@@ -345,6 +345,9 @@ public class Client extends Application {
                             CLIENTIDASSTRINGPROPERTY.set("" + clientID);
                             logger.info(CLIENTIDASSTRINGPROPERTY.get());
                             logger.info("your clientID is: " + clientID);
+                            INFORMATION.set("");
+                            INFORMATION.set("Are you ready to start?");
+                            GAMEPHASE.set("Welcomephase");
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
@@ -703,7 +706,7 @@ public class Client extends Application {
                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
                 // reset boolean canSelectMap to all false
                 CANSELECTMAP.set(false);
-                INFORMATION.set("");
+                //INFORMATION.set("");
             }
         }
     }
@@ -720,6 +723,8 @@ public class Client extends Application {
         logger.info(json);
         OUT.println(json);
         CANSELECTMAP.set(false);
+        INFORMATION.set("");
+        INFORMATION.set("Not all players are ready, please wait.");
     }
 
     /**
