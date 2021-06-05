@@ -169,6 +169,8 @@ public class ChatController {
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
     Image BlueConveyorBeltsR = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-R.png").toExternalForm());
+    Image BlueConveyorBelts21 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1.png").toExternalForm());
+    Image BlueConveyorBelts21mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1-mirrored.png").toExternalForm());
     Image GreenConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts.png").toExternalForm());
     Image GreenConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90.png").toExternalForm());
     Image GreenConveyorBeltsD = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D.png").toExternalForm());
@@ -735,18 +737,100 @@ public class ChatController {
                                     beltBlueImg.setFitWidth(43);
 
                                     if (obj.getOrientations().get(0).equals("top")) {
-                                        gridPaneBoard.add(beltBlueImg, j, i);
-                                    } else if (obj.getOrientations().get(0).equals("right")) {
-                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 90);
-                                        gridPaneBoard.add(beltBlueImg, j, i);
-                                    } else if (obj.getOrientations().get(0).equals("bottom")) {
-                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 180);
-                                        gridPaneBoard.add(beltBlueImg, j, i);
-                                    } else if (obj.getOrientations().get(0).equals("left")) {
-                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
-                                        gridPaneBoard.add(beltBlueImg, j, i);
-                                    }
 
+                                        if(obj.getOrientations().size() == 1){
+                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                        }
+
+                                        // if there are several orientations, choose another pic
+                                        if(obj.getOrientations().size() > 1){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView bluerightImg = new ImageView(BlueConveyorBelts21mirror);
+                                                bluerightImg.setFitHeight(43);
+                                                bluerightImg.setFitWidth(43);
+                                                bluerightImg.setRotate(bluerightImg.getRotate()+90);
+                                                gridPaneBoard.add(bluerightImg, j, i);
+
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView blueleftImg = new ImageView(BlueConveyorBelts21);
+                                                blueleftImg.setFitHeight(43);
+                                                blueleftImg.setFitWidth(43);
+                                                blueleftImg.setRotate(blueleftImg.getRotate()+180);
+                                                gridPaneBoard.add(blueleftImg, j, i);
+                                            }
+                                        }
+
+
+                                    } else if (obj.getOrientations().get(0).equals("right")) {
+
+                                        if(obj.getOrientations().size() == 1){
+                                            beltBlueImg.setRotate(beltBlueImg.getRotate() + 90);
+                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                        }
+
+                                        // if there are several orientations, choose another pic
+                                        if(obj.getOrientations().size() > 1){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView bluetopImg = new ImageView(BlueConveyorBelts21);
+                                                bluetopImg.setFitHeight(43);
+                                                bluetopImg.setFitWidth(43);
+                                                bluetopImg.setRotate(bluetopImg.getRotate()+270);
+                                                gridPaneBoard.add(bluetopImg, j, i);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView blueleftImg = new ImageView(BlueConveyorBelts21mirror);
+                                                blueleftImg.setFitHeight(43);
+                                                blueleftImg.setFitWidth(43);
+                                                blueleftImg.setRotate(blueleftImg.getRotate()+180);
+                                                gridPaneBoard.add(blueleftImg, j, i);
+                                            }
+                                        }
+
+                                    } else if (obj.getOrientations().get(0).equals("bottom")) {
+
+                                        if(obj.getOrientations().size() == 1){
+                                            beltBlueImg.setRotate(beltBlueImg.getRotate() + 180);
+                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                        }
+
+                                        // if there are several orientations, choose another pic
+                                        if(obj.getOrientations().size() > 1){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView bluebrImg = new ImageView(BlueConveyorBelts21mirror);
+                                                bluebrImg.setFitHeight(43);
+                                                bluebrImg.setFitWidth(43);
+                                                bluebrImg.setRotate(bluebrImg.getRotate()+270);
+                                                gridPaneBoard.add(bluebrImg, j, i);
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView blueblImg = new ImageView(BlueConveyorBelts21);
+                                                blueblImg.setFitHeight(43);
+                                                blueblImg.setFitWidth(43);
+                                                gridPaneBoard.add(blueblImg, j, i);
+                                            }
+                                        }
+
+                                    } else if (obj.getOrientations().get(0).equals("left")) {
+                                        if(obj.getOrientations().size() == 1){
+                                            beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
+                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                        }
+
+                                        // if there are several orientations, choose another pic
+                                        if(obj.getOrientations().size() > 1){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView blueltImg = new ImageView(BlueConveyorBelts21mirror);
+                                                blueltImg.setFitHeight(43);
+                                                blueltImg.setFitWidth(43);
+                                                gridPaneBoard.add(blueltImg, j, i);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView bluelbImg = new ImageView(BlueConveyorBelts21);
+                                                bluelbImg.setFitHeight(43);
+                                                bluelbImg.setFitWidth(43);
+                                                bluelbImg.setRotate(bluelbImg.getRotate()+90);
+                                                gridPaneBoard.add(bluelbImg, j, i);
+                                            }
+                                        }
+
+                                    }
                                 }
                                 break;
                             case "EnergySpace":
