@@ -48,33 +48,61 @@ public class MoveII extends RegisterCard{
         Position newPosition = new Position(curColumn, curRow);
         switch (currentDirection){
             case RIGHT:
-
-                System.out.println("cur dir == right");
-                for (int i = curColumn; i < curColumn+3; i++) {
-                    System.out.println("flag in for loop : " + i);
+                for (int i = curColumn; i < Math.min(curColumn+3,13); i++) {
                     String wallOri = Game.getInstance().checkWall(curRow, i);
-
                     if (i > curColumn && wallOri.equals("left")){
                         newPosition.setX(i-1);
-                        System.out.println("wall left" + i);
                         break;
                     }else if(wallOri.equals("right")){
                         newPosition.setX(i);
-                        System.out.println("wall right " + i);
                         break;
                     }else{
                         newPosition.setX(curColumn+2);
                     }
                 }
                 break;
+
             case LEFT:
-                newPosition.setX(curColumn-2);
+                for (int i = curColumn; i > Math.max(curColumn-3,0); i--) {
+                    String wallOri = Game.getInstance().checkWall(curRow, i);
+                    if (wallOri.equals("left")){
+                        newPosition.setX(i);
+                        break;
+                    }else if(i < curColumn && wallOri.equals("right")){
+                        newPosition.setX(i+1);
+                        break;
+                    }else{
+                        newPosition.setX(curColumn-2);
+                    }
+                }
                 break;
             case UP:
-                newPosition.setY(curRow-2);
+                for (int i = curRow; i > Math.max(curRow-3, 0); i--) {
+                    String wallOri = Game.getInstance().checkWall(i, curColumn);
+                    if(wallOri.equals("top")){
+                        newPosition.setY(i);
+                        break;
+                    }else if(i < curRow && wallOri.equals("bottom")){
+                        newPosition.setY(i+1);
+                        break;
+                    }else{
+                        newPosition.setY(curRow-2);
+                    }
+                }
                 break;
             case DOWN:
-                newPosition.setY(curRow+2);
+                for (int i = curRow; i < Math.min(curRow+3, 10); i++) {
+                    String wallOri = Game.getInstance().checkWall(i, curColumn);
+                    if(i > curRow && wallOri.equals("top")){
+                        newPosition.setY(i-1);
+                        break;
+                    }else if(wallOri.equals("bottom")){
+                        newPosition.setY(i);
+                        break;
+                    }else{
+                        newPosition.setY(curRow+2);
+                    }
+                }
                 break;
         }
 
