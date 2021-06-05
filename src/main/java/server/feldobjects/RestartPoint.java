@@ -43,7 +43,7 @@ public class RestartPoint extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID) {
+    public void doBoardFunction(int clientID, FeldObject obj) {
         //TODO
     }
 }

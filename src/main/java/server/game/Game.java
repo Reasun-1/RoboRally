@@ -325,14 +325,33 @@ public class Game {
      * then this turn is over, reset priority
      * @return
      */
-    public boolean checkTurnOver(){
+    public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
         if(priorityEachTurn.size() == 0){
             checkAndSetPriority();
             registerPointer++;
+            activeBoardElements();
             return true;
         }else{
             return false;
+        }
+    }
+
+    /**
+     * soon: with robot laser also
+     */
+    public void activeBoardElements() throws IOException {
+        for(int client : activePlayersList){
+            Position position = playerPositions.get(client);
+            int row = position.getY();
+            int column = position.getX();
+
+            List<FeldObject> feldObjects = board.get(row).get(column);
+            for(FeldObject obj : feldObjects){
+                if(!obj.getClass().getSimpleName().equals("Empty")){
+                    obj.doBoardFunction(client, obj);
+                }
+            }
         }
     }
 

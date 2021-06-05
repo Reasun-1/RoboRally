@@ -3,6 +3,7 @@ package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -49,5 +50,5 @@ public abstract class FeldObject {
         return count;
     }
 
-    public void doBoardFunction(int clientID){}
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {}
 }
