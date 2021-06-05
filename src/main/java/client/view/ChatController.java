@@ -731,7 +731,7 @@ public class ChatController {
                                     beltGreenImg.setFitWidth(43);
                                     beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
                                     gridPaneBoard.add(beltGreenImg, j, i);
-                                } else {
+                                } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
                                     beltBlueImg.setFitHeight(43);
                                     beltBlueImg.setFitWidth(43);
@@ -744,14 +744,14 @@ public class ChatController {
 
                                         // if there are several orientations, choose another pic
                                         if(obj.getOrientations().size() > 1){
-                                            if(obj.getOrientations().get(1).equals("right")){
+                                            if(obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right") ){
                                                 ImageView bluerightImg = new ImageView(BlueConveyorBelts21mirror);
                                                 bluerightImg.setFitHeight(43);
                                                 bluerightImg.setFitWidth(43);
                                                 bluerightImg.setRotate(bluerightImg.getRotate()+90);
                                                 gridPaneBoard.add(bluerightImg, j, i);
 
-                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                            }else if(obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")){
                                                 ImageView blueleftImg = new ImageView(BlueConveyorBelts21);
                                                 blueleftImg.setFitHeight(43);
                                                 blueleftImg.setFitWidth(43);
@@ -770,13 +770,13 @@ public class ChatController {
 
                                         // if there are several orientations, choose another pic
                                         if(obj.getOrientations().size() > 1){
-                                            if(obj.getOrientations().get(1).equals("top")){
+                                            if(obj.getOrientations().get(1).equals("top") || obj.getOrientations().get(2).equals("top")){
                                                 ImageView bluetopImg = new ImageView(BlueConveyorBelts21);
                                                 bluetopImg.setFitHeight(43);
                                                 bluetopImg.setFitWidth(43);
                                                 bluetopImg.setRotate(bluetopImg.getRotate()+270);
                                                 gridPaneBoard.add(bluetopImg, j, i);
-                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                            }else if(obj.getOrientations().get(1).equals("bottom") || obj.getOrientations().get(2).equals("bottom")){
                                                 ImageView blueleftImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueleftImg.setFitHeight(43);
                                                 blueleftImg.setFitWidth(43);
@@ -794,13 +794,13 @@ public class ChatController {
 
                                         // if there are several orientations, choose another pic
                                         if(obj.getOrientations().size() > 1){
-                                            if(obj.getOrientations().get(1).equals("right")){
+                                            if(obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right")){
                                                 ImageView bluebrImg = new ImageView(BlueConveyorBelts21mirror);
                                                 bluebrImg.setFitHeight(43);
                                                 bluebrImg.setFitWidth(43);
                                                 bluebrImg.setRotate(bluebrImg.getRotate()+270);
                                                 gridPaneBoard.add(bluebrImg, j, i);
-                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                            }else if(obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")){
                                                 ImageView blueblImg = new ImageView(BlueConveyorBelts21);
                                                 blueblImg.setFitHeight(43);
                                                 blueblImg.setFitWidth(43);
@@ -816,12 +816,12 @@ public class ChatController {
 
                                         // if there are several orientations, choose another pic
                                         if(obj.getOrientations().size() > 1){
-                                            if(obj.getOrientations().get(1).equals("top")){
+                                            if(obj.getOrientations().get(1).equals("top") || obj.getOrientations().get(2).equals("top")){
                                                 ImageView blueltImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueltImg.setFitHeight(43);
                                                 blueltImg.setFitWidth(43);
                                                 gridPaneBoard.add(blueltImg, j, i);
-                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                            }else if(obj.getOrientations().get(1).equals("bottom") || obj.getOrientations().get(2).equals("bottom")){
                                                 ImageView bluelbImg = new ImageView(BlueConveyorBelts21);
                                                 bluelbImg.setFitHeight(43);
                                                 bluelbImg.setFitWidth(43);

@@ -37,14 +37,14 @@ public class Board {
         Game.board.get(1).get(1).add(new StartPoint( "Start A"));
         Game.board.get(1).get(2).add(new Empty( "Start A"));
         Game.board.get(1).get(3).add(new Empty( "5B"));
-        Game.board.get(1).get(4).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("bottom");add("right");add("top");}}));
+        Game.board.get(1).get(4).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("bottom");add("top");add("right");}}));
         Game.board.get(1).get(5).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");add("top");add("right");}}));
         Game.board.get(1).get(6).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(7).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(8).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(9).add(new ConveyorBelt("5B", 2, new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(10).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");}}));
-        Game.board.get(1).get(11).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");add("bottom");add("right");}}));
+        Game.board.get(1).get(11).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");add("right");add("bottom");}}));
         Game.board.get(1).get(12).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("left");}}));
 
         // fill third row with board elements
@@ -149,13 +149,13 @@ public class Board {
         Game.board.get(8).get(1).add(new StartPoint( "Start A"));
         Game.board.get(8).get(2).add(new Empty( "Start A"));
         Game.board.get(8).get(3).add(new ConveyorBelt("5B", 2, new ArrayList<>(){{add("right");}}));
-        Game.board.get(8).get(4).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");add("top");add("left");}}));
+        Game.board.get(8).get(4).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");add("left");add("top");}}));
         Game.board.get(8).get(5).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(6).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(7).add(new ConveyorBelt("5B", 2, new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(8).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(9).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");}}));
-        Game.board.get(8).get(10).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");add("bottom");add("left");}}));
+        Game.board.get(8).get(10).add(new ConveyorBelt( "5B", 2, new ArrayList<>(){{add("right");add("left");add("bottom");}}));
         Game.board.get(8).get(11).add(new ConveyorBelt("5B", 2, new ArrayList<>(){{add("top");add("left");add("bottom");}}));
         Game.board.get(8).get(12).add(new Empty("5B"));
 

@@ -39,6 +39,7 @@ public class MoveII extends RegisterCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
+        System.out.println("card moveII");
         Direction currentDirection = Game.directionsAllClients.get(clientID);
         Position currentPosition = Game.playerPositions.get(clientID);
         int curX = currentPosition.getX();
@@ -47,7 +48,21 @@ public class MoveII extends RegisterCard{
         Position newPosition = new Position(curX, curY);
         switch (currentDirection){
             case RIGHT:
-                newPosition.setX(curX+2);
+                System.out.println("cur dir == right");
+                for (int i = curX; i < curX+3; i++) {
+                    System.out.println("flag in for loop : " + i);
+                    String wallOri = Game.getInstance().checkWall(i, curY);
+                    if (wallOri.equals("left")){
+                        newPosition.setX(i-1);
+                        break;
+                    }else if(wallOri.equals("right")){
+                        newPosition.setX(i);
+                        System.out.println(i);
+                        break;
+                    }else{
+                        newPosition.setX(curX+2);
+                    }
+                }
                 break;
             case LEFT:
                 newPosition.setX(curX-2);

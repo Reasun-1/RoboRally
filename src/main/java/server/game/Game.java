@@ -356,6 +356,12 @@ public class Game {
     }
 
 
+    /**
+     * for Dizzy Highway, if someone arrived at checkpoint, game is finished
+     * soon: adjust for other game maps
+     * @return
+     * @throws IOException
+     */
     public boolean checkGameOver() throws IOException {
         logger.info("Game checks game over.");
         for(int client : clientIDs){
@@ -368,6 +374,23 @@ public class Game {
         return false;
     }
 
+    /**
+     * check if one field hat a wall, if has, return the orientation of the wall
+     * @param x
+     * @param y
+     * @return
+     */
+    public String checkWall(int x, int y){
+        logger.info("Game checks wall on board for move");
+        String wallOrientation = "";
+        List<FeldObject> feldObjects = board.get(x).get(y);
+        for(FeldObject obj : feldObjects){
+            if(obj.getClass().getSimpleName().equals("Wall")){
+                wallOrientation = obj.getOrientations().get(0);
+            }
+        }
+        return wallOrientation;
+    }
 
     /**
      * if the client is offline, should be removed from game

@@ -477,6 +477,7 @@ public class Server {
         Protocol protocol = new Protocol("Movement", new MovementBody(clientID, toX, toY));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs positions");
+        logger.info(json);
         makeOrderToAllClients(json);
     }
 
