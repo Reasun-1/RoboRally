@@ -531,6 +531,23 @@ public class ChatController {
         // get current register card
         String cardName = client.getMYREGISTER()[client.registerPointer].get();
         client.playNextRegister(cardName);
+        switch (client.registerPointer){
+            case 0:
+                Register1.setImage(imageDiscard);
+                break;
+            case 1:
+                Register2.setImage(imageDiscard);
+                break;
+            case 2:
+                Register3.setImage(imageDiscard);
+                break;
+            case 3:
+                Register4.setImage(imageDiscard);
+                break;
+            case 4:
+                Register5.setImage(imageDiscard);
+                break;
+        }
         client.registerPointer++;
         System.out.println("registerpointer " + client.registerPointer);
         // if round over, reset register pointer to 0 for next round

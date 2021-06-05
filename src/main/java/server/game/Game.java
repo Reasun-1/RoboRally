@@ -88,19 +88,18 @@ public class Game {
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
+            for (int i = 0; i < TurnRight.cardCount; i++) {
+                cards.add(new TurnRight());
+            }
 
             for (int i = 0; i < MoveII.cardCount; i++) {
                 cards.add(new MoveII());
             }
 
-
             for (int i = 0; i < PowerUp.cardCount; i++) {
                 cards.add(new PowerUp());
             }
 
-            for (int i = 0; i < TurnRight.cardCount; i++) {
-                cards.add(new TurnRight());
-            }
             for (int i = 0; i < UTurn.cardCount; i++) {
                 cards.add(new UTurn());
             }
@@ -274,7 +273,11 @@ public class Game {
      * @param card
      */
     public void playCard(int clientID, RegisterCard card) throws IOException {
-        card.doCardFunction(clientID);
+        // if no card played, skip
+        // if card played, do card function
+        if(card != null){
+            card.doCardFunction(clientID);
+        }
     }
 
     /**
