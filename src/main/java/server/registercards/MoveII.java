@@ -44,6 +44,7 @@ public class MoveII extends RegisterCard{
         Position currentPosition = Game.playerPositions.get(clientID);
         int curColumn = currentPosition.getX();
         int curRow = currentPosition.getY();
+
         // set new Position
         Position newPosition = new Position(curColumn, curRow);
         switch (currentDirection){

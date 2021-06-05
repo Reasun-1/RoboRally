@@ -75,9 +75,13 @@ public class Game {
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
 
-            for (int i = 0; i < Again.cardCount; i++) {
-                cards.add(new Again());
+            for (int i = 0; i < MoveIII.cardCount; i++) {
+                cards.add(new MoveIII());
             }
+            for (int i = 0; i < MoveI.cardCount; i++) {
+                cards.add(new MoveI());
+            }
+
             for (int i = 0; i < BackUp.cardCount; i++) {
                 cards.add(new BackUp());
             }
@@ -88,12 +92,8 @@ public class Game {
             for (int i = 0; i < MoveII.cardCount; i++) {
                 cards.add(new MoveII());
             }
-            for (int i = 0; i < MoveI.cardCount; i++) {
-                cards.add(new MoveI());
-            }
-            for (int i = 0; i < MoveIII.cardCount; i++) {
-                cards.add(new MoveIII());
-            }
+
+
             for (int i = 0; i < PowerUp.cardCount; i++) {
                 cards.add(new PowerUp());
             }
@@ -103,6 +103,9 @@ public class Game {
             }
             for (int i = 0; i < UTurn.cardCount; i++) {
                 cards.add(new UTurn());
+            }
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
             }
             undrawnCards.put(client, cards);
 
