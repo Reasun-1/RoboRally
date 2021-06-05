@@ -160,7 +160,6 @@ public class ChatController {
     private Button drawnB8;
 
 
-
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
     Image imageCheckpoint2 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint2.png").toExternalForm());
@@ -251,7 +250,7 @@ public class ChatController {
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
-        //bind position update for listener
+        //bind position and rotations update for listener
         client.flagPositionsProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -261,10 +260,10 @@ public class ChatController {
                 // reset all rotates of imageViews
 
                 // get robots current direction
-                for(int clientNum : client.getCurrentPositions().keySet()){
+                for (int clientNum : client.getCurrentPositions().keySet()) {
                     Direction direction = client.getCurrentDirections().get(clientNum);
                     int rotateGrad = 0;
-                    switch (direction){
+                    switch (direction) {
                         case RIGHT:
                             rotateGrad = 90;
                             break;
@@ -283,48 +282,48 @@ public class ChatController {
                     int curX = client.getCurrentPositions().get(clientNum)[0];
                     int curY = client.getCurrentPositions().get(clientNum)[1];
                     int clientFig = client.getRobotFigureAllClients().get(clientNum);
-                    switch (clientFig){
+                    switch (clientFig) {
                         case 1:
                             ImageView imgV1 = new ImageView(HulkBot);
                             imgV1.setFitHeight(43);
                             imgV1.setFitWidth(43);
-                            imgV1.setRotate(imgV1.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV1,curX, curY);
+                            imgV1.setRotate(imgV1.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV1, curX, curY);
                             break;
                         case 2:
                             ImageView imgV2 = new ImageView(SpinBot);
                             imgV2.setFitHeight(43);
                             imgV2.setFitWidth(43);
-                            imgV2.setRotate(imgV2.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV2,curX, curY);
+                            imgV2.setRotate(imgV2.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV2, curX, curY);
                             break;
                         case 3:
                             ImageView imgV3 = new ImageView(SquashBot);
                             imgV3.setFitHeight(43);
                             imgV3.setFitWidth(43);
-                            imgV3.setRotate(imgV3.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV3,curX, curY);
+                            imgV3.setRotate(imgV3.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV3, curX, curY);
                             break;
                         case 4:
                             ImageView imgV4 = new ImageView(TrundleBot);
                             imgV4.setFitHeight(43);
                             imgV4.setFitWidth(43);
-                            imgV4.setRotate(imgV4.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV4,curX, curY);
+                            imgV4.setRotate(imgV4.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV4, curX, curY);
                             break;
                         case 5:
                             ImageView imgV5 = new ImageView(TwitchBot);
                             imgV5.setFitHeight(43);
                             imgV5.setFitWidth(43);
-                            imgV5.setRotate(imgV5.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV5,curX, curY);
+                            imgV5.setRotate(imgV5.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV5, curX, curY);
                             break;
                         case 6:
                             ImageView imgV6 = new ImageView(TwonkyBot);
                             imgV6.setFitHeight(43);
                             imgV6.setFitWidth(43);
-                            imgV6.setRotate(imgV6.getRotate()+rotateGrad);
-                            gridPaneRobot.add(imgV6,curX, curY);
+                            imgV6.setRotate(imgV6.getRotate() + rotateGrad);
+                            gridPaneRobot.add(imgV6, curX, curY);
                             myFigure.setImage(TwonkyBot);
                             break;
                     }
@@ -337,34 +336,33 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 HashMap<Integer, Integer> robotFigureAllClients = client.getRobotFigureAllClients();
-               for(int clientNum : robotFigureAllClients.keySet()){
-                   if(clientNum == client.getClientID()){
-                       int figNum = robotFigureAllClients.get(clientNum);
-                       switch (figNum){
-                           case 1:
-                               myFigure.setImage(HulkBot);
-                               break;
-                           case 2:
-                               myFigure.setImage(SpinBot);
-                               break;
-                           case 3:
-                               myFigure.setImage(SquashBot);
-                               break;
-                           case 4:
-                               myFigure.setImage(TrundleBot);
-                               break;
-                           case 5:
-                               myFigure.setImage(TwitchBot);
-                               break;
-                           case 6:
-                               myFigure.setImage(TwonkyBot);
-                               break;
-                       }
-                   }
-               }
+                for (int clientNum : robotFigureAllClients.keySet()) {
+                    if (clientNum == client.getClientID()) {
+                        int figNum = robotFigureAllClients.get(clientNum);
+                        switch (figNum) {
+                            case 1:
+                                myFigure.setImage(HulkBot);
+                                break;
+                            case 2:
+                                myFigure.setImage(SpinBot);
+                                break;
+                            case 3:
+                                myFigure.setImage(SquashBot);
+                                break;
+                            case 4:
+                                myFigure.setImage(TrundleBot);
+                                break;
+                            case 5:
+                                myFigure.setImage(TwitchBot);
+                                break;
+                            case 6:
+                                myFigure.setImage(TwonkyBot);
+                                break;
+                        }
+                    }
+                }
             }
         });
-
 
 
         //====================Bindings for Map=========================
@@ -383,7 +381,7 @@ public class ChatController {
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 System.out.println("drawn cards in GUI changed.");
 
-                if(client.MYCARDSProperty().size() > 0){
+                if (client.MYCARDSProperty().size() > 0) {
                     int curCardIndex = client.MYCARDSProperty().size() - 1;
                     String curCard = client.MYCARDSProperty().get(curCardIndex);
                     Image curImage = null;
@@ -534,7 +532,7 @@ public class ChatController {
         client.registerPointer++;
         System.out.println("registerpointer " + client.registerPointer);
         // if round over, reset register pointer to 0 for next round
-        if(client.registerPointer == 5){
+        if (client.registerPointer == 5) {
             System.out.println("round over checked by GUI");
             client.registerPointer = 0;
         }
@@ -566,6 +564,7 @@ public class ChatController {
         String cardName1 = client.MYCARDSProperty().get(1);
         client.setRegister(cardName1, regNum);
     }
+
     @FXML
     public void drawnButton2() throws JsonProcessingException {
         System.out.println("drawnButton2 clicked.");
@@ -576,6 +575,7 @@ public class ChatController {
         String cardName2 = client.MYCARDSProperty().get(2);
         client.setRegister(cardName2, regNum);
     }
+
     @FXML
     public void drawnButton3() throws JsonProcessingException {
         System.out.println("drawnButton3 clicked.");
@@ -586,6 +586,7 @@ public class ChatController {
         String cardName3 = client.MYCARDSProperty().get(3);
         client.setRegister(cardName3, regNum);
     }
+
     @FXML
     public void drawnButton4() throws JsonProcessingException {
         System.out.println("drawnButton4 clicked.");
@@ -643,11 +644,12 @@ public class ChatController {
 
     /**
      * for each drawnButton function
+     *
      * @param regNum
      * @param image
      */
-    public void setRegCard(int regNum, Image image){
-        switch (regNum){
+    public void setRegCard(int regNum, Image image) {
+        switch (regNum) {
             case 1:
                 Register1.setImage(image);
                 break;
@@ -671,18 +673,22 @@ public class ChatController {
         client.setRegister(null, 1);
         Register1.setImage(imageDiscard);
     }
+
     public void clearRegister2() throws JsonProcessingException {
         client.setRegister(null, 2);
         Register2.setImage(imageDiscard);
     }
+
     public void clearRegister3() throws JsonProcessingException {
         client.setRegister(null, 3);
         Register3.setImage(imageDiscard);
     }
+
     public void clearRegister4() throws JsonProcessingException {
         client.setRegister(null, 4);
         Register4.setImage(imageDiscard);
     }
+
     public void clearRegister5() throws JsonProcessingException {
         client.setRegister(null, 5);
         Register5.setImage(imageDiscard);
@@ -690,82 +696,124 @@ public class ChatController {
 
     /**
      * set Map in GUI
+     *
      * @param map
      */
-    public void setMapInGUI(List<List<List<FeldObject>>> map){
+    public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 13; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
-                for(FeldObject obj : feldObjects){
-                    if(!obj.getClass().getSimpleName().equals("Empty")){
+                for (FeldObject obj : feldObjects) {
+                    if (!obj.getClass().getSimpleName().equals("Empty")) {
 
-                        switch (obj.getClass().getSimpleName()){
+                        switch (obj.getClass().getSimpleName()) {
                             case "Antenna":
                                 ImageView antennaImg = new ImageView(Antenna);
                                 antennaImg.setFitHeight(43);
                                 antennaImg.setFitWidth(43);
-                                gridPaneBoard.add(antennaImg,j,i);
+                                antennaImg.setRotate(antennaImg.getRotate() + 90);
+                                gridPaneBoard.add(antennaImg, j, i);
                                 break;
                             case "CheckPoint":
                                 ImageView checkpointImg = new ImageView(imageCheckpoint1);
                                 checkpointImg.setFitHeight(43);
                                 checkpointImg.setFitWidth(43);
-                                gridPaneBoard.add(checkpointImg,j,i);
+                                gridPaneBoard.add(checkpointImg, j, i);
                                 break;
                             case "ConveyorBelt":
-                                ImageView beltImg = new ImageView(BlueConveyorBelts);
-                                beltImg.setFitHeight(43);
-                                beltImg.setFitWidth(43);
-                                gridPaneBoard.add(beltImg,j,i);
+                                // if it is a green belt
+                                if (obj.getSpeed() == 1) {
+                                    ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
+                                    beltGreenImg.setFitHeight(43);
+                                    beltGreenImg.setFitWidth(43);
+                                    beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
+                                    gridPaneBoard.add(beltGreenImg, j, i);
+                                } else {
+                                    ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
+                                    beltBlueImg.setFitHeight(43);
+                                    beltBlueImg.setFitWidth(43);
+
+                                    if (obj.getOrientations().get(0).equals("top")) {
+                                        gridPaneBoard.add(beltBlueImg, j, i);
+                                    } else if (obj.getOrientations().get(0).equals("right")) {
+                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 90);
+                                        gridPaneBoard.add(beltBlueImg, j, i);
+                                    } else if (obj.getOrientations().get(0).equals("bottom")) {
+                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 180);
+                                        gridPaneBoard.add(beltBlueImg, j, i);
+                                    } else if (obj.getOrientations().get(0).equals("left")) {
+                                        beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
+                                        gridPaneBoard.add(beltBlueImg, j, i);
+                                    }
+
+                                }
                                 break;
                             case "EnergySpace":
                                 ImageView energyImg = new ImageView(EnergyOn);
                                 energyImg.setFitHeight(43);
                                 energyImg.setFitWidth(43);
-                                gridPaneBoard.add(energyImg,j,i);
+                                gridPaneBoard.add(energyImg, j, i);
                                 break;
                             case "Gear":
                                 ImageView gearImg = new ImageView(GearTLeft);
                                 gearImg.setFitHeight(43);
                                 gearImg.setFitWidth(43);
-                                gridPaneBoard.add(gearImg,j,i);
+                                gridPaneBoard.add(gearImg, j, i);
                                 break;
                             case "Laser":
                                 ImageView laserImg = new ImageView(Lasers1);
                                 laserImg.setFitHeight(43);
                                 laserImg.setFitWidth(43);
-                                gridPaneBoard.add(laserImg,j,i);
+                                if (obj.getOrientations().get(0).equals("top") || obj.getOrientations().get(0).equals("bottom")) {
+                                    laserImg.setRotate(laserImg.getRotate() + 90);
+                                    gridPaneBoard.add(laserImg, j, i);
+                                } else {
+                                    gridPaneBoard.add(laserImg, j, i);
+                                }
+
                                 break;
                             case "Pit":
                                 ImageView pitImg = new ImageView(Pits);
                                 pitImg.setFitHeight(43);
                                 pitImg.setFitWidth(43);
-                                gridPaneBoard.add(pitImg,j,i);
+                                gridPaneBoard.add(pitImg, j, i);
                                 break;
                             case "PushPanel":
                                 ImageView pushImg = new ImageView(PushPanel1);
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
-                                gridPaneBoard.add(pushImg,j,i);
+                                gridPaneBoard.add(pushImg, j, i);
                                 break;
                             case "RestartPoint":
                                 ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
-                                gridPaneBoard.add(restartImg,j,i);
+                                restartImg.setRotate(restartImg.getRotate() + 180);
+                                gridPaneBoard.add(restartImg, j, i);
                                 break;
                             case "StartPoint":
                                 ImageView startImg = new ImageView(Startpoint1);
                                 startImg.setFitHeight(43);
                                 startImg.setFitWidth(43);
-                                gridPaneBoard.add(startImg,j,i);
+                                gridPaneBoard.add(startImg, j, i);
                                 break;
                             case "Wall":
                                 ImageView wallImg = new ImageView(WallNormal);
                                 wallImg.setFitHeight(43);
                                 wallImg.setFitWidth(43);
-                                gridPaneBoard.add(wallImg,j,i);
+                                if (obj.getOrientations().get(0).equals("left")) {
+                                    gridPaneBoard.add(wallImg, j, i);
+                                } else if (obj.getOrientations().get(0).equals("top")) {
+                                    wallImg.setRotate(wallImg.getRotate() + 90);
+                                    gridPaneBoard.add(wallImg, j, i);
+                                } else if (obj.getOrientations().get(0).equals("right")) {
+                                    wallImg.setRotate(wallImg.getRotate() + 180);
+                                    gridPaneBoard.add(wallImg, j, i);
+                                } else if (obj.getOrientations().get(0).equals("bottom")) {
+                                    wallImg.setRotate(wallImg.getRotate() + 270);
+                                    gridPaneBoard.add(wallImg, j, i);
+                                }
                                 break;
                         }
                     }
@@ -775,8 +823,7 @@ public class ChatController {
     }
 
 
-
-    public void testBoardButtonEvent(){
+    public void testBoardButtonEvent() {
         /*ImageView boardElemen = new ImageView(HulkBot);
         boardElemen.setFitHeight(43);
         boardElemen.setFitWidth(43);
@@ -784,6 +831,6 @@ public class ChatController {
         gridPaneBoard.add(boardElemen,5,1);
 
          */
-       // gridPaneBoard.getChildren().clear();
+        // gridPaneBoard.getChildren().clear();
     }
 }
