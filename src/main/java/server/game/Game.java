@@ -376,14 +376,12 @@ public class Game {
 
     /**
      * check if one field hat a wall, if has, return the orientation of the wall
-     * @param x
-     * @param y
      * @return
      */
-    public String checkWall(int x, int y){
+    public String checkWall(int row, int column){
         logger.info("Game checks wall on board for move");
         String wallOrientation = "";
-        List<FeldObject> feldObjects = board.get(x).get(y);
+        List<FeldObject> feldObjects = board.get(row).get(column);
         for(FeldObject obj : feldObjects){
             if(obj.getClass().getSimpleName().equals("Wall")){
                 wallOrientation = obj.getOrientations().get(0);

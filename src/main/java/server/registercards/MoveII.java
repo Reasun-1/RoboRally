@@ -42,36 +42,39 @@ public class MoveII extends RegisterCard{
         System.out.println("card moveII");
         Direction currentDirection = Game.directionsAllClients.get(clientID);
         Position currentPosition = Game.playerPositions.get(clientID);
-        int curX = currentPosition.getX();
-        int curY = currentPosition.getY();
+        int curColumn = currentPosition.getX();
+        int curRow = currentPosition.getY();
         // set new Position
-        Position newPosition = new Position(curX, curY);
+        Position newPosition = new Position(curColumn, curRow);
         switch (currentDirection){
             case RIGHT:
+
                 System.out.println("cur dir == right");
-                for (int i = curX; i < curX+3; i++) {
+                for (int i = curColumn; i < curColumn+3; i++) {
                     System.out.println("flag in for loop : " + i);
-                    String wallOri = Game.getInstance().checkWall(i, curY);
-                    if (wallOri.equals("left")){
+                    String wallOri = Game.getInstance().checkWall(curRow, i);
+
+                    if (i > curColumn && wallOri.equals("left")){
                         newPosition.setX(i-1);
+                        System.out.println("wall left" + i);
                         break;
                     }else if(wallOri.equals("right")){
                         newPosition.setX(i);
-                        System.out.println(i);
+                        System.out.println("wall right " + i);
                         break;
                     }else{
-                        newPosition.setX(curX+2);
+                        newPosition.setX(curColumn+2);
                     }
                 }
                 break;
             case LEFT:
-                newPosition.setX(curX-2);
+                newPosition.setX(curColumn-2);
                 break;
             case UP:
-                newPosition.setY(curY-2);
+                newPosition.setY(curRow-2);
                 break;
             case DOWN:
-                newPosition.setY(curY+2);
+                newPosition.setY(curRow+2);
                 break;
         }
 
