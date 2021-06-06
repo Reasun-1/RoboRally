@@ -317,8 +317,15 @@ public class Client extends Application {
                             break;
                         case "ReceivedChat":
                             logger.info("received chat printed");
-                            String message = Protocol.readJsonReceivedChatBody(json).getMessage();
-                            CHATHISTORY.set(CHATHISTORY.get() + message + "\n");
+                            ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
+                            String message = receivedChatBody.getMessage();
+                            int fromClient = receivedChatBody.getFrom();
+                            //boolean chatPrivate = receivedChatBody.isPrivate();
+
+
+                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + ": " + message + "\n");
+
+
                             break;
                         case "Error":
                             logger.info("error printed");
@@ -588,30 +595,6 @@ public class Client extends Application {
         });
     }
 
-
-    /**
-     * Method to be called from LoginWindowController to check the entered name.
-     *
-     * @param temp_name
-     */
-    public void checkName(String temp_name) {
-        try {
-            // Send name to Server to check whether it is available
-            OUT.println(temp_name);
-            String answer = IN.readLine();
-            if (answer.equals("user existed!")) {
-                // Open error Window, then restart the Login
-                LAUNCHER.launchError("The chosen name already exists. Please choose another name:");
-                LAUNCHER.launchLogin(this);
-                System.out.println("user existed!");
-            } else {
-                // Store the chosen name
-                name = answer;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**

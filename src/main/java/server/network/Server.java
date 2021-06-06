@@ -107,12 +107,13 @@ public class Server {
     /**
      * send a message to a particular client
      */
-    public void sendTo(int from, String message) {
+    public void sendTo(int to,int from, String message) {
         //send message to Client clientName
         try {
             Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message, from, true));
             String json = Protocol.writeJson(protocol);
-            new PrintWriter(clientList.get(from).getSocket().getOutputStream(), true).println(json);
+            logger.info(json);
+            new PrintWriter(clientList.get(to).getSocket().getOutputStream(), true).println(json);
         } catch (IOException e) {
             e.printStackTrace();
         }

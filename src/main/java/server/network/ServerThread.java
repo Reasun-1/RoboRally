@@ -140,8 +140,8 @@ public class ServerThread implements Runnable {
     /**
      * send a message only to one client
      */
-    public void sendPrivateMessage(int clientID, String message) {
-        Server.getServer().sendTo(clientID, message);
+    public void sendPrivateMessage(int toClient,int fromClient, String message) {
+        Server.getServer().sendTo(toClient,fromClient, message);
     }
 
 

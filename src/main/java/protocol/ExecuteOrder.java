@@ -128,9 +128,10 @@ public class ExecuteOrder {
                     if (Server.clientList.containsKey(toClient)) {
                         // to target client
                         System.out.println(toClient);
-                        Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID + "[private to you]: " + message);
+
+                        Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID, message);
                         // also to myself as info
-                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID + "[private to " + toClient + "]: " + message);
+                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID,  message);
                     } else {
                         System.out.println("There is no client with this name!"); // optional in terminal
                         Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
@@ -140,7 +141,7 @@ public class ExecuteOrder {
                     // public message
                 } else {
                     logger.info("send message to all");
-                    Server.clientList.get(clientID).sendMessage(clientID, clientID + ": " + message);
+                    Server.clientList.get(clientID).sendMessage(clientID,  message);
                 }
                 break;
             case "SetStartingPoint":
