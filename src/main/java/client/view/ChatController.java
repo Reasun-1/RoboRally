@@ -455,29 +455,42 @@ public class ChatController {
         client.flagRoundOverProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                // reset drwanCards in client
-                client.MYCARDSProperty().clear();
-                DrawnCard0.setImage(imageDiscard);
-                DrawnCard1.setImage(imageDiscard);
-                DrawnCard2.setImage(imageDiscard);
-                DrawnCard3.setImage(imageDiscard);
-                DrawnCard4.setImage(imageDiscard);
-                DrawnCard5.setImage(imageDiscard);
-                DrawnCard6.setImage(imageDiscard);
-                DrawnCard7.setImage(imageDiscard);
-                DrawnCard8.setImage(imageDiscard);
-                // reset MYREGISTER[]
-                for (int i = 0; i < 5; i++) {
-                    client.getMYREGISTER()[i] = new SimpleStringProperty("");
-                }
-                Register1.setImage(imageDiscard);
-                Register2.setImage(imageDiscard);
-                Register3.setImage(imageDiscard);
-                Register4.setImage(imageDiscard);
-                Register5.setImage(imageDiscard);
-
+                setRoundOver();
             }
         });
+
+        client.flagClearRegistersProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                setRoundOver();
+            }
+        });
+    }
+
+    public void setRoundOver(){
+        // reset drwanCards in client
+        client.MYCARDSProperty().clear();
+        DrawnCard0.setImage(imageDiscard);
+        DrawnCard1.setImage(imageDiscard);
+        DrawnCard2.setImage(imageDiscard);
+        DrawnCard3.setImage(imageDiscard);
+        DrawnCard4.setImage(imageDiscard);
+        DrawnCard5.setImage(imageDiscard);
+        DrawnCard6.setImage(imageDiscard);
+        DrawnCard7.setImage(imageDiscard);
+        DrawnCard8.setImage(imageDiscard);
+        // reset MYREGISTER[]
+        for (int i = 0; i < 5; i++) {
+            client.getMYREGISTER()[i] = new SimpleStringProperty("");
+        }
+        Register1.setImage(imageDiscard);
+        Register2.setImage(imageDiscard);
+        Register3.setImage(imageDiscard);
+        Register4.setImage(imageDiscard);
+        Register5.setImage(imageDiscard);
+
+        // reset register pointer to 0
+        client.registerPointer = 0;
     }
 
     //only for test

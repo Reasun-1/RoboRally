@@ -451,6 +451,7 @@ public class Server {
         Protocol protocol = new Protocol("Reboot", new RebootBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs reboot client");
+        System.out.println("flag reboot from server");
         makeOrderToAllClients(json);
     }
 

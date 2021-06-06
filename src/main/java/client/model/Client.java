@@ -58,9 +58,6 @@ public class Client extends Application {
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
 
 
-
-
-
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
@@ -104,6 +101,8 @@ public class Client extends Application {
     private IntegerProperty flagPositions = new SimpleIntegerProperty(0);
     // flag property for directions all robots
     private IntegerProperty flagDirections = new SimpleIntegerProperty(0);
+    // flag for clearing registers in GUI
+    private IntegerProperty flagClearRegisters = new SimpleIntegerProperty(0);
 
 
     // Getters
@@ -171,9 +170,13 @@ public class Client extends Application {
         return CANSETSTARTPOINT;
     }
 
-    public ListProperty<String> MYCARDSProperty() { return MYCARDS; }
+    public ListProperty<String> MYCARDSProperty() {
+        return MYCARDS;
+    }
 
-    public StringProperty[] getMYREGISTER() { return MYREGISTER; }
+    public StringProperty[] getMYREGISTER() {
+        return MYREGISTER;
+    }
 
     public BooleanProperty CANCLICKFINISHProperty() {
         return CANCLICKFINISH;
@@ -183,21 +186,41 @@ public class Client extends Application {
         return CANPLAYNEXTREGISTER;
     }
 
-    public IntegerProperty flagRoundOverProperty() { return flagRoundOver;}
+    public IntegerProperty flagRoundOverProperty() {
+        return flagRoundOver;
+    }
 
-    public IntegerProperty flagMapUpdateProperty() { return flagMapUpdate; }
+    public IntegerProperty flagMapUpdateProperty() {
+        return flagMapUpdate;
+    }
 
-    public List<List<List<FeldObject>>> getMapInGUI() { return mapInGUI; }
+    public List<List<List<FeldObject>>> getMapInGUI() {
+        return mapInGUI;
+    }
 
-    public IntegerProperty flagMyFigureProperty() { return flagMyFigure; }
+    public IntegerProperty flagMyFigureProperty() {
+        return flagMyFigure;
+    }
 
-    public IntegerProperty flagPositionsProperty() { return flagPositions; }
+    public IntegerProperty flagPositionsProperty() {
+        return flagPositions;
+    }
 
-    public IntegerProperty flagDirectionsProperty() { return flagDirections;}
+    public IntegerProperty flagDirectionsProperty() {
+        return flagDirections;
+    }
 
-    public HashMap<Integer, int[]> getCurrentPositions() { return currentPositions; }
+    public HashMap<Integer, int[]> getCurrentPositions() {
+        return currentPositions;
+    }
 
-    public HashMap<Integer, Direction> getCurrentDirections() { return currentDirections;}
+    public HashMap<Integer, Direction> getCurrentDirections() {
+        return currentDirections;
+    }
+
+    public IntegerProperty flagClearRegistersProperty() { return flagClearRegisters; }
+
+
 
 
 
@@ -320,12 +343,7 @@ public class Client extends Application {
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
-                            //boolean chatPrivate = receivedChatBody.isPrivate();
-
-
-                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + ": " + message + "\n");
-
-
+                            CHATHISTORY.set(CHATHISTORY.get() + fromClient + ": " + message + "\n");
                             break;
                         case "Error":
                             logger.info("error printed");
@@ -384,7 +402,7 @@ public class Client extends Application {
                                     //goToChatGame();
                                     LAUNCHER.launchChat(client);
                                     // update flag for listener
-                                    flagMyFigure.set(flagMyFigure.getValue()+1);
+                                    flagMyFigure.set(flagMyFigure.getValue() + 1);
                                 }
                             }
                             break;
@@ -409,9 +427,9 @@ public class Client extends Application {
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
                             mapInGUI = gameMap;
                             // update flag for MapUpdate, so that viewController can listen
-                            flagMapUpdate.set(flagMapUpdate.getValue()+1);
+                            flagMapUpdate.set(flagMapUpdate.getValue() + 1);
                             System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                            System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() +gameMap.get(0).get(2).get(0).getOrientations());
+                            System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
                             initGameForClients();
                             break;
                         case "ActivePhase":
@@ -463,7 +481,7 @@ public class Client extends Application {
                             currentPositions.get(clientWhoSetPoint)[1] = clientY;
 
                             // update flag current positions
-                            flagPositions.set(flagPositions.getValue()+1);
+                            flagPositions.set(flagPositions.getValue() + 1);
                             //flagDirections.set(flagDirections.getValue()+1);
 
                             logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
@@ -471,11 +489,11 @@ public class Client extends Application {
                         case "YourCards":
                             logger.info("clients your cards");
                             // GUI-Listner binds to flagRoundOver to reset GUI for new round
-                            flagRoundOver.set(flagRoundOver.getValue()+1);
+                            flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
-                            for(String card : cardsInHand){
+                            for (String card : cardsInHand) {
                                 MYCARDS.add(card);
                             }
 
@@ -536,20 +554,13 @@ public class Client extends Application {
                         case "Reboot":
                             RebootBody rebootBody = Protocol.readJsonReboot(json);
                             int clientReboot = rebootBody.getClientID();
-                            // set client to start point
-                            int startX = startPositionsAllClients.get(clientReboot)[0];
-                            int startY = startPositionsAllClients.get(clientReboot)[1];
-
-                            currentPositions.get(clientReboot)[0] = startX;
-                            currentPositions.get(clientReboot)[1] = startY;
-                            flagPositions.set(flagDirections.getValue()+1);
 
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
-                                for (int i = 0; i < 5; i++) {
-                                    MYREGISTER[i].set("");
-                                }
-                                // soon in GUI
+                                // clear register cards in GUI
+                                flagClearRegisters.set(flagClearRegisters.getValue()+1);
+                                INFORMATION.set("");
+                                INFORMATION.set("You are rebooted, wait for next round.");
                                 //handleRebootDirection("right");
                             }
                             logger.info("client reboot to start point");
@@ -567,7 +578,7 @@ public class Client extends Application {
                             int toY = movementBody.getY();
                             currentPositions.get(movedClient)[0] = toX;
                             currentPositions.get(movedClient)[1] = toY;
-                            flagPositions.set(flagPositionsProperty().getValue()+1);
+                            flagPositions.set(flagPositionsProperty().getValue() + 1);
                             break;
                         case "PlayerTurning":
                             PlayerTurningBody playerTurningBody = Protocol.readJsonPlayerTurning(json);
@@ -577,15 +588,15 @@ public class Client extends Application {
                             // update client direction in client class
                             Direction curDir = currentDirections.get(turnedClient);
                             Direction newDir = null;
-                            if(turnDirection.equals("clockwise")){
+                            if (turnDirection.equals("clockwise")) {
                                 newDir = Direction.turnClock(curDir);
-                            }else if(turnDirection.equals("counterclockwise")){
-                               newDir = Direction.turnCounterClock(curDir);
+                            } else if (turnDirection.equals("counterclockwise")) {
+                                newDir = Direction.turnCounterClock(curDir);
                             }
 
                             // tell GUI-Listener about the update
                             currentDirections.put(turnedClient, newDir);
-                            flagPositions.set(flagPositions.get()+1);
+                            flagPositions.set(flagPositions.get() + 1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -594,7 +605,6 @@ public class Client extends Application {
             }
         });
     }
-
 
 
     /**

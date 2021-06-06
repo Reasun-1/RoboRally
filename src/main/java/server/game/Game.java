@@ -287,9 +287,14 @@ public class Game {
      * @return
      */
     public boolean checkOnBoard(int clientID, Position position) throws IOException {
+        System.out.println("Game checks onBoard.");
         // if out of board, reboot and clear the registers and remove from priorityList
         if(position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9){
-            reboot(clientID, "right");
+            if(position.getX() >= 3){
+                reboot(clientID, new Position(7,3));
+            }else if(position.getX() < 3){
+                reboot(clientID, startPositionsAllClients.get(clientID));
+            }
             return false;
         }
         return true;
@@ -299,25 +304,23 @@ public class Game {
      * if one player out of board, reboot
      * @param clientID
      */
-    public void reboot(int clientID, String direction) throws IOException {
+    public void reboot(int clientID, Position position) throws IOException {
         // set robots position to start point
-        Position startPosition = startPositionsAllClients.get(clientID);
-        int startX = startPosition.getX();
-        int startY = startPosition.getY();
-        playerPositions.get(clientID).setX(startX);
-        playerPositions.get(clientID).setY(startY);
 
-        // set robots direction to right
-        directionsAllClients.put(clientID, Direction.RIGHT);
+        playerPositions.get(clientID).setX(position.getX());
+        playerPositions.get(clientID).setY(position.getY());
 
         // clear client´s registers
         registersAllClients.put(clientID, new RegisterCard[5]);
 
-        // remove client from activePlayersList
+        // remove client from activePlayersList and current playersInTurn list
         removeOneClientFromList(activePlayersList, clientID);
+        removeOneClientFromList(priorityEachTurn, clientID);
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
+        // inform all the position of reboot
+        Server.getServer().handleMovement(clientID, position.getX(), position.getY());
     }
 
     /**
@@ -328,6 +331,7 @@ public class Game {
     public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
         if(priorityEachTurn.size() == 0){
+            System.out.println("active players: " + activePlayersList);
             checkAndSetPriority();
             registerPointer++;
             activeBoardElements();
