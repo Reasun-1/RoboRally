@@ -3,18 +3,22 @@ import client.model.Client;
 import client.viewmodel.LoginViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- * @author can ren
- * @author yuliia shaparenko
  * @author chiara welz
+ * @author yuliia shaparenko
+ * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class LoginController {
+
+    private Client client;
 
     @FXML
     private TextField name;
@@ -28,10 +32,16 @@ public class LoginController {
     @FXML
     private TextField clientIIDD;
 
-    @FXML
-    private TextField robotFigure;
+    //private TextField robotFigure;
 
-    private Client client;
+    @FXML
+    private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
+
+    @FXML
+    private TextArea robotFigure;
+
+
+
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
@@ -39,16 +49,51 @@ public class LoginController {
      */
     public void init(Client client) {
         this.client = client;
-        //connect the viewModel
-        //new LoginViewModel();
-        /*With bidirectional binding, the two property values are synchronized so that if either
-         property changes, the other property is automatically changed as well */
-        //name.textProperty().bindBidirectional(LoginViewModel.heroNameProperty());
 
         clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
 
-        //heroNameProperty() is a method declared on the LogInViewModel that returns the username required on the TextField
-        //startButton.disableProperty().bind(LoginViewModel.loginPossibleProperty().not());
+        //Chose the robot NR. per button
+        iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(1));
+            }
+        });
+
+        iconSpinbot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(2));
+            }
+        });
+
+        iconSquashbot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(3));
+            }
+        });
+
+        iconTrundlebot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(4));
+            }
+        });
+
+        iconTwitch.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(5));
+            }
+        });
+
+        iconTwonky.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(6));
+            }
+        });
     }
 
     @FXML
@@ -65,4 +110,6 @@ public class LoginController {
         client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         stage.close();
     }
+
+
 }
