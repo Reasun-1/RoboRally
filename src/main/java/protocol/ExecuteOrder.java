@@ -4,6 +4,8 @@ import protocol.submessagebody.*;
 import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
+import server.game.Timer;
+import server.network.AliveCheck;
 import server.network.Server;
 import server.registercards.*;
 
@@ -61,7 +63,12 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
+                    Thread thread = new Thread(AliveCheck.aliveCheck);
+                    thread.start();
                 }
+                break;
+            case "Alive":
+                //TODO
                 break;
             case "SetStatus":
                 logger.info("set Status in ExecuteOrder");

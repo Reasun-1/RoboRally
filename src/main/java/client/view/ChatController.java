@@ -252,6 +252,14 @@ public class ChatController {
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
+        //bind time out for registers
+        client.flagTimeOutProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                updateRegisters();
+            }
+        });
+
         //bind position and rotations update for listener
         client.flagPositionsProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -465,6 +473,61 @@ public class ChatController {
                 setRoundOver();
             }
         });
+    }
+
+    public void updateRegisters(){
+        StringProperty[] myregister = client.getMYREGISTER();
+        for (int i = 0; i < 5; i++) {
+            String cardName = myregister[i].get();
+            Image curImage = null;
+            switch (cardName) {
+                case "Again":
+                    curImage = imageAgain;
+                    break;
+                case "BackUp":
+                    curImage = imageMoveBack;
+                    break;
+                case "MoveI":
+                    curImage = imageMove1;
+                    break;
+                case "MoveII":
+                    curImage = imageMove2;
+                    break;
+                case "MoveIII":
+                    curImage = imageMove3;
+                    break;
+                case "PowerUp":
+                    curImage = imagePowerUp;
+                    break;
+                case "TurnLeft":
+                    curImage = imageTurnL;
+                    break;
+                case "TurnRight":
+                    curImage = imageTurnR;
+                    break;
+                case "UTurn":
+                    curImage = imageTurnU;
+                    break;
+            }
+            switch (i+1){
+                case 1:
+                    Register1.setImage(curImage);
+                    break;
+                case 2:
+                    Register2.setImage(curImage);
+                    break;
+                case 3:
+                    Register3.setImage(curImage);
+                    break;
+                case 4:
+                    Register4.setImage(curImage);
+                    break;
+                case 5:
+                    Register5.setImage(curImage);
+                    break;
+            }
+
+        }
     }
 
     public void setRoundOver(){

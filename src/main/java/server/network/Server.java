@@ -172,6 +172,16 @@ public class Server {
     }
 
     /**
+     * check all players online
+     * @throws IOException
+     */
+    public void handleAlive() throws IOException {
+        Protocol protocol = new Protocol("Alive", null);
+        String json = Protocol.writeJson(protocol);
+        makeOrderToAllClients(json);
+    }
+
+    /**
      * inform all the clients that one new player war added
      * @param clientID
      * @param clientName
@@ -385,7 +395,7 @@ public class Server {
      * @param whoNotFinishedInTime
      * @throws JsonProcessingException
      */
-    public void handleCardsYouGotNow(List<Integer> whoNotFinishedInTime) throws JsonProcessingException {
+    public void handleCardsYouGotNow(List<Integer> whoNotFinishedInTime) throws IOException {
         for(int clientID : whoNotFinishedInTime){
             List<RegisterCard> cards = Game.discardedCards.get(clientID);
             List<RegisterCard> cardsGot = cards.subList(cards.size() - 5, cards.size());
@@ -402,6 +412,7 @@ public class Server {
             Protocol protocol = new Protocol("CardsYouGotNow", new CardsYouGotNowBody(cardStrings));
             String json = Protocol.writeJson(protocol);
             logger.info("server inform who got which random cards");
+            makeOrderToOneClient(clientID,json);
         }
     }
 

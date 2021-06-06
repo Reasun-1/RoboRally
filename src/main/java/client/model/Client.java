@@ -103,6 +103,9 @@ public class Client extends Application {
     private IntegerProperty flagDirections = new SimpleIntegerProperty(0);
     // flag for clearing registers in GUI
     private IntegerProperty flagClearRegisters = new SimpleIntegerProperty(0);
+    // flag for time out for update resgisters
+    private IntegerProperty flagTimeOut = new SimpleIntegerProperty(0);
+
 
 
     // Getters
@@ -220,6 +223,7 @@ public class Client extends Application {
 
     public IntegerProperty flagClearRegistersProperty() { return flagClearRegisters; }
 
+    public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
 
 
 
@@ -535,6 +539,7 @@ public class Client extends Application {
                             for (int i = 0; i < 5; i++) {
                                 MYREGISTER[i].set(cards.get(i));
                             }
+                            flagTimeOut.set(flagTimeOut.get()+1);
                             break;
                         case "CurrentCards":
                             CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);

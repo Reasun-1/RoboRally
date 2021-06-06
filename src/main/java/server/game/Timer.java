@@ -68,6 +68,8 @@ public class Timer implements Runnable {
                     Server.getServer().handleCardsYouGotNow(whoNotFinishProgramming);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
                 // Aktivierungsphase beginns
