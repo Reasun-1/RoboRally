@@ -565,6 +565,7 @@ public class ChatController {
         System.out.println("registerpointer " + client.registerPointer);
         // if round over, reset register pointer to 0 for next round
         if (client.registerPointer == 5) {
+            client.flagRoundOverProperty().set(client.flagRoundOverProperty().getValue()+1);
             System.out.println("round over checked by GUI");
             client.registerPointer = 0;
         }

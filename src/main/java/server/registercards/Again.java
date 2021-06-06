@@ -1,5 +1,8 @@
 package server.registercards;
 
+import server.game.Game;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +45,18 @@ public class Again extends RegisterCard{
     }
 
     @Override
-    public void doCardFunction(int clientID) {
-        //TODO
+    public void doCardFunction(int clientID) throws IOException {
+        int curReg = Game.registerPointer;
+        int lastReg = curReg - 2;
+        RegisterCard[] registerCards = Game.registersAllClients.get(clientID);
+        RegisterCard lastCardPlayed = registerCards[lastReg];
+        lastCardPlayed.doCardFunction(clientID);
+
         System.out.println("doFunction of card again");
     }
 
     // only test
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<RegisterCard> test = new ArrayList<>();
         test.add(new Again());
         System.out.println(test.get(0));

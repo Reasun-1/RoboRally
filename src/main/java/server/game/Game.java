@@ -74,9 +74,17 @@ public class Game {
         for(int client : clientIDs){
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
-
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
+            }
+            for (int i = 0; i < UTurn.cardCount; i++) {
+                cards.add(new UTurn());
+            }
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
+            }
+            for (int i = 0; i < PowerUp.cardCount; i++) {
+                cards.add(new PowerUp());
             }
             for (int i = 0; i < MoveI.cardCount; i++) {
                 cards.add(new MoveI());
@@ -96,16 +104,10 @@ public class Game {
                 cards.add(new MoveII());
             }
 
-            for (int i = 0; i < PowerUp.cardCount; i++) {
-                cards.add(new PowerUp());
-            }
 
-            for (int i = 0; i < UTurn.cardCount; i++) {
-                cards.add(new UTurn());
-            }
-            for (int i = 0; i < Again.cardCount; i++) {
-                cards.add(new Again());
-            }
+
+
+
             undrawnCards.put(client, cards);
 
             // init for discarded cards
@@ -153,11 +155,13 @@ public class Game {
     public HashMap<Integer, List<String>> gameHandleYourCards() throws IOException {
         // before new storage for count, clear the count
         restToDrawCardCount.clear();
-
+        // temp list of total drawn cards for all players
         HashMap<Integer, List<String>> drawCardsAllClients = new HashMap<>();
 
         for (int clientID : undrawnCards.keySet()) {
+            // list of drawn cars for each player
             List<String> list = new ArrayList<>();
+
             int cardCount = undrawnCards.get(clientID).size();
 
             // if undrawnCards more than 9, draw 9; otherwise draw all the cars
@@ -196,6 +200,7 @@ public class Game {
 
                 // put discarded cards deck into undrawn deck
                 undrawnCards.get(clientID).addAll(discardedCards.get(clientID));
+                System.out.println(discardedCards.get(clientID) + " : "+ discardedCards.get(clientID).size());
                 // put drawn cards in this round into discarded deck
                 discardedCards.get(clientID).clear();
                 discardedCards.get(clientID).addAll(tempListForDrawnCards);

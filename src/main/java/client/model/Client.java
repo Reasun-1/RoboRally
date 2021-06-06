@@ -489,7 +489,7 @@ public class Client extends Application {
                         case "YourCards":
                             logger.info("clients your cards");
                             // GUI-Listner binds to flagRoundOver to reset GUI for new round
-                            flagRoundOver.set(flagRoundOver.getValue() + 1);
+                            //flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
