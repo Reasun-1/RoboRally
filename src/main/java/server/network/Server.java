@@ -299,6 +299,7 @@ public class Server {
         for(int clientID : cardsAllClients.keySet()){
             Protocol protocol = new Protocol("YourCards", new YourCardsBody(cardsAllClients.get(clientID)));
             String json = Protocol.writeJson(protocol);
+            logger.info("server informs your cards.");
             makeOrderToOneClient(clientID, json);
         }
     }
@@ -422,7 +423,6 @@ public class Server {
 
         }
 
-        Game.registerPointer++;
         logger.info("Server checked registerPointer " + Game.registerPointer);
 
         Protocol protocol = new Protocol("CurrentCards", new CurrentCardsBody(list));

@@ -104,10 +104,6 @@ public class Game {
                 cards.add(new MoveII());
             }
 
-
-
-
-
             undrawnCards.put(client, cards);
 
             // init for discarded cards
@@ -163,6 +159,7 @@ public class Game {
             List<String> list = new ArrayList<>();
 
             int cardCount = undrawnCards.get(clientID).size();
+            System.out.println(cardCount);
 
             // if undrawnCards more than 9, draw 9; otherwise draw all the cars
             if (cardCount >= 9) {
@@ -180,7 +177,7 @@ public class Game {
                 Server.getServer().handleNotYourCards(clientID, 9);
 
             } else { // if undrawnCards less than 9, draw all
-
+                System.out.println("game for undrawn cards less 9");
                 for (int i = 0; i < cardCount; i++) {
                     RegisterCard cd = undrawnCards.get(clientID).get(i);
                     String cardName = cd.getCardName();
@@ -192,7 +189,7 @@ public class Game {
 
                 // all the cards have been drawn, clear deck
                 undrawnCards.get(clientID).clear();
-                int restToDrawCardNum = 5 - cardCount;
+                int restToDrawCardNum = 9 - cardCount;
                 restToDrawCardCount.put(clientID, restToDrawCardNum);
 
                 Server.getServer().handleNotYourCards(clientID, cardCount);
@@ -338,6 +335,8 @@ public class Game {
      */
     public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
+        System.out.println("game turn over: " + registerPointer);
+        System.out.println("turn over prioritylist: " + priorityEachTurn);
         if(priorityEachTurn.size() == 0){
             System.out.println("active players: " + activePlayersList);
             checkAndSetPriority();
@@ -372,11 +371,12 @@ public class Game {
      * @return
      */
     public boolean checkRoundOver(){
-        logger.info("Game checks round over");
-        if(registerPointer == 6){
+        logger.info("Game checks round over" + registerPointer);
+        System.out.println("game round over : " + registerPointer);
+        if(registerPointer == 5){
             registerPointer = 0;
-            logger.info("Game checked registerPointer for round over: " + registerPointer);
             activePlayersList.clear();
+            priorityEachTurn.clear();
             for(int clientID : clientIDs){
                 // set all clients active
                 activePlayersList.add(clientID);
@@ -386,6 +386,7 @@ public class Game {
             }
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
+            System.out.println("priority list: " + priorityEachTurn);
             return true;
         }else{
             return false;

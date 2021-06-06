@@ -222,6 +222,7 @@ public class ExecuteOrder {
                 // check turnOver
                 boolean isTurnOver = Game.getInstance().checkTurnOver();
                 if(isTurnOver){
+                    logger.info("ExecuteOrder: turn is over!");
                     // if turn is over, check if round is over
                     boolean isRoundOver = Game.getInstance().checkRoundOver();
                     if(isRoundOver){
