@@ -1,5 +1,8 @@
 package server.registercards;
 
+import server.game.Game;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +14,26 @@ public class Again extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL
     String cardName; // detailed name of each card
-    int cardCount; // only as info for shuffle the cards
+    public static int cardCount = 2; // only as info for shuffle the cards
 
-    public Again(String cardType, String cardName) {
-        this.cardType = cardType;
-        this.cardName = cardName;
+    public Again() {
+        this.cardType = "PROGRAMME";
+        this.cardName = "Again";
+    }
+
+    @Override
+    public String getCardType() {
+        return cardType;
+    }
+
+    @Override
+    public String getCardName() {
+        return cardName;
+    }
+
+    @Override
+    public int getCardCount() {
+        return cardCount;
     }
 
     @Override
@@ -26,16 +44,23 @@ public class Again extends RegisterCard{
                 '}';
     }
 
-    public void doAgain(){
-        System.out.println("testtest"); // only test
+    @Override
+    public void doCardFunction(int clientID) throws IOException {
+        int curReg = Game.registerPointer;
+        int lastReg = curReg - 2;
+        RegisterCard[] registerCards = Game.registersAllClients.get(clientID);
+        RegisterCard lastCardPlayed = registerCards[lastReg];
+        lastCardPlayed.doCardFunction(clientID);
+
+        System.out.println("doFunction of card again");
     }
 
     // only test
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<RegisterCard> test = new ArrayList<>();
-        test.add(new Again("PROGRAMM", "AGAIN"));
+        test.add(new Again());
         System.out.println(test.get(0));
         Again again = (Again)test.get(0);
-        again.doAgain();
+        again.doCardFunction(2);
     }
 }

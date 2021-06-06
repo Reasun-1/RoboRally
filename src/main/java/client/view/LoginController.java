@@ -1,19 +1,24 @@
 package client.view;
 import client.model.Client;
 import client.viewmodel.LoginViewModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- * @author can ren
- * @author yuliia shaparenko
  * @author chiara welz
+ * @author yuliia shaparenko
+ * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class LoginController {
+
+    private Client client;
 
     @FXML
     private TextField name;
@@ -21,7 +26,22 @@ public class LoginController {
     @FXML
     private Button startButton;
 
-    private Client client;
+    @FXML
+    private Label clientID;
+
+    @FXML
+    private TextField clientIIDD;
+
+    //private TextField robotFigure;
+
+    @FXML
+    private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
+
+    @FXML
+    private TextArea robotFigure;
+
+
+
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
@@ -29,13 +49,51 @@ public class LoginController {
      */
     public void init(Client client) {
         this.client = client;
-        //connect the viewModel
-        new LoginViewModel();
-        /*With bidirectional binding, the two property values are synchronized so that if either
-         property changes, the other property is automatically changed as well */
-        name.textProperty().bindBidirectional(LoginViewModel.heroNameProperty());
-        //heroNameProperty() is a method declared on the LogInViewModel that returns the username required on the TextField
-        startButton.disableProperty().bind(LoginViewModel.loginPossibleProperty().not());
+
+        clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
+
+        //Chose the robot NR. per button
+        iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(1));
+            }
+        });
+
+        iconSpinbot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(2));
+            }
+        });
+
+        iconSquashbot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(3));
+            }
+        });
+
+        iconTrundlebot.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(4));
+            }
+        });
+
+        iconTwitch.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(5));
+            }
+        });
+
+        iconTwonky.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                robotFigure.setText(String.valueOf(6));
+            }
+        });
     }
 
     @FXML
@@ -44,9 +102,14 @@ public class LoginController {
      * is opened after pressing the "start" Button on login window
      * @param event
      */
-    private void loginButton(ActionEvent event) {
+    private void loginButton(ActionEvent event) throws JsonProcessingException {
         Stage stage = (Stage) startButton.getScene().getWindow();
-        client.checkName(name.getText());
+        //client.checkName(name.getText());
+        //client.setName(name.getText());
+        //client.setRobotFigureAllClients(client.getClientID(), Integer.valueOf(robotFigure.getText()));
+        client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         stage.close();
     }
+
+
 }

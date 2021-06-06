@@ -2,7 +2,7 @@ package server.network;
 
 import protocol.ExecuteOrder;
 import protocol.Protocol;
-import protocol.submessagebody.ReceivedChatBody;
+import protocol.submessagebody.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +18,11 @@ public class ServerThread implements Runnable {
     private static final Logger logger = Logger.getLogger(ServerThread.class.getName());
 
     private final Socket SOCKET;
-    private String clientName;
+    private int clientID;
 
 
     /**
      * Constructor combines the client socket with the ServerThread socket
-     *
      * @param socket
      */
     public ServerThread(Socket socket) {
@@ -42,22 +41,36 @@ public class ServerThread implements Runnable {
             // Create writer for messages to the client
             PrintWriter out = new PrintWriter(SOCKET.getOutputStream(), true);
 
-            // Receive the name from the client and check it with the client list
-            clientName = "";
-            while (clientName.isEmpty()) {
-                String temp_name = in.readLine();
-                if (Server.clientList.containsKey(temp_name)) {
-                    out.println("user existed!");
-                } else {
-                    // introduce the new client
-                    sendMessage(temp_name + " has joined the chat.");
-                    // Store the client name and add it to the name list
-                    clientName = temp_name;
-                    Server.clientList.put(clientName, this);
-                    // send client name as a confirmation
-                    out.println(clientName);
+            String js = Protocol.writeJson(new Protocol("HelloClient", new HelloClientBody("Version 0.1")));
+            logger.info("protocol to client: \n" + js);
+            out.println(js);
+
+            //check the protocol version
+            boolean versionProofed = false;
+
+            while(!versionProofed){
+                String json = in.readLine();
+                if(json != null){
+                    HelloServerBody helloServerBody = Protocol.readJsonHelloServerBody(json);
+                    String protocolVersion = helloServerBody.getProtocol();
+                    if(!"Version 0.1".equals(protocolVersion)){
+                        Protocol protocol = new Protocol("Error", new ErrorBody("Version wrong! disconnected."));
+                        String jss = Protocol.writeJson(protocol);
+                        out.println(jss);
+                        closeConnect();
+                    }
+                    versionProofed = true;
                 }
             }
+
+            // generate a clientID from server
+            clientID = Server.clientIDsPool.pop();
+            Server.clientList.put(clientID,this);
+
+
+            String string = Protocol.writeJson(new Protocol("Welcome", new WelcomeBody(clientID)));
+            logger.info("welcome info printed");
+            out.println(string);
 
             // wait for messages from the client
             boolean flag = true;
@@ -67,7 +80,7 @@ public class ServerThread implements Runnable {
                 // if no message from the client, then wait
                 if (json != null) {
                     logger.info("excuteOrder by server " + json);
-                    ExecuteOrder.executeOrder(clientName,json); // invoke method in extern class ExcuteOrder
+                    ExecuteOrder.executeOrder(clientID,json); // invoke method in extern class ExcuteOrder
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -85,15 +98,16 @@ public class ServerThread implements Runnable {
      * @param message
      * @throws IOException
      */
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(int from, String message) throws IOException {
         //optional, for server terminal print
         System.out.println(message);
-        Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message));
+        Protocol protocol = new Protocol("ReceivedChat", new ReceivedChatBody(message, from, false));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         synchronized (Server.clientList) {
-            for (Enumeration<ServerThread> e = Server.clientList.elements(); e.hasMoreElements(); ) {
-                new PrintWriter(e.nextElement().getSocket().getOutputStream(), true).println(json);
+            for(int clientID : Server.clientList.keySet()){
+                ServerThread serverThread = Server.clientList.get(clientID);
+                new PrintWriter(serverThread.getSocket().getOutputStream(), true).println(json);
             }
         }
     }
@@ -117,7 +131,7 @@ public class ServerThread implements Runnable {
     public void closeConnect() throws IOException {
         //remove the socket from the set
         synchronized (Server.clientList) {
-            Server.clientList.remove(clientName);
+            Server.clientList.remove(clientID);
         }
         //sendMessage(clientName + " has left the room.");
         SOCKET.close();
@@ -125,12 +139,11 @@ public class ServerThread implements Runnable {
 
     /**
      * send a message only to one client
-     *
-     * @param name
-     * @param message
      */
-    public void sendPrivateMessage(String name, String message) {
-        Server.getServer().sendTo(name, message);
+    public void sendPrivateMessage(int toClient,int fromClient, String message) {
+        Server.getServer().sendTo(toClient,fromClient, message);
     }
+
+
 
 }
