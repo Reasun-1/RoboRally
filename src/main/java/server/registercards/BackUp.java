@@ -64,7 +64,7 @@ public class BackUp extends RegisterCard{
                 break;
 
             case RIGHT:
-                for (int i = curColumn; i > Math.max(curColumn-2,0); i--) {
+                for (int i = curColumn; i > Math.max(curColumn-2,-1); i--) {
                     String wallOri = Game.getInstance().checkWall(curRow, i);
                     if (wallOri.equals("left")){
                         newPosition.setX(i);
@@ -78,7 +78,7 @@ public class BackUp extends RegisterCard{
                 }
                 break;
             case DOWN:
-                for (int i = curRow; i > Math.max(curRow-2, 0); i--) {
+                for (int i = curRow; i > Math.max(curRow-2, -1); i--) {
                     String wallOri = Game.getInstance().checkWall(i, curColumn);
                     if(wallOri.equals("top")){
                         newPosition.setY(i);

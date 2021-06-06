@@ -65,7 +65,7 @@ public class MoveIII extends RegisterCard{
                 break;
 
             case LEFT:
-                for (int i = curColumn; i > Math.max(curColumn-4,0); i--) {
+                for (int i = curColumn; i > Math.max(curColumn-4,-1); i--) {
                     String wallOri = Game.getInstance().checkWall(curRow, i);
                     if (wallOri.equals("left")){
                         newPosition.setX(i);
@@ -79,7 +79,7 @@ public class MoveIII extends RegisterCard{
                 }
                 break;
             case UP:
-                for (int i = curRow; i > Math.max(curRow-4, 0); i--) {
+                for (int i = curRow; i > Math.max(curRow-4, -1); i--) {
                     String wallOri = Game.getInstance().checkWall(i, curColumn);
                     if(wallOri.equals("top")){
                         newPosition.setY(i);

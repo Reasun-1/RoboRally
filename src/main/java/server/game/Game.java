@@ -288,11 +288,14 @@ public class Game {
      */
     public boolean checkOnBoard(int clientID, Position position) throws IOException {
         System.out.println("Game checks onBoard.");
+        System.out.println("new position: " + position.getX() + "-" + position.getY());
         // if out of board, reboot and clear the registers and remove from priorityList
         if(position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9){
+            System.out.println("not on board anymore");
             if(position.getX() >= 3){
                 reboot(clientID, new Position(7,3));
             }else if(position.getX() < 3){
+                System.out.println("x < 0");
                 reboot(clientID, startPositionsAllClients.get(clientID));
             }
             return false;
