@@ -247,6 +247,9 @@ public class Server {
     public void handleSelectMap(int clientID) throws IOException {
         ArrayList<String> mapList = new ArrayList<>();
         mapList.add("Dizzy Highway");
+        mapList.add("Lost Bearings");
+        mapList.add("Death Trap");
+        mapList.add("Extra Crispy");
         Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs first ready player to select a map");

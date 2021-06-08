@@ -138,6 +138,15 @@ public class Game {
             case "Dizzy Highway":
                 Board.buildDizzyHighway();
                 break;
+            case "Lost Bearings":
+                Board.buildLostBearings();
+                break;
+            case "Death Trap":
+                Board.buildDeathTrap();
+                break;
+            case "Extra Crispy":
+                Board.buildExtraCrispy();
+                break;
         }
     }
 
