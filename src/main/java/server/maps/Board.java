@@ -462,8 +462,7 @@ public class Board {
 
         Game.board.get(5).get(10).add(new Wall( "Start A", new ArrayList<>(){{add("right");}}));
         Game.board.get(5).get(11).add(new StartPoint("Start A"));
-        Game.board.get(5).get(12).add(new Antenna("Start A", new ArrayList<>(){{add("right");}}));
-
+        Game.board.get(5).get(12).add(new Antenna("Start A", new ArrayList<>(){{add("left");}}));
 
         // fill seventh row with board elements
         Game.board.get(6).get(0).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("bottom");}}));
