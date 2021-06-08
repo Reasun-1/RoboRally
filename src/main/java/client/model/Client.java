@@ -282,6 +282,13 @@ public class Client extends Application {
     }
 
     /**
+     *
+     */
+    public void stop(){
+        System.out.println("Application stop");
+    }
+
+    /**
      * Starts the application on the client side
      *
      * @param primaryStage

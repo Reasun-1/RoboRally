@@ -17,6 +17,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
@@ -30,81 +33,152 @@
                             <Image url="@chatandgame_bg.jpg" />
                         </image>
                     </ImageView>
+                  <ImageView fitHeight="800.0" fitWidth="319.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/BG_Chat.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="85.0" fitWidth="1339.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/BG_Panel.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane prefHeight="800.0" prefWidth="300.0">
+                     <children>
+                        <VBox prefHeight="800.0" prefWidth="300.0">
+                           <children>
+                              <AnchorPane prefHeight="68.0" prefWidth="300.0">
+                                 <children>
+                                    <VBox prefHeight="85.0" prefWidth="300.0">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="TOP" prefHeight="45.0" prefWidth="302.0" text="Ready for RoboRally?">
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.5490196347236633" green="0.9882352948188782" blue="1.0" opacity="0.800000011920929" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                             <font>
+                                                <Font name="Comic Sans MS" size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <HBox prefHeight="33.0" prefWidth="302.0">
+                                             <children>
+                                                <AnchorPane layoutX="145.0" layoutY="10.0" prefHeight="33.0" prefWidth="22.0" />
+                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="120.0" text="I´m Ready!" />
+                                                <AnchorPane prefHeight="68.0" prefWidth="15.0" />
+                                                <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="20.0" prefWidth="300.0" />
+                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="54.0" prefWidth="302.0" text="CHAT">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color opacity="0.7956521511077881" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <font>
+                                    <Font name="Comic Sans MS" size="40.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="598.0" prefWidth="275.0">
+                                 <children>
+                                    <AnchorPane layoutX="161.0" layoutY="10.0" prefHeight="612.0" prefWidth="15.0" />
+                                    <VBox prefHeight="597.0" prefWidth="160.0">
+                                       <children>
+                                          <AnchorPane prefHeight="15.0" prefWidth="155.0" />
+                                                <ScrollPane hbarPolicy="ALWAYS" maxWidth="250.0" opacity="0.95" prefHeight="489.0" prefWidth="155.0" vbarPolicy="ALWAYS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="150.0">
+                                                            <children>
+                                                                <TextArea fx:id="outOfRoundCards1" layoutX="11.0" layoutY="15.0" prefHeight="455.0" prefWidth="250.0" />
+                                                                <AnchorPane layoutX="-23.0" layoutY="335.0" prefHeight="152.0" prefWidth="276.0">
+                                                                    <children>
+                                                                        <ImageView fitHeight="95.0" fitWidth="125.0" layoutX="-4.0" layoutY="29.0">
+                                                                            <image>
+                                                                                <Image url="@robot.gif" />
+                                                                            </image>
+                                                                        </ImageView>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                    <effect>
+                                                        <Lighting diffuseConstant="1.75" specularConstant="0.5" specularExponent="40.0" surfaceScale="0.0">
+                                                            <bumpInput>
+                                                                <Bloom threshold="0.0" />
+                                                            </bumpInput>
+                                                        </Lighting>
+                                                    </effect>
+                                                </ScrollPane>
+                                          <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="155.0" />
+                                                <TextField fx:id="sendTo" alignment="CENTER" prefHeight="27.0" prefWidth="155.0" promptText="private Message send to..." />
+                                          <AnchorPane layoutX="10.0" layoutY="566.0" prefHeight="15.0" prefWidth="155.0" />
+                                          <HBox prefHeight="30.0" prefWidth="159.0">
+                                             <children>
+                                                      <TextField fx:id="messageField" prefHeight="25.0" prefWidth="106.0" />
+                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="76.0" text="Send" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="612.0" prefWidth="15.0" />
+                                    <VBox prefHeight="603.0" prefWidth="91.0">
+                                       <children>
+                                          <AnchorPane prefHeight="15.0" prefWidth="155.0" />
+                                          <Label prefHeight="34.0" prefWidth="91.0" text="Players In Server" textFill="WHITE" wrapText="true">
+                                             <effect>
+                                                <ColorAdjust />
+                                             </effect>
+                                          </Label>
+                                          <TextArea fx:id="playersInServer" prefHeight="159.0" prefWidth="81.0" />
+                                          <AnchorPane prefHeight="19.0" prefWidth="135.0" />
+                                          <Label prefHeight="34.0" prefWidth="89.0" text="Players Who Are Ready" textFill="WHITE" wrapText="true">
+                                             <effect>
+                                                <ColorAdjust />
+                                             </effect>
+                                          </Label>
+                                          <TextArea fx:id="playersWhoReady" prefHeight="197.0" prefWidth="135.0" />
+                                          <AnchorPane prefHeight="62.0" prefWidth="89.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                   <VBox prefHeight="800.0" prefWidth="1342.0">
                      <children>
                           <HBox prefHeight="595.0" prefWidth="1325.0">
                               <children>
-                                  <AnchorPane prefHeight="595.0" prefWidth="245.0">
-                                      <children>
-                                    <HBox prefHeight="598.0" prefWidth="275.0">
-                                       <children>
-                                          <AnchorPane layoutX="161.0" layoutY="10.0" prefHeight="612.0" prefWidth="15.0" />
-                                          <VBox prefHeight="597.0" prefWidth="160.0">
-                                             <children>
-                                                <AnchorPane prefHeight="15.0" prefWidth="155.0" />
-                                                      <ScrollPane hbarPolicy="ALWAYS" maxWidth="250.0" opacity="0.95" prefHeight="489.0" prefWidth="155.0" vbarPolicy="ALWAYS">
-                                                          <content>
-                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="150.0">
-                                                                  <children>
-                                                                      <TextArea fx:id="outOfRoundCards1" layoutX="11.0" layoutY="15.0" prefHeight="455.0" prefWidth="250.0" />
-                                                                      <AnchorPane layoutX="-23.0" layoutY="335.0" prefHeight="152.0" prefWidth="276.0">
-                                                                          <children>
-                                                                              <ImageView fitHeight="95.0" fitWidth="125.0" layoutX="-4.0" layoutY="29.0">
-                                                                                  <image>
-                                                                                      <Image url="@robot.gif" />
-                                                                                  </image>
-                                                                              </ImageView>
-                                                                          </children>
-                                                                      </AnchorPane>
-                                                                  </children>
-                                                              </AnchorPane>
-                                                          </content>
-                                                          <effect>
-                                                              <Lighting diffuseConstant="1.75" specularConstant="0.5" specularExponent="40.0" surfaceScale="0.0">
-                                                                  <bumpInput>
-                                                                      <Bloom threshold="0.0" />
-                                                                  </bumpInput>
-                                                              </Lighting>
-                                                          </effect>
-                                                      </ScrollPane>
-                                                <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="155.0" />
-                                                      <TextField fx:id="sendTo" alignment="CENTER" prefHeight="27.0" prefWidth="155.0" promptText="private Message send to..." />
-                                                <AnchorPane layoutX="10.0" layoutY="566.0" prefHeight="15.0" prefWidth="155.0" />
-                                                <HBox prefHeight="30.0" prefWidth="159.0">
-                                                   <children>
-                                                            <TextField fx:id="messageField" prefHeight="25.0" prefWidth="106.0" />
-                                                      <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="76.0" text="Send" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <AnchorPane prefHeight="612.0" prefWidth="15.0" />
-                                          <VBox prefHeight="603.0" prefWidth="91.0">
-                                             <children>
-                                                <AnchorPane prefHeight="15.0" prefWidth="155.0" />
-                                                <Label prefHeight="34.0" prefWidth="91.0" text="Players In Server" textFill="WHITE" wrapText="true">
-                                                   <effect>
-                                                      <ColorAdjust />
-                                                   </effect>
-                                                </Label>
-                                                <TextArea fx:id="playersInServer" prefHeight="159.0" prefWidth="81.0" />
-                                                <AnchorPane prefHeight="19.0" prefWidth="135.0" />
-                                                <Label prefHeight="34.0" prefWidth="89.0" text="Players Who Are Ready" textFill="WHITE" wrapText="true">
-                                                   <effect>
-                                                      <ColorAdjust />
-                                                   </effect>
-                                                </Label>
-                                                <TextArea fx:id="playersWhoReady" prefHeight="197.0" prefWidth="135.0" />
-                                                <AnchorPane prefHeight="62.0" prefWidth="89.0" />
-                                                <Button mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="135.0" text="I´m Ready!" />
-                                                <AnchorPane prefHeight="15.0" prefWidth="89.0" />
-                                                <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="135.0" text="Not Ready!" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                      </children>
-                                  </AnchorPane>
+                                  <AnchorPane prefHeight="595.0" prefWidth="300.0" />
                               <AnchorPane prefHeight="590.0" prefWidth="90.0" />
                               <AnchorPane prefHeight="590.0" prefWidth="606.0">
                                  <children>
@@ -248,38 +322,36 @@
                                                 <Button fx:id="setStartPoint" mnemonicParsing="false" onAction="#setStartPointEvent" prefHeight="25.0" prefWidth="100.0" text="setStartPoint" />
                                              </children>
                                           </HBox>
-                                          <AnchorPane prefHeight="20.0" prefWidth="299.0" />
+                                          <AnchorPane prefHeight="31.0" prefWidth="299.0" />
                                           <HBox prefHeight="145.0" prefWidth="299.0">
                                              <children>
-                                                <VBox prefHeight="145.0" prefWidth="80.0">
+                                                <VBox prefHeight="145.0" prefWidth="83.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard0" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard0" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="30.0" prefWidth="80.0">
                                                          <children>
-                                                            <ComboBox fx:id="drawnA0" minWidth="35.0" prefHeight="25.0" prefWidth="35.0">
-                                                            </ComboBox>
-                                                            <TextField fx:id="drawnC0" />
-                                                            <Button fx:id="drawnB0" mnemonicParsing="false" onAction="#drawnButton0" prefHeight="26.0" prefWidth="32.0" text="set" />
+                                                            <ComboBox fx:id="drawnA0" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB0" mnemonicParsing="false" onAction="#drawnButton0" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
                                                 </VBox>
-                                                <AnchorPane prefHeight="160.0" prefWidth="25.0" />
-                                                <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
+                                                <AnchorPane prefHeight="145.0" prefWidth="25.0" />
+                                                <VBox layoutX="10.0" layoutY="10.0" prefHeight="145.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="37.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC1" />
-                                                            <Button fx:id="drawnB1" mnemonicParsing="false" onAction="#drawnButton1" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA1" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB1" mnemonicParsing="false" onAction="#drawnButton1" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -287,34 +359,35 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="37.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC2" />
-                                                            <Button fx:id="drawnB2" mnemonicParsing="false" onAction="#drawnButton2" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA2" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB2" mnemonicParsing="false" onAction="#drawnButton2" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>
                                           </HBox>
+                                          <AnchorPane layoutX="10.0" layoutY="41.0" prefHeight="17.0" prefWidth="299.0" />
                                           <HBox layoutX="10.0" layoutY="88.0" prefHeight="150.0" prefWidth="299.0">
                                              <children>
-                                                <VBox prefHeight="145.0" prefWidth="80.0">
+                                                <VBox prefHeight="145.0" prefWidth="82.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="30.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC3" />
-                                                            <Button fx:id="drawnB3" mnemonicParsing="false" onAction="#drawnButton3" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA3" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB3" mnemonicParsing="false" onAction="#drawnButton3" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -322,15 +395,15 @@
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="30.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC4" />
-                                                            <Button fx:id="drawnB4" mnemonicParsing="false" onAction="#drawnButton4" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA4" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB4" mnemonicParsing="false" onAction="#drawnButton4" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -338,34 +411,35 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="37.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC5" />
-                                                            <Button fx:id="drawnB5" mnemonicParsing="false" onAction="#drawnButton5" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA5" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB5" mnemonicParsing="false" onAction="#drawnButton5" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>
                                           </HBox>
+                                          <AnchorPane layoutX="10.0" layoutY="233.0" prefHeight="8.0" prefWidth="299.0" />
                                           <HBox layoutX="10.0" layoutY="230.0" prefHeight="150.0" prefWidth="299.0">
                                              <children>
                                                 <VBox prefHeight="145.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="30.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC6" />
-                                                            <Button fx:id="drawnB6" mnemonicParsing="false" onAction="#drawnButton6" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA6" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB6" mnemonicParsing="false" onAction="#drawnButton6" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -373,15 +447,15 @@
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="37.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC7" />
-                                                            <Button fx:id="drawnB7" mnemonicParsing="false" onAction="#drawnButton7" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA7" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB7" mnemonicParsing="false" onAction="#drawnButton7" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -389,15 +463,15 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <HBox prefHeight="37.0" prefWidth="80.0">
                                                          <children>
-                                                            <TextField fx:id="drawnC8" />
-                                                            <Button fx:id="drawnB8" mnemonicParsing="false" onAction="#drawnButton8" prefHeight="25.0" prefWidth="47.0" text="set" />
+                                                            <ComboBox fx:id="drawnA8" prefHeight="25.0" prefWidth="40.0" />
+                                                            <Button fx:id="drawnB8" mnemonicParsing="false" onAction="#drawnButton8" prefHeight="25.0" prefWidth="40.0" text="set" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -431,7 +505,7 @@
                         </Label>
                         <HBox prefHeight="174.0" prefWidth="588.0">
                            <children>
-                              <AnchorPane prefHeight="163.0" prefWidth="379.0" />
+                              <AnchorPane prefHeight="174.0" prefWidth="404.0" />
                               <VBox prefHeight="167.0" prefWidth="100.0">
                                  <children>
                                     <ImageView fx:id="Register1" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
