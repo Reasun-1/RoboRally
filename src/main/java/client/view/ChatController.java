@@ -1,7 +1,7 @@
 package client.view;
 
 import client.model.Client;
-import client.viewmodel.ChatViewModel;
+//import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,8 +10,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -121,6 +124,10 @@ public class ChatController {
     @FXML
     private ImageView Register5;
 
+    //TODO Combobx
+    @FXML
+    private ComboBox drawnA0;
+
     @FXML
     private TextField drawnC0;
     @FXML
@@ -221,6 +228,12 @@ public class ChatController {
 
     public void init(Client client) {
         this.client = client;
+
+        //TODO combobox init
+        drawnA0.getItems().removeAll(drawnA0.getItems());
+        drawnA0.getItems().addAll( 1, 2, 3, 4, 5);
+        EventHandler<ActionEvent> handler = drawnA0.getOnAction();
+        drawnA0.setOnAction(handler);
 
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
@@ -641,7 +654,8 @@ public class ChatController {
     public void drawnButton0() throws JsonProcessingException {
         System.out.println("drawnButton0 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC0.getText());
+        //int regNum = Integer.valueOf(drawnC0.getText());
+        int regNum = (Integer) drawnA0.getValue();
         Image image = DrawnCard0.getImage();
         setRegCard(regNum, image);
 
@@ -650,11 +664,13 @@ public class ChatController {
         client.setRegister(cardName0, regNum);
     }
 
+
     @FXML
     public void drawnButton1() throws JsonProcessingException {
         System.out.println("drawnButton1 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC1.getText());
+        //int regNum = (Integer) drawnA0.getValue();
         Image image = DrawnCard1.getImage();
         setRegCard(regNum, image);
         String cardName1 = client.MYCARDSProperty().get(1);
@@ -666,6 +682,7 @@ public class ChatController {
         System.out.println("drawnButton2 clicked.");
         // set Image to right register
         int regNum = Integer.valueOf(drawnC2.getText());
+        //int regNum = (Integer) drawnA0.getValue();
         Image image = DrawnCard2.getImage();
         setRegCard(regNum, image);
         String cardName2 = client.MYCARDSProperty().get(2);

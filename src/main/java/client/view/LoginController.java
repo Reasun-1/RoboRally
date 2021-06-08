@@ -52,6 +52,7 @@ public class LoginController {
 
         clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
 
+
         //Chose the robot NR. per button
         iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
