@@ -362,7 +362,7 @@ public class Client extends Application {
                             }
                             break;
                         case "HelloClient":
-                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 0.1"));
+                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 1.0"));
                             String js = Protocol.writeJson(protocol);
                             logger.info("protocol from Server: \n" + js);
                             OUT.println(js);

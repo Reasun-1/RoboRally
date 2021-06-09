@@ -41,7 +41,7 @@ public class ServerThread implements Runnable {
             // Create writer for messages to the client
             PrintWriter out = new PrintWriter(SOCKET.getOutputStream(), true);
 
-            String js = Protocol.writeJson(new Protocol("HelloClient", new HelloClientBody("Version 0.1")));
+            String js = Protocol.writeJson(new Protocol("HelloClient", new HelloClientBody("Version 1.0")));
             logger.info("protocol to client: \n" + js);
             out.println(js);
 
@@ -53,7 +53,7 @@ public class ServerThread implements Runnable {
                 if(json != null){
                     HelloServerBody helloServerBody = Protocol.readJsonHelloServerBody(json);
                     String protocolVersion = helloServerBody.getProtocol();
-                    if(!"Version 0.1".equals(protocolVersion)){
+                    if(!"Version 1.0".equals(protocolVersion)){
                         Protocol protocol = new Protocol("Error", new ErrorBody("Version wrong! disconnected."));
                         String jss = Protocol.writeJson(protocol);
                         out.println(jss);
