@@ -756,8 +756,8 @@ public class ChatController {
      */
     public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 13; j++) {
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
                 for (FeldObject obj : feldObjects) {
                     if (!obj.getClass().getSimpleName().equals("Empty")) {
@@ -768,13 +768,13 @@ public class ChatController {
                                 antennaImg.setFitHeight(43);
                                 antennaImg.setFitWidth(43);
                                 antennaImg.setRotate(antennaImg.getRotate() + 90);
-                                gridPaneBoard.add(antennaImg, j, i);
+                                gridPaneBoard.add(antennaImg, i, j);
                                 break;
                             case "CheckPoint":
                                 ImageView checkpointImg = new ImageView(imageCheckpoint1);
                                 checkpointImg.setFitHeight(43);
                                 checkpointImg.setFitWidth(43);
-                                gridPaneBoard.add(checkpointImg, j, i);
+                                gridPaneBoard.add(checkpointImg, i, j);
                                 break;
                             case "ConveyorBelt":
                                 // if it is a green belt
@@ -783,7 +783,7 @@ public class ChatController {
                                     beltGreenImg.setFitHeight(43);
                                     beltGreenImg.setFitWidth(43);
                                     beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
-                                    gridPaneBoard.add(beltGreenImg, j, i);
+                                    gridPaneBoard.add(beltGreenImg, i, j);
                                 } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
                                     beltBlueImg.setFitHeight(43);
@@ -792,7 +792,7 @@ public class ChatController {
                                     if (obj.getOrientations().get(0).equals("top")) {
 
                                         if(obj.getOrientations().size() == 1){
-                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                            gridPaneBoard.add(beltBlueImg, i, j);
                                         }
 
                                         // if there are several orientations, choose another pic
@@ -802,14 +802,14 @@ public class ChatController {
                                                 bluerightImg.setFitHeight(43);
                                                 bluerightImg.setFitWidth(43);
                                                 bluerightImg.setRotate(bluerightImg.getRotate()+90);
-                                                gridPaneBoard.add(bluerightImg, j, i);
+                                                gridPaneBoard.add(bluerightImg, i, j);
 
                                             }else if(obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")){
                                                 ImageView blueleftImg = new ImageView(BlueConveyorBelts21);
                                                 blueleftImg.setFitHeight(43);
                                                 blueleftImg.setFitWidth(43);
                                                 blueleftImg.setRotate(blueleftImg.getRotate()+180);
-                                                gridPaneBoard.add(blueleftImg, j, i);
+                                                gridPaneBoard.add(blueleftImg, i, j);
                                             }
                                         }
 
@@ -818,7 +818,7 @@ public class ChatController {
 
                                         if(obj.getOrientations().size() == 1){
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 90);
-                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                            gridPaneBoard.add(beltBlueImg, i, j);
                                         }
 
                                         // if there are several orientations, choose another pic
@@ -828,13 +828,13 @@ public class ChatController {
                                                 bluetopImg.setFitHeight(43);
                                                 bluetopImg.setFitWidth(43);
                                                 bluetopImg.setRotate(bluetopImg.getRotate()+270);
-                                                gridPaneBoard.add(bluetopImg, j, i);
+                                                gridPaneBoard.add(bluetopImg, i, j);
                                             }else if(obj.getOrientations().get(1).equals("bottom") || obj.getOrientations().get(2).equals("bottom")){
                                                 ImageView blueleftImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueleftImg.setFitHeight(43);
                                                 blueleftImg.setFitWidth(43);
                                                 blueleftImg.setRotate(blueleftImg.getRotate()+180);
-                                                gridPaneBoard.add(blueleftImg, j, i);
+                                                gridPaneBoard.add(blueleftImg, i, j);
                                             }
                                         }
 
@@ -842,7 +842,7 @@ public class ChatController {
 
                                         if(obj.getOrientations().size() == 1){
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 180);
-                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                            gridPaneBoard.add(beltBlueImg, i, j);
                                         }
 
                                         // if there are several orientations, choose another pic
@@ -852,19 +852,19 @@ public class ChatController {
                                                 bluebrImg.setFitHeight(43);
                                                 bluebrImg.setFitWidth(43);
                                                 bluebrImg.setRotate(bluebrImg.getRotate()+270);
-                                                gridPaneBoard.add(bluebrImg, j, i);
+                                                gridPaneBoard.add(bluebrImg, i, j);
                                             }else if(obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")){
                                                 ImageView blueblImg = new ImageView(BlueConveyorBelts21);
                                                 blueblImg.setFitHeight(43);
                                                 blueblImg.setFitWidth(43);
-                                                gridPaneBoard.add(blueblImg, j, i);
+                                                gridPaneBoard.add(blueblImg, i, j);
                                             }
                                         }
 
                                     } else if (obj.getOrientations().get(0).equals("left")) {
                                         if(obj.getOrientations().size() == 1){
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
-                                            gridPaneBoard.add(beltBlueImg, j, i);
+                                            gridPaneBoard.add(beltBlueImg, i, j);
                                         }
 
                                         // if there are several orientations, choose another pic
@@ -873,13 +873,13 @@ public class ChatController {
                                                 ImageView blueltImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueltImg.setFitHeight(43);
                                                 blueltImg.setFitWidth(43);
-                                                gridPaneBoard.add(blueltImg, j, i);
+                                                gridPaneBoard.add(blueltImg, i, j);
                                             }else if(obj.getOrientations().get(1).equals("bottom") || obj.getOrientations().get(2).equals("bottom")){
                                                 ImageView bluelbImg = new ImageView(BlueConveyorBelts21);
                                                 bluelbImg.setFitHeight(43);
                                                 bluelbImg.setFitWidth(43);
                                                 bluelbImg.setRotate(bluelbImg.getRotate()+90);
-                                                gridPaneBoard.add(bluelbImg, j, i);
+                                                gridPaneBoard.add(bluelbImg, i, j);
                                             }
                                         }
 
@@ -890,13 +890,13 @@ public class ChatController {
                                 ImageView energyImg = new ImageView(EnergyOn);
                                 energyImg.setFitHeight(43);
                                 energyImg.setFitWidth(43);
-                                gridPaneBoard.add(energyImg, j, i);
+                                gridPaneBoard.add(energyImg, i,j);
                                 break;
                             case "Gear":
                                 ImageView gearImg = new ImageView(GearTLeft);
                                 gearImg.setFitHeight(43);
                                 gearImg.setFitWidth(43);
-                                gridPaneBoard.add(gearImg, j, i);
+                                gridPaneBoard.add(gearImg, i, j);
                                 break;
                             case "Laser":
                                 ImageView laserImg = new ImageView(Lasers1);
@@ -904,9 +904,9 @@ public class ChatController {
                                 laserImg.setFitWidth(43);
                                 if (obj.getOrientations().get(0).equals("top") || obj.getOrientations().get(0).equals("bottom")) {
                                     laserImg.setRotate(laserImg.getRotate() + 90);
-                                    gridPaneBoard.add(laserImg, j, i);
+                                    gridPaneBoard.add(laserImg, i, j);
                                 } else {
-                                    gridPaneBoard.add(laserImg, j, i);
+                                    gridPaneBoard.add(laserImg, i, j);
                                 }
 
                                 break;
@@ -914,42 +914,42 @@ public class ChatController {
                                 ImageView pitImg = new ImageView(Pits);
                                 pitImg.setFitHeight(43);
                                 pitImg.setFitWidth(43);
-                                gridPaneBoard.add(pitImg, j, i);
+                                gridPaneBoard.add(pitImg, i, j);
                                 break;
                             case "PushPanel":
                                 ImageView pushImg = new ImageView(PushPanel1);
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
-                                gridPaneBoard.add(pushImg, j, i);
+                                gridPaneBoard.add(pushImg, i, j);
                                 break;
                             case "RestartPoint":
                                 ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
                                 restartImg.setRotate(restartImg.getRotate() + 180);
-                                gridPaneBoard.add(restartImg, j, i);
+                                gridPaneBoard.add(restartImg, i, j);
                                 break;
                             case "StartPoint":
                                 ImageView startImg = new ImageView(Startpoint1);
                                 startImg.setFitHeight(43);
                                 startImg.setFitWidth(43);
-                                gridPaneBoard.add(startImg, j, i);
+                                gridPaneBoard.add(startImg, i, j);
                                 break;
                             case "Wall":
                                 ImageView wallImg = new ImageView(WallNormal);
                                 wallImg.setFitHeight(43);
                                 wallImg.setFitWidth(43);
                                 if (obj.getOrientations().get(0).equals("left")) {
-                                    gridPaneBoard.add(wallImg, j, i);
+                                    gridPaneBoard.add(wallImg, i, j);
                                 } else if (obj.getOrientations().get(0).equals("top")) {
                                     wallImg.setRotate(wallImg.getRotate() + 90);
-                                    gridPaneBoard.add(wallImg, j, i);
+                                    gridPaneBoard.add(wallImg, i, j);
                                 } else if (obj.getOrientations().get(0).equals("right")) {
                                     wallImg.setRotate(wallImg.getRotate() + 180);
-                                    gridPaneBoard.add(wallImg, j, i);
+                                    gridPaneBoard.add(wallImg, i, j);
                                 } else if (obj.getOrientations().get(0).equals("bottom")) {
                                     wallImg.setRotate(wallImg.getRotate() + 270);
-                                    gridPaneBoard.add(wallImg, j, i);
+                                    gridPaneBoard.add(wallImg, i, j);
                                 }
                                 break;
                         }

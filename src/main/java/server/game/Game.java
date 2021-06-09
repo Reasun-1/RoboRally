@@ -118,9 +118,9 @@ public class Game {
      */
     public void initBoard(){
         // init board (start board + game board)
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 13; i++) {
             List<List<FeldObject>> row = new ArrayList<>();
-            for (int j = 0; j < 13; j++) {
+            for (int j = 0; j < 10; j++) {
                 List<FeldObject> zelle = new ArrayList<>();
                 row.add(zelle);
             }
