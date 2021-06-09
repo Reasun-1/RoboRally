@@ -30,7 +30,7 @@
                <children>
                     <ImageView fitHeight="800.0" fitWidth="1342.0">
                         <image>
-                            <Image url="@chatandgame_bg.jpg" />
+                            <Image url="@bg.jpg" />
                         </image>
                     </ImageView>
                   <ImageView fitHeight="800.0" fitWidth="319.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
@@ -43,14 +43,24 @@
                         <Image url="@images/BG_Panel.jpg" />
                      </image>
                   </ImageView>
+                            <AnchorPane layoutX="283.0" layoutY="18.0" prefHeight="113.0" prefWidth="191.0">
+                                <children>
+                                    <ImageView fitHeight="95.0" fitWidth="125.0" layoutX="-4.0" layoutY="29.0">
+                                        <image>
+                                            <Image url="@robot.gif" />
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </AnchorPane>
                   <AnchorPane prefHeight="800.0" prefWidth="300.0">
                      <children>
                         <VBox prefHeight="800.0" prefWidth="300.0">
                            <children>
                               <AnchorPane prefHeight="68.0" prefWidth="300.0">
                                  <children>
-                                    <VBox prefHeight="85.0" prefWidth="300.0">
+                                    <VBox prefHeight="791.0" prefWidth="300.0">
                                        <children>
+                                          <AnchorPane prefHeight="25.0" prefWidth="300.0" />
                                           <Label alignment="CENTER" contentDisplay="TOP" prefHeight="45.0" prefWidth="302.0" text="Ready for RoboRally?">
                                              <textFill>
                                                 <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
@@ -80,52 +90,97 @@
                                                 <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!" />
                                              </children>
                                           </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="20.0" prefWidth="300.0" />
-                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="54.0" prefWidth="302.0" text="CHAT">
-                                 <textFill>
-                                    <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
-                                       <stops>
-                                          <Stop>
-                                             <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
-                                             </color>
-                                          </Stop>
-                                          <Stop offset="1.0">
-                                             <color>
-                                                <Color opacity="0.7956521511077881" />
-                                             </color>
-                                          </Stop>
-                                       </stops>
-                                    </LinearGradient>
-                                 </textFill>
-                                 <font>
-                                    <Font name="Comic Sans MS" size="40.0" />
-                                 </font>
-                              </Label>
-                              <HBox prefHeight="598.0" prefWidth="275.0">
-                                 <children>
-                                    <AnchorPane layoutX="161.0" layoutY="10.0" prefHeight="612.0" prefWidth="15.0" />
-                                    <VBox prefHeight="597.0" prefWidth="160.0">
-                                       <children>
+                                          <AnchorPane prefHeight="60.0" prefWidth="300.0" />
+                                          <HBox prefHeight="42.0" prefWidth="300.0">
+                                             <children>
+                                                <AnchorPane layoutX="135.0" layoutY="10.0" prefHeight="95.0" prefWidth="23.0" />
+                                                <Label alignment="CENTER" prefHeight="34.0" prefWidth="120.0" text="Players In Server" textAlignment="CENTER" wrapText="true">
+                                                   <effect>
+                                                      <ColorAdjust />
+                                                   </effect>
+                                                   <font>
+                                                      <Font name="Comic Sans MS" size="13.0" />
+                                                   </font>
+                                                   <textFill>
+                                                      <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                                                         <stops>
+                                                            <Stop>
+                                                               <color>
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
+                                                               </color>
+                                                            </Stop>
+                                                            <Stop offset="1.0">
+                                                               <color>
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
+                                                               </color>
+                                                            </Stop>
+                                                         </stops>
+                                                      </LinearGradient>
+                                                   </textFill>
+                                                </Label>
+                                                <AnchorPane prefHeight="52.0" prefWidth="11.0" />
+                                                <Label alignment="CENTER" layoutX="33.0" layoutY="10.0" prefHeight="40.0" prefWidth="123.0" text="Players Who Are Ready" textAlignment="CENTER" wrapText="true">
+                                                   <effect>
+                                                      <ColorAdjust />
+                                                   </effect>
+                                                   <font>
+                                                      <Font name="Comic Sans MS" size="13.0" />
+                                                   </font>
+                                                   <textFill>
+                                                      <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                                                         <stops>
+                                                            <Stop>
+                                                               <color>
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
+                                                               </color>
+                                                            </Stop>
+                                                            <Stop offset="1.0">
+                                                               <color>
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
+                                                               </color>
+                                                            </Stop>
+                                                         </stops>
+                                                      </LinearGradient>
+                                                   </textFill>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <AnchorPane prefHeight="95.0" prefWidth="23.0" />
+                                                <TextArea fx:id="playersInServer" opacity="0.8" prefHeight="81.0" prefWidth="120.0" />
+                                                <AnchorPane prefHeight="52.0" prefWidth="11.0" />
+                                                <TextArea fx:id="playersWhoReady" opacity="0.8" prefHeight="81.0" prefWidth="126.0" />
+                                             </children>
+                                          </HBox>
+                                          <AnchorPane prefHeight="60.0" prefWidth="300.0" />
+                                          <Label alignment="CENTER" contentDisplay="TOP" prefHeight="54.0" prefWidth="302.0" text="CHAT">
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color opacity="0.7956521511077881" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                             <font>
+                                                <Font name="Comic Sans MS" size="40.0" />
+                                             </font>
+                                          </Label>
                                           <AnchorPane prefHeight="15.0" prefWidth="155.0" />
-                                                <ScrollPane hbarPolicy="ALWAYS" maxWidth="250.0" opacity="0.95" prefHeight="489.0" prefWidth="155.0" vbarPolicy="ALWAYS">
+                                                <ScrollPane hbarPolicy="ALWAYS" maxWidth="298.0" opacity="0.95" prefHeight="250.0" prefWidth="298.0" vbarPolicy="ALWAYS">
                                                     <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="150.0">
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="241.0" prefWidth="276.0">
                                                             <children>
-                                                                <TextArea fx:id="outOfRoundCards1" layoutX="11.0" layoutY="15.0" prefHeight="455.0" prefWidth="250.0" />
-                                                                <AnchorPane layoutX="-23.0" layoutY="335.0" prefHeight="152.0" prefWidth="276.0">
-                                                                    <children>
-                                                                        <ImageView fitHeight="95.0" fitWidth="125.0" layoutX="-4.0" layoutY="29.0">
-                                                                            <image>
-                                                                                <Image url="@robot.gif" />
-                                                                            </image>
-                                                                        </ImageView>
-                                                                    </children>
-                                                                </AnchorPane>
+                                                                <TextArea fx:id="outOfRoundCards1" layoutX="11.0" layoutY="15.0" prefHeight="229.0" prefWidth="250.0" />
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -137,39 +192,26 @@
                                                         </Lighting>
                                                     </effect>
                                                 </ScrollPane>
-                                          <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="155.0" />
-                                                <TextField fx:id="sendTo" alignment="CENTER" prefHeight="27.0" prefWidth="155.0" promptText="private Message send to..." />
-                                          <AnchorPane layoutX="10.0" layoutY="566.0" prefHeight="15.0" prefWidth="155.0" />
-                                          <HBox prefHeight="30.0" prefWidth="159.0">
+                                          <AnchorPane prefHeight="15.0" prefWidth="155.0" />
+                                          <HBox prefHeight="75.0" prefWidth="300.0">
                                              <children>
-                                                      <TextField fx:id="messageField" prefHeight="25.0" prefWidth="106.0" />
-                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="76.0" text="Send" />
+                                                <AnchorPane prefHeight="75.0" prefWidth="20.0" />
+                                                <VBox prefHeight="75.0" prefWidth="185.0">
+                                                   <children>
+                                                            <TextField fx:id="sendTo" alignment="CENTER" prefHeight="27.0" prefWidth="155.0" promptText="private Message send to..." />
+                                                      <AnchorPane prefHeight="11.0" prefWidth="165.0" />
+                                                            <TextField fx:id="messageField" alignment="CENTER" prefHeight="25.0" prefWidth="106.0" promptText="your message" />
+                                                   </children>
+                                                </VBox>
+                                                <AnchorPane prefHeight="75.0" prefWidth="15.0" />
+                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="65.0" prefWidth="73.0" text="Send" />
+                                                <AnchorPane prefHeight="75.0" prefWidth="22.0" />
                                              </children>
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <AnchorPane prefHeight="612.0" prefWidth="15.0" />
-                                    <VBox prefHeight="603.0" prefWidth="91.0">
-                                       <children>
-                                          <AnchorPane prefHeight="15.0" prefWidth="155.0" />
-                                          <Label prefHeight="34.0" prefWidth="91.0" text="Players In Server" textFill="WHITE" wrapText="true">
-                                             <effect>
-                                                <ColorAdjust />
-                                             </effect>
-                                          </Label>
-                                          <TextArea fx:id="playersInServer" prefHeight="159.0" prefWidth="81.0" />
-                                          <AnchorPane prefHeight="19.0" prefWidth="135.0" />
-                                          <Label prefHeight="34.0" prefWidth="89.0" text="Players Who Are Ready" textFill="WHITE" wrapText="true">
-                                             <effect>
-                                                <ColorAdjust />
-                                             </effect>
-                                          </Label>
-                                          <TextArea fx:id="playersWhoReady" prefHeight="197.0" prefWidth="135.0" />
-                                          <AnchorPane prefHeight="62.0" prefWidth="89.0" />
-                                       </children>
-                                    </VBox>
                                  </children>
-                              </HBox>
+                              </AnchorPane>
                            </children>
                         </VBox>
                      </children>
