@@ -77,6 +77,9 @@ public class Game {
             for (int i = 0; i < Again.cardCount; i++) {
                 cards.add(new Again());
             }
+            for (int i = 0; i < BackUp.cardCount; i++) {
+                cards.add(new BackUp());
+            }
             for (int i = 0; i < UTurn.cardCount; i++) {
                 cards.add(new UTurn());
             }
@@ -90,9 +93,7 @@ public class Game {
                 cards.add(new MoveI());
             }
 
-            for (int i = 0; i < BackUp.cardCount; i++) {
-                cards.add(new BackUp());
-            }
+
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
@@ -363,8 +364,8 @@ public class Game {
     public void activeBoardElements() throws IOException {
         for(int client : activePlayersList){
             Position position = playerPositions.get(client);
-            int row = position.getY();
-            int column = position.getX();
+            int row = position.getX();
+            int column = position.getY();
 
             List<FeldObject> feldObjects = board.get(row).get(column);
             for(FeldObject obj : feldObjects){
