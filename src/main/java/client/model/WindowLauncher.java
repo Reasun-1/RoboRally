@@ -40,7 +40,7 @@ public class WindowLauncher {
         Parent root = loader.load();
         ChatController ctrl = loader.getController();
         ctrl.init(client);
-        stage.setScene(new Scene(root, 1250, 700));
+        stage.setScene(new Scene(root, 1250, 750));
         stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
