@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -23,7 +30,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+<AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
     <children>
       <VBox prefHeight="788.0" prefWidth="1342.0">
          <children>
@@ -68,12 +75,12 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color red="1.0" green="1.0" blue="1.0" />
+                                                            <Color blue="1.0" green="1.0" red="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
                                                          <color>
-                                                            <Color red="0.5490196347236633" green="0.9882352948188782" blue="1.0" opacity="0.800000011920929" />
+                                                            <Color blue="1.0" green="0.9882352948188782" opacity="0.800000011920929" red="0.5490196347236633" />
                                                          </color>
                                                       </Stop>
                                                    </stops>
@@ -107,12 +114,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color red="1.0" green="1.0" blue="1.0" />
+                                                                  <Color blue="1.0" green="1.0" red="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
+                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -132,12 +139,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color red="1.0" green="1.0" blue="1.0" />
+                                                                  <Color blue="1.0" green="1.0" red="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
+                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -161,7 +168,7 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color red="1.0" green="1.0" blue="1.0" />
+                                                            <Color blue="1.0" green="1.0" red="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
@@ -188,13 +195,16 @@
                                                       </ImageView>
                                                       <AnchorPane prefHeight="174.0" prefWidth="298.0">
                                                          <children>
-                                                            <StackPane prefHeight="170.0" prefWidth="298.0">
+                                                            <StackPane layoutX="10.0" layoutY="19.0" prefHeight="138.0" prefWidth="275.0">
                                                                <children>
-                                                                        <ScrollPane hbarPolicy="ALWAYS" maxWidth="298.0" opacity="0.15" prefHeight="170.0" prefWidth="284.0" vbarPolicy="ALWAYS">
+                                                                        <ScrollPane hbarPolicy="ALWAYS" maxWidth="298.0" opacity="0.15" prefHeight="158.0" prefWidth="289.0" vbarPolicy="ALWAYS">
                                                                             <content>
-                                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="175.0" prefWidth="276.0">
+                                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="267.0">
                                                                                     <children>
-                                                                                        <TextArea fx:id="outOfRoundCards1" layoutX="11.0" layoutY="15.0" prefHeight="148.0" prefWidth="274.0" />
+                                                                                        <TextArea fx:id="outOfRoundCards1" layoutX="15.0" layoutY="21.0" prefHeight="142.0" prefWidth="270.0">
+                                                                                 <font>
+                                                                                    <Font name="Arial Bold" size="15.0" />
+                                                                                 </font></TextArea>
                                                                                     </children>
                                                                                 </AnchorPane>
                                                                             </content>
@@ -263,11 +273,35 @@
                                                          <children>
                                                             <VBox prefHeight="58.0" prefWidth="472.0">
                                                                <children>
-                                                                  <TextArea fx:id="currentPhase" minHeight="24.0" prefHeight="30.0" prefWidth="472.0" promptText="Game Phase" />
-                                                                  <AnchorPane prefHeight="13.0" prefWidth="472.0" />
-                                                                  <TextField fx:id="information" prefHeight="30.0" prefWidth="472.0" promptText="Information" />
+                                                                  <AnchorPane prefHeight="31.0" prefWidth="462.0">
+                                                                     <children>
+                                                                        <ImageView fitHeight="32.0" fitWidth="467.0" layoutY="-2.0">
+                                                                           <image>
+                                                                              <Image url="@maxresdefault.jpg" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                        <TextArea fx:id="currentPhase" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.28" prefHeight="25.0" prefWidth="451.0" promptText="Game Phase">
+                                                                           <font>
+                                                                              <Font name="System Bold" size="13.0" />
+                                                                           </font>
+                                                                        </TextArea>
+                                                                     </children></AnchorPane>
                                                                </children>
                                                             </VBox>
+                                                            <AnchorPane layoutX="-5.0" layoutY="38.0" prefHeight="32.0" prefWidth="475.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="31.0" fitWidth="467.0" layoutX="5.0" layoutY="-1.0">
+                                                                     <image>
+                                                                        <Image url="@maxresdefault.jpg" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                                  <TextArea fx:id="information" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.25" prefHeight="25.0" prefWidth="454.0" promptText="Information">
+                                                                     <font>
+                                                                        <Font name="System Bold" size="13.0" />
+                                                                     </font>
+                                                                  </TextArea>
+                                                               </children>
+                                                            </AnchorPane>
                                                          </children>
                                                       </AnchorPane>
                                                    </children>
