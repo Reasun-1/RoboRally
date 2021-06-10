@@ -1,7 +1,11 @@
 package server.feldobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import server.game.Game;
+import server.network.Server;
+import server.registercards.Spam;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -11,6 +15,7 @@ import java.util.List;
  * (Take a SPAM damage card for each laser that hits you.)
  *
  * @author Jonas Gottal
+ * @author Can Ren
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -31,13 +36,6 @@ public class Laser extends FeldObject{
         this.count = count;
     }
 
-   /* @Override
-    public String getType() {
-        return type;
-    }
-
-    */
-
     @Override
     public String getIsOnBoard() {
         return isOnBoard;
@@ -54,7 +52,24 @@ public class Laser extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID, FeldObject obj) {
-        //TODO
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
+        String damageCardName = "";
+
+        if(!Game.spamPile.isEmpty()){
+            System.out.println(clientID + " got lased and took a spam");
+            Game.getInstance().discardedCards.get(clientID).add(Game.spamPile.pop());
+            damageCardName = "Spam";
+        }else if(!Game.virusPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.virusPile.pop());
+            damageCardName = "Virus";
+        }else if(!Game.trojanHorsePile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.trojanHorsePile.pop());
+            damageCardName = "Trojan";
+        }else if(!Game.wormPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.wormPile.pop());
+            damageCardName = "Worm";
+        }
+
+        Server.getServer().handleDrawDamage(clientID, damageCardName);
     }
 }

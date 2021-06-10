@@ -369,7 +369,7 @@ public class Client extends Application {
                             }
                             break;
                         case "HelloClient":
-                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 0.1"));
+                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 1.0"));
                             String js = Protocol.writeJson(protocol);
                             logger.info("protocol from Server: \n" + js);
                             OUT.println(js);
@@ -609,6 +609,13 @@ public class Client extends Application {
                             // tell GUI-Listener about the update
                             currentDirections.put(turnedClient, newDir);
                             flagPositions.set(flagPositions.get() + 1);
+                            break;
+                        case "DrawDamage":
+                            DrawDamageBody drawDamageBody = Protocol.readJsonDrawDamage(json);
+                            int damagedClient = drawDamageBody.getClientID();
+                            List<String> gottenDamageCards = drawDamageBody.getCards();
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + damagedClient + " got " + gottenDamageCards);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

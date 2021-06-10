@@ -91,6 +91,10 @@ public class ChatController {
     Image imageTurnL = new Image(getClass().getResource("/images/Cards/C-TurnL.jpg").toExternalForm());
     Image imageTurnR = new Image(getClass().getResource("/images/Cards/C-TurnR.jpg").toExternalForm());
     Image imageTurnU = new Image(getClass().getResource("/images/Cards/C-TurnU.jpg").toExternalForm());
+    Image imageSpam = new Image(getClass().getResource("/images/Cards/DamageCards/D-Spam.jpg").toExternalForm());
+    Image imageTrojan = new Image(getClass().getResource("/images/Cards/DamageCards/D-TrojanHorse.jpg").toExternalForm());
+    Image imageVirus = new Image(getClass().getResource("/images/Cards/DamageCards/D-Virus.jpg").toExternalForm());
+    Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
     @FXML
     private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
@@ -378,6 +382,18 @@ public class ChatController {
                             break;
                         case "UTurn":
                             curImage = imageTurnU;
+                            break;
+                        case "Spam":
+                            curImage = imageSpam;
+                            break;
+                        case "Trojan":
+                            curImage = imageTrojan;
+                            break;
+                        case "Virus":
+                            curImage = imageVirus;
+                            break;
+                        case "Worm":
+                            curImage = imageWorm;
                             break;
                     }
 

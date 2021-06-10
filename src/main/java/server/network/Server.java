@@ -503,4 +503,14 @@ public class Server {
         logger.info("server informs turnDirection");
         makeOrderToAllClients(json);
     }
+
+    public void handleDrawDamage(int clientID, String cardName) throws IOException {
+        List<String> drawnDamageCards = new ArrayList<>();
+        drawnDamageCards.add(cardName);
+        Protocol protocol = new Protocol("DrawDamage", new DrawDamageBody(clientID, drawnDamageCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs drawn damage cards");
+        makeOrderToAllClients(json);
+
+    }
 }

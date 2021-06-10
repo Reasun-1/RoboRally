@@ -63,8 +63,8 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
-                    Thread thread = new Thread(AliveCheck.aliveCheck);
-                    thread.start();
+                    //Thread thread = new Thread(AliveCheck.aliveCheck);
+                    //thread.start();
                 }
                 break;
             case "Alive":
