@@ -44,6 +44,8 @@ public class ChatController {
     @FXML
     private TextArea playersWhoReady;
     @FXML
+    private TextArea information; // bind INFORMATION StringProperty in Client
+    @FXML
     private TextArea currentPhase;
     @FXML
     private GridPane gridPaneBoard;
@@ -51,8 +53,6 @@ public class ChatController {
     private GridPane gridPaneRobot;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField information; // bind INFORMATION StringProperty in Client
     @FXML
     private TextField mapName; // info invoked by button select map
     @FXML
@@ -98,8 +98,6 @@ public class ChatController {
     private ImageView Register1, Register2, Register3, Register4, Register5;
     @FXML
     private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-
-    //TODO Combobx
     @FXML
     private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
 

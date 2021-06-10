@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -30,7 +23,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+<AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
     <children>
       <VBox prefHeight="788.0" prefWidth="1342.0">
          <children>
@@ -75,12 +68,12 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
                                                          <color>
-                                                            <Color blue="1.0" green="0.9882352948188782" opacity="0.800000011920929" red="0.5490196347236633" />
+                                                            <Color red="0.5490196347236633" green="0.9882352948188782" blue="1.0" opacity="0.800000011920929" />
                                                          </color>
                                                       </Stop>
                                                    </stops>
@@ -114,12 +107,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -139,12 +132,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -156,9 +149,9 @@
                                           <HBox prefHeight="100.0" prefWidth="200.0">
                                              <children>
                                                 <AnchorPane prefHeight="95.0" prefWidth="23.0" />
-                                                <TextArea fx:id="playersInServer" opacity="0.8" prefHeight="81.0" prefWidth="120.0" />
+                                                <TextArea fx:id="playersInServer" editable="false" opacity="0.8" prefHeight="81.0" prefWidth="120.0" style="-fx-text-fill: WHITE"/>
                                                 <AnchorPane prefHeight="52.0" prefWidth="11.0" />
-                                                <TextArea fx:id="playersWhoReady" opacity="0.8" prefHeight="81.0" prefWidth="126.0" />
+                                                <TextArea fx:id="playersWhoReady" editable="false" opacity="0.8" prefHeight="81.0" prefWidth="126.0" style="-fx-text-fill: WHITE"/>
                                              </children>
                                           </HBox>
                                           <AnchorPane prefHeight="60.0" prefWidth="300.0" />
@@ -168,7 +161,7 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
@@ -201,7 +194,7 @@
                                                                             <content>
                                                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="267.0">
                                                                                     <children>
-                                                                                        <TextArea fx:id="outOfRoundCards1" layoutX="15.0" layoutY="21.0" prefHeight="142.0" prefWidth="270.0">
+                                                                                        <TextArea fx:id="outOfRoundCards1" editable="false" layoutY="6.0" prefHeight="148.0" prefWidth="275.0">
                                                                                  <font>
                                                                                     <Font name="Arial Bold" size="15.0" />
                                                                                  </font></TextArea>
@@ -280,7 +273,7 @@
                                                                               <Image url="@maxresdefault.jpg" />
                                                                            </image>
                                                                         </ImageView>
-                                                                        <TextArea fx:id="currentPhase" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.28" prefHeight="25.0" prefWidth="451.0" promptText="Game Phase">
+                                                                        <TextArea fx:id="currentPhase" editable="false" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.28" prefHeight="25.0" prefWidth="451.0" promptText="Game Phase" stylesheets="@Gui.css">
                                                                            <font>
                                                                               <Font name="System Bold" size="13.0" />
                                                                            </font>
@@ -295,7 +288,7 @@
                                                                         <Image url="@maxresdefault.jpg" />
                                                                      </image>
                                                                   </ImageView>
-                                                                  <TextArea fx:id="information" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.25" prefHeight="25.0" prefWidth="454.0" promptText="Information">
+                                                                  <TextArea fx:id="information" editable="false" layoutX="13.0" minHeight="24.0" opacity="0.25" prefHeight="37.0" prefWidth="454.0" promptText="Information">
                                                                      <font>
                                                                         <Font name="System Bold" size="13.0" />
                                                                      </font>
