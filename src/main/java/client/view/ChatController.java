@@ -1,23 +1,24 @@
 package client.view;
 
 import client.model.Client;
-import client.viewmodel.ChatViewModel;
+//import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.StringConverter;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
 
@@ -43,6 +44,8 @@ public class ChatController {
     @FXML
     private TextArea playersWhoReady;
     @FXML
+    private TextArea information; // bind INFORMATION StringProperty in Client
+    @FXML
     private TextArea currentPhase;
     @FXML
     private GridPane gridPaneBoard;
@@ -50,8 +53,6 @@ public class ChatController {
     private GridPane gridPaneRobot;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField information; // bind INFORMATION StringProperty in Client
     @FXML
     private TextField mapName; // info invoked by button select map
     @FXML
@@ -96,72 +97,16 @@ public class ChatController {
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
     @FXML
-    private ImageView DrawnCard0;
+    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
     @FXML
-    private ImageView DrawnCard1;
+    private ImageView Register1, Register2, Register3, Register4, Register5;
     @FXML
-    private ImageView DrawnCard2;
+    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
     @FXML
-    private ImageView DrawnCard3;
-    @FXML
-    private ImageView DrawnCard4;
-    @FXML
-    private ImageView DrawnCard5;
-    @FXML
-    private ImageView DrawnCard6;
-    @FXML
-    private ImageView DrawnCard7;
-    @FXML
-    private ImageView DrawnCard8;
+    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
 
-    @FXML
-    private ImageView Register1;
-    @FXML
-    private ImageView Register2;
-    @FXML
-    private ImageView Register3;
-    @FXML
-    private ImageView Register4;
-    @FXML
-    private ImageView Register5;
+    private ObservableList<Integer> regList = FXCollections.observableArrayList(1,2,3,4,5);
 
-    @FXML
-    private TextField drawnC0;
-    @FXML
-    private TextField drawnC1;
-    @FXML
-    private TextField drawnC2;
-    @FXML
-    private TextField drawnC3;
-    @FXML
-    private TextField drawnC4;
-    @FXML
-    private TextField drawnC5;
-    @FXML
-    private TextField drawnC6;
-    @FXML
-    private TextField drawnC7;
-    @FXML
-    private TextField drawnC8;
-
-    @FXML
-    private Button drawnB0;
-    @FXML
-    private Button drawnB1;
-    @FXML
-    private Button drawnB2;
-    @FXML
-    private Button drawnB3;
-    @FXML
-    private Button drawnB4;
-    @FXML
-    private Button drawnB5;
-    @FXML
-    private Button drawnB6;
-    @FXML
-    private Button drawnB7;
-    @FXML
-    private Button drawnB8;
 
 
     //============================MapBindings===========================================
@@ -225,6 +170,17 @@ public class ChatController {
 
     public void init(Client client) {
         this.client = client;
+
+        //get items for comboboxes of the register
+        drawnA0.getItems().addAll(regList);
+        drawnA1.getItems().addAll(regList);
+        drawnA2.getItems().addAll(regList);
+        drawnA3.getItems().addAll(regList);
+        drawnA4.getItems().addAll(regList);
+        drawnA5.getItems().addAll(regList);
+        drawnA6.getItems().addAll(regList);
+        drawnA7.getItems().addAll(regList);
+        drawnA8.getItems().addAll(regList);
 
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
@@ -699,7 +655,7 @@ public class ChatController {
     public void drawnButton0() throws JsonProcessingException {
         System.out.println("drawnButton0 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC0.getText());
+        int regNum = drawnA0.getValue();
         Image image = DrawnCard0.getImage();
         setRegCard(regNum, image);
 
@@ -708,11 +664,12 @@ public class ChatController {
         client.setRegister(cardName0, regNum);
     }
 
+
     @FXML
     public void drawnButton1() throws JsonProcessingException {
         System.out.println("drawnButton1 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC1.getText());
+        int regNum = drawnA1.getValue();
         Image image = DrawnCard1.getImage();
         setRegCard(regNum, image);
         String cardName1 = client.MYCARDSProperty().get(1);
@@ -723,7 +680,7 @@ public class ChatController {
     public void drawnButton2() throws JsonProcessingException {
         System.out.println("drawnButton2 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC2.getText());
+        int regNum = drawnA2.getValue();
         Image image = DrawnCard2.getImage();
         setRegCard(regNum, image);
         String cardName2 = client.MYCARDSProperty().get(2);
@@ -734,7 +691,7 @@ public class ChatController {
     public void drawnButton3() throws JsonProcessingException {
         System.out.println("drawnButton3 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC3.getText());
+        int regNum = drawnA3.getValue();
         Image image = DrawnCard3.getImage();
         setRegCard(regNum, image);
         String cardName3 = client.MYCARDSProperty().get(3);
@@ -745,7 +702,7 @@ public class ChatController {
     public void drawnButton4() throws JsonProcessingException {
         System.out.println("drawnButton4 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC4.getText());
+        int regNum = drawnA4.getValue();
         Image image = DrawnCard4.getImage();
         setRegCard(regNum, image);
         String cardName4 = client.MYCARDSProperty().get(4);
@@ -756,7 +713,7 @@ public class ChatController {
     public void drawnButton5() throws JsonProcessingException {
         System.out.println("drawnButton5 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC5.getText());
+        int regNum = drawnA5.getValue();
         Image image = DrawnCard5.getImage();
         setRegCard(regNum, image);
         String cardName5 = client.MYCARDSProperty().get(5);
@@ -767,7 +724,7 @@ public class ChatController {
     public void drawnButton6() throws JsonProcessingException {
         System.out.println("drawnButton6 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC6.getText());
+        int regNum = drawnA6.getValue();
         Image image = DrawnCard6.getImage();
         setRegCard(regNum, image);
         String cardName6 = client.MYCARDSProperty().get(6);
@@ -778,7 +735,7 @@ public class ChatController {
     public void drawnButton7() throws JsonProcessingException {
         System.out.println("drawnButton7 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC7.getText());
+        int regNum = drawnA7.getValue();
         Image image = DrawnCard7.getImage();
         setRegCard(regNum, image);
         String cardName7 = client.MYCARDSProperty().get(7);
@@ -789,7 +746,7 @@ public class ChatController {
     public void drawnButton8() throws JsonProcessingException {
         System.out.println("drawnButton8 clicked.");
         // set Image to right register
-        int regNum = Integer.valueOf(drawnC8.getText());
+        int regNum = drawnA8.getValue();
         Image image = DrawnCard8.getImage();
         setRegCard(regNum, image);
         String cardName8 = client.MYCARDSProperty().get(8);
