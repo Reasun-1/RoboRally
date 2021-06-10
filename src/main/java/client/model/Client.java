@@ -603,6 +603,13 @@ public class Client extends Application {
                             currentDirections.put(turnedClient, newDir);
                             flagPositions.set(flagPositions.get() + 1);
                             break;
+                        case "DrawDamage":
+                            DrawDamageBody drawDamageBody = Protocol.readJsonDrawDamage(json);
+                            int damagedClient = drawDamageBody.getClientID();
+                            List<String> gottenDamageCards = drawDamageBody.getCards();
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + damagedClient + " got " + gottenDamageCards);
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

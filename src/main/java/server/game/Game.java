@@ -40,6 +40,11 @@ public class Game {
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
+    public static Stack<RegisterCard> spamPile = new Stack<>(); // pile for 38 Spam cards
+    public static Stack<RegisterCard> trojanHorsePile = new Stack<>(); // pile for 12 TrojanHorse cards
+    public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
+    public static Stack<RegisterCard> virusPile = new Stack<>(); // pile for 18 Virus cards
+
 
     /**
      * constructor Game:
@@ -111,6 +116,20 @@ public class Game {
             List<RegisterCard> discards = new ArrayList<>();
             discardedCards.put(client, discards);
 
+            // init for damage card piles
+            for (int i = 0; i < Spam.cardCount; i++) {
+                spamPile.push(new Spam());
+            }
+            for (int i = 0; i < Trojan.cardCount; i++) {
+                trojanHorsePile.push(new Trojan());
+            }
+            for (int i = 0; i < Worm.cardCount; i++) {
+                wormPile.push(new Worm());
+            }
+            for (int i = 0; i < Virus.cardCount; i++) {
+                virusPile.push(new Virus());
+            }
+
         }
     }
 
@@ -177,8 +196,20 @@ public class Game {
                     RegisterCard card = undrawnCards.get(clientID).get(i);
                     String cardName = card.getCardName();
                     list.add(cardName);
-                    // add the drawn cards to discarded card deck
-                    discardedCards.get(clientID).add(card);
+                    // add the drawn cards to discarded card deck or damage card piles
+                    if(card.getCardType().equals("PROGRAMME")){
+                        discardedCards.get(clientID).add(card);
+                    }else{ // if this is a damage card, put it into damage card piles
+                        if(card.getCardName().equals("Spam")){
+                            spamPile.push(card);
+                        }else if(card.getCardName().equals("Trojan")){
+                            trojanHorsePile.push(card);
+                        }else if(card.getCardName().equals("Virus")){
+                            virusPile.push(card);
+                        }else if(card.getCardName().equals("Worm")){
+                            wormPile.push(card);
+                        }
+                    }
                 }
                 // the first 9 cards have been drawn, remove them from deck
                 for (int i = 0; i < 9; i++) {
@@ -226,6 +257,22 @@ public class Game {
                 for (int i = 0; i < restToDrawCardNum; i++) {
                     discardedCards.get(clientID).add(undrawnCards.get(clientID).get(0));
                     undrawnCards.get(clientID).remove(0);
+                }
+
+                // filter the discardedCardDeck for damage cards
+                for(RegisterCard card : discardedCards.get(clientID)){
+                    if(!card.getCardType().equals("PROGRAMME")){
+                        discardedCards.get(clientID).remove(card);
+                        if(card.getCardName().equals("Spam")){
+                            spamPile.push(card);
+                        }else if(card.getCardName().equals("Trojan")){
+                            trojanHorsePile.push(card);
+                        }else if(card.getCardName().equals("Virus")){
+                            virusPile.push(card);
+                        }else if(card.getCardName().equals("Worm")){
+                            wormPile.push(card);
+                        }
+                    }
                 }
             }
             drawCardsAllClients.put(clientID, list);
@@ -364,10 +411,10 @@ public class Game {
     public void activeBoardElements() throws IOException {
         for(int client : activePlayersList){
             Position position = playerPositions.get(client);
-            int row = position.getX();
-            int column = position.getY();
+            int x = position.getX();
+            int y = position.getY();
 
-            List<FeldObject> feldObjects = board.get(row).get(column);
+            List<FeldObject> feldObjects = board.get(x).get(y);
             for(FeldObject obj : feldObjects){
                 if(!obj.getClass().getSimpleName().equals("Empty")){
                     obj.doBoardFunction(client, obj);
