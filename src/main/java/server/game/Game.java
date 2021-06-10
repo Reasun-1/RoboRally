@@ -79,6 +79,7 @@ public class Game {
         for(int client : clientIDs){
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
+            cards.add(new Spam());
             for (int i = 0; i < Again.cardCount; i++) {
                 cards.add(new Again());
             }

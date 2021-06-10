@@ -10,12 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class ReplaceCardBody {
     private int register;
     private String newCard;
-    private String clientID;
+    private int clientID;
 
     public ReplaceCardBody() {
     }
 
-    public ReplaceCardBody(int register, String newCard, String clientID) {
+    public ReplaceCardBody(int register, String newCard, int clientID) {
         this.register = register;
         this.newCard = newCard;
         this.clientID = clientID;
@@ -29,7 +29,7 @@ public class ReplaceCardBody {
         return newCard;
     }
 
-    public String getClientID() {
+    public int getClientID() {
         return clientID;
     }
 }

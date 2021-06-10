@@ -256,6 +256,36 @@ public class ChatController {
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
+        //bind flag replace register
+        client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                int curRegi = client.registerPointer;
+                updateRegisters();
+                //clear the registers before
+                switch (curRegi){
+                    case 1:
+                        //Register1.setImage(imageDiscard);
+                        break;
+                    case 2:
+                        Register1.setImage(imageDiscard);
+                        //Register2.setImage(imageDiscard);
+                        break;
+                    case 3:
+                        Register1.setImage(imageDiscard);
+                        Register2.setImage(imageDiscard);
+                        //Register3.setImage(imageDiscard);
+                        break;
+                    case 4:
+                        Register1.setImage(imageDiscard);
+                        Register2.setImage(imageDiscard);
+                        Register3.setImage(imageDiscard);
+                        //Register4.setImage(imageDiscard);
+                        break;
+                }
+            }
+        });
+
         //bind time out for registers
         client.flagTimeOutProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -523,6 +553,18 @@ public class ChatController {
                     break;
                 case "UTurn":
                     curImage = imageTurnU;
+                    break;
+                case "Spam":
+                    curImage = imageSpam;
+                    break;
+                case "Trojan":
+                    curImage = imageTrojan;
+                    break;
+                case "Virus":
+                    curImage = imageVirus;
+                    break;
+                case "Worm":
+                    curImage = imageWorm;
                     break;
             }
             switch (i+1){
