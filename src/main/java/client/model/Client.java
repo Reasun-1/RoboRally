@@ -282,7 +282,7 @@ public class Client extends Application {
     }
 
     /**
-     *
+     * Stops the application on the client side
      */
     public void stop(){
         System.out.println("Application stop");
