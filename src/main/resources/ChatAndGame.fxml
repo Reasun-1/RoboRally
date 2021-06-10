@@ -30,18 +30,18 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1342.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+<AnchorPane prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
     <children>
-      <VBox prefHeight="788.0" prefWidth="1342.0">
+      <VBox prefHeight="750.0" prefWidth="1250.0">
          <children>
-            <AnchorPane prefHeight="800.0" prefWidth="1342.0">
+            <AnchorPane prefHeight="750.0" prefWidth="1250.0">
                <children>
-                    <ImageView fitHeight="800.0" fitWidth="1342.0">
+                    <ImageView fitHeight="750.0" fitWidth="1250.0">
                         <image>
                             <Image url="@bg.jpg" />
                         </image>
                     </ImageView>
-                  <ImageView fitHeight="800.0" fitWidth="319.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="750.0" fitWidth="319.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/BG_Chat.jpg" />
                      </image>
@@ -53,7 +53,7 @@
                   </ImageView>
                             <AnchorPane layoutX="283.0" layoutY="18.0" prefHeight="113.0" prefWidth="191.0">
                                 <children>
-                                    <ImageView fitHeight="95.0" fitWidth="125.0" layoutX="-4.0" layoutY="29.0">
+                                    <ImageView fitHeight="97.0" fitWidth="134.0" layoutX="-50.0" layoutY="27.0">
                                         <image>
                                             <Image url="@robot.gif" />
                                         </image>
@@ -69,7 +69,7 @@
                                     <VBox prefHeight="791.0" prefWidth="300.0">
                                        <children>
                                           <AnchorPane prefHeight="25.0" prefWidth="300.0" />
-                                          <Label alignment="CENTER" contentDisplay="TOP" prefHeight="45.0" prefWidth="302.0" text="Ready for RoboRally?">
+                                          <Label alignment="CENTER" contentDisplay="TOP" prefHeight="46.0" prefWidth="267.0" text="Ready for RoboRally?">
                                              <textFill>
                                                 <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.24285714285714285">
                                                    <stops>
@@ -92,16 +92,36 @@
                                           </Label>
                                           <HBox prefHeight="33.0" prefWidth="302.0">
                                              <children>
-                                                <AnchorPane layoutX="145.0" layoutY="10.0" prefHeight="33.0" prefWidth="22.0" />
-                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="120.0" text="I´m Ready!" />
-                                                <AnchorPane prefHeight="68.0" prefWidth="15.0" />
-                                                <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!" />
+                                                <AnchorPane layoutX="145.0" layoutY="10.0" prefHeight="33.0" prefWidth="14.0" />
+                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="120.0" text="I´m Ready!">
+                                                   <effect>
+                                                      <Lighting diffuseConstant="1.21" specularConstant="0.85" specularExponent="19.52" surfaceScale="3.57">
+                                                         <bumpInput>
+                                                            <Shadow />
+                                                         </bumpInput>
+                                                         <light>
+                                                            <Light.Distant />
+                                                         </light>
+                                                      </Lighting>
+                                                   </effect></Button>
+                                                <AnchorPane prefHeight="33.0" prefWidth="10.0" />
+                                                <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!">
+                                                   <effect>
+                                                      <Lighting diffuseConstant="1.24" specularConstant="0.49" specularExponent="24.76" surfaceScale="3.05">
+                                                         <bumpInput>
+                                                            <Shadow />
+                                                         </bumpInput>
+                                                         <light>
+                                                            <Light.Distant color="#f2f0f0" />
+                                                         </light>
+                                                      </Lighting>
+                                                   </effect></Button>
                                              </children>
                                           </HBox>
                                           <AnchorPane prefHeight="60.0" prefWidth="300.0" />
                                           <HBox prefHeight="42.0" prefWidth="300.0">
                                              <children>
-                                                <AnchorPane layoutX="135.0" layoutY="10.0" prefHeight="95.0" prefWidth="23.0" />
+                                                <AnchorPane layoutX="135.0" layoutY="10.0" prefHeight="42.0" prefWidth="18.0" />
                                                 <Label alignment="CENTER" prefHeight="34.0" prefWidth="120.0" text="Players In Server" textAlignment="CENTER" wrapText="true">
                                                    <effect>
                                                       <ColorAdjust />
@@ -126,7 +146,7 @@
                                                       </LinearGradient>
                                                    </textFill>
                                                 </Label>
-                                                <AnchorPane prefHeight="52.0" prefWidth="11.0" />
+                                                <AnchorPane prefHeight="42.0" prefWidth="8.0" />
                                                 <Label alignment="CENTER" layoutX="33.0" layoutY="10.0" prefHeight="40.0" prefWidth="123.0" text="Players Who Are Ready" textAlignment="CENTER" wrapText="true">
                                                    <effect>
                                                       <ColorAdjust />
@@ -155,10 +175,10 @@
                                           </HBox>
                                           <HBox prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <AnchorPane prefHeight="95.0" prefWidth="23.0" />
+                                                <AnchorPane prefHeight="100.0" prefWidth="17.0" />
                                                 <TextArea fx:id="playersInServer" editable="false" opacity="0.8" prefHeight="81.0" prefWidth="120.0" />
-                                                <AnchorPane prefHeight="52.0" prefWidth="11.0" />
-                                                <TextArea fx:id="playersWhoReady" editable="false" opacity="0.8" prefHeight="81.0" prefWidth="126.0" />
+                                                <AnchorPane prefHeight="99.0" prefWidth="8.0" />
+                                                <TextArea fx:id="playersWhoReady" editable="false" opacity="0.8" prefHeight="100.0" prefWidth="119.0" />
                                              </children>
                                           </HBox>
                                           <AnchorPane prefHeight="60.0" prefWidth="300.0" />
@@ -188,20 +208,20 @@
                                              <children>
                                                 <AnchorPane prefHeight="174.0" prefWidth="298.0">
                                                    <children>
-                                                      <ImageView fitHeight="174.0" fitWidth="298.0" pickOnBounds="true">
+                                                      <ImageView fitHeight="177.0" fitWidth="279.0" layoutY="-3.0" pickOnBounds="true">
                                                          <image>
                                                             <Image url="@chat-bg.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <AnchorPane prefHeight="174.0" prefWidth="298.0">
+                                                      <AnchorPane layoutY="5.0" prefHeight="169.0" prefWidth="279.0">
                                                          <children>
-                                                            <StackPane layoutX="10.0" layoutY="19.0" prefHeight="138.0" prefWidth="275.0">
+                                                            <StackPane layoutX="10.0" layoutY="15.0" prefHeight="142.0" prefWidth="262.0">
                                                                <children>
-                                                                        <ScrollPane hbarPolicy="ALWAYS" maxWidth="298.0" opacity="0.15" prefHeight="158.0" prefWidth="289.0" vbarPolicy="ALWAYS">
+                                                                        <ScrollPane hbarPolicy="ALWAYS" maxWidth="298.0" opacity="0.15" prefHeight="138.0" prefWidth="251.0" vbarPolicy="ALWAYS">
                                                                             <content>
-                                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="267.0">
+                                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="253.0">
                                                                                     <children>
-                                                                                        <TextArea fx:id="outOfRoundCards1" editable="false" layoutY="6.0" prefHeight="148.0" prefWidth="275.0">
+                                                                                        <TextArea fx:id="outOfRoundCards1" editable="false" layoutY="-9.0" prefHeight="163.0" prefWidth="251.0">
                                                                                  <font>
                                                                                     <Font name="Arial Bold" size="15.0" />
                                                                                  </font></TextArea>
@@ -236,7 +256,7 @@
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane prefHeight="75.0" prefWidth="15.0" />
-                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="65.0" prefWidth="73.0" text="Send" />
+                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#send" prefHeight="63.0" prefWidth="54.0" text="Send" />
                                                 <AnchorPane prefHeight="75.0" prefWidth="22.0" />
                                              </children>
                                           </HBox>
@@ -248,15 +268,15 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <VBox layoutX="300.0" prefHeight="800.0" prefWidth="1042.0">
+                  <VBox layoutX="300.0" prefHeight="713.0" prefWidth="950.0">
                      <children>
-                          <HBox prefHeight="595.0" prefWidth="1325.0">
+                          <HBox prefHeight="595.0" prefWidth="800.0">
                               <children>
                                   <AnchorPane prefHeight="595.0" prefWidth="12.0" />
                               <AnchorPane prefHeight="595.0" prefWidth="15.0" />
                               <AnchorPane prefHeight="590.0" prefWidth="606.0">
                                  <children>
-                                    <VBox layoutY="12.0" prefHeight="582.0" prefWidth="606.0">
+                                    <VBox layoutY="12.0" prefHeight="573.0" prefWidth="606.0">
                                        <children>
                                           <AnchorPane prefHeight="58.0" prefWidth="592.0">
                                              <children>
@@ -308,7 +328,7 @@
                                                 </HBox>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane prefHeight="25.0" prefWidth="606.0">
+                                          <AnchorPane prefHeight="23.0" prefWidth="561.0">
                                              <children>
                                                 <VBox prefHeight="12.0" prefWidth="557.0" />
                                              </children>
@@ -393,6 +413,11 @@
                                                 </AnchorPane>
                                              </children>
                                           </AnchorPane>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="6.0" prefWidth="606.0" text="YOUR REGISTER" textAlignment="CENTER" textFill="#e1d6d6">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
                                        </children>
                                     </VBox>
                                  </children>
@@ -400,7 +425,7 @@
                               <AnchorPane layoutX="285.0" layoutY="10.0" prefHeight="595.0" prefWidth="18.0" />
                               <AnchorPane prefHeight="590.0" prefWidth="302.0">
                                  <children>
-                                    <VBox layoutY="12.0" prefHeight="582.0" prefWidth="299.0">
+                                    <VBox layoutX="-17.0" layoutY="15.0" prefHeight="579.0" prefWidth="331.0">
                                        <children>
                                           <HBox prefHeight="31.0" prefWidth="299.0">
                                              <children>
@@ -425,7 +450,7 @@
                                              <children>
                                                 <VBox prefHeight="145.0" prefWidth="83.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard0" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard0" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -441,7 +466,7 @@
                                                 <AnchorPane prefHeight="145.0" prefWidth="25.0" />
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="145.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard1" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -457,7 +482,7 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard2" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -477,7 +502,7 @@
                                              <children>
                                                 <VBox prefHeight="145.0" prefWidth="82.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard3" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -493,7 +518,7 @@
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard4" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -509,7 +534,7 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard5" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -529,7 +554,7 @@
                                              <children>
                                                 <VBox prefHeight="145.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard6" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -545,7 +570,7 @@
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="141.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard7" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -561,7 +586,7 @@
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
                                                 <VBox layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="80.0">
                                                    <children>
-                                                      <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="DrawnCard8" fitHeight="117.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
@@ -596,24 +621,19 @@
                               </AnchorPane>
                               </children>
                           </HBox>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="795.0" text="YOUR REGISTER" textAlignment="CENTER" textFill="#e1d6d6">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <HBox prefHeight="174.0" prefWidth="588.0">
+                        <HBox prefHeight="202.0" prefWidth="941.0">
                            <children>
                               <AnchorPane prefHeight="174.0" prefWidth="57.0" />
                               <VBox prefHeight="167.0" prefWidth="100.0">
                                  <children>
-                                    <ImageView fx:id="Register1" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Register1" fitHeight="124.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/Cards/C-Discard.jpg" />
                                        </image>
                                     </ImageView>
                                     <HBox prefHeight="30.0" prefWidth="80.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#clearRegister1" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                          <Button mnemonicParsing="false" onAction="#clearRegister1" prefHeight="27.0" prefWidth="91.0" text="remove" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -621,14 +641,14 @@
                               <AnchorPane prefHeight="187.0" prefWidth="15.0" />
                               <VBox layoutX="10.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                                  <children>
-                                    <ImageView fx:id="Register2" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Register2" fitHeight="127.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/Cards/C-Discard.jpg" />
                                        </image>
                                     </ImageView>
                                     <HBox prefHeight="30.0" prefWidth="80.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#clearRegister2" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                          <Button mnemonicParsing="false" onAction="#clearRegister2" prefHeight="27.0" prefWidth="89.0" text="remove" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -636,14 +656,14 @@
                               <AnchorPane layoutX="110.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                               <VBox layoutX="135.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                                  <children>
-                                    <ImageView fx:id="Register3" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Register3" fitHeight="125.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/Cards/C-Discard.jpg" />
                                        </image>
                                     </ImageView>
                                     <HBox prefHeight="30.0" prefWidth="80.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#clearRegister3" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                          <Button mnemonicParsing="false" onAction="#clearRegister3" prefHeight="26.0" prefWidth="91.0" text="remove" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -651,14 +671,14 @@
                               <AnchorPane layoutX="235.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                               <VBox layoutX="260.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                                  <children>
-                                    <ImageView fx:id="Register4" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Register4" fitHeight="125.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/Cards/C-Discard.jpg" />
                                        </image>
                                     </ImageView>
                                     <HBox prefHeight="30.0" prefWidth="80.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#clearRegister4" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                          <Button mnemonicParsing="false" onAction="#clearRegister4" prefHeight="28.0" prefWidth="91.0" text="remove" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -666,14 +686,14 @@
                               <AnchorPane layoutX="360.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
                               <VBox layoutX="385.0" layoutY="10.0" prefHeight="167.0" prefWidth="100.0">
                                  <children>
-                                    <ImageView fx:id="Register5" fitHeight="138.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Register5" fitHeight="125.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/Cards/C-Discard.jpg" />
                                        </image>
                                     </ImageView>
-                                    <HBox prefHeight="30.0" prefWidth="80.0">
+                                    <HBox prefHeight="26.0" prefWidth="91.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#clearRegister5" prefHeight="25.0" prefWidth="100.0" text="remove" />
+                                          <Button mnemonicParsing="false" onAction="#clearRegister5" prefHeight="26.0" prefWidth="91.0" text="remove" />
                                        </children>
                                     </HBox>
                                  </children>
