@@ -78,9 +78,9 @@ public class ExecuteOrder {
                 Server.getServer().handlePlayerStatus(clientID, isReady);
 
                 // first client who ist ready can select a map
-                for(int clientIDEach : Server.clientIDUndReady.keySet()){
-                    if(Server.clientIDUndReady.get(clientIDEach) == true){
-                           Server.getServer().handleSelectMap(clientIDEach);
+                for (int clientIDEach : Server.clientIDUndReady.keySet()) {
+                    if (Server.clientIDUndReady.get(clientIDEach) == true) {
+                        Server.getServer().handleSelectMap(clientIDEach);
                         break;
                     }
                 }
@@ -138,7 +138,7 @@ public class ExecuteOrder {
 
                         Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID, message);
                         // also to myself as info
-                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID,  message);
+                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID, message);
                     } else {
                         System.out.println("There is no client with this name!"); // optional in terminal
                         Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
@@ -148,7 +148,7 @@ public class ExecuteOrder {
                     // public message
                 } else {
                     logger.info("send message to all");
-                    Server.clientList.get(clientID).sendMessage(clientID,  message);
+                    Server.clientList.get(clientID).sendMessage(clientID, message);
                 }
                 break;
             case "SetStartingPoint":
@@ -157,7 +157,7 @@ public class ExecuteOrder {
                 int y = setStartingPointBody.getY();
 
                 // set client´s position in Game
-                Game.playerPositions.put(clientID,new Position(x, y));
+                Game.playerPositions.put(clientID, new Position(x, y));
                 // storage all clients´ start positions
                 Game.startPositionsAllClients.put(clientID, new Position(x, y));
                 // inform others about the client´s position
@@ -179,14 +179,14 @@ public class ExecuteOrder {
                 int registerNum = selectedCardBody.getRegister();
 
                 // if register slot with card
-                if(selectedCardBody.getCard() != null){
+                if (selectedCardBody.getCard() != null) {
                     String cardName = selectedCardBody.getCard();
                     RegisterCard card = convertCardToObject(cardName);
-                    Game.registersAllClients.get(clientID)[registerNum-1] = card;
+                    Game.registersAllClients.get(clientID)[registerNum - 1] = card;
                     logger.info(card.getCardName());
                     Server.getServer().handleCardSelected(clientID, registerNum, true);
-                }else{ // if register slot without card
-                    Game.registersAllClients.get(clientID)[registerNum-1] = null;
+                } else { // if register slot without card
+                    Game.registersAllClients.get(clientID)[registerNum - 1] = null;
                     Server.getServer().handleCardSelected(clientID, registerNum, false);
                 }
                 break;
@@ -196,11 +196,11 @@ public class ExecuteOrder {
                 Game.selectionFinishList.add(clientFinished);
 
                 // if only one client finished programming, timer starts
-                if(Game.selectionFinishList.size() == 1){
+                if (Game.selectionFinishList.size() == 1) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
                     // if all clients finished programming, next phase begins
-                }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
+                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {
                     Game.getInstance().stopTimer();
                     logger.info("executeOrder all clients finished programming in time");
 
@@ -213,7 +213,6 @@ public class ExecuteOrder {
                     // set player in turn
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
-                    Game.priorityEachTurn.remove(0);
                 }
                 break;
             case "PlayCard":
@@ -225,24 +224,29 @@ public class ExecuteOrder {
                 // logic function in Game: move or turn
                 RegisterCard card = convertCardToObject(cardName);
                 Game.getInstance().playCard(clientID, card);
+                System.out.println(card.getCardType());
+                // if damage card played, must be replaced and play again
+                if (card.getCardType().equals("PROGRAMME") && !Game.priorityEachTurn.isEmpty()) {
+                    Game.priorityEachTurn.remove(0);
+                }
 
                 // check turnOver
                 boolean isTurnOver = Game.getInstance().checkTurnOver();
-                if(isTurnOver){
+                if (isTurnOver) {
                     logger.info("ExecuteOrder: turn is over!");
                     // if turn is over, check if round is over
                     boolean isRoundOver = Game.getInstance().checkRoundOver();
-                    if(isRoundOver){
+                    if (isRoundOver) {
                         // if round over, check if game is over
                         boolean isGameOver = Game.getInstance().checkGameOver();
                         // if game is not over, play new round
-                        if(!isGameOver){ // if game not over but round over, distribute new cards to clients
+                        if (!isGameOver) { // if game not over but round over, distribute new cards to clients
                             logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
                             Server.getServer().handleActivePhase(3);
                             break;
-                        }else{
+                        } else {
                             break;
                         }
                     }
@@ -250,7 +254,6 @@ public class ExecuteOrder {
                 // if turn is not over inform next player to play
                 int curClient = Game.priorityEachTurn.get(0);
                 Server.getServer().handleCurrentPlayer(curClient);
-                Game.priorityEachTurn.remove(0);
                 break;
             case "RebootDirection":
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
@@ -264,13 +267,14 @@ public class ExecuteOrder {
 
     /**
      * convert String cardName to object card
+     *
      * @param cardName
      * @return
      */
-    public static RegisterCard convertCardToObject(String cardName){
+    public static RegisterCard convertCardToObject(String cardName) {
         RegisterCard card = null;
 
-        switch (cardName){
+        switch (cardName) {
             case "Again":
                 card = new Again();
                 break;
@@ -297,6 +301,18 @@ public class ExecuteOrder {
                 break;
             case "UTurn":
                 card = new UTurn();
+                break;
+            case "Spam":
+                card = new Spam();
+                break;
+            case "Trojan":
+                card = new Trojan();
+                break;
+            case "Virus":
+                card = new Virus();
+                break;
+            case "Worm":
+                card = new Worm();
                 break;
         }
 

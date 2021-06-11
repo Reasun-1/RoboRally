@@ -1,6 +1,10 @@
 package server.registercards;
 
+import server.game.Game;
+import server.network.Server;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author can ren
@@ -34,6 +38,17 @@ public class Spam extends RegisterCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-        //TODO
+        RegisterCard replaceCard = null;
+
+        if(!Game.undrawnCards.get(clientID).isEmpty()){
+            replaceCard= Game.undrawnCards.get(clientID).get(0);
+            Game.undrawnCards.get(clientID).remove(0);
+        }else{
+            replaceCard = new MoveI();
+        }
+
+        Game.discardedCards.get(clientID).add(replaceCard);
+        Server.getServer().handleReplaceCard(Game.registerPointer, clientID, replaceCard.getCardName());
+
     }
 }

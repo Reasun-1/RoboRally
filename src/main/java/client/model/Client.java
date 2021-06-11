@@ -105,6 +105,8 @@ public class Client extends Application {
     private IntegerProperty flagClearRegisters = new SimpleIntegerProperty(0);
     // flag for time out for update resgisters
     private IntegerProperty flagTimeOut = new SimpleIntegerProperty(0);
+    // flag for replace card
+    private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
 
 
 
@@ -225,9 +227,7 @@ public class Client extends Application {
 
     public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
 
-
-
-
+    public IntegerProperty flagReplaceRegisterProperty() { return flagReplaceRegister; }
 
     // Setters
     public void setName(String name) {
@@ -616,6 +616,22 @@ public class Client extends Application {
                             List<String> gottenDamageCards = drawDamageBody.getCards();
                             INFORMATION.set("");
                             INFORMATION.set("client " + damagedClient + " got " + gottenDamageCards);
+                            break;
+                        case "ReplaceCard":
+                            ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
+                            int replacedCardClient = replaceCardBody.getClientID();
+                            int replacedRegister = replaceCardBody.getRegister();
+                            String replacedCardName = replaceCardBody.getNewCard();
+                            if(replacedCardClient == clientID){
+                                MYREGISTER[replacedRegister].set(replacedCardName);
+                                flagReplaceRegister.set(flagReplaceRegister.getValue()+1);
+                                if(registerPointer == 0){
+                                    registerPointer = 4;
+                                }else{
+                                    registerPointer--;
+                                }
+
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

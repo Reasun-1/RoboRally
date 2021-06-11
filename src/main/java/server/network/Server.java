@@ -513,4 +513,11 @@ public class Server {
         makeOrderToAllClients(json);
 
     }
+
+    public void handleReplaceCard(int register, int client, String cardName) throws IOException {
+        Protocol protocol = new Protocol("ReplaceCard", new ReplaceCardBody(register, cardName, client));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs replace card");
+        makeOrderToAllClients(json);
+    }
 }

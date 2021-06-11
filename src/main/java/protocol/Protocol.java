@@ -519,6 +519,19 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static ReplaceCardBody readJsonReplaceCard(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ReplaceCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ReplaceCardBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
