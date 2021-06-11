@@ -212,6 +212,9 @@ public class ChatController {
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
 
+        currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-font-size: 14px;");
+        information.setStyle("-fx-text-fill: lightskyblue;  -fx-font-size: 14px;");
+
         //bind flag replace register
         client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
             @Override

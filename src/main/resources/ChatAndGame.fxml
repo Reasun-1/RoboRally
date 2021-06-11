@@ -295,12 +295,12 @@
                                                                <children>
                                                                   <AnchorPane prefHeight="31.0" prefWidth="462.0">
                                                                      <children>
-                                                                        <ImageView fitHeight="32.0" fitWidth="467.0" layoutY="-2.0">
+                                                                        <ImageView fitHeight="37.0" fitWidth="467.0" layoutY="-2.0">
                                                                            <image>
                                                                               <Image url="@maxresdefault.jpg" />
                                                                            </image>
                                                                         </ImageView>
-                                                                        <TextArea fx:id="currentPhase" editable="false" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.28" prefHeight="25.0" prefWidth="451.0" promptText="Game Phase">
+                                                                        <TextArea fx:id="currentPhase" editable="false" layoutX="13.0" layoutY="2.0" minHeight="24.0" opacity="0.8" prefHeight="34.0" prefWidth="451.0" promptText="Game Phase">
                                                                            <font>
                                                                               <Font name="System Bold" size="13.0" />
                                                                            </font>
@@ -310,12 +310,12 @@
                                                             </VBox>
                                                             <AnchorPane layoutX="-5.0" layoutY="38.0" prefHeight="32.0" prefWidth="475.0">
                                                                <children>
-                                                                  <ImageView fitHeight="31.0" fitWidth="467.0" layoutX="5.0" layoutY="-1.0">
+                                                                  <ImageView fitHeight="46.0" fitWidth="467.0" layoutX="5.0" layoutY="-1.0">
                                                                      <image>
                                                                         <Image url="@maxresdefault.jpg" />
                                                                      </image>
                                                                   </ImageView>
-                                                                  <TextArea fx:id="information" editable="false" layoutX="13.0" minHeight="24.0" opacity="0.25" prefHeight="37.0" prefWidth="454.0" promptText="Information">
+                                                                  <TextArea fx:id="information" editable="false" layoutX="20.0" layoutY="2.0" minHeight="24.0" opacity="0.8" prefHeight="40.0" prefWidth="451.0" promptText="Information">
                                                                      <font>
                                                                         <Font name="System Bold" size="13.0" />
                                                                      </font>
