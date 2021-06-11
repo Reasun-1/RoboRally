@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
 
@@ -79,6 +80,7 @@ public class ChatController {
     private ImageView testImageView;
     @FXML
     private Button testButton;
+
 
     //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
@@ -211,6 +213,10 @@ public class ChatController {
 
         //bind CANPLAYNEXTREGISTER in client
         canPlayNextRegister.disableProperty().bind(client.CANPLAYNEXTREGISTERProperty().not());
+
+        currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
+        information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
+
 
         //bind flag replace register
         client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
