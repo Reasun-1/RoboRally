@@ -343,7 +343,7 @@
                                                    <children>
                                                       <ImageView fitHeight="428.0" fitWidth="557.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
-                                                            <Image url="@images/GameField3.jpg" />
+                                                            <Image url="@images/GameField_blue.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" prefHeight="428.0" prefWidth="557.0">
