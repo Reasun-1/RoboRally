@@ -6,10 +6,14 @@ import server.game.Game;
 import server.game.Position;
 import server.game.Timer;
 import server.network.AliveCheck;
+import server.network.Connected;
 import server.network.Server;
 import server.registercards.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -22,6 +26,9 @@ import java.util.logging.Logger;
 public class ExecuteOrder {
 
     private static final Logger logger = Logger.getLogger(ExecuteOrder.class.getName());
+    public static HashMap<Integer, Connected> connectList = new HashMap<>();
+    public static HashMap<Integer, AliveCheck> aliveCheckList = new HashMap<>();
+
 
     public static void executeOrder(int clientID, String json) throws IOException, ClassNotFoundException {
 
@@ -63,12 +70,25 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
-                    //Thread thread = new Thread(AliveCheck.aliveCheck);
-                    //thread.start();
+                    // start connect check for each player
+                    Connected connected = new Connected(clientID);
+                    Thread threadConnect = new Thread(connected);
+                    connectList.put(clientID, connected);
+                    System.out.println(connectList.get(clientID));
+                    System.out.println(connectList.keySet());
+                    threadConnect.start();
+
+                    // start alive check for each player
+                    AliveCheck aliveCheck = new AliveCheck(clientID);
+                    Thread threadAliveCheck = new Thread(aliveCheck);
+                    aliveCheckList.put(clientID, aliveCheck);
+                    System.out.println(aliveCheckList.keySet());
+                    threadAliveCheck.start();
                 }
                 break;
             case "Alive":
-                //TODO
+                System.out.println("check alive " + connectList.get(clientID));
+                connectList.get(clientID).flagConnect = false;
                 break;
             case "SetStatus":
                 logger.info("set Status in ExecuteOrder");

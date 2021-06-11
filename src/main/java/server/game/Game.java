@@ -489,16 +489,19 @@ public class Game {
     /**
      * if the client is offline, should be removed from game
      */
-    public void removePlayer(String clientName) {
-
-
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who was removed
+    public void removePlayer(int clientId) {
+        for (int i = 0; i < activePlayersList.size(); i++) {
+            if(activePlayersList.get(i) == clientId){
+                activePlayersList.remove(i);
+            }
+        }
+        for (int i = 0; i < priorityEachTurn.size(); i++) {
+            if(priorityEachTurn.get(i) == clientId){
+                priorityEachTurn.remove(i);
+            }
+        }
+        clientIDs.remove(clientId);
     }
-
-
-
-
-
 
     /**
      * invoked from Game: activatePhase

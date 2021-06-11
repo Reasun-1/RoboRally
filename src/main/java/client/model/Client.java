@@ -633,6 +633,12 @@ public class Client extends Application {
 
                             }
                             break;
+                        case "ConnectionUpdate":
+                            ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
+                            int removedClient = connectionUpdateBody.getClientID();
+                            currentPositions.remove(removedClient);
+                            flagPositions.set(flagPositions.get() + 1);
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

@@ -86,6 +86,8 @@ public class ServerThread implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             try {
                 closeConnect();
+                Server.getServer().handleConnectionUpdate(clientID);
+                ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

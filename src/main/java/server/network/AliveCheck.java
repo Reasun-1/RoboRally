@@ -1,5 +1,6 @@
 package server.network;
 
+import protocol.ExecuteOrder;
 import server.game.Timer;
 
 import java.io.IOException;
@@ -11,31 +12,37 @@ import java.util.logging.Logger;
  */
 public class AliveCheck implements Runnable {
 
-    private static final Logger logger = Logger.getLogger(Timer.class.getName());
-
-    public final static AliveCheck aliveCheck = new AliveCheck();
+    private static final Logger logger = Logger.getLogger(AliveCheck.class.getName());
 
     // set every 5 second updates
     final long timeInterval = 10000;
-    int count = 0;
-    // flag for end or stop the timer
-    public static boolean flag = true;
+
+    // flag for end alive check
+    public boolean flagAliveCheck = true;
+
+    private int client;
+
+    public AliveCheck(int client) {
+        this.client = client;
+    }
 
     @Override
     public void run() {
 
-        while (true){
-            count++;
+        while (flagAliveCheck){
+            try {
+                Server.getServer().handleAlive(client);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 Thread.sleep(timeInterval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            try {
-                Server.getServer().handleAlive();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // set connected back zu while loop
+            ExecuteOrder.connectList.get(client).flagConnect = true;
+
         }
     }
 }
