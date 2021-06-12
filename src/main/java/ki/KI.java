@@ -8,6 +8,7 @@ import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
 import server.game.Register;
+import server.network.Server;
 import server.registercards.RegisterCard;
 
 import java.io.BufferedReader;
@@ -119,7 +120,7 @@ public class KI implements Runnable{
     public void executeOrder(String json) throws IOException, ClassNotFoundException {
 
         logger.info("by executeOrder " + Thread.currentThread().getName());
-        //Client client = this;
+
         String messageType = Protocol.readJsonMessageType(json);
 
 
@@ -132,6 +133,9 @@ public class KI implements Runnable{
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
+                            if(fromClient != -1){
+                                sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
+                            }
                             break;
                         case "Error":
                             logger.info("error printed");
@@ -153,7 +157,22 @@ public class KI implements Runnable{
                             logger.info(json + Thread.currentThread().getName());
                             int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
                             clientID = clientIDfromServer;
-                            setPlayerValues("KI", 6);
+                            System.out.println("check server robot list " + Server.clientIDUndRobots.size());
+                            System.out.println("check server has robot "+Server.clientIDUndRobots.containsValue(1));
+                            // set a available robot to AI
+                            if(!Server.clientIDUndRobots.containsValue(1)){
+                                setPlayerValues("AI", 1);
+                            }else if(!Server.clientIDUndRobots.containsValue(2)){
+                                setPlayerValues("AI", 2);
+                            }else if(!Server.clientIDUndRobots.containsValue(3)){
+                                setPlayerValues("AI", 3);
+                            }else if(!Server.clientIDUndRobots.containsValue(4)){
+                                setPlayerValues("AI", 4);
+                            }else if(!Server.clientIDUndRobots.containsValue(5)){
+                                setPlayerValues("AI", 5);
+                            }else{
+                                setPlayerValues("AI", 6);
+                            }
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));

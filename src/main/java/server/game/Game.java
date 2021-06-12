@@ -44,6 +44,7 @@ public class Game {
     public static Stack<RegisterCard> trojanHorsePile = new Stack<>(); // pile for 12 TrojanHorse cards
     public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
     public static Stack<RegisterCard> virusPile = new Stack<>(); // pile for 18 Virus cards
+    public static boolean hasMap = false; // flag for selected map
 
 
     /**
