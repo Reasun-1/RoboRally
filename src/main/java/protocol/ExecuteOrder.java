@@ -70,6 +70,7 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
+                    /*
                     // start connect check for each player
                     Connected connected = new Connected(clientID);
                     Thread threadConnect = new Thread(connected);
@@ -84,6 +85,8 @@ public class ExecuteOrder {
                     aliveCheckList.put(clientID, aliveCheck);
                     System.out.println(aliveCheckList.keySet());
                     threadAliveCheck.start();
+
+                     */
                 }
                 break;
             case "Alive":
