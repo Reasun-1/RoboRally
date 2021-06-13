@@ -1,6 +1,5 @@
-package ki;
+package ai;
 
-import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Platform;
 import protocol.Protocol;
@@ -9,7 +8,6 @@ import server.feldobjects.FeldObject;
 import server.game.Direction;
 import server.game.Register;
 import server.network.Server;
-import server.registercards.RegisterCard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,9 +24,9 @@ import java.util.logging.Logger;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class KI implements Runnable{
+public class AILow implements Runnable{
 
-    private static final Logger logger = Logger.getLogger(KI.class.getName());
+    private static final Logger logger = Logger.getLogger(AILow.class.getName());
     // Socket for the TCP connection
     private volatile Socket socket;
     // Writer for outgoing messages
@@ -68,7 +66,7 @@ public class KI implements Runnable{
     }
 
     // constructor for initializing KI
-    public KI() throws IOException {
+    public AILow() throws IOException {
 
         // Always connect to localhost and fixed port
         socket = new Socket("127.0.0.1", 5200);
@@ -566,7 +564,7 @@ public class KI implements Runnable{
     }
 
     public static void main(String[] args) throws IOException {
-        KI ki = new KI();
+        AILow ki = new AILow();
         Thread thread = new Thread(ki);
         thread.start();
     }
