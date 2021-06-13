@@ -206,8 +206,8 @@ public class ExecuteOrder {
                 int clientFinished = selectionFinishedBody.getClientID();
                 Game.selectionFinishList.add(clientFinished);
 
-                // if only one client finished programming, timer starts
-                if (Game.selectionFinishList.size() == 1) {
+                // if only one client(not AI) finished programming, timer starts
+                if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
                     // if all clients finished programming, next phase begins

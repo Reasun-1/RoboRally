@@ -80,16 +80,8 @@ public class Game {
         for(int client : clientIDs){
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
-            cards.add(new Spam());
-            for (int i = 0; i < Again.cardCount; i++) {
-                cards.add(new Again());
-            }
-            for (int i = 0; i < BackUp.cardCount; i++) {
-                cards.add(new BackUp());
-            }
-            for (int i = 0; i < UTurn.cardCount; i++) {
-                cards.add(new UTurn());
-            }
+
+
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
             }
@@ -99,13 +91,22 @@ public class Game {
             for (int i = 0; i < MoveI.cardCount; i++) {
                 cards.add(new MoveI());
             }
-
+            for (int i = 0; i < BackUp.cardCount; i++) {
+                cards.add(new BackUp());
+            }
 
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
+
+            for (int i = 0; i < UTurn.cardCount; i++) {
+                cards.add(new UTurn());
+            }
             for (int i = 0; i < TurnRight.cardCount; i++) {
                 cards.add(new TurnRight());
+            }
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
             }
 
             for (int i = 0; i < MoveII.cardCount; i++) {

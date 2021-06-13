@@ -1,6 +1,7 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * this class is for detailed messageBody
@@ -11,7 +12,7 @@ public class ReceivedChatBody {
 
     private String message;
     private int from;
-    private boolean isPrivate;
+    private @JsonProperty(value="isPrivate") boolean isPrivate;
 
     public ReceivedChatBody() {
     }
@@ -30,6 +31,7 @@ public class ReceivedChatBody {
         return from;
     }
 
+    @JsonProperty(value="isPrivate")
     public boolean isPrivate() {
         return isPrivate;
     }

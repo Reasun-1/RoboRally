@@ -354,7 +354,13 @@ public class Client extends Application {
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
-                            CHATHISTORY.set(CHATHISTORY.get() + fromClient + ": " + message + "\n");
+                            boolean priv = receivedChatBody.isPrivate();
+                            if(priv){
+                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [private]: " + message + "\n");
+
+                            }else{
+                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [public]: " + message + "\n");
+                            }
                             break;
                         case "Error":
                             logger.info("error printed");

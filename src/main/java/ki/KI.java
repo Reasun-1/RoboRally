@@ -61,6 +61,7 @@ public class KI implements Runnable{
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
     private String activePhase = null;
+    private int numRobot = 1;
 
     public void setActivePhase(String activePhase) {
         this.activePhase = activePhase;
@@ -144,7 +145,8 @@ public class KI implements Runnable{
                                 socket.close();
                             }
                             if (errorMessage.equals("This figure exists already, choose again.")) {
-
+                                numRobot++;
+                                setPlayerValues("AI", numRobot);
                             }
                             break;
                         case "HelloClient":
@@ -160,19 +162,7 @@ public class KI implements Runnable{
                             System.out.println("check server robot list " + Server.clientIDUndRobots.size());
                             System.out.println("check server has robot "+Server.clientIDUndRobots.containsValue(1));
                             // set a available robot to AI
-                            if(!Server.clientIDUndRobots.containsValue(1)){
-                                setPlayerValues("AI", 1);
-                            }else if(!Server.clientIDUndRobots.containsValue(2)){
-                                setPlayerValues("AI", 2);
-                            }else if(!Server.clientIDUndRobots.containsValue(3)){
-                                setPlayerValues("AI", 3);
-                            }else if(!Server.clientIDUndRobots.containsValue(4)){
-                                setPlayerValues("AI", 4);
-                            }else if(!Server.clientIDUndRobots.containsValue(5)){
-                                setPlayerValues("AI", 5);
-                            }else{
-                                setPlayerValues("AI", 6);
-                            }
+                            setPlayerValues("AI", numRobot);
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
@@ -195,7 +185,6 @@ public class KI implements Runnable{
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
-                                    logger.info("flag launchen window");
                                     name = nameAdded;
                                     setReady();
                                 }
@@ -245,7 +234,19 @@ public class KI implements Runnable{
                                 if (activePhase.equals("Aufbauphase")) {
                                     setStartPoint(0,6);
                                 } else if (activePhase.equals("Aktivierungsphase")) {
-
+                                    String cardName = myRegisters[registerPointer];
+                                    playNextRegister(cardName);
+                                    registerPointer++;
+                                    System.out.println("registerpointer " + registerPointer);
+                                    // if round over, reset register pointer to 0 for next round
+                                    if (registerPointer == 5) {
+                                        myCards.clear();
+                                        for (int i = 0; i < 5; i++) {
+                                            myRegisters[i] = "";
+                                        }
+                                        System.out.println("round over");
+                                        registerPointer = 0;
+                                    }
                                 }
 
                             } else {
@@ -265,22 +266,21 @@ public class KI implements Runnable{
                             currentPositions.get(clientWhoSetPoint)[0] = clientX;
                             currentPositions.get(clientWhoSetPoint)[1] = clientY;
 
-
-
                             logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
                             break;
                         case "YourCards":
                             logger.info("clients your cards");
-                            // GUI-Listner binds to flagRoundOver to reset GUI for new round
-                            //flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
-
+                            // storage the cards in myCards list
                             for (String card : cardsInHand) {
                                 myCards.add(card);
                             }
-
-
+                            // random first 5 cards for registers
+                            for (int i = 0; i < 5; i++) {
+                                setRegister(myCards.get(i), i+1);
+                            }
+                            selectFinish();
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
