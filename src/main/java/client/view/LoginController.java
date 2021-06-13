@@ -52,7 +52,7 @@ public class LoginController {
 
         clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
 
-
+        startButton.disableProperty().bind(robotFigure.textProperty().isEmpty().or(name.textProperty().isEmpty()));
         //Chose the robot NR. per button
         iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

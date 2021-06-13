@@ -787,10 +787,6 @@ public class Client extends Application {
         }
     }
 
-    public void rebuildMap() {
-        //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
-    }
-
     /**
      * set start point to inform the server
      *
