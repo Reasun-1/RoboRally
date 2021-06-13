@@ -380,7 +380,6 @@ public class Game {
 
         // remove client from activePlayersList and current playersInTurn list
         removeOneClientFromList(activePlayersList, clientID);
-        removeOneClientFromList(priorityEachTurn, clientID);
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
