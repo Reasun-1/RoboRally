@@ -510,6 +510,38 @@ public class Game {
     }
 
     /**
+     * check if there are other robots who stand in the way
+     * @param x
+     * @param y
+     * @return
+     */
+    public int checkOtherRobot(int x, int y){
+        for(int client : playerPositions.keySet()){
+            if(playerPositions.get(client).getX() == x && playerPositions.get(client).getY() == y){
+                return client;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * for the robot, which is pushed
+     * @param client
+     * @param pushedPo
+     * @throws IOException
+     */
+    public void checkAndSetPushedPosition(int client, Position pushedPo) throws IOException {
+        // check if robot is still on board
+        boolean isOnBoard = Game.getInstance().checkOnBoard(client, pushedPo);
+        if(isOnBoard){
+            // set new Position in Game
+            Game.playerPositions.put(client, pushedPo);
+            // transport new Position to client
+            Server.getServer().handleMovement(client, pushedPo.getX(), pushedPo.getY());
+        }
+    }
+
+    /**
      * if the client is offline, should be removed from game
      */
     public void removePlayer(int clientId) {
