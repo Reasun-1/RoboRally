@@ -50,8 +50,12 @@ public class Again extends RegisterCard{
         int lastReg = curReg - 1;
         RegisterCard[] registerCards = Game.registersAllClients.get(clientID);
         RegisterCard lastCardPlayed = registerCards[lastReg];
-        lastCardPlayed.doCardFunction(clientID);
-
+        // if last card is also Again, do the function of the card before last card
+        if(lastCardPlayed.getCardName().equals("Again")){
+            registerCards[lastReg-1].doCardFunction(clientID);
+        }else{
+            lastCardPlayed.doCardFunction(clientID);
+        }
         System.out.println("doFunction of card again");
     }
 
