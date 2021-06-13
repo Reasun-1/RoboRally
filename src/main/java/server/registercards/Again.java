@@ -47,7 +47,7 @@ public class Again extends RegisterCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         int curReg = Game.registerPointer;
-        int lastReg = curReg - 2;
+        int lastReg = curReg - 1;
         RegisterCard[] registerCards = Game.registersAllClients.get(clientID);
         RegisterCard lastCardPlayed = registerCards[lastReg];
         lastCardPlayed.doCardFunction(clientID);

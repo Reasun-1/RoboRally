@@ -113,7 +113,9 @@ public class Game {
                 cards.add(new MoveII());
             }
 
-            undrawnCards.put(client, cards);
+            List<RegisterCard> shuffledDeck = shuffleUndrawnDeck(cards);
+
+            undrawnCards.put(client, shuffledDeck);
 
             // init for discarded cards
             List<RegisterCard> discards = new ArrayList<>();
@@ -303,6 +305,26 @@ public class Game {
     public void stopTimer(){
         Timer.flag = false;
         logger.info("game stops timer");
+    }
+
+    /**
+     * shuffle undrawn deck
+     * @param cards
+     * @return
+     */
+    public List<RegisterCard> shuffleUndrawnDeck(List<RegisterCard> cards){
+
+        java.util.Random random = new Random();
+
+        // randomly change two cards for 50 times
+        for (int i = 0; i < 50; i++) {
+            int indexCard1 = random.nextInt(9);
+            int indexCard2 = random.nextInt(9);
+            RegisterCard card = cards.get(indexCard1);
+            cards.set (indexCard1, cards.get(indexCard2));
+            cards.set(indexCard2, card);
+        }
+        return cards;
     }
 
     /**
