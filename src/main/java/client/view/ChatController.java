@@ -23,6 +23,7 @@ import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -657,7 +658,7 @@ public class ChatController {
     //=========================EventDrawnCards=================================
 
     @FXML
-    public void drawnButton0() throws JsonProcessingException {
+    public void drawnButton0() throws IOException {
         System.out.println("drawnButton0 clicked.");
         // set Image to right register
         int regNum = drawnA0.getValue();
@@ -671,7 +672,7 @@ public class ChatController {
 
 
     @FXML
-    public void drawnButton1() throws JsonProcessingException {
+    public void drawnButton1() throws IOException {
         System.out.println("drawnButton1 clicked.");
         // set Image to right register
         int regNum = drawnA1.getValue();
@@ -682,7 +683,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton2() throws JsonProcessingException {
+    public void drawnButton2() throws IOException {
         System.out.println("drawnButton2 clicked.");
         // set Image to right register
         int regNum = drawnA2.getValue();
@@ -693,7 +694,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton3() throws JsonProcessingException {
+    public void drawnButton3() throws IOException {
         System.out.println("drawnButton3 clicked.");
         // set Image to right register
         int regNum = drawnA3.getValue();
@@ -704,7 +705,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton4() throws JsonProcessingException {
+    public void drawnButton4() throws IOException {
         System.out.println("drawnButton4 clicked.");
         // set Image to right register
         int regNum = drawnA4.getValue();
@@ -715,7 +716,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton5() throws JsonProcessingException {
+    public void drawnButton5() throws IOException {
         System.out.println("drawnButton5 clicked.");
         // set Image to right register
         int regNum = drawnA5.getValue();
@@ -726,7 +727,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton6() throws JsonProcessingException {
+    public void drawnButton6() throws IOException {
         System.out.println("drawnButton6 clicked.");
         // set Image to right register
         int regNum = drawnA6.getValue();
@@ -737,7 +738,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton7() throws JsonProcessingException {
+    public void drawnButton7() throws IOException {
         System.out.println("drawnButton7 clicked.");
         // set Image to right register
         int regNum = drawnA7.getValue();
@@ -748,7 +749,7 @@ public class ChatController {
     }
 
     @FXML
-    public void drawnButton8() throws JsonProcessingException {
+    public void drawnButton8() throws IOException {
         System.out.println("drawnButton8 clicked.");
         // set Image to right register
         int regNum = drawnA8.getValue();
@@ -785,27 +786,27 @@ public class ChatController {
     }
 
     // clear each register
-    public void clearRegister1() throws JsonProcessingException {
+    public void clearRegister1() throws IOException {
         client.setRegister(null, 1);
         Register1.setImage(imageDiscard);
     }
 
-    public void clearRegister2() throws JsonProcessingException {
+    public void clearRegister2() throws IOException {
         client.setRegister(null, 2);
         Register2.setImage(imageDiscard);
     }
 
-    public void clearRegister3() throws JsonProcessingException {
+    public void clearRegister3() throws IOException {
         client.setRegister(null, 3);
         Register3.setImage(imageDiscard);
     }
 
-    public void clearRegister4() throws JsonProcessingException {
+    public void clearRegister4() throws IOException {
         client.setRegister(null, 4);
         Register4.setImage(imageDiscard);
     }
 
-    public void clearRegister5() throws JsonProcessingException {
+    public void clearRegister5() throws IOException {
         client.setRegister(null, 5);
         Register5.setImage(imageDiscard);
     }

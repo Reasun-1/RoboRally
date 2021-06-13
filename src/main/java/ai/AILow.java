@@ -276,6 +276,10 @@ public class AILow implements Runnable{
                             }
                             // random first 5 cards for registers
                             for (int i = 0; i < 5; i++) {
+                                // first register card can not be Again
+                                if(i == 0 && myCards.get(0).equals("Again")){
+                                    setRegister(myCards.get(5), 0);
+                                }
                                 setRegister(myCards.get(i), i+1);
                             }
                             selectFinish();
@@ -515,6 +519,7 @@ public class AILow implements Runnable{
      * @throws JsonProcessingException
      */
     public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
+
         if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);
