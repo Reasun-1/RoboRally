@@ -1,8 +1,10 @@
 package server.game;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import server.feldobjects.CheckPoint;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
+import server.feldobjects.RestartPoint;
 import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
@@ -10,6 +12,7 @@ import server.registercards.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.zip.CheckedInputStream;
 
 public class Game {
 
@@ -40,6 +43,8 @@ public class Game {
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
+    public static int checkPointTotal = 0;
+    public static Position rebootPosition = new Position();// storage of the reboot position
     public static Stack<RegisterCard> spamPile = new Stack<>(); // pile for 38 Spam cards
     public static Stack<RegisterCard> trojanHorsePile = new Stack<>(); // pile for 12 TrojanHorse cards
     public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
@@ -173,6 +178,10 @@ public class Game {
                 Board.buildExtraCrispy();
                 break;
         }
+        // count the total num of checkpoints
+        findCheckpointTotal();
+        //store the position of reboot
+        findRebootPosition();
     }
 
 
@@ -485,7 +494,8 @@ public class Game {
         logger.info("Game checks game over.");
         for(int client : clientIDs){
             // soon size() to number of checkpoints
-            if(arrivedCheckpoints.get(client).size() == 1){
+            if(arrivedCheckpoints.get(client).size() == checkPointTotal){
+                System.out.println("print how many checkpoints: " + checkPointTotal);
                 Server.getServer().handleGameFinished(client);
                 return true;
             }
@@ -515,10 +525,12 @@ public class Game {
      * @param y
      * @return
      */
-    public int checkOtherRobot(int x, int y){
+    public int checkOtherRobot(int whoChecks, int x, int y){
         for(int client : playerPositions.keySet()){
-            if(playerPositions.get(client).getX() == x && playerPositions.get(client).getY() == y){
-                return client;
+            if(client != whoChecks){
+                if(playerPositions.get(client).getX() == x && playerPositions.get(client).getY() == y){
+                    return client;
+                }
             }
         }
         return 0;
@@ -559,6 +571,40 @@ public class Game {
     }
 
     /**
+     * store the total num of checkpoints
+     */
+    public void findCheckpointTotal(){
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(board.get(i).get(j).size() == 2){
+                    if(board.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")){
+                        checkPointTotal++;
+                    }
+                }
+            }
+        }
+        System.out.println("findCheckPointTotal: " + checkPointTotal);
+    }
+
+    /**
+     * find the reboot position and direction in map
+     */
+    public void findRebootPosition(){
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(board.get(i).get(j).size()==2){
+                    if(board.get(i).get(j).get(1).getClass().getSimpleName().equals("RestartPoint")){
+                        RestartPoint restartPoint = (RestartPoint) (board.get(i).get(j).get(1));
+                        String restartDirection = restartPoint.getOrientations().get(0);
+                        rebootPosition = new Position(i, j);
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
      * invoked from Game: activatePhase
      */
     public void shootLaser() {
@@ -588,7 +634,6 @@ public class Game {
     }
 
     // only for test:
-
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             List<List<FeldObject>> row = new ArrayList<>();

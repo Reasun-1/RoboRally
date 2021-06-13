@@ -184,6 +184,7 @@ public class ChatController {
         drawnA7.getItems().addAll(regList);
         drawnA8.getItems().addAll(regList);
 
+
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
 

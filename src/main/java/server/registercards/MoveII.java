@@ -61,7 +61,7 @@ public class MoveII extends RegisterCard{
                         newPosition.setX(x+2);
                     }
                     // check other robot in the way
-                    int clientPushed = Game.getInstance().checkOtherRobot(i,y);
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
                     if(clientPushed != 0){ // if there is one robot, which is pushed
                         Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x+3,y));
                     }
@@ -81,7 +81,7 @@ public class MoveII extends RegisterCard{
                         newPosition.setX(x-2);
                     }
                     // check other robot in the way
-                    int clientPushed = Game.getInstance().checkOtherRobot(i,y);
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
                     if(clientPushed != 0){ // if there is one robot, which is pushed
                         Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x-3,y));
                     }
@@ -100,7 +100,7 @@ public class MoveII extends RegisterCard{
                         newPosition.setY(y-2);
                     }
                     // check other robot in the way
-                    int clientPushed = Game.getInstance().checkOtherRobot(i,y);
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
                     if(clientPushed != 0){ // if there is one robot, which is pushed
                         Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x,y-3));
                     }
@@ -119,7 +119,7 @@ public class MoveII extends RegisterCard{
                         newPosition.setY(y+2);
                     }
                     // check other robot in the way
-                    int clientPushed = Game.getInstance().checkOtherRobot(i,y);
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
                     if(clientPushed != 0){ // if there is one robot, which is pushed
                         Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x,y+3));
                     }

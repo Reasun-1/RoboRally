@@ -1,6 +1,10 @@
 package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.scene.robot.Robot;
+import server.game.Game;
+
+import java.io.IOException;
+import java.util.HashSet;
 
 /**
  * The FeldObject Checkpoint: You must reach checkpoints in numerical order.
@@ -27,13 +31,6 @@ public class CheckPoint extends FeldObject{
         this.count = count;
     }
 
-    /*@Override
-    public String getType() {
-        return type;
-    }
-
-     */
-
     @Override
     public String getIsOnBoard() {
         return isOnBoard;
@@ -45,7 +42,11 @@ public class CheckPoint extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID, FeldObject obj) {
-        //TODO
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
+        int checkPointNum = obj.getCount();
+        HashSet<Integer> set = Game.arrivedCheckpoints.get(clientID);
+        set.add(checkPointNum);
+        Game.arrivedCheckpoints.put(clientID, set);
+        Game.getInstance().checkGameOver();
     }
 }

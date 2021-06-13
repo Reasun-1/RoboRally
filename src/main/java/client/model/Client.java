@@ -588,6 +588,7 @@ public class Client extends Application {
                             int winner = gameFinishedBody.getClientID();
                             INFORMATION.set("");
                             INFORMATION.set("Game finished! The winner is: " + winner);
+                            LAUNCHER.launchGameFinished(winner);
                             break;
                         case "Movement":
                             MovementBody movementBody = Protocol.readJsonMovement(json);

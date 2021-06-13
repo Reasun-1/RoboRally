@@ -481,6 +481,7 @@ public class Server {
         Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs game finished");
+        System.out.println(json);
         makeOrderToAllClients(json);
     }
 

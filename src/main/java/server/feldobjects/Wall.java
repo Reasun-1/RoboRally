@@ -26,13 +26,6 @@ public class Wall extends FeldObject{
         this.orientations = orientations;
     }
 
-    /*@Override
-    public String getType() {
-        return type;
-    }
-
-     */
-
     @Override
     public String getIsOnBoard() {
         return isOnBoard;
