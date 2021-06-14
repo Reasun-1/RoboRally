@@ -74,12 +74,25 @@ public class ChatController {
     private Button finish; // invoke methode finishEvent()
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
+    //TODO Choice for Map
+    @FXML
+    private Button ChoiceMap;
+    @FXML
+    private Button testButton;
+    @FXML
+    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
     @FXML
     private ImageView myFigure;
     @FXML
     private ImageView testImageView;
     @FXML
-    private Button testButton;
+    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
+    @FXML
+    private ImageView Register1, Register2, Register3, Register4, Register5;
+    @FXML
+    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
+
+    private ObservableList<Integer> regList = FXCollections.observableArrayList(1,2,3,4,5);
 
 
     //====================DrawnCardsBindings===================================
@@ -98,16 +111,7 @@ public class ChatController {
     Image imageVirus = new Image(getClass().getResource("/images/Cards/DamageCards/D-Virus.jpg").toExternalForm());
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
-    @FXML
-    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
-    @FXML
-    private ImageView Register1, Register2, Register3, Register4, Register5;
-    @FXML
-    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-    @FXML
-    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
 
-    private ObservableList<Integer> regList = FXCollections.observableArrayList(1,2,3,4,5);
 
 
 

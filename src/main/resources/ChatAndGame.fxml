@@ -701,5 +701,10 @@
             </AnchorPane>
          </children>
       </VBox>
+      <AnchorPane fx:id="ChoiceMap" prefHeight="37.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" text="Choice your Map" />
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>
