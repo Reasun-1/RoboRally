@@ -213,6 +213,7 @@ public class ExecuteOrder {
                     // if all clients finished programming, next phase begins
                 } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {
                     Game.getInstance().stopTimer();
+                    System.out.println("flag executeOrder: all players finished programmed.");
                     logger.info("executeOrder all clients finished programming in time");
 
                     // Aktivierungsphase beginns
@@ -255,7 +256,7 @@ public class ExecuteOrder {
                             logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
-                            Server.getServer().handleActivePhase(3);
+                            Server.getServer().handleActivePhase(2);
                             break;
                         //} else {
                           //  break;

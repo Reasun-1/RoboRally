@@ -477,6 +477,9 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
+                                }else if(GAMEPHASE.get().equals("Programmierphase")){
+                                    INFORMATION.set("");
+                                    INFORMATION.set("Begin programming!");
                                 }
 
                             } else {
