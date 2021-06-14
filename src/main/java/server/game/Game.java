@@ -1,8 +1,10 @@
 package server.game;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import server.feldobjects.CheckPoint;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
+import server.feldobjects.RestartPoint;
 import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
@@ -10,6 +12,7 @@ import server.registercards.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.zip.CheckedInputStream;
 
 public class Game {
 
@@ -40,10 +43,13 @@ public class Game {
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
+    public static int checkPointTotal = 0;
+    public static Position rebootPosition = new Position();// storage of the reboot position
     public static Stack<RegisterCard> spamPile = new Stack<>(); // pile for 38 Spam cards
     public static Stack<RegisterCard> trojanHorsePile = new Stack<>(); // pile for 12 TrojanHorse cards
     public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
     public static Stack<RegisterCard> virusPile = new Stack<>(); // pile for 18 Virus cards
+    public static boolean hasMap = false; // flag for selected map
 
 
     /**
@@ -79,16 +85,8 @@ public class Game {
         for(int client : clientIDs){
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
-            cards.add(new Spam());
-            for (int i = 0; i < Again.cardCount; i++) {
-                cards.add(new Again());
-            }
-            for (int i = 0; i < BackUp.cardCount; i++) {
-                cards.add(new BackUp());
-            }
-            for (int i = 0; i < UTurn.cardCount; i++) {
-                cards.add(new UTurn());
-            }
+
+
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
             }
@@ -98,20 +96,31 @@ public class Game {
             for (int i = 0; i < MoveI.cardCount; i++) {
                 cards.add(new MoveI());
             }
-
+            for (int i = 0; i < BackUp.cardCount; i++) {
+                cards.add(new BackUp());
+            }
 
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
+
+            for (int i = 0; i < UTurn.cardCount; i++) {
+                cards.add(new UTurn());
+            }
             for (int i = 0; i < TurnRight.cardCount; i++) {
                 cards.add(new TurnRight());
+            }
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
             }
 
             for (int i = 0; i < MoveII.cardCount; i++) {
                 cards.add(new MoveII());
             }
 
-            undrawnCards.put(client, cards);
+            List<RegisterCard> shuffledDeck = shuffleUndrawnDeck(cards);
+
+            undrawnCards.put(client, shuffledDeck);
 
             // init for discarded cards
             List<RegisterCard> discards = new ArrayList<>();
@@ -169,6 +178,10 @@ public class Game {
                 Board.buildExtraCrispy();
                 break;
         }
+        // count the total num of checkpoints
+        findCheckpointTotal();
+        //store the position of reboot
+        findRebootPosition();
     }
 
 
@@ -304,6 +317,26 @@ public class Game {
     }
 
     /**
+     * shuffle undrawn deck
+     * @param cards
+     * @return
+     */
+    public List<RegisterCard> shuffleUndrawnDeck(List<RegisterCard> cards){
+
+        java.util.Random random = new Random();
+
+        // randomly change two cards for 50 times
+        for (int i = 0; i < 50; i++) {
+            int indexCard1 = random.nextInt(9);
+            int indexCard2 = random.nextInt(9);
+            RegisterCard card = cards.get(indexCard1);
+            cards.set (indexCard1, cards.get(indexCard2));
+            cards.set(indexCard2, card);
+        }
+        return cards;
+    }
+
+    /**
      * invoked from ExecuteOrder seletionFinished
      * analog game rules, priority list will be reset
      */
@@ -378,7 +411,6 @@ public class Game {
 
         // remove client from activePlayersList and current playersInTurn list
         removeOneClientFromList(activePlayersList, clientID);
-        removeOneClientFromList(priorityEachTurn, clientID);
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
@@ -462,7 +494,8 @@ public class Game {
         logger.info("Game checks game over.");
         for(int client : clientIDs){
             // soon size() to number of checkpoints
-            if(arrivedCheckpoints.get(client).size() == 1){
+            if(arrivedCheckpoints.get(client).size() == checkPointTotal){
+                System.out.println("print how many checkpoints: " + checkPointTotal);
                 Server.getServer().handleGameFinished(client);
                 return true;
             }
@@ -487,18 +520,89 @@ public class Game {
     }
 
     /**
-     * if the client is offline, should be removed from game
+     * check if there are other robots who stand in the way
+     * @param x
+     * @param y
+     * @return
      */
-    public void removePlayer(String clientName) {
-
-
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who was removed
+    public int checkOtherRobot(int whoChecks, int x, int y){
+        for(int client : playerPositions.keySet()){
+            if(client != whoChecks){
+                if(playerPositions.get(client).getX() == x && playerPositions.get(client).getY() == y){
+                    return client;
+                }
+            }
+        }
+        return 0;
     }
 
+    /**
+     * for the robot, which is pushed
+     * @param client
+     * @param pushedPo
+     * @throws IOException
+     */
+    public void checkAndSetPushedPosition(int client, Position pushedPo) throws IOException {
+        // check if robot is still on board
+        boolean isOnBoard = Game.getInstance().checkOnBoard(client, pushedPo);
+        if(isOnBoard){
+            // set new Position in Game
+            Game.playerPositions.put(client, pushedPo);
+            // transport new Position to client
+            Server.getServer().handleMovement(client, pushedPo.getX(), pushedPo.getY());
+        }
+    }
 
+    /**
+     * if the client is offline, should be removed from game
+     */
+    public void removePlayer(int clientId) {
+        for (int i = 0; i < activePlayersList.size(); i++) {
+            if(activePlayersList.get(i) == clientId){
+                activePlayersList.remove(i);
+            }
+        }
+        for (int i = 0; i < priorityEachTurn.size(); i++) {
+            if(priorityEachTurn.get(i) == clientId){
+                priorityEachTurn.remove(i);
+            }
+        }
+        clientIDs.remove(clientId);
+    }
 
+    /**
+     * store the total num of checkpoints
+     */
+    public void findCheckpointTotal(){
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(board.get(i).get(j).size() == 2){
+                    if(board.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")){
+                        checkPointTotal++;
+                    }
+                }
+            }
+        }
+        System.out.println("findCheckPointTotal: " + checkPointTotal);
+    }
 
+    /**
+     * find the reboot position and direction in map
+     */
+    public void findRebootPosition(){
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(board.get(i).get(j).size()==2){
+                    if(board.get(i).get(j).get(1).getClass().getSimpleName().equals("RestartPoint")){
+                        RestartPoint restartPoint = (RestartPoint) (board.get(i).get(j).get(1));
+                        String restartDirection = restartPoint.getOrientations().get(0);
+                        rebootPosition = new Position(i, j);
+                    }
+                }
+            }
 
+        }
+    }
 
     /**
      * invoked from Game: activatePhase
@@ -530,7 +634,6 @@ public class Game {
     }
 
     // only for test:
-
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             List<List<FeldObject>> row = new ArrayList<>();

@@ -96,7 +96,7 @@ public class Timer implements Runnable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Game.priorityEachTurn.remove(0);
+                //Game.priorityEachTurn.remove(0);
             }
         }
     }

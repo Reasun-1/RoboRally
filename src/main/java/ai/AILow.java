@@ -1,6 +1,5 @@
-package ki;
+package ai;
 
-import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Platform;
 import protocol.Protocol;
@@ -8,7 +7,7 @@ import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
 import server.game.Register;
-import server.registercards.RegisterCard;
+import server.network.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,9 +24,9 @@ import java.util.logging.Logger;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class KI implements Runnable{
+public class AILow implements Runnable{
 
-    private static final Logger logger = Logger.getLogger(KI.class.getName());
+    private static final Logger logger = Logger.getLogger(AILow.class.getName());
     // Socket for the TCP connection
     private volatile Socket socket;
     // Writer for outgoing messages
@@ -60,13 +59,14 @@ public class KI implements Runnable{
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
     private String activePhase = null;
+    private int numRobot = 1;
 
     public void setActivePhase(String activePhase) {
         this.activePhase = activePhase;
     }
 
     // constructor for initializing KI
-    public KI() throws IOException {
+    public AILow() throws IOException {
 
         // Always connect to localhost and fixed port
         socket = new Socket("127.0.0.1", 5200);
@@ -119,7 +119,7 @@ public class KI implements Runnable{
     public void executeOrder(String json) throws IOException, ClassNotFoundException {
 
         logger.info("by executeOrder " + Thread.currentThread().getName());
-        //Client client = this;
+
         String messageType = Protocol.readJsonMessageType(json);
 
 
@@ -132,6 +132,9 @@ public class KI implements Runnable{
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
+                            if(fromClient != -1){
+                                sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
+                            }
                             break;
                         case "Error":
                             logger.info("error printed");
@@ -140,7 +143,8 @@ public class KI implements Runnable{
                                 socket.close();
                             }
                             if (errorMessage.equals("This figure exists already, choose again.")) {
-
+                                numRobot++;
+                                setPlayerValues("AI", numRobot);
                             }
                             break;
                         case "HelloClient":
@@ -153,7 +157,10 @@ public class KI implements Runnable{
                             logger.info(json + Thread.currentThread().getName());
                             int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
                             clientID = clientIDfromServer;
-                            setPlayerValues("KI", 6);
+                            System.out.println("check server robot list " + Server.clientIDUndRobots.size());
+                            System.out.println("check server has robot "+Server.clientIDUndRobots.containsValue(1));
+                            // set a available robot to AI
+                            setPlayerValues("AI", numRobot);
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
@@ -176,7 +183,6 @@ public class KI implements Runnable{
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
-                                    logger.info("flag launchen window");
                                     name = nameAdded;
                                     setReady();
                                 }
@@ -226,7 +232,19 @@ public class KI implements Runnable{
                                 if (activePhase.equals("Aufbauphase")) {
                                     setStartPoint(0,6);
                                 } else if (activePhase.equals("Aktivierungsphase")) {
-
+                                    String cardName = myRegisters[registerPointer];
+                                    playNextRegister(cardName);
+                                    registerPointer++;
+                                    System.out.println("registerpointer " + registerPointer);
+                                    // if round over, reset register pointer to 0 for next round
+                                    if (registerPointer == 5) {
+                                        myCards.clear();
+                                        for (int i = 0; i < 5; i++) {
+                                            myRegisters[i] = "";
+                                        }
+                                        System.out.println("round over");
+                                        registerPointer = 0;
+                                    }
                                 }
 
                             } else {
@@ -246,22 +264,25 @@ public class KI implements Runnable{
                             currentPositions.get(clientWhoSetPoint)[0] = clientX;
                             currentPositions.get(clientWhoSetPoint)[1] = clientY;
 
-
-
                             logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
                             break;
                         case "YourCards":
                             logger.info("clients your cards");
-                            // GUI-Listner binds to flagRoundOver to reset GUI for new round
-                            //flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
-
+                            // storage the cards in myCards list
                             for (String card : cardsInHand) {
                                 myCards.add(card);
                             }
-
-
+                            // random first 5 cards for registers
+                            for (int i = 0; i < 5; i++) {
+                                // first register card can not be Again
+                                if(i == 0 && myCards.get(0).equals("Again")){
+                                    setRegister(myCards.get(5), 0);
+                                }
+                                setRegister(myCards.get(i), i+1);
+                            }
+                            selectFinish();
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
@@ -498,6 +519,7 @@ public class KI implements Runnable{
      * @throws JsonProcessingException
      */
     public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
+
         if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);
@@ -547,7 +569,7 @@ public class KI implements Runnable{
     }
 
     public static void main(String[] args) throws IOException {
-        KI ki = new KI();
+        AILow ki = new AILow();
         Thread thread = new Thread(ki);
         thread.start();
     }

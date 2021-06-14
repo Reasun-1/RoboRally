@@ -354,7 +354,13 @@ public class Client extends Application {
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
-                            CHATHISTORY.set(CHATHISTORY.get() + fromClient + ": " + message + "\n");
+                            boolean priv = receivedChatBody.isPrivate();
+                            if(priv){
+                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [private]: " + message + "\n");
+
+                            }else{
+                                CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [public]: " + message + "\n");
+                            }
                             break;
                         case "Error":
                             logger.info("error printed");
@@ -582,6 +588,7 @@ public class Client extends Application {
                             int winner = gameFinishedBody.getClientID();
                             INFORMATION.set("");
                             INFORMATION.set("Game finished! The winner is: " + winner);
+                            LAUNCHER.launchGameFinished(winner);
                             break;
                         case "Movement":
                             MovementBody movementBody = Protocol.readJsonMovement(json);
@@ -632,6 +639,12 @@ public class Client extends Application {
                                 }
 
                             }
+                            break;
+                        case "ConnectionUpdate":
+                            ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
+                            int removedClient = connectionUpdateBody.getClientID();
+                            currentPositions.remove(removedClient);
+                            flagPositions.set(flagPositions.get() + 1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -775,10 +788,6 @@ public class Client extends Application {
         }
     }
 
-    public void rebuildMap() {
-        //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
-    }
-
     /**
      * set start point to inform the server
      *
@@ -804,7 +813,10 @@ public class Client extends Application {
      * @param registerNum
      * @throws JsonProcessingException
      */
-    public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
+    public void setRegister(String cardName, int registerNum) throws IOException {
+        if(registerNum == 1 && cardName.equals("Again")){
+            LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
+        }
         if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);

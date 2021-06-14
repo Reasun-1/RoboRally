@@ -159,7 +159,9 @@ public class Server {
      * @throws IOException
      */
     public void makeOrderToOneClient(int targetClientID, String json) throws IOException {
-        new PrintWriter(clientList.get(targetClientID).getSocket().getOutputStream(), true).println(json);
+        if(clientList.containsKey(targetClientID)){
+            new PrintWriter(clientList.get(targetClientID).getSocket().getOutputStream(), true).println(json);
+        }
     }
 
     /**
@@ -175,10 +177,10 @@ public class Server {
      * check all players online
      * @throws IOException
      */
-    public void handleAlive() throws IOException {
+    public void handleAlive(int client) throws IOException {
         Protocol protocol = new Protocol("Alive", null);
         String json = Protocol.writeJson(protocol);
-        makeOrderToAllClients(json);
+        makeOrderToOneClient(client, json);
     }
 
     /**
@@ -479,6 +481,7 @@ public class Server {
         Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs game finished");
+        System.out.println(json);
         makeOrderToAllClients(json);
     }
 
@@ -518,6 +521,24 @@ public class Server {
         Protocol protocol = new Protocol("ReplaceCard", new ReplaceCardBody(register, cardName, client));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs replace card");
+        makeOrderToAllClients(json);
+    }
+
+    public void handleConnectionUpdate(int clientID) throws IOException {
+        Game.getInstance().removePlayer(clientID);
+        // if only one player left, can not continue
+        if(clientList.size() == 1){
+            for(int remainedClient : clientList.keySet()){
+                exception(remainedClient, "Only you left in game, please quit the game.");
+            }
+        }
+        // reinform the next player
+        int curClient = Game.priorityEachTurn.get(0);
+        handleCurrentPlayer(curClient);
+
+        Protocol protocol = new Protocol("ConnectionUpdate", new ConnectionUpdateBody(clientID, false, "remove"));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs connection update");
         makeOrderToAllClients(json);
     }
 }

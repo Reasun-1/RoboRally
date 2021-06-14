@@ -1,6 +1,7 @@
 package client.model;
 import client.view.ChatController;
 import client.view.ErrorWindowController;
+import client.view.GameOverController;
 import client.view.LoginController;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -60,6 +61,19 @@ public class WindowLauncher {
         Parent root = loader.load();
         ErrorWindowController ctrl = loader.getController();
         ctrl.init(message);
+        stage.setScene(new Scene(root, 600, 400));
+        stage.showAndWait();
+        stage.setOnCloseRequest((event) -> Platform.exit());
+    }
+
+    public void launchGameFinished(int winner) throws IOException {
+        Stage stage = new Stage();
+        stage.setTitle("GameFinished");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GameOverWindow.fxml"));
+        Parent root = loader.load();
+        GameOverController controller = loader.getController();
+        controller.init(winner);
         stage.setScene(new Scene(root, 600, 400));
         stage.showAndWait();
         stage.setOnCloseRequest((event) -> Platform.exit());

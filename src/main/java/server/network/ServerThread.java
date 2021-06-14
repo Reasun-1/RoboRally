@@ -20,6 +20,8 @@ public class ServerThread implements Runnable {
     private final Socket SOCKET;
     private int clientID;
 
+    public boolean flagIsAI = false;
+
 
     /**
      * Constructor combines the client socket with the ServerThread socket
@@ -53,6 +55,12 @@ public class ServerThread implements Runnable {
                 if(json != null){
                     HelloServerBody helloServerBody = Protocol.readJsonHelloServerBody(json);
                     String protocolVersion = helloServerBody.getProtocol();
+                    // check if the client is AI
+                    System.out.println(json);
+                    System.out.println(helloServerBody.isAI());
+                    if(helloServerBody.isAI()){
+                        flagIsAI = true;
+                    }
                     if(!"Version 1.0".equals(protocolVersion)){
                         Protocol protocol = new Protocol("Error", new ErrorBody("Version wrong! disconnected."));
                         String jss = Protocol.writeJson(protocol);
@@ -67,6 +75,14 @@ public class ServerThread implements Runnable {
             clientID = Server.clientIDsPool.pop();
             Server.clientList.put(clientID,this);
 
+            System.out.println("print aiFlag in ServerThread: " + flagIsAI);
+
+            // if the client is AI, remember the clientID of AI
+            if(flagIsAI){
+                ExecuteOrder.clientIDOfAI = clientID;
+            }
+
+            System.out.println("print aiNum in ExecuteOrder: " + ExecuteOrder.clientIDOfAI);
 
             String string = Protocol.writeJson(new Protocol("Welcome", new WelcomeBody(clientID)));
             logger.info("welcome info printed");
@@ -86,6 +102,8 @@ public class ServerThread implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             try {
                 closeConnect();
+                Server.getServer().handleConnectionUpdate(clientID);
+                ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

@@ -532,6 +532,19 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static ConnectionUpdateBody readJsonConnectionUpdate(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ConnectionUpdateBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ConnectionUpdateBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

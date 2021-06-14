@@ -29,16 +29,16 @@ public enum Direction {
         Direction newDir = null;
         switch (curDir){
             case RIGHT:
-                newDir = UP;
-                break;
-            case DOWN:
-                newDir = RIGHT;
-                break;
-            case LEFT:
                 newDir = DOWN;
                 break;
-            case UP:
+            case DOWN:
                 newDir = LEFT;
+                break;
+            case LEFT:
+                newDir = UP;
+                break;
+            case UP:
+                newDir = RIGHT;
                 break;
         }
         return newDir;
