@@ -423,6 +423,15 @@ public class Game {
         Server.getServer().handleReboot(clientID);
         // inform all the position of reboot
         Server.getServer().handleMovement(clientID, position.getX(), position.getY());
+
+        // if all players rebooted, start a new round
+        if(activePlayersList.size() == 0){
+            System.out.println("game rebooted all players");
+            Server.getServer().handleYourCards();
+            // inform all players: programming phase begins
+            Server.getServer().handleActivePhase(2);
+        }
+
     }
 
     /**
@@ -435,10 +444,10 @@ public class Game {
         System.out.println("game turn over: " + registerPointer);
         System.out.println("turn over prioritylist: " + priorityEachTurn);
         if(priorityEachTurn.size() == 0){
+            activeBoardElements();
             System.out.println("active players: " + activePlayersList);
             checkAndSetPriority();
             registerPointer++;
-            activeBoardElements();
             return true;
         }else{
             return false;

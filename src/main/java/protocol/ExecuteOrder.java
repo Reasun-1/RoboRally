@@ -251,18 +251,12 @@ public class ExecuteOrder {
                     // if turn is over, check if round is over
                     boolean isRoundOver = Game.getInstance().checkRoundOver();
                     if (isRoundOver) {
-                        // if round over, check if game is over
-                        //boolean isGameOver = Game.getInstance().checkGameOver();
-                        // if game is not over, play new round
-                        //if (!isGameOver) { // if game not over but round over, distribute new cards to clients
+
                             logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
                             Server.getServer().handleActivePhase(2);
                             break;
-                        //} else {
-                          //  break;
-                        //}
                     }
                 }
                 // if turn is not over inform next player to play
