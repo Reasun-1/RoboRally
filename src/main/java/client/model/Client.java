@@ -477,6 +477,9 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
+                                }else if(GAMEPHASE.get().equals("Programmierphase")){
+                                    INFORMATION.set("");
+                                    INFORMATION.set("Begin programming!");
                                 }
 
                             } else {
@@ -814,9 +817,12 @@ public class Client extends Application {
      * @throws JsonProcessingException
      */
     public void setRegister(String cardName, int registerNum) throws IOException {
-        if(registerNum == 1 && cardName.equals("Again")){
-            LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
+        if (cardName != null) {
+            if(registerNum == 1 && cardName.equals("Again")){
+                LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
+            }
         }
+
         if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);

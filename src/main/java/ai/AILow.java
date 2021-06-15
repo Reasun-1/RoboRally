@@ -101,7 +101,7 @@ public class AILow implements Runnable{
                 }
             }
             Platform.exit();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
             try {
                 socket.close();
                 Platform.exit();
@@ -116,7 +116,7 @@ public class AILow implements Runnable{
      *
      * @throws IOException
      */
-    public void executeOrder(String json) throws IOException, ClassNotFoundException {
+    public void executeOrder(String json) throws IOException, ClassNotFoundException, InterruptedException {
 
         logger.info("by executeOrder " + Thread.currentThread().getName());
 
@@ -274,15 +274,7 @@ public class AILow implements Runnable{
                             for (String card : cardsInHand) {
                                 myCards.add(card);
                             }
-                            // random first 5 cards for registers
-                            for (int i = 0; i < 5; i++) {
-                                // first register card can not be Again
-                                if(i == 0 && myCards.get(0).equals("Again")){
-                                    setRegister(myCards.get(5), 0);
-                                }
-                                setRegister(myCards.get(i), i+1);
-                            }
-                            selectFinish();
+                            selectAndSetRegisterFinish();
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
@@ -337,7 +329,11 @@ public class AILow implements Runnable{
 
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
-
+                                myCards.clear();
+                                for (int i = 0; i < 5; i++) {
+                                    myRegisters[i] = "";
+                                }
+                                registerPointer = 0;
                             }
                             logger.info("client reboot to start point");
                             break;
@@ -566,6 +562,21 @@ public class AILow implements Runnable{
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
+    }
+
+    public void selectAndSetRegisterFinish() throws JsonProcessingException {
+
+        if(myCards.size() == 9){
+            // random first 5 cards for registers
+            for (int i = 0; i < 5; i++) {
+                // first register card can not be Again
+                if(i == 0 && myCards.get(0).equals("Again")){
+                    setRegister(myCards.get(5), 0);
+                }
+                setRegister(myCards.get(i), i+1);
+            }
+            selectFinish();
+        }
     }
 
     public static void main(String[] args) throws IOException {

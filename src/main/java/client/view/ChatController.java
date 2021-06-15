@@ -82,6 +82,8 @@ public class ChatController {
     @FXML
     private Button testButton;
 
+    private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
+
 
     //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
@@ -666,6 +668,9 @@ public class ChatController {
         Image image = DrawnCard0.getImage();
         setRegCard(regNum, image);
 
+        DrawnCard0.setImage(imageDiscard);
+        regButton.put(regNum, 0);
+
         // send selected card message to server
         String cardName0 = client.MYCARDSProperty().get(0);
         client.setRegister(cardName0, regNum);
@@ -679,6 +684,10 @@ public class ChatController {
         int regNum = drawnA1.getValue();
         Image image = DrawnCard1.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard1.setImage(imageDiscard);
+        regButton.put(regNum, 1);
+
         String cardName1 = client.MYCARDSProperty().get(1);
         client.setRegister(cardName1, regNum);
     }
@@ -690,6 +699,10 @@ public class ChatController {
         int regNum = drawnA2.getValue();
         Image image = DrawnCard2.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard2.setImage(imageDiscard);
+        regButton.put(regNum, 2);
+
         String cardName2 = client.MYCARDSProperty().get(2);
         client.setRegister(cardName2, regNum);
     }
@@ -701,6 +714,10 @@ public class ChatController {
         int regNum = drawnA3.getValue();
         Image image = DrawnCard3.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard3.setImage(imageDiscard);
+        regButton.put(regNum, 3);
+
         String cardName3 = client.MYCARDSProperty().get(3);
         client.setRegister(cardName3, regNum);
     }
@@ -712,6 +729,10 @@ public class ChatController {
         int regNum = drawnA4.getValue();
         Image image = DrawnCard4.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard4.setImage(imageDiscard);
+        regButton.put(regNum, 4);
+
         String cardName4 = client.MYCARDSProperty().get(4);
         client.setRegister(cardName4, regNum);
     }
@@ -723,6 +744,10 @@ public class ChatController {
         int regNum = drawnA5.getValue();
         Image image = DrawnCard5.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard5.setImage(imageDiscard);
+        regButton.put(regNum, 5);
+
         String cardName5 = client.MYCARDSProperty().get(5);
         client.setRegister(cardName5, regNum);
     }
@@ -734,6 +759,10 @@ public class ChatController {
         int regNum = drawnA6.getValue();
         Image image = DrawnCard6.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard6.setImage(imageDiscard);
+        regButton.put(regNum, 6);
+
         String cardName6 = client.MYCARDSProperty().get(6);
         client.setRegister(cardName6, regNum);
     }
@@ -745,6 +774,10 @@ public class ChatController {
         int regNum = drawnA7.getValue();
         Image image = DrawnCard7.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard7.setImage(imageDiscard);
+        regButton.put(regNum, 7);
+
         String cardName7 = client.MYCARDSProperty().get(7);
         client.setRegister(cardName7, regNum);
     }
@@ -756,6 +789,10 @@ public class ChatController {
         int regNum = drawnA8.getValue();
         Image image = DrawnCard8.getImage();
         setRegCard(regNum, image);
+
+        DrawnCard8.setImage(imageDiscard);
+        regButton.put(regNum, 8);
+
         String cardName8 = client.MYCARDSProperty().get(8);
         client.setRegister(cardName8, regNum);
     }
@@ -786,28 +823,148 @@ public class ChatController {
         }
     }
 
-    // clear each register
+    /**
+     * if remove the register, the image will show again in drawn cards
+     * @param buttonNum
+     * @param backImage
+     */
+    public void setBackToDrawnCard(int buttonNum, Image backImage){
+        switch (buttonNum){
+            case 0:
+                DrawnCard0.setImage(backImage);
+                break;
+            case 1:
+                DrawnCard1.setImage(backImage);
+                break;
+            case 2:
+                DrawnCard2.setImage(backImage);
+                break;
+            case 3:
+                DrawnCard3.setImage(backImage);
+                break;
+            case 4:
+                DrawnCard4.setImage(backImage);
+                break;
+            case 5:
+                DrawnCard5.setImage(backImage);
+                break;
+            case 6:
+                DrawnCard6.setImage(backImage);
+                break;
+            case 7:
+                DrawnCard7.setImage(backImage);
+                break;
+            case 8:
+                DrawnCard8.setImage(backImage);
+                break;
+        }
+    }
+
+    /**
+     * find the removed back card image
+     * @param backCardName
+     * @return
+     */
+    public Image findBackImg(String backCardName){
+
+        Image backImg = null;
+
+            switch (backCardName) {
+                case "Again":
+                    backImg = imageAgain;
+                    break;
+                case "BackUp":
+                    backImg = imageMoveBack;
+                    break;
+                case "MoveI":
+                    backImg = imageMove1;
+                    break;
+                case "MoveII":
+                    backImg = imageMove2;
+                    break;
+                case "MoveIII":
+                    backImg = imageMove3;
+                    break;
+                case "PowerUp":
+                    backImg = imagePowerUp;
+                    break;
+                case "TurnLeft":
+                    backImg = imageTurnL;
+                    break;
+                case "TurnRight":
+                    backImg = imageTurnR;
+                    break;
+                case "UTurn":
+                    backImg = imageTurnU;
+                    break;
+                case "Spam":
+                    backImg = imageSpam;
+                    break;
+                case "Trojan":
+                    backImg = imageTrojan;
+                    break;
+                case "Virus":
+                    backImg = imageVirus;
+                    break;
+                case "Worm":
+                    backImg = imageWorm;
+                    break;
+            }
+        return backImg;
+    }
+
+    // clear each register and set image back to drawn cards
     public void clearRegister1() throws IOException {
+        Integer buttonNum = regButton.get(1);
+        String backCardName = client.getMYREGISTER()[0].get();
+        Image backImg = findBackImg(backCardName);
+
+        setBackToDrawnCard(buttonNum, backImg);
+
         client.setRegister(null, 1);
         Register1.setImage(imageDiscard);
     }
 
     public void clearRegister2() throws IOException {
+        Integer buttonNum = regButton.get(2);
+        String backCardName = client.getMYREGISTER()[1].get();
+        Image backImg = findBackImg(backCardName);
+
+        setBackToDrawnCard(buttonNum, backImg);
+
         client.setRegister(null, 2);
         Register2.setImage(imageDiscard);
     }
 
     public void clearRegister3() throws IOException {
+        Integer buttonNum = regButton.get(3);
+        String backCardName = client.getMYREGISTER()[2].get();
+        Image backImg = findBackImg(backCardName);
+
+        setBackToDrawnCard(buttonNum, backImg);
+
         client.setRegister(null, 3);
         Register3.setImage(imageDiscard);
     }
 
     public void clearRegister4() throws IOException {
+        Integer buttonNum = regButton.get(4);
+        String backCardName = client.getMYREGISTER()[3].get();
+        Image backImg = findBackImg(backCardName);
+
+        setBackToDrawnCard(buttonNum, backImg);
+
         client.setRegister(null, 4);
         Register4.setImage(imageDiscard);
     }
 
     public void clearRegister5() throws IOException {
+        Integer buttonNum = regButton.get(5);
+        String backCardName = client.getMYREGISTER()[4].get();
+        Image backImg = findBackImg(backCardName);
+
+        setBackToDrawnCard(buttonNum, backImg);
+
         client.setRegister(null, 5);
         Register5.setImage(imageDiscard);
     }
