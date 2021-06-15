@@ -704,9 +704,9 @@
                                     <Insets top="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextArea fx:id="energyCube" prefHeight="31.0" prefWidth="92.0">
+                              <TextArea fx:id="energyCube" prefHeight="21.0" prefWidth="30.0">
                                  <HBox.margin>
-                                    <Insets bottom="110.0" left="5.0" top="20.0" />
+                                    <Insets bottom="120.0" left="5.0" top="20.0" />
                                  </HBox.margin>
                               </TextArea>
                            </children>
