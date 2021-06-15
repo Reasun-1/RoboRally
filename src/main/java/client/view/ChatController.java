@@ -81,6 +81,8 @@ public class ChatController {
     private ImageView testImageView;
     @FXML
     private Button testButton;
+    @FXML
+    private TextArea energyCube;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
@@ -192,6 +194,9 @@ public class ChatController {
 
         //binds the button of sending a message with the chat TextArea that saves all the messages(chat history)
         outOfRoundCards1.textProperty().bindBidirectional(client.getChatHistory());
+
+        //binds count of energy cubes
+        energyCube.textProperty().bindBidirectional(client.energyCountProperty());
 
         //bind the players who are in server
         playersInServer.textProperty().bindBidirectional(client.PLAYERSINSERVERProperty());

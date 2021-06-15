@@ -500,6 +500,12 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
+    /**
+     * inform all clients which player turns to which direction
+     * @param clientID
+     * @param turnDirection
+     * @throws IOException
+     */
     public void handlePlayerTurning(int clientID, String turnDirection) throws IOException {
         Protocol protocol = new Protocol("PlayerTurning", new PlayerTurningBody(clientID, turnDirection));
         String json = Protocol.writeJson(protocol);
@@ -507,6 +513,12 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
+    /**
+     * inform all clients who has drawn which damage cards
+     * @param clientID
+     * @param cardName
+     * @throws IOException
+     */
     public void handleDrawDamage(int clientID, String cardName) throws IOException {
         List<String> drawnDamageCards = new ArrayList<>();
         drawnDamageCards.add(cardName);
@@ -517,6 +529,13 @@ public class Server {
 
     }
 
+    /**
+     * if damage card played, inform all clients which random card has be drawn
+     * @param register
+     * @param client
+     * @param cardName
+     * @throws IOException
+     */
     public void handleReplaceCard(int register, int client, String cardName) throws IOException {
         Protocol protocol = new Protocol("ReplaceCard", new ReplaceCardBody(register, cardName, client));
         String json = Protocol.writeJson(protocol);
@@ -524,6 +543,11 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
+    /**
+     * if connection loses, inform all clients
+     * @param clientID
+     * @throws IOException
+     */
     public void handleConnectionUpdate(int clientID) throws IOException {
         Game.getInstance().removePlayer(clientID);
         // if only one player left, can not continue
@@ -539,6 +563,19 @@ public class Server {
         Protocol protocol = new Protocol("ConnectionUpdate", new ConnectionUpdateBody(clientID, false, "remove"));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs connection update");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all clients who has got how many cubes
+     * @param client
+     * @param addNum
+     * @param source
+     */
+    public void handleEnergy(int client, int addNum, String source) throws IOException {
+        Protocol protocol = new Protocol("Energy", new EnergyBody(client, addNum, source));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs energy got.");
         makeOrderToAllClients(json);
     }
 }

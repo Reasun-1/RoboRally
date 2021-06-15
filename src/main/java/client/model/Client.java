@@ -107,6 +107,8 @@ public class Client extends Application {
     private IntegerProperty flagTimeOut = new SimpleIntegerProperty(0);
     // flag for replace card
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
+    // count of energy cubes
+    private StringProperty energyCount = new SimpleStringProperty("12");
 
 
 
@@ -228,6 +230,12 @@ public class Client extends Application {
     public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
 
     public IntegerProperty flagReplaceRegisterProperty() { return flagReplaceRegister; }
+
+    public StringProperty energyCountProperty() { return energyCount; }
+
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -648,6 +656,14 @@ public class Client extends Application {
                             int removedClient = connectionUpdateBody.getClientID();
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
+                            break;
+                        case "Energy":
+                            EnergyBody energyBody = Protocol.readJsonEnergy(json);
+                            int energyClient = energyBody.getClientID();
+                            int addCubes = energyBody.getCount();
+                            if(energyClient == clientID){
+                                energyCount.set((Integer.valueOf(energyCount.getValue()) + addCubes)+"");
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

@@ -21,7 +21,6 @@ public class Game {
 
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
-    List<Integer> energyCubes; // who has how many cubes
     int energyBank; // total common energy cubes for the game
     boolean isGameOver; // true for game over
 
@@ -50,6 +49,7 @@ public class Game {
     public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
     public static Stack<RegisterCard> virusPile = new Stack<>(); // pile for 18 Virus cards
     public static boolean hasMap = false; // flag for selected map
+    public static HashMap<Integer, Integer> energyCubes = new HashMap<>();// key=clientID, value=energyCount
 
 
     /**
@@ -79,6 +79,9 @@ public class Game {
 
             // init arrivedCheckpoints list
             arrivedCheckpoints.put(client, new HashSet<>());
+
+            // init energy cubes for each client
+            energyCubes.put(client, 12);
         }
 
         // init undrawn and discarded cards deck for each player
