@@ -6,6 +6,7 @@ import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
 
+import javax.print.attribute.IntegerSyntax;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -49,6 +50,7 @@ public class Game {
     public static HashMap<Integer, Integer> energyCubes = new HashMap<>();// key=clientID, value=energyCount
     public static Position positionAntenna = null;
     public static String directionAntenna = null;
+    //public static Iterator<Integer> iter = activePlayersList.iterator();
 
 
     /**
@@ -86,6 +88,7 @@ public class Game {
             // init energy cubes for each client
             energyCubes.put(client, 12);
         }
+        //iter = activePlayersList.iterator();
 
         // init undrawn and discarded cards deck for each player
         for (int client : clientIDs) {
@@ -401,10 +404,10 @@ public class Game {
         if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
             System.out.println("not on board anymore");
             if (position.getX() >= 3) {
-                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()));
+                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()),false);
             } else if (position.getX() < 3) {
                 System.out.println("x < 0");
-                reboot(clientID, startPositionsAllClients.get(clientID));
+                reboot(clientID, startPositionsAllClients.get(clientID),false);
             }
             return false;
         }
@@ -416,7 +419,7 @@ public class Game {
      *
      * @param clientID
      */
-    public void reboot(int clientID, Position position) throws IOException {
+    public void reboot(int clientID, Position position, boolean fromPit) throws IOException {
         // set robots position to start point
 
         playerPositions.get(clientID).setX(position.getX());
@@ -426,7 +429,11 @@ public class Game {
         registersAllClients.put(clientID, new RegisterCard[5]);
 
         // remove client from activePlayersList and current playersInTurn list
-        removeOneClientFromList(activePlayersList, clientID);
+        if(!fromPit){
+            removeOneClientFromList(activePlayersList, clientID);
+        }
+
+        System.out.println("game reboots: actList: " + activePlayersList);
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
@@ -468,14 +475,20 @@ public class Game {
      * soon: with robot laser also
      */
     public void activeBoardElements() throws IOException {
-        for (int client : activePlayersList) {
+
+        for (Iterator<Integer> iterator= activePlayersList.iterator();iterator.hasNext();) {
+            int client = iterator.next();
             Position position = playerPositions.get(client);
             int x = position.getX();
             int y = position.getY();
 
             List<FeldObject> feldObjects = board.get(x).get(y);
             for (FeldObject obj : feldObjects) {
-                if (!obj.getClass().getSimpleName().equals("Empty")) {
+                if(obj.getClass().getSimpleName().equals("Pit")){
+                    iterator.remove();
+                    reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()),true);
+                }
+                if (!obj.getClass().getSimpleName().equals("Empty") && !obj.getClass().getSimpleName().equals("Pit")) {
                     obj.doBoardFunction(client, obj);
                 }
             }
@@ -493,10 +506,12 @@ public class Game {
         if (registerPointer == 5) {
             registerPointer = 0;
             activePlayersList.clear();
+
             priorityEachTurn.clear();
             for (int clientID : clientIDs) {
                 // set all clients active
                 activePlayersList.add(clientID);
+
                 // reset all the register slots with no cards in game
                 RegisterCard[] registers = new RegisterCard[5];
                 registersAllClients.put(clientID, registers);
@@ -591,6 +606,7 @@ public class Game {
         for (int i = 0; i < activePlayersList.size(); i++) {
             if (activePlayersList.get(i) == clientId) {
                 activePlayersList.remove(i);
+
             }
         }
         for (int i = 0; i < priorityEachTurn.size(); i++) {

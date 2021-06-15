@@ -62,6 +62,7 @@ public class AILow implements Runnable{
     private  String[] myRegisters = new String[5];
     private String activePhase = null;
     private int numRobot = 1;
+    private int energyCount = 12;
 
     public void setActivePhase(String activePhase) {
         this.activePhase = activePhase;
@@ -378,6 +379,37 @@ public class AILow implements Runnable{
                             // tell GUI-Listener about the update
                             currentDirections.put(turnedClient, newDir);
                             break;
+                        case "ReplaceCard":
+                            ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
+                            int replacedCardClient = replaceCardBody.getClientID();
+                            int replacedRegister = replaceCardBody.getRegister();
+                            String replacedCardName = replaceCardBody.getNewCard();
+                            if(replacedCardClient == clientID){
+                                myRegisters[replacedRegister]=replacedCardName;
+                                if(registerPointer == 0){
+                                    registerPointer = 4;
+                                }else{
+                                    registerPointer--;
+                                }
+
+                            }
+                            break;
+                        case "ConnectionUpdate":
+                            ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
+                            int removedClient = connectionUpdateBody.getClientID();
+                            currentPositions.remove(removedClient);
+
+                            clientNames.remove(removedClient);
+                            readyClients.remove(removedClient);
+                            break;
+                        case "Energy":
+                            EnergyBody energyBody = Protocol.readJsonEnergy(json);
+                            int energyClient = energyBody.getClientID();
+                            int addCubes = energyBody.getCount();
+                            if(energyClient == clientID){
+                                energyCount = energyCount + addCubes;
+                            }
+                            break;
                     }
     }
 
@@ -587,7 +619,7 @@ public class AILow implements Runnable{
             for (int i = 0; i < 5; i++) {
                 // first register card can not be Again
                 if(i == 0 && myCards.get(0).equals("Again")){
-                    setRegister(myCards.get(5), 0);
+                    setRegister(myCards.get(5), 1);
                 }
                 setRegister(myCards.get(i), i+1);
             }

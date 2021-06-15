@@ -207,6 +207,7 @@ public class ExecuteOrder {
                 SelectionFinishedBody selectionFinishedBody = Protocol.readJsonSelectionFinished(json);
                 int clientFinished = selectionFinishedBody.getClientID();
                 Game.selectionFinishList.add(clientFinished);
+                System.out.println("executeOrder: selectionFinished : " + Game.selectionFinishList);
 
                 // if only one client(not AI) finished programming, timer starts
                 if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
@@ -238,7 +239,7 @@ public class ExecuteOrder {
                 // logic function in Game: move or turn
                 RegisterCard card = convertCardToObject(cardName);
                 Game.getInstance().playCard(clientID, card);
-                System.out.println(card.getCardType());
+
                 // if damage card played, must be replaced and play again
                 if (card.getCardType().equals("PROGRAMME") && !Game.priorityEachTurn.isEmpty()) {
                     Game.priorityEachTurn.remove(0);

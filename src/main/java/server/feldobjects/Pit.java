@@ -40,7 +40,6 @@ public class Pit extends FeldObject{
 
     @Override
     public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
-        Game.getInstance().reboot(clientID, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()));
-
+        //Game.getInstance().reboot(clientID, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()));
     }
 }

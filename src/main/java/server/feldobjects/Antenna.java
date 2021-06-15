@@ -82,11 +82,6 @@ public class Antenna extends FeldObject {
         for (Integer clientID : distanceMap.values()) {
             Game.priorityEachTurn.add(clientID);
         }
-
-        for(float dis : distanceMap.keySet()){
-            System.out.println(dis);
-        }
-
         // Set priorityEachTurn with smallest distance first to largest
         // check for tie
         // if two have same priority --> check for swap (boolean)
@@ -185,7 +180,6 @@ public class Antenna extends FeldObject {
 
         Game.activePlayersList.add(client1);
         Game.activePlayersList.add(client2);
-
 
         calculateDistances();
 

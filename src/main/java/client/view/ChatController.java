@@ -1044,7 +1044,15 @@ public class ChatController {
                                     ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
                                     beltGreenImg.setFitHeight(43);
                                     beltGreenImg.setFitWidth(43);
-                                    beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
+
+                                    if(obj.getOrientations().get(0).equals("right")){
+                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
+                                    }else if(obj.getOrientations().get(0).equals("bottom")){
+                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 180);
+                                    }else if(obj.getOrientations().get(0).equals("left")){
+                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 270);
+                                    }
+
                                     gridPaneBoard.add(beltGreenImg, i, j);
                                 } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
