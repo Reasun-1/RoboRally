@@ -118,6 +118,8 @@ public class ExecuteOrder {
                 MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
                 String mapName = mapSelectedBody.getMap();
 
+                Server.getServer().handleMapSelected(mapName);
+
                 Game.mapName = mapName;
                 Game.getInstance().initGame();
                 Game.getInstance().initBoard();

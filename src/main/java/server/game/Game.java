@@ -71,8 +71,12 @@ public class Game {
             RegisterCard[] registers = new RegisterCard[5];
             registersAllClients.put(client, registers);
 
-            // init directions of all clients to RIGHT
-            directionsAllClients.put(client, Direction.RIGHT);
+            // init directions of all clients
+            if(mapName.equals("Death Trap")){
+                directionsAllClients.put(client, Direction.LEFT);
+            }else{
+                directionsAllClients.put(client, Direction.RIGHT);
+            }
 
             // init activePlayerList with all clients
             activePlayersList.add(client);

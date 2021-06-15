@@ -55,6 +55,8 @@ public class AILow implements Runnable{
     private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
+    // store the map name
+    private String mapName = null;
 
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
@@ -201,6 +203,11 @@ public class AILow implements Runnable{
                             List<String> availableMaps = selectMapBody.getAvailableMaps();
                             handleMapSelected("Dizzy Highway");
                             break;
+                        case "MapSelected":
+                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                            String mapString = mapSelectedBody.getMap();
+                            mapName = mapString;
+                            break;
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
@@ -230,7 +237,12 @@ public class AILow implements Runnable{
                             int currentID = currentPlayerBody.getClientID();
                             if (currentID == clientID) {
                                 if (activePhase.equals("Aufbauphase")) {
-                                    setStartPoint(0,6);
+                                    if(mapName.equals("Death Trap")){
+                                        setStartPoint(11, 8);
+                                    }else{
+                                        setStartPoint(1,8);
+                                    }
+
                                 } else if (activePhase.equals("Aktivierungsphase")) {
                                     String cardName = myRegisters[registerPointer];
                                     playNextRegister(cardName);
@@ -483,8 +495,12 @@ public class AILow implements Runnable{
             int[] currentPo = new int[2];
             currentPositions.put(client, currentPo);
 
-            // init curren positions
-            currentDirections.put(client, Direction.RIGHT);
+            // init curren directions
+            if(mapName.equals("Death Trap")){
+                currentDirections.put(client, Direction.LEFT);
+            }else{
+                currentDirections.put(client, Direction.RIGHT);
+            }
         }
     }
 

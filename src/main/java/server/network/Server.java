@@ -578,4 +578,15 @@ public class Server {
         logger.info("server informs energy got.");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all players which map was selected
+     * @param mapName
+     */
+    public void handleMapSelected(String mapName) throws IOException {
+        Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs which map selected");
+        makeOrderToAllClients(json);
+    }
 }
