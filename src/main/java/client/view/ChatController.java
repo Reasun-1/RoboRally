@@ -120,6 +120,10 @@ public class ChatController {
     Image imageCheckpoint2 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint2.png").toExternalForm());
     Image ImageCheckpoint3 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint3.png").toExternalForm());
     Image ImageCheckpoint4 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint4.png").toExternalForm());
+    Image ImageCheckpoint5 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint5.png").toExternalForm());
+    Image ImageCheckpoint6 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint6.png").toExternalForm());
+
+
 
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
@@ -1000,6 +1004,7 @@ public class ChatController {
                                 gridPaneBoard.add(antennaImg, i, j);
                                 break;
                             case "CheckPoint":
+
                                 ImageView checkpointImg = null;
                                 int checkPointNum = obj.getCount();
                                 if (checkPointNum == 1) {
@@ -1011,12 +1016,28 @@ public class ChatController {
                                     checkpointImg = new ImageView(imageCheckpoint2);
                                     checkpointImg.setFitHeight(43);
                                     checkpointImg.setFitWidth(43);
-
+                                } else if (checkPointNum == 3) {
+                                    checkpointImg = new ImageView(ImageCheckpoint3);
+                                    checkpointImg.setFitHeight(43);
+                                    checkpointImg.setFitWidth(43);
+                                } else if (checkPointNum == 4) {
+                                    checkpointImg = new ImageView(ImageCheckpoint4);
+                                    checkpointImg.setFitHeight(43);
+                                    checkpointImg.setFitWidth(43);
+                                } else if (checkPointNum == 5) {
+                                    checkpointImg = new ImageView(ImageCheckpoint5);
+                                    checkpointImg.setFitHeight(43);
+                                    checkpointImg.setFitWidth(43);
+                                } else if (checkPointNum == 6) {
+                                    checkpointImg = new ImageView(ImageCheckpoint6);
+                                    checkpointImg.setFitHeight(43);
+                                    checkpointImg.setFitWidth(43);
                                 }
                                 gridPaneBoard.add(checkpointImg, i, j);
 
 
                                 break;
+
                             case "ConveyorBelt":
                                 // if it is a green belt
                                 if (obj.getSpeed() == 1) {
@@ -1141,11 +1162,14 @@ public class ChatController {
 
                                 if(richtung.equals("clockwise")){
                                     gearImg = new ImageView(GearTRight);
+                                } else if(richtung.equals("counterclockwise")){
+                                    gearImg = new ImageView(GearTLeft);
                                 }
                                 gearImg.setFitHeight(43);
                                 gearImg.setFitWidth(43);
                                 gridPaneBoard.add(gearImg, i, j);
                                 break;
+
                             case "Laser":
                                 ImageView laserImg = new ImageView(Lasers1);
                                 laserImg.setFitHeight(43);
