@@ -663,6 +663,21 @@ public class Client extends Application {
                             int removedClient = connectionUpdateBody.getClientID();
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
+
+                            // update GUI info for client in server
+                            clientNames.remove(removedClient);
+                            PLAYERSINSERVER.set("");
+                            for(int clientNum : clientNames.keySet()){
+                                PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
+                            }
+
+                            // update GUI info for client who are ready
+                            readyClients.remove(removedClient);
+                            PLAYERSWHOAREREADY.set("");
+                            for(int clN : readyClients.keySet()){
+                                PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clN + "\n");
+                            }
+
                             break;
                         case "Energy":
                             EnergyBody energyBody = Protocol.readJsonEnergy(json);

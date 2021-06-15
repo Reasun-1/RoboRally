@@ -1,4 +1,5 @@
 package server.feldobjects;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import server.game.Direction;
 import server.game.Game;
@@ -16,7 +17,7 @@ import java.util.TreeMap;
  * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Antenna extends FeldObject{
+public class Antenna extends FeldObject {
 
     //private String type;
     private String isOnBoard;
@@ -30,13 +31,6 @@ public class Antenna extends FeldObject{
         this.isOnBoard = isOnBoard;
         this.orientations = orientations;
     }
-
-   /* @Override
-    public String getType() {
-        return type;
-    }
-
-    */
 
     @Override
     public String getIsOnBoard() {
@@ -57,11 +51,9 @@ public class Antenna extends FeldObject{
 
     /**
      * Calculate distances.
-     *
-     * @param direction the orientation
      */
-    /*
-    public static void calculateDistances(Direction direction){
+
+    public static void calculateDistances() {
 
         // To determine who is closest to the priority antenna, start at the antenna and count the number of spaces to each robot.
         // Count by row, then by column. (Betrag Differenz xPos und yPos )
@@ -69,36 +61,36 @@ public class Antenna extends FeldObject{
         // antenna’s dish. Once this line reaches the tied robots, it moves clockwise, and
         // the tied robots have priority according to the order in which the line reaches them.
 
-        if (Game.priorityEachTurn.isEmpty()){
-
-            TreeMap<Float, Integer> distanceMap = new TreeMap<>();
-            // List of Distances by IDs
-            for (int clientID : Game.activePlayersList){
-                Position A = Game.playerPositions.get(clientID);
-                //Position B = Game.getAntennaPosition();
-                Position B = new Position(0,5);
-                float distance = distanceBetweenAntennaAndRobot(A, B);
-                while(distanceMap.containsKey(distance)){
-                    Integer clientIDinList = distanceMap.get(distance);
-                    if(swapPlayerPriority( clientIDinList, clientID)){
-                        distance-=0.5;
-                    }
-                    else{
-                        distance+=0.5;
-                    }
+        TreeMap<Float, Integer> distanceMap = new TreeMap<>();
+        // List of Distances by IDs
+        for (int clientID : Game.activePlayersList) {
+            Position A = Game.playerPositions.get(clientID);
+            //Position B = Game.positionAntenna;
+            Position B = Game.positionAntenna;
+            float distance = distanceBetweenAntennaAndRobot(A, B);
+            if (distanceMap.containsKey(distance)) {
+                Integer clientIDinList = distanceMap.get(distance);
+                if (swapPlayerPriority(clientIDinList, clientID)) {
+                    distance -= 0.5;
+                } else {
+                    distance += 0.5;
                 }
-                distanceMap.put(distance, clientID);
             }
-            for (Integer clientID : distanceMap.values()){
-                Game.priorityEachTurn.add(clientID);
-            }
-
-            // Set priorityEachTurn with smallest distance first to largest
-            // check for tie
-            // if two have same priority --> check for swap (boolean)
+            distanceMap.put(distance, clientID);
         }
-    }
 
+        for (Integer clientID : distanceMap.values()) {
+            Game.priorityEachTurn.add(clientID);
+        }
+
+        for(float dis : distanceMap.keySet()){
+            System.out.println(dis);
+        }
+
+        // Set priorityEachTurn with smallest distance first to largest
+        // check for tie
+        // if two have same priority --> check for swap (boolean)
+    }
 
 
     public static boolean swapPlayerPriority(Integer clientID_1, Integer clientID_2) {
@@ -106,63 +98,66 @@ public class Antenna extends FeldObject{
         // get Antenna Orientation
 
 
-        switch (orientations.get(0)){
+        switch (Game.directionAntenna) {
             // For each direction :
 
-            case "top": ; //
+            case "top":
+                ; //
                 // In Direction, check if both on the right or left side of Antenna
 
                 // both right side --> return the one further above
-                if(game.getPositionOneClient(clientID_1).getX()>=game.getAntennaPosition().getX() && game.getPositionOneClient(clientID_2).getX()>=game.getAntennaPosition().getX()){
-                    return game.getPositionOneClient(clientID_1).getY() > game.getPositionOneClient(clientID_2).getY();
+                if (Game.playerPositions.get(clientID_1).getX() >= Game.positionAntenna.getX() && Game.playerPositions.get(clientID_2).getX() >= Game.positionAntenna.getX()) {
+                    return Game.playerPositions.get(clientID_1).getY() > Game.playerPositions.get(clientID_2).getY();
                 }
                 // both left side --> return the one further down
-                else if (game.getPositionOneClient(clientID_1).getX()<game.getAntennaPosition().getX() && game.getPositionOneClient(clientID_2).getX()<game.getAntennaPosition().getX()){
-                    return game.getPositionOneClient(clientID_1).getY() < game.getPositionOneClient(clientID_2).getY();
+                else if (Game.playerPositions.get(clientID_1).getX() < Game.positionAntenna.getX() && Game.playerPositions.get(clientID_2).getX() < Game.positionAntenna.getX()) {
+                    return Game.playerPositions.get(clientID_1).getY() < Game.playerPositions.get(clientID_2).getY();
                 }
                 // different side: return the one on the right
-                else return game.getPositionOneClient(clientID_2).getX()>game.getAntennaPosition().getX();
+                else return Game.playerPositions.get(clientID_2).getX() > Game.positionAntenna.getX();
 
 
-
-            case "right":; //Change X and Y
+            case "right":
+                ; //Change X and Y
 
                 // both below --> return the one further right
-                if(game.getPositionOneClient(clientID_1).getY()>=game.getAntennaPosition().getY() && game.getPositionOneClient(clientID_2).getY()>=game.getAntennaPosition().getY()){
-                    return game.getPositionOneClient(clientID_1).getX() > game.getPositionOneClient(clientID_2).getX();
+                if (Game.playerPositions.get(clientID_1).getY() >= Game.positionAntenna.getY() && Game.playerPositions.get(clientID_2).getY() >= Game.positionAntenna.getY()) {
+                    return Game.playerPositions.get(clientID_1).getX() > Game.playerPositions.get(clientID_2).getX();
                 }
                 // both above --> return the one further left
-                else if (game.getPositionOneClient(clientID_1).getY()<game.getAntennaPosition().getY() && game.getPositionOneClient(clientID_2).getY()<game.getAntennaPosition().getY()){
-                    return game.getPositionOneClient(clientID_1).getX() < game.getPositionOneClient(clientID_2).getX();
+                else if (Game.playerPositions.get(clientID_1).getY() < Game.positionAntenna.getY() && Game.playerPositions.get(clientID_2).getY() < Game.positionAntenna.getY()) {
+                    return Game.playerPositions.get(clientID_1).getX() < Game.playerPositions.get(clientID_2).getX();
                 }
                 // different side: return the one below
-                else return game.getPositionOneClient(clientID_2).getY()>game.getAntennaPosition().getY();
+                else return Game.playerPositions.get(clientID_2).getY() > Game.positionAntenna.getY();
 
-            case "bottom": ;// Change > and <
+            case "bottom":
+                ;// Change > and <
                 // both left side --> return the one further down
-                if(game.getPositionOneClient(clientID_1).getX()<=game.getAntennaPosition().getX() && game.getPositionOneClient(clientID_2).getX()<=game.getAntennaPosition().getX()){
-                    return game.getPositionOneClient(clientID_1).getY() < game.getPositionOneClient(clientID_2).getY();
+                if (Game.playerPositions.get(clientID_1).getX() <= Game.positionAntenna.getX() && Game.playerPositions.get(clientID_2).getX() <= Game.positionAntenna.getX()) {
+                    return Game.playerPositions.get(clientID_1).getY() < Game.playerPositions.get(clientID_2).getY();
                 }
                 // both right side --> return the one further up
-                else if (game.getPositionOneClient(clientID_1).getX()>game.getAntennaPosition().getX() && game.getPositionOneClient(clientID_2).getX()>game.getAntennaPosition().getX()){
-                    return game.getPositionOneClient(clientID_1).getY() > game.getPositionOneClient(clientID_2).getY();
+                else if (Game.playerPositions.get(clientID_1).getX() > Game.positionAntenna.getX() && Game.playerPositions.get(clientID_2).getX() > Game.positionAntenna.getX()) {
+                    return Game.playerPositions.get(clientID_1).getY() > Game.playerPositions.get(clientID_2).getY();
                 }
                 // different side: return the one on the left
-                else return game.getPositionOneClient(clientID_2).getX()<game.getAntennaPosition().getX();
+                else return Game.playerPositions.get(clientID_2).getX() < Game.positionAntenna.getX();
 
 
-            case "left":; // Change X and Y and < and >
+            case "left":
+                ; // Change X and Y and < and >
 
                 // both above --> return the one further left
-                if(game.getPositionOneClient(clientID_1).getY()<=game.getAntennaPosition().getY() && game.getPositionOneClient(clientID_2).getY()<=game.getAntennaPosition().getY()){
-                    return game.getPositionOneClient(clientID_1).getX() < game.getPositionOneClient(clientID_2).getX();
+                if (Game.playerPositions.get(clientID_1).getY() <= Game.positionAntenna.getY() && Game.playerPositions.get(clientID_2).getY() <= Game.positionAntenna.getY()) {
+                    return Game.playerPositions.get(clientID_1).getX() < Game.playerPositions.get(clientID_2).getX();
                 }
                 // both below --> return the one further right
-                else if (game.getPositionOneClient(clientID_1).getY()>game.getAntennaPosition().getY() && game.getPositionOneClient(clientID_2).getY()>game.getAntennaPosition().getY()){
-                    return game.getPositionOneClient(clientID_1).getX() > game.getPositionOneClient(clientID_2).getX();
+                else if (Game.playerPositions.get(clientID_1).getY() > Game.positionAntenna.getY() && Game.playerPositions.get(clientID_2).getY() > Game.positionAntenna.getY()) {
+                    return Game.playerPositions.get(clientID_1).getX() > Game.playerPositions.get(clientID_2).getX();
                 }
                 // different side: return the one above
-                else return game.getPositionOneClient(clientID_2).getY()<game.getAntennaPosition().getY();
+                else return Game.playerPositions.get(clientID_2).getY() < Game.positionAntenna.getY();
 
         }
 
@@ -170,15 +165,31 @@ public class Antenna extends FeldObject{
     }
 
 
-
-
-    public static int distanceBetweenAntennaAndRobot(Position antenna, Position robot){
-        int distance = abs(antenna.getX()-robot.getX()) + abs(antenna.getY()-robot.getY());
+    public static int distanceBetweenAntennaAndRobot(Position antenna, Position robot) {
+        int distance = Math.abs(antenna.getX() - robot.getX()) + Math.abs(antenna.getY() - robot.getY());
         return distance;
     }
 
-     */
+    // only for test
+    public static void main(String[] args) {
+        Game.positionAntenna = new Position(0, 5);
+        Game.directionAntenna = "right";
+        Position p1 = new Position(2, 7);
+        Position p2 = new Position(3, 6);
+
+        int client1 = 1;
+        int client2 = 2;
+
+        Game.playerPositions.put(1, p1);
+        Game.playerPositions.put(2, p2);
+
+        Game.activePlayersList.add(client1);
+        Game.activePlayersList.add(client2);
 
 
+        calculateDistances();
 
+        System.out.println(Game.priorityEachTurn);
+
+    }
 }
