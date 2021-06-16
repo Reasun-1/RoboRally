@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,7 +26,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+<AnchorPane prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
     <children>
       <VBox prefHeight="750.0" prefWidth="1250.0">
          <children>
@@ -76,12 +71,12 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
                                                          <color>
-                                                            <Color blue="1.0" green="0.9882352948188782" opacity="0.800000011920929" red="0.5490196347236633" />
+                                                            <Color red="0.5490196347236633" green="0.9882352948188782" blue="1.0" opacity="0.800000011920929" />
                                                          </color>
                                                       </Stop>
                                                    </stops>
@@ -135,12 +130,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -160,12 +155,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -189,7 +184,7 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
@@ -430,7 +425,7 @@
                                        <children>
                                           <HBox prefHeight="31.0" prefWidth="299.0">
                                              <children>
-                                                <TextField fx:id="mapName" prefHeight="26.0" prefWidth="169.0" promptText="map name" />
+                                                <ComboBox fx:id="mapList" prefHeight="26.0" prefWidth="170.0" promptText="map list" />
                                                 <AnchorPane prefHeight="35.0" prefWidth="15.0" />
                                                 <Button fx:id="selectMap" mnemonicParsing="false" onAction="#selectMapEvent" prefHeight="25.0" prefWidth="100.0" text="select map" />
                                              </children>
@@ -699,21 +694,54 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Label text="YOUR ENERGY" textFill="#dadada">
-                                 <HBox.margin>
-                                    <Insets top="20.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <ComboBox fx:id="mapList" prefWidth="150.0">
-                                 <HBox.margin>
-                                    <Insets top="100.0" />
-                                 </HBox.margin>
-                              </ComboBox>
-                              <TextArea fx:id="energyCube" prefHeight="21.0" prefWidth="30.0">
-                                 <HBox.margin>
-                                    <Insets bottom="120.0" left="5.0" top="20.0" />
-                                 </HBox.margin>
-                              </TextArea>
+                              <AnchorPane layoutX="513.0" layoutY="10.0" prefHeight="187.0" prefWidth="15.0" />
+                              <AnchorPane prefHeight="178.0" prefWidth="316.0">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="314.0" opacity="0.5" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@images/BG_Score.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox layoutX="24.0" prefHeight="141.0" prefWidth="250.0">
+                                       <children>
+                                          <HBox minHeight="70.0" prefHeight="70.0" prefWidth="250.0">
+                                             <children>
+                                                <Label prefHeight="39.0" prefWidth="135.0" text="YOUR ENERGY:" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextArea fx:id="energyCube" prefHeight="13.0" prefWidth="40.0">
+                                                   <HBox.margin>
+                                                      <Insets bottom="120.0" left="5.0" top="20.0" />
+                                                   </HBox.margin>
+                                                </TextArea>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" minHeight="70.0" prefHeight="70.0" prefWidth="250.0">
+                                             <children>
+                                                <Label prefHeight="39.0" prefWidth="135.0" text="TIMER:" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextArea fx:id="timer" prefHeight="13.0" prefWidth="40.0">
+                                                   <HBox.margin>
+                                                      <Insets bottom="120.0" left="5.0" top="20.0" />
+                                                   </HBox.margin>
+                                                </TextArea>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </HBox>
                      </children>

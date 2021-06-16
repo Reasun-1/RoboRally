@@ -56,8 +56,6 @@ public class ChatController {
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
-    private TextField mapName; // info invoked by button select map
-    @FXML
     private TextField sendTo; //send Message to a specific player on private
     @FXML
     private TextField startPointX;
@@ -83,6 +81,8 @@ public class ChatController {
     private Button testButton;
     @FXML
     private TextArea energyCube;
+    @FXML
+    private TextArea timer;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
@@ -635,7 +635,7 @@ public class ChatController {
 
     @FXML
     private void selectMapEvent() throws JsonProcessingException {
-        client.handleMapSelected(mapName.getText());
+        client.handleMapSelected(mapList.getValue());
     }
 
     @FXML
