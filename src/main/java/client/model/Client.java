@@ -110,7 +110,7 @@ public class Client extends Application {
     // flag for replace card
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
     // count of energy cubes
-    private StringProperty energyCount = new SimpleStringProperty("12");
+    private StringProperty energyCount = new SimpleStringProperty("5");
 
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
 
@@ -616,6 +616,9 @@ public class Client extends Application {
                             INFORMATION.set("");
                             INFORMATION.set("Game finished! The winner is: " + winner);
                             LAUNCHER.launchGameFinished(winner);
+                            for(int clnNr : WindowLauncher.chatWindowStage.keySet()){
+                                WindowLauncher.chatWindowStage.get(clnNr).close();
+                            }
                             break;
                         case "Movement":
                             MovementBody movementBody = Protocol.readJsonMovement(json);

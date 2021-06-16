@@ -4,14 +4,19 @@ import client.view.ErrorWindowController;
 import client.view.GameOverController;
 import client.view.LoginController;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class WindowLauncher {
+
+    public static HashMap<Integer, Stage> chatWindowStage = new HashMap<>();
 
     /**
      * Create a Login-Window and init the controller with a handle on the client
@@ -43,6 +48,7 @@ public class WindowLauncher {
         ctrl.init(client);
         stage.setScene(new Scene(root, 1250, 750));
         stage.show();
+        chatWindowStage.put(client.getClientID(), stage);
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
@@ -76,6 +82,7 @@ public class WindowLauncher {
         stage.setScene(new Scene(root, 600, 400));
         stage.showAndWait();
         stage.setOnCloseRequest((event) -> Platform.exit());
+
     }
 
 }
