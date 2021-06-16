@@ -639,7 +639,7 @@ public class ChatController {
     }
 
     @FXML
-    private void setStartPointEvent() throws JsonProcessingException {
+    private void setStartPointEvent() throws IOException {
         client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
     }
 

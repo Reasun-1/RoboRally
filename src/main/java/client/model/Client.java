@@ -12,6 +12,7 @@ import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.feldobjects.Pit;
 import server.game.Direction;
+import server.game.Position;
 import server.game.Register;
 
 import java.io.*;
@@ -58,6 +59,11 @@ public class Client extends Application {
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
     private String mapName = null;
+    // store the available startPoints for the maps(death trap is different)
+    private HashSet<Position> avaibleStartsMaps = new HashSet<>();
+    private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
+
+
 
 
     //=================================Properties================================
@@ -517,6 +523,9 @@ public class Client extends Application {
                             int clientX = startingPointTakenBody.getX();
                             int clientY = startingPointTakenBody.getY();
 
+                            // remove the point from hashset
+                            removeStartPointsInHashSet(clientX, clientY);
+
                             // store the start position
                             startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
                             startPositionsAllClients.get(clientWhoSetPoint)[1] = clientX;
@@ -843,6 +852,20 @@ public class Client extends Application {
                 currentDirections.put(client, Direction.RIGHT);
             }
         }
+
+        // inti available StartsPoints
+        avaibleStartsMaps.add(new Position(1,1));
+        avaibleStartsMaps.add(new Position(0,3));
+        avaibleStartsMaps.add(new Position(1,4));
+        avaibleStartsMaps.add(new Position(1,5));
+        avaibleStartsMaps.add(new Position(0,6));
+        avaibleStartsMaps.add(new Position(1,8));
+        avaibleStartsMapTrap.add(new Position(11,1));
+        avaibleStartsMapTrap.add(new Position(12,3));
+        avaibleStartsMapTrap.add(new Position(11,4));
+        avaibleStartsMapTrap.add(new Position(11,5));
+        avaibleStartsMapTrap.add(new Position(12,6));
+        avaibleStartsMapTrap.add(new Position(11,8));
     }
 
     /**
@@ -852,15 +875,68 @@ public class Client extends Application {
      * @param y
      * @throws JsonProcessingException
      */
-    public void setStartPoint(int x, int y) throws JsonProcessingException {
-        Protocol protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
-        String json = Protocol.writeJson(protocol);
-        logger.info(json);
-        OUT.println(json);
-        // you are not current player any more and disable the set point button
-        CANSETSTARTPOINT.set(false);
-        ISCURRENTPLAYER.set(false);
-        INFORMATION.set("");
+    public void setStartPoint(int x, int y) throws IOException {
+        boolean isAvailable = checkStartPointAvailable(x, y);
+        if(isAvailable){
+            Protocol protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            OUT.println(json);
+            // you are not current player any more and disable the set point button
+            CANSETSTARTPOINT.set(false);
+            ISCURRENTPLAYER.set(false);
+            INFORMATION.set("");
+        }else{
+            LAUNCHER.launchError("Start point is not available, choose another one.");
+        }
+    }
+
+
+    /**
+     * if the start position is taken, remove it from hashset
+     * @param x
+     * @param y
+     */
+    public void removeStartPointsInHashSet(int x, int y){
+        HashSet<Position> toRemove = new HashSet<>();
+        if(mapName.equals("Death Trap")){
+            for(Position p : avaibleStartsMapTrap){
+                if(p.getX() == x && p.getY() == y){
+                    toRemove.add(p);
+                }
+            }
+            avaibleStartsMapTrap.removeAll(toRemove);
+        }else{
+            for(Position p : avaibleStartsMaps){
+                if(p.getX() == x && p.getY() == y){
+                    toRemove.add(p);
+                }
+            }
+            avaibleStartsMaps.removeAll(toRemove);
+        }
+    }
+
+    /**
+     * check if the chosen start point is avaible
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean checkStartPointAvailable(int x, int y){
+        if(mapName.equals("Death Trap")){
+            for(Position p : avaibleStartsMapTrap){
+                if(p.getX() == x && p.getY() == y){
+                    return true;
+                }
+            }
+        }else{
+            for(Position p : avaibleStartsMaps){
+                if(p.getX() == x && p.getY() == y){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

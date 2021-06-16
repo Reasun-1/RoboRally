@@ -6,6 +6,7 @@ import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
+import server.game.Position;
 import server.game.Register;
 import server.network.Server;
 
@@ -14,10 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -57,6 +55,10 @@ public class AILow implements Runnable{
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
     private String mapName = null;
+    // store the available startPoints for the maps(death trap is different)
+    private HashSet<Position> avaibleStartsMaps = new HashSet<>();
+    private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
+
 
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
@@ -269,6 +271,8 @@ public class AILow implements Runnable{
                             int clientWhoSetPoint = startingPointTakenBody.getClientID();
                             int clientX = startingPointTakenBody.getX();
                             int clientY = startingPointTakenBody.getY();
+
+                            removeStartPointsInHashSet(clientX, clientY);
 
                             // store the start position
                             startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
@@ -534,6 +538,20 @@ public class AILow implements Runnable{
                 currentDirections.put(client, Direction.RIGHT);
             }
         }
+
+        // inti available StartsPoints
+        avaibleStartsMaps.add(new Position(1,1));
+        avaibleStartsMaps.add(new Position(0,3));
+        avaibleStartsMaps.add(new Position(1,4));
+        avaibleStartsMaps.add(new Position(1,5));
+        avaibleStartsMaps.add(new Position(0,6));
+        avaibleStartsMaps.add(new Position(1,8));
+        avaibleStartsMapTrap.add(new Position(11,1));
+        avaibleStartsMapTrap.add(new Position(12,3));
+        avaibleStartsMapTrap.add(new Position(11,4));
+        avaibleStartsMapTrap.add(new Position(11,5));
+        avaibleStartsMapTrap.add(new Position(12,6));
+        avaibleStartsMapTrap.add(new Position(11,8));
     }
 
     public void rebuildMap() {
@@ -547,13 +565,80 @@ public class AILow implements Runnable{
      * @param y
      * @throws JsonProcessingException
      */
-    public void setStartPoint(int x, int y) throws JsonProcessingException {
-        Protocol protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
+
+    public void setStartPoint(int x, int y) throws IOException {
+        boolean isAvailable = checkStartPointAvailable(x, y);
+        Protocol protocol = null;
+        if(isAvailable){
+            protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
+        }else{
+            int newX = 0;
+            int newY = 0;
+            if(mapName.equals("Death Trap")){
+                for(Position pos : avaibleStartsMapTrap){
+                    newX = pos.getX();
+                    newY = pos.getY();
+                }
+            }else{
+                for(Position po : avaibleStartsMaps){
+                    newX = po.getX();
+                    newY = po.getY();
+                }
+            }
+            protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(newX, newY));
+        }
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
-
     }
+
+    /**
+     * if the start position is taken, remove it from hashset
+     * @param x
+     * @param y
+     */
+    public void removeStartPointsInHashSet(int x, int y){
+        HashSet<Position> toRemove = new HashSet<>();
+        if(mapName.equals("Death Trap")){
+            for(Position p : avaibleStartsMapTrap){
+                if(p.getX() == x && p.getY() == y){
+                    toRemove.add(p);
+                }
+            }
+            avaibleStartsMapTrap.removeAll(toRemove);
+        }else{
+            for(Position p : avaibleStartsMaps){
+                if(p.getX() == x && p.getY() == y){
+                    toRemove.add(p);
+                }
+            }
+            avaibleStartsMaps.removeAll(toRemove);
+        }
+    }
+
+    /**
+     * check if the chosen start point is avaible
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean checkStartPointAvailable(int x, int y){
+        if(mapName.equals("Death Trap")){
+            for(Position p : avaibleStartsMapTrap){
+                if(p.getX() == x && p.getY() == y){
+                    return true;
+                }
+            }
+        }else{
+            for(Position p : avaibleStartsMaps){
+                if(p.getX() == x && p.getY() == y){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * client set/clear register slot
