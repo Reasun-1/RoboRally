@@ -323,6 +323,9 @@ public class ExecuteOrder {
             case "Worm":
                 card = new Worm();
                 break;
+            case "":
+                card = new BlankCard();
+                break;
         }
 
         return card;
