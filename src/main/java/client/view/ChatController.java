@@ -114,6 +114,8 @@ public class ChatController {
 
     private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
 
+    @FXML
+    private ComboBox<String> mapList;
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -229,6 +231,18 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
 
+        // bind maps to map list for comboBox
+        client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
+            @Override
+            public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
+                ObservableList<String> mapObsList = client.getMAPS();
+                System.out.println("in Controller " + mapObsList);
+                //if(mapObsList.size() == 4){
+                mapList.getItems().clear();
+                    mapList.getItems().addAll(mapObsList);
+                //}
+            }
+        });
 
         //bind flag replace register
         client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
