@@ -56,6 +56,8 @@ public class Client extends Application {
     private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
+    // store the map name
+    private String mapName = null;
 
 
     //=================================Properties================================
@@ -107,6 +109,8 @@ public class Client extends Application {
     private IntegerProperty flagTimeOut = new SimpleIntegerProperty(0);
     // flag for replace card
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
+    // count of energy cubes
+    private StringProperty energyCount = new SimpleStringProperty("12");
 
 
 
@@ -228,6 +232,12 @@ public class Client extends Application {
     public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
 
     public IntegerProperty flagReplaceRegisterProperty() { return flagReplaceRegister; }
+
+    public StringProperty energyCountProperty() { return energyCount; }
+
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -439,6 +449,11 @@ public class Client extends Application {
                             INFORMATION.set("Select a map from: " + availableMaps);
                             CANSELECTMAP.set(true);
                             break;
+                        case "MapSelected":
+                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                            String mapString = mapSelectedBody.getMap();
+                            mapName = mapString;
+                            break;
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
@@ -648,6 +663,29 @@ public class Client extends Application {
                             int removedClient = connectionUpdateBody.getClientID();
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
+
+                            // update GUI info for client in server
+                            clientNames.remove(removedClient);
+                            PLAYERSINSERVER.set("");
+                            for(int clientNum : clientNames.keySet()){
+                                PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
+                            }
+
+                            // update GUI info for client who are ready
+                            readyClients.remove(removedClient);
+                            PLAYERSWHOAREREADY.set("");
+                            for(int clN : readyClients.keySet()){
+                                PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clN + "\n");
+                            }
+
+                            break;
+                        case "Energy":
+                            EnergyBody energyBody = Protocol.readJsonEnergy(json);
+                            int energyClient = energyBody.getClientID();
+                            int addCubes = energyBody.getCount();
+                            if(energyClient == clientID){
+                                energyCount.set((Integer.valueOf(energyCount.getValue()) + addCubes)+"");
+                            }
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -786,8 +824,12 @@ public class Client extends Application {
             int[] currentPo = new int[2];
             currentPositions.put(client, currentPo);
 
-            // init curren positions
-            currentDirections.put(client, Direction.RIGHT);
+            // init curren directions
+            if(mapName.equals("Death Trap")){
+                currentDirections.put(client, Direction.LEFT);
+            }else{
+                currentDirections.put(client, Direction.RIGHT);
+            }
         }
     }
 

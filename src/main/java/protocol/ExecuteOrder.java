@@ -118,6 +118,8 @@ public class ExecuteOrder {
                 MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
                 String mapName = mapSelectedBody.getMap();
 
+                Server.getServer().handleMapSelected(mapName);
+
                 Game.mapName = mapName;
                 Game.getInstance().initGame();
                 Game.getInstance().initBoard();
@@ -205,6 +207,7 @@ public class ExecuteOrder {
                 SelectionFinishedBody selectionFinishedBody = Protocol.readJsonSelectionFinished(json);
                 int clientFinished = selectionFinishedBody.getClientID();
                 Game.selectionFinishList.add(clientFinished);
+                System.out.println("executeOrder: selectionFinished : " + Game.selectionFinishList);
 
                 // if only one client(not AI) finished programming, timer starts
                 if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
@@ -236,7 +239,7 @@ public class ExecuteOrder {
                 // logic function in Game: move or turn
                 RegisterCard card = convertCardToObject(cardName);
                 Game.getInstance().playCard(clientID, card);
-                System.out.println(card.getCardType());
+
                 // if damage card played, must be replaced and play again
                 if (card.getCardType().equals("PROGRAMME") && !Game.priorityEachTurn.isEmpty()) {
                     Game.priorityEachTurn.remove(0);
@@ -249,18 +252,12 @@ public class ExecuteOrder {
                     // if turn is over, check if round is over
                     boolean isRoundOver = Game.getInstance().checkRoundOver();
                     if (isRoundOver) {
-                        // if round over, check if game is over
-                        //boolean isGameOver = Game.getInstance().checkGameOver();
-                        // if game is not over, play new round
-                        //if (!isGameOver) { // if game not over but round over, distribute new cards to clients
+
                             logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
                             Server.getServer().handleActivePhase(2);
                             break;
-                        //} else {
-                          //  break;
-                        //}
                     }
                 }
                 // if turn is not over inform next player to play

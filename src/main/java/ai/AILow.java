@@ -55,11 +55,14 @@ public class AILow implements Runnable{
     private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
+    // store the map name
+    private String mapName = null;
 
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
     private String activePhase = null;
     private int numRobot = 1;
+    private int energyCount = 12;
 
     public void setActivePhase(String activePhase) {
         this.activePhase = activePhase;
@@ -201,6 +204,11 @@ public class AILow implements Runnable{
                             List<String> availableMaps = selectMapBody.getAvailableMaps();
                             handleMapSelected("Dizzy Highway");
                             break;
+                        case "MapSelected":
+                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                            String mapString = mapSelectedBody.getMap();
+                            mapName = mapString;
+                            break;
                         case "GameStarted":
                             GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
                             List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
@@ -230,7 +238,12 @@ public class AILow implements Runnable{
                             int currentID = currentPlayerBody.getClientID();
                             if (currentID == clientID) {
                                 if (activePhase.equals("Aufbauphase")) {
-                                    setStartPoint(0,6);
+                                    if(mapName.equals("Death Trap")){
+                                        setStartPoint(11, 8);
+                                    }else{
+                                        setStartPoint(1,8);
+                                    }
+
                                 } else if (activePhase.equals("Aktivierungsphase")) {
                                     String cardName = myRegisters[registerPointer];
                                     playNextRegister(cardName);
@@ -366,6 +379,37 @@ public class AILow implements Runnable{
                             // tell GUI-Listener about the update
                             currentDirections.put(turnedClient, newDir);
                             break;
+                        case "ReplaceCard":
+                            ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
+                            int replacedCardClient = replaceCardBody.getClientID();
+                            int replacedRegister = replaceCardBody.getRegister();
+                            String replacedCardName = replaceCardBody.getNewCard();
+                            if(replacedCardClient == clientID){
+                                myRegisters[replacedRegister]=replacedCardName;
+                                if(registerPointer == 0){
+                                    registerPointer = 4;
+                                }else{
+                                    registerPointer--;
+                                }
+
+                            }
+                            break;
+                        case "ConnectionUpdate":
+                            ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
+                            int removedClient = connectionUpdateBody.getClientID();
+                            currentPositions.remove(removedClient);
+
+                            clientNames.remove(removedClient);
+                            readyClients.remove(removedClient);
+                            break;
+                        case "Energy":
+                            EnergyBody energyBody = Protocol.readJsonEnergy(json);
+                            int energyClient = energyBody.getClientID();
+                            int addCubes = energyBody.getCount();
+                            if(energyClient == clientID){
+                                energyCount = energyCount + addCubes;
+                            }
+                            break;
                     }
     }
 
@@ -483,8 +527,12 @@ public class AILow implements Runnable{
             int[] currentPo = new int[2];
             currentPositions.put(client, currentPo);
 
-            // init curren positions
-            currentDirections.put(client, Direction.RIGHT);
+            // init curren directions
+            if(mapName.equals("Death Trap")){
+                currentDirections.put(client, Direction.LEFT);
+            }else{
+                currentDirections.put(client, Direction.RIGHT);
+            }
         }
     }
 
@@ -571,7 +619,7 @@ public class AILow implements Runnable{
             for (int i = 0; i < 5; i++) {
                 // first register card can not be Again
                 if(i == 0 && myCards.get(0).equals("Again")){
-                    setRegister(myCards.get(5), 0);
+                    setRegister(myCards.get(5), 1);
                 }
                 setRegister(myCards.get(i), i+1);
             }
