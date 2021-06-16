@@ -414,8 +414,14 @@ public class Game {
      * @param clientID
      */
     public void reboot(int clientID, Position position, boolean fromPit) throws IOException {
-        // set robots position to start point
+        // got a spam card
+        String cardName = Laser.drawOneDamageCard(clientID);
+        List<String> damageCards = new ArrayList<>();
+        damageCards.add(cardName);
+        System.out.println("got damage card because of reboot");
+        Server.getServer().handleDrawDamage(clientID, damageCards);
 
+        // set robots position to start point
         playerPositions.get(clientID).setX(position.getX());
         playerPositions.get(clientID).setY(position.getY());
 
@@ -437,6 +443,19 @@ public class Game {
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
             System.out.println("game rebooted all players");
+
+            registerPointer = 0;
+            for (int cltID : clientIDs) {
+                // set all clients active
+                activePlayersList.add(cltID);
+
+                // reset all the register slots with no cards in game
+                RegisterCard[] registers = new RegisterCard[5];
+                registersAllClients.put(cltID, registers);
+            }
+            // reset selection finish list to null for the next round selection
+            selectionFinishList.clear();
+
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
             Server.getServer().handleActivePhase(2);
