@@ -1214,6 +1214,14 @@ public class ChatController {
                                 ImageView pushImg = new ImageView(PushPanel1);
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
+                                String pushDirection = obj.getOrientations().get(0);
+                                if(pushDirection.equals("bottom")){
+                                    pushImg.setRotate(pushImg.getRotate()+90);
+                                }else if(pushDirection.equals("left")){
+                                    pushImg.setRotate(pushImg.getRotate()+180);
+                                }else if(pushDirection.equals("top")){
+                                    pushImg.setRotate(pushImg.getRotate()+270);
+                                }
                                 gridPaneBoard.add(pushImg, i, j);
                                 break;
                             case "RestartPoint":
