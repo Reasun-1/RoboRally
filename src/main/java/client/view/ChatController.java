@@ -237,10 +237,8 @@ public class ChatController {
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 ObservableList<String> mapObsList = client.getMAPS();
                 System.out.println("in Controller " + mapObsList);
-                //if(mapObsList.size() == 4){
                 mapList.getItems().clear();
-                    mapList.getItems().addAll(mapObsList);
-                //}
+                mapList.getItems().addAll(mapObsList);
             }
         });
 
