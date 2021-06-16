@@ -112,6 +112,9 @@ public class Client extends Application {
     // count of energy cubes
     private StringProperty energyCount = new SimpleStringProperty("12");
 
+    private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
+
+
 
 
     // Getters
@@ -235,9 +238,9 @@ public class Client extends Application {
 
     public StringProperty energyCountProperty() { return energyCount; }
 
+    public ListProperty<String> MAPSProperty() { return MAPS; }
 
-
-
+    public ObservableList<String> getMAPS() { return MAPS.get(); }
 
     // Setters
     public void setName(String name) {
@@ -445,6 +448,12 @@ public class Client extends Application {
                             logger.info(json);
                             SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
                             List<String> availableMaps = selectMapBody.getAvailableMaps();
+
+                            for(String map : availableMaps){
+                                MAPS.add(map);
+                            }
+                            System.out.println("in client "+MAPS);
+
                             INFORMATION.set("");
                             INFORMATION.set("Select a map from: " + availableMaps);
                             CANSELECTMAP.set(true);

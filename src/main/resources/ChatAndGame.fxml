@@ -704,6 +704,11 @@
                                     <Insets top="20.0" />
                                  </HBox.margin>
                               </Label>
+                              <ComboBox fx:id="mapList" prefWidth="150.0">
+                                 <HBox.margin>
+                                    <Insets top="100.0" />
+                                 </HBox.margin>
+                              </ComboBox>
                               <TextArea fx:id="energyCube" prefHeight="21.0" prefWidth="30.0">
                                  <HBox.margin>
                                     <Insets bottom="120.0" left="5.0" top="20.0" />
