@@ -236,11 +236,12 @@ public class ChatController {
                 ObservableList<String> mapObsList = client.getMAPS();
                 System.out.println("in Controller " + mapObsList);
                 //if(mapObsList.size() == 4){
-                mapList.getItems().clear();
+                    mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
                 //}
             }
         });
+
 
         //bind flag replace register
         client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
