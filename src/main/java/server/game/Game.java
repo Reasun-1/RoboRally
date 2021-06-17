@@ -444,6 +444,9 @@ public class Game {
         Server.getServer().handleReboot(clientID);
         // inform all the position of reboot
         Server.getServer().handleMovement(clientID, position.getX(), position.getY());
+        setRebootDirectonToNord(clientID);
+        directionsAllClients.put(clientID, Direction.UP);
+
 
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
@@ -471,6 +474,29 @@ public class Game {
             ExecuteOrder.activePhase=2;
         }
 
+    }
+
+    /**
+     * set reboot direction to nord
+     * @param clientID
+     * @throws IOException
+     */
+    public void setRebootDirectonToNord(int clientID) throws IOException {
+        Direction direction = directionsAllClients.get(clientID);
+        switch (direction){
+            case UP:
+                break;
+            case RIGHT:
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                break;
+            case DOWN:
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                break;
+            case LEFT:
+                Server.getServer().handlePlayerTurning(clientID, "clockwise");
+                break;
+        }
     }
 
     /**
