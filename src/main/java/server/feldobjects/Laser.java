@@ -74,7 +74,6 @@ public class Laser extends FeldObject{
         String damageCardName = "";
 
         if(!Game.spamPile.isEmpty()){
-            System.out.println(clientID + " got lased and took a spam");
             Game.getInstance().discardedCards.get(clientID).add(Game.spamPile.pop());
             damageCardName = "Spam";
         }else if(!Game.wormPile.isEmpty()){

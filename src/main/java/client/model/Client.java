@@ -497,6 +497,7 @@ public class Client extends Application {
                                 phaseString = "Programmierphase";
                             } else {
                                 phaseString = "Aktivierungsphase";
+                                timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
                             break;
