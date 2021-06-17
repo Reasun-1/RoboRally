@@ -9,6 +9,12 @@ import server.network.Server;
 
 import java.io.IOException;
 
+/**
+ * @author can ren
+ * @author Megzon Mehmedali
+ * @create $(YEAR)-$(MONTH)-$(DAY)
+ */
+
 public class MoveII extends RegisterCard{
 
     String cardType; // PROGRAMME DAMAGE SPECIAL

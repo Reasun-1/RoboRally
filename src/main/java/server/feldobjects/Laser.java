@@ -61,7 +61,7 @@ public class Laser extends FeldObject{
             String cardName = drawOneDamageCard(clientID);
             damageCards.add(cardName);
         }
-        System.out.println("got " + laserNum + " damages : " + damageCards);
+        System.out.println("got damages : " + damageCards);
         Server.getServer().handleDrawDamage(clientID, damageCards);
     }
 
