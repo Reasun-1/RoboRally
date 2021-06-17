@@ -237,10 +237,13 @@ public class ChatController {
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 ObservableList<String> mapObsList = client.getMAPS();
                 System.out.println("in Controller " + mapObsList);
-                mapList.getItems().clear();
-                mapList.getItems().addAll(mapObsList);
+                if(mapList.getItems().size() < 4){
+                    mapList.getItems().clear();
+                    mapList.getItems().addAll(mapObsList);
+                }
             }
         });
+
 
         //bind flag replace register
         client.flagReplaceRegisterProperty().addListener(new ChangeListener<Number>() {
@@ -633,11 +636,12 @@ public class ChatController {
 
     @FXML
     private void selectMapEvent() throws JsonProcessingException {
-        client.handleMapSelected(mapList.getValue());
+        String mapSelected = mapList.getValue();
+        client.handleMapSelected(mapSelected);
     }
 
     @FXML
-    private void setStartPointEvent() throws JsonProcessingException {
+    private void setStartPointEvent() throws IOException {
         client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
     }
 
@@ -1212,6 +1216,14 @@ public class ChatController {
                                 ImageView pushImg = new ImageView(PushPanel1);
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
+                                String pushDirection = obj.getOrientations().get(0);
+                                if(pushDirection.equals("bottom")){
+                                    pushImg.setRotate(pushImg.getRotate()+90);
+                                }else if(pushDirection.equals("left")){
+                                    pushImg.setRotate(pushImg.getRotate()+180);
+                                }else if(pushDirection.equals("top")){
+                                    pushImg.setRotate(pushImg.getRotate()+270);
+                                }
                                 gridPaneBoard.add(pushImg, i, j);
                                 break;
                             case "RestartPoint":

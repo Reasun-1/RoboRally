@@ -260,9 +260,13 @@ public class ExecuteOrder {
                             break;
                     }
                 }
-                // if turn is not over inform next player to play
-                int curClient = Game.priorityEachTurn.get(0);
-                Server.getServer().handleCurrentPlayer(curClient);
+
+                if(!Game.priorityEachTurn.isEmpty()){
+                    // if turn is not over inform next player to play
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+                }
+
                 break;
             case "RebootDirection":
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);

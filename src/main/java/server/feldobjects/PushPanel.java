@@ -1,7 +1,11 @@
 package server.feldobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import server.game.Game;
+import server.game.Position;
+import server.network.Server;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,7 +19,7 @@ import java.util.List;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PushPanel extends FeldObject{
+public class PushPanel extends FeldObject {
 
     //private String type;
     private String isOnBoard;
@@ -31,13 +35,6 @@ public class PushPanel extends FeldObject{
         this.orientations = orientations;
         this.registers = registers;
     }
-
-    /*@Override
-    public String getType() {
-        return type;
-    }
-
-     */
 
     @Override
     public String getIsOnBoard() {
@@ -55,7 +52,38 @@ public class PushPanel extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID, FeldObject obj) {
-        //TODO
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
+        List<String> orientations = obj.getOrientations();
+        String pushDir = orientations.get(0);
+
+        Position position = Game.getInstance().playerPositions.get(clientID);
+        int curX = position.getX();
+        int curY = position.getY();
+
+        Position newPosition = null;
+
+        switch (pushDir) {
+            case "top":
+                newPosition = new Position(curX, curY - 1);
+                break;
+            case "bottom":
+                newPosition = new Position(curX, curY + 1);
+                break;
+            case "right":
+                newPosition = new Position(curX + 1, curY);
+                break;
+            case "left":
+                newPosition = new Position(curX - 1, curY);
+                break;
+        }
+
+        // check if robot is still on board
+        boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
+        if (isOnBoard) {
+            // set new Position in Game
+            Game.playerPositions.put(clientID, newPosition);
+            // transport new Position to client
+            Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
+        }
     }
 }

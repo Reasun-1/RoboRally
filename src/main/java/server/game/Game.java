@@ -86,7 +86,7 @@ public class Game {
             arrivedCheckpoints.put(client, new HashSet<>());
 
             // init energy cubes for each client
-            energyCubes.put(client, 12);
+            energyCubes.put(client, 5);
         }
         //iter = activePlayersList.iterator();
 
@@ -340,8 +340,8 @@ public class Game {
 
         // randomly change two cards for 50 times
         for (int i = 0; i < 50; i++) {
-            int indexCard1 = random.nextInt(9);
-            int indexCard2 = random.nextInt(9);
+            int indexCard1 = random.nextInt(20);
+            int indexCard2 = random.nextInt(20);
             RegisterCard card = cards.get(indexCard1);
             cards.set(indexCard1, cards.get(indexCard2));
             cards.set(indexCard2, card);
@@ -354,13 +354,7 @@ public class Game {
      * analog game rules, priority list will be reset
      */
     public void checkAndSetPriority() {
-        // soon: calculate distance to set priority
-        // here only for test
-        /*for (int clientID : activePlayersList) {
-            priorityEachTurn.add(clientID);
-        }
 
-         */
         Antenna.calculateDistances();
     }
 
@@ -420,8 +414,14 @@ public class Game {
      * @param clientID
      */
     public void reboot(int clientID, Position position, boolean fromPit) throws IOException {
-        // set robots position to start point
+        // got a spam card
+        String cardName = Laser.drawOneDamageCard(clientID);
+        List<String> damageCards = new ArrayList<>();
+        damageCards.add(cardName);
+        System.out.println("got damage card because of reboot");
+        Server.getServer().handleDrawDamage(clientID, damageCards);
 
+        // set robots position to start point
         playerPositions.get(clientID).setX(position.getX());
         playerPositions.get(clientID).setY(position.getY());
 
@@ -443,6 +443,19 @@ public class Game {
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
             System.out.println("game rebooted all players");
+
+            registerPointer = 0;
+            for (int cltID : clientIDs) {
+                // set all clients active
+                activePlayersList.add(cltID);
+
+                // reset all the register slots with no cards in game
+                RegisterCard[] registers = new RegisterCard[5];
+                registersAllClients.put(cltID, registers);
+            }
+            // reset selection finish list to null for the next round selection
+            selectionFinishList.clear();
+
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
             Server.getServer().handleActivePhase(2);

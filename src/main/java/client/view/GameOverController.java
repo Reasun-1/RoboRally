@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.Client;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -16,4 +17,5 @@ public class GameOverController {
     public void init(int winner) {
         winnerText.setText(""+winner);
     }
+
 }

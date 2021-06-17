@@ -516,12 +516,10 @@ public class Server {
     /**
      * inform all clients who has drawn which damage cards
      * @param clientID
-     * @param cardName
      * @throws IOException
      */
-    public void handleDrawDamage(int clientID, String cardName) throws IOException {
-        List<String> drawnDamageCards = new ArrayList<>();
-        drawnDamageCards.add(cardName);
+    public void handleDrawDamage(int clientID, List<String> drawnDamageCards) throws IOException {
+
         Protocol protocol = new Protocol("DrawDamage", new DrawDamageBody(clientID, drawnDamageCards));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs drawn damage cards");
