@@ -216,8 +216,11 @@ public class ExecuteOrder {
                 if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
-                    // if all clients finished programming, next phase begins
-                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {
+                    // if one client finished and AI also finished, start timer
+                } else if(Game.clientIDs.size() > 2 && Game.selectionFinishList.size() == 2 && Game.selectionFinishList.contains(clientIDOfAI)){
+                    Game.getInstance().startTimer();
+                    Server.getServer().handleTimerStarted();
+                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {// if all clients finished programming, next phase begins
                     Game.getInstance().stopTimer();
                     System.out.println("flag executeOrder: all players finished programmed.");
                     logger.info("executeOrder all clients finished programming in time");

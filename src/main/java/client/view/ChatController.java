@@ -84,6 +84,9 @@ public class ChatController {
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
+    @FXML
+    private TextArea timer;
+
 
     //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
@@ -217,8 +220,12 @@ public class ChatController {
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
 
+        //bind timer to timerScreen in client class
+        timer.textProperty().bindBidirectional(client.timerScreenProperty());
+
         //bind GAMEPHASE in client
         currentPhase.textProperty().bindBidirectional(client.GAMEPHASEProperty());
+        
 
         //bind CANCLICKFINISH in client
         finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
