@@ -403,10 +403,10 @@ public class Game {
         if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
             System.out.println("not on board anymore");
             if (position.getX() >= 3) {
-                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()),false);
+                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()), false);
             } else if (position.getX() < 3) {
                 System.out.println("x < 0");
-                reboot(clientID, startPositionsAllClients.get(clientID),false);
+                reboot(clientID, startPositionsAllClients.get(clientID), false);
             }
             return false;
         }
@@ -434,7 +434,7 @@ public class Game {
         registersAllClients.put(clientID, new RegisterCard[5]);
 
         // remove client from activePlayersList and current playersInTurn list
-        if(!fromPit){
+        if (!fromPit) {
             removeOneClientFromList(activePlayersList, clientID);
         }
 
@@ -471,19 +471,20 @@ public class Game {
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
             Server.getServer().handleActivePhase(2);
-            ExecuteOrder.activePhase=2;
+            ExecuteOrder.activePhase = 2;
         }
 
     }
 
     /**
      * set reboot direction to nord
+     *
      * @param clientID
      * @throws IOException
      */
     public void setRebootDirectonToNord(int clientID) throws IOException {
         Direction direction = directionsAllClients.get(clientID);
-        switch (direction){
+        switch (direction) {
             case UP:
                 break;
             case RIGHT:
@@ -511,6 +512,7 @@ public class Game {
         System.out.println("game checkturnover prints prioritylist: " + priorityEachTurn);
         if (priorityEachTurn.size() == 0) {
             activeBoardElements();
+            robotShoot();
             System.out.println("active players: " + activePlayersList);
             checkAndSetPriority();
             registerPointer++;
@@ -525,7 +527,7 @@ public class Game {
      */
     public void activeBoardElements() throws IOException {
 
-        for (Iterator<Integer> iterator= activePlayersList.iterator();iterator.hasNext();) {
+        for (Iterator<Integer> iterator = activePlayersList.iterator(); iterator.hasNext(); ) {
             int client = iterator.next();
             Position position = playerPositions.get(client);
             int x = position.getX();
@@ -533,9 +535,9 @@ public class Game {
 
             List<FeldObject> feldObjects = board.get(x).get(y);
             for (FeldObject obj : feldObjects) {
-                if(obj.getClass().getSimpleName().equals("Pit")){
+                if (obj.getClass().getSimpleName().equals("Pit")) {
                     iterator.remove();
-                    reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()),true);
+                    reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()), true);
                 }
                 if (!obj.getClass().getSimpleName().equals("Empty") && !obj.getClass().getSimpleName().equals("Pit")) {
                     obj.doBoardFunction(client, obj);
@@ -706,12 +708,12 @@ public class Game {
     public void findAntenna() {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
-                    if (board.get(i).get(j).get(0).getClass().getSimpleName().equals("Antenna")) {
-                        Antenna antenna = (Antenna) (board.get(i).get(j).get(0));
-                        String dirAntenna = antenna.getOrientations().get(0);
-                        positionAntenna = new Position(i, j);
-                        directionAntenna = dirAntenna;
-                    }
+                if (board.get(i).get(j).get(0).getClass().getSimpleName().equals("Antenna")) {
+                    Antenna antenna = (Antenna) (board.get(i).get(j).get(0));
+                    String dirAntenna = antenna.getOrientations().get(0);
+                    positionAntenna = new Position(i, j);
+                    directionAntenna = dirAntenna;
+                }
 
             }
 
@@ -720,32 +722,58 @@ public class Game {
     }
 
     /**
-     * invoked from Game: activatePhase
+     * calculate the shooting line and check if there are other robots in the line
+     * @throws IOException
      */
-    public void shootLaser() {
+    public void robotShoot() throws IOException {
+        for (int bot : activePlayersList) {
+            Direction direction = directionsAllClients.get(bot);
+            int botX = playerPositions.get(bot).getX();
+            int botY = playerPositions.get(bot).getY();
 
-        setRobotLaserLine();
-
-        // check damage for each robot
-        for (int i = 0; i < clientIDs.size(); i++) {
+            switch (direction) {
+                case UP:
+                    for (int i = 0; i < botY; i++) {
+                        checkHit(botX, i);
+                    }
+                    break;
+                case DOWN:
+                    for (int i = botY+1; i < 10; i++) {
+                        checkHit(botX, i);
+                    }
+                    break;
+                case RIGHT:
+                    for (int i = botX+1; i < 13; i++) {
+                        checkHit(i, botY);
+                    }
+                    break;
+                case LEFT:
+                    for (int i = 0; i < botX; i++) {
+                        checkHit(i, botY);
+                    }
+                    break;
+            }
         }
-
-        clearRobotLaseLine();
-    }
-
-
-    /**
-     * invoked from Game: shootLaser
-     * calculate the line of robot laser, set the line into board list (3D)
-     */
-    public void setRobotLaserLine() {
     }
 
     /**
-     * invoked from Game: shootLaser
-     * erase the line of robot laser from board list (3D), ready for next turn
+     * check if there are other robots in the shooting line
+     * @param x
+     * @param y
+     * @throws IOException
      */
-    public void clearRobotLaseLine() {
+    public void checkHit(int x, int y) throws IOException {
+        for (int clt : activePlayersList) {
+            if (x == playerPositions.get(clt).getX() && y == playerPositions.get(clt).getY()) {
+
+                List<String> damageCards = new ArrayList<>();
+                String cardName = Laser.drawOneDamageCard(clt);
+                damageCards.add(cardName);
+
+                System.out.println("got damages by bot shooting : " + damageCards);
+                Server.getServer().handleDrawDamage(clt, damageCards);
+            }
+        }
     }
 
     // only for test:
