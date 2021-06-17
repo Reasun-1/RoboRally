@@ -96,12 +96,6 @@ public class Game {
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
 
-            //================Test Cards====================
-            for (int i = 0; i < 3; i++) {
-                cards.add(new Worm());
-            }
-            //==============================================
-
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
             }
