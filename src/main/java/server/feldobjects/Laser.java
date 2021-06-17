@@ -77,15 +77,15 @@ public class Laser extends FeldObject{
             System.out.println(clientID + " got lased and took a spam");
             Game.getInstance().discardedCards.get(clientID).add(Game.spamPile.pop());
             damageCardName = "Spam";
+        }else if(!Game.wormPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.wormPile.pop());
+            damageCardName = "Worm";
         }else if(!Game.virusPile.isEmpty()){
             Game.getInstance().discardedCards.get(clientID).add(Game.virusPile.pop());
             damageCardName = "Virus";
         }else if(!Game.trojanHorsePile.isEmpty()){
             Game.getInstance().discardedCards.get(clientID).add(Game.trojanHorsePile.pop());
             damageCardName = "Trojan";
-        }else if(!Game.wormPile.isEmpty()){
-            Game.getInstance().discardedCards.get(clientID).add(Game.wormPile.pop());
-            damageCardName = "Worm";
         }
         return damageCardName;
     }

@@ -1,6 +1,7 @@
 package server.game;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import protocol.ExecuteOrder;
 import server.feldobjects.*;
 import server.maps.Board;
 import server.network.Server;
@@ -95,6 +96,11 @@ public class Game {
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
 
+            //================Test Cards====================
+            for (int i = 0; i < 3; i++) {
+                cards.add(new Worm());
+            }
+            //==============================================
 
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
@@ -286,9 +292,12 @@ public class Game {
                 }
 
                 // filter the discardedCardDeck for damage cards
+                List<RegisterCard> tempToRemove = new ArrayList<>();
                 for (RegisterCard card : discardedCards.get(clientID)) {
                     if (!card.getCardType().equals("PROGRAMME")) {
-                        discardedCards.get(clientID).remove(card);
+                        //discardedCards.get(clientID).remove(card);
+                        tempToRemove.add(card);
+
                         if (card.getCardName().equals("Spam")) {
                             spamPile.push(card);
                         } else if (card.getCardName().equals("Trojan")) {
@@ -298,8 +307,10 @@ public class Game {
                         } else if (card.getCardName().equals("Worm")) {
                             wormPile.push(card);
                         }
+
                     }
                 }
+                discardedCards.get(clientID).removeAll(tempToRemove);
             }
             drawCardsAllClients.put(clientID, list);
             // only for test
@@ -442,9 +453,13 @@ public class Game {
 
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
-            System.out.println("game rebooted all players");
 
+            System.out.println("game rebooted all players");
+            ExecuteOrder.allplayersRebooted = true;
+            activePlayersList.clear();
+            priorityEachTurn.clear();
             registerPointer = 0;
+
             for (int cltID : clientIDs) {
                 // set all clients active
                 activePlayersList.add(cltID);
@@ -459,6 +474,7 @@ public class Game {
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
             Server.getServer().handleActivePhase(2);
+            ExecuteOrder.activePhase=2;
         }
 
     }
@@ -471,8 +487,8 @@ public class Game {
      */
     public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
-        System.out.println("game turn over: " + registerPointer);
-        System.out.println("turn over prioritylist: " + priorityEachTurn);
+        System.out.println("game reg Pointer: " + registerPointer);
+        System.out.println("game checkturnover prints prioritylist: " + priorityEachTurn);
         if (priorityEachTurn.size() == 0) {
             activeBoardElements();
             System.out.println("active players: " + activePlayersList);
