@@ -1,0 +1,54 @@
+package server.network;
+
+import ai.AILow;
+import client.model.Client;
+import javafx.application.Application;
+
+import java.io.IOException;
+
+/**
+ * @author can ren
+ * @create $(YEAR)-$(MONTH)-$(DAY)
+ */
+public class Main {
+    public static void main(String[] args) throws InterruptedException, IOException {
+
+        Thread t0 = new Thread(new Runnable() {
+            public void run() {
+
+                try {
+                    Server server = new Server();
+                    server.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        t0.start();
+
+
+
+        Thread.sleep(5000);
+
+        Thread t1 = new Thread(new Runnable() {
+            public void run() {
+
+                Application.launch(Client.class, args);
+
+            }
+        });
+        t1.start();
+
+
+        Thread.sleep(5000);
+
+
+        AILow ki = new AILow();
+        Thread thread = new Thread(ki);
+        thread.start();
+
+
+
+    }
+}

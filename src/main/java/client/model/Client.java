@@ -302,7 +302,7 @@ public class Client extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
