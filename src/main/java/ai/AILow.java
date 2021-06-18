@@ -704,9 +704,10 @@ public class AILow implements Runnable{
             for (int i = 0; i < 5; i++) {
                 // first register card can not be Again
                 if(i == 0 && myCards.get(0).equals("Again")){
-                    setRegister(myCards.get(5), 1);
+                    setRegister(myCards.get(6), 1);
+                }else{
+                    setRegister(myCards.get(i), i+1);
                 }
-                setRegister(myCards.get(i), i+1);
             }
             selectFinish();
         }

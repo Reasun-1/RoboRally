@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * @author can ren
+ * @author Megzon Mehmedali
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Again extends RegisterCard{

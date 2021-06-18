@@ -117,9 +117,10 @@ public class Client extends Application {
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
     // count of energy cubes
     private StringProperty energyCount = new SimpleStringProperty("5");
-
+    // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
-
+    // bind timer to ChatController
+    private StringProperty timerScreen = new SimpleStringProperty();
 
 
 
@@ -247,6 +248,11 @@ public class Client extends Application {
     public ListProperty<String> MAPSProperty() { return MAPS; }
 
     public ObservableList<String> getMAPS() { return MAPS.get(); }
+
+    public StringProperty timerScreenProperty() { return timerScreen; }
+
+
+
 
     // Setters
     public void setName(String name) {
@@ -491,6 +497,7 @@ public class Client extends Application {
                                 phaseString = "Programmierphase";
                             } else {
                                 phaseString = "Aktivierungsphase";
+                                timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
                             break;
@@ -576,11 +583,13 @@ public class Client extends Application {
                         case "TimerStarted":
                             ISTIMERON.set(true);
                             logger.info("timer is on");
+                            timerScreen.set("ON");
                             break;
                         case "TimerEnded":
                             TimerEndedBody timerEndedBody = Protocol.readJsonTimerEnded(json);
                             List<Integer> clientIDs = timerEndedBody.getClientIDs();
                             logger.info(clientIDs + " did not finish.");
+                            timerScreen.set("OFF");
                             break;
                         case "CardsYouGotNow":
                             CardsYouGotNowBody cardsYouGotNowBody = Protocol.readJsonCardsYouGotNow(json);
@@ -853,6 +862,9 @@ public class Client extends Application {
             }
         }
 
+        // init timer to off
+        timerScreen.set("OFF");
+
         // inti available StartsPoints
         avaibleStartsMaps.add(new Position(1,1));
         avaibleStartsMaps.add(new Position(0,3));
@@ -981,6 +993,7 @@ public class Client extends Application {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         CANCLICKFINISH.set(false);
+        timerScreen.set("OFF");
         OUT.println(json);
     }
 

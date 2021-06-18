@@ -1,6 +1,11 @@
 package server.registercards;
 
+import server.game.Game;
+import server.game.Position;
+
 import java.io.IOException;
+
+import static server.game.Game.rebootPosition;
 
 /**
  * @author can ren
@@ -33,6 +38,12 @@ public class Worm extends RegisterCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-        //TODO
+        System.out.println("player played worm");
+        Position position = Game.playerPositions.get(clientID);
+        if (position.getX() >= 3) {
+            Game.getInstance().reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()),false);
+        } else if (position.getX() < 3) {
+            Game.getInstance().reboot(clientID, Game.startPositionsAllClients.get(clientID),false);
+        }
     }
 }

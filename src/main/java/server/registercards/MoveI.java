@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * @author can ren
+ * @author Megzon Mehmedali
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class MoveI extends RegisterCard{

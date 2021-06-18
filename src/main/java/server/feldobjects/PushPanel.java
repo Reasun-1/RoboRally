@@ -55,35 +55,42 @@ public class PushPanel extends FeldObject {
     public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
         List<String> orientations = obj.getOrientations();
         String pushDir = orientations.get(0);
+        List<Integer> registers = obj.getRegisters();
 
-        Position position = Game.getInstance().playerPositions.get(clientID);
-        int curX = position.getX();
-        int curY = position.getY();
+        // do push if the register no. in registers of push panels
+        if (registers.contains(Game.registerPointer+1)) {
 
-        Position newPosition = null;
 
-        switch (pushDir) {
-            case "top":
-                newPosition = new Position(curX, curY - 1);
-                break;
-            case "bottom":
-                newPosition = new Position(curX, curY + 1);
-                break;
-            case "right":
-                newPosition = new Position(curX + 1, curY);
-                break;
-            case "left":
-                newPosition = new Position(curX - 1, curY);
-                break;
-        }
+            Position position = Game.getInstance().playerPositions.get(clientID);
+            int curX = position.getX();
+            int curY = position.getY();
 
-        // check if robot is still on board
-        boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
-        if (isOnBoard) {
-            // set new Position in Game
-            Game.playerPositions.put(clientID, newPosition);
-            // transport new Position to client
-            Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
+            Position newPosition = null;
+
+
+            switch (pushDir) {
+                case "top":
+                    newPosition = new Position(curX, curY - 1);
+                    break;
+                case "bottom":
+                    newPosition = new Position(curX, curY + 1);
+                    break;
+                case "right":
+                    newPosition = new Position(curX + 1, curY);
+                    break;
+                case "left":
+                    newPosition = new Position(curX - 1, curY);
+                    break;
+            }
+
+            // check if robot is still on board
+            boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
+            if (isOnBoard) {
+                // set new Position in Game
+                Game.playerPositions.put(clientID, newPosition);
+                // transport new Position to client
+                Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
+            }
         }
     }
 }

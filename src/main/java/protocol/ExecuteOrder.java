@@ -29,6 +29,8 @@ public class ExecuteOrder {
     public static HashMap<Integer, Connected> connectList = new HashMap<>();
     public static HashMap<Integer, AliveCheck> aliveCheckList = new HashMap<>();
     public static int clientIDOfAI = 0;
+    public static int activePhase = 0;
+    public static boolean allplayersRebooted = false;
 
 
     public static void executeOrder(int clientID, String json) throws IOException, ClassNotFoundException {
@@ -184,6 +186,7 @@ public class ExecuteOrder {
                     // if all players haven chosen start points, go to next phase
                 } else if (Server.clientListPointer == Server.clientList.size()) {
                     Server.getServer().handleActivePhase(2);
+                    activePhase = 2;
                     Server.getServer().handleYourCards();
                 }
                 break;
@@ -213,14 +216,18 @@ public class ExecuteOrder {
                 if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
-                    // if all clients finished programming, next phase begins
-                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {
+                    // if one client finished and AI also finished, start timer
+                } else if(Game.clientIDs.size() > 2 && Game.selectionFinishList.size() == 2 && Game.selectionFinishList.contains(clientIDOfAI)){
+                    Game.getInstance().startTimer();
+                    Server.getServer().handleTimerStarted();
+                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {// if all clients finished programming, next phase begins
                     Game.getInstance().stopTimer();
                     System.out.println("flag executeOrder: all players finished programmed.");
                     logger.info("executeOrder all clients finished programming in time");
 
                     // Aktivierungsphase beginns
                     Server.getServer().handleActivePhase(3);
+                    activePhase = 3;
                     // inform all clients about current register cards of all
                     Server.getServer().handleCurrentCards();
                     // set priority for this turn
@@ -232,6 +239,7 @@ public class ExecuteOrder {
                 break;
             case "PlayCard":
                 logger.info("executeOrder playCard");
+                allplayersRebooted = false;
                 PlayCardBody playCardBody = Protocol.readJsonPlayCard(json);
                 String cardName = playCardBody.getCard();
                 // server inform others which card was by whom played
@@ -241,9 +249,13 @@ public class ExecuteOrder {
                 Game.getInstance().playCard(clientID, card);
 
                 // if damage card played, must be replaced and play again
-                if (card.getCardType().equals("PROGRAMME") && !Game.priorityEachTurn.isEmpty()) {
+                if ((card.getCardType().equals("PROGRAMME") ||card.getCardName().equals("Worm") ) && !Game.priorityEachTurn.isEmpty()) {
                     Game.priorityEachTurn.remove(0);
                 }
+
+                // if not all players rebooted, check turn over, otherwise break
+                if(!allplayersRebooted && activePhase != 2){
+
 
                 // check turnOver
                 boolean isTurnOver = Game.getInstance().checkTurnOver();
@@ -257,11 +269,11 @@ public class ExecuteOrder {
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
                             Server.getServer().handleActivePhase(2);
+                            activePhase = 2;
                             break;
                     }
                 }
 
-                if(!Game.priorityEachTurn.isEmpty()){
                     // if turn is not over inform next player to play
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
