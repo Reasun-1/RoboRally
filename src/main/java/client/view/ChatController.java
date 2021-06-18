@@ -100,8 +100,6 @@ public class ChatController {
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
-    @FXML
-    private TextArea timer;
 
 
     //====================DrawnCardsBindings===================================
