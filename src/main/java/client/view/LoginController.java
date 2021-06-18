@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseListener;
+
 /**
  * @author chiara welz
  * @author yuliia shaparenko
@@ -21,25 +23,15 @@ public class LoginController {
     private Client client;
 
     @FXML
-    private TextField name;
-
-    @FXML
-    private Button startButton;
-
-    @FXML
     private Label clientID;
-
     @FXML
-    private TextField clientIIDD;
-
-    //private TextField robotFigure;
-
-    @FXML
-    private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
-
+    private TextField name;
     @FXML
     private TextArea robotFigure;
-
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
 
 
 
@@ -53,6 +45,7 @@ public class LoginController {
         clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
 
         startButton.disableProperty().bind(robotFigure.textProperty().isEmpty().or(name.textProperty().isEmpty()));
+
         //Chose the robot NR. per button
         iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -111,6 +104,7 @@ public class LoginController {
         client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         stage.close();
     }
+
 
 
 }

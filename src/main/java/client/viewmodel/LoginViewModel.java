@@ -4,6 +4,7 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Button;
 
 /**
  * logInVieModel Class represents the UI state and it should provide the properties included in the FXML
@@ -45,5 +46,8 @@ public class LoginViewModel {
         return LOGININDEED.getReadOnlyProperty();
     }
 
+    }
 
-}
+
+
+
