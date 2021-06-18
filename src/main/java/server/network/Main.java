@@ -3,6 +3,8 @@ package server.network;
 import ai.AILow;
 import client.model.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -43,10 +45,23 @@ public class Main {
 
         Thread.sleep(5000);
 
-
+/*
+        //optional: play with AI
         AILow ki = new AILow();
         Thread thread = new Thread(ki);
         thread.start();
+
+ */
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Client().start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
 
