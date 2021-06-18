@@ -3,6 +3,7 @@ package client.view;
 import client.model.Client;
 //import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -12,10 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -24,6 +22,7 @@ import server.feldobjects.FeldObject;
 import server.game.Direction;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,7 +71,10 @@ public class ChatController {
     @FXML
     private Button finish; // invoke methode finishEvent()
     @FXML
-    private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
+    private Button canPlayNextRegister; // invoke methode playNextRegisterEvent()
+    //TODO Button for all comboboxes
+    @FXML
+    private Button btnSetRegister;
     @FXML
     private ImageView myFigure;
     @FXML
@@ -80,7 +82,7 @@ public class ChatController {
     @FXML
     private Button testButton;
     @FXML
-    private TextArea energyCube;
+    private Label energyCube;
     @FXML
     private TextArea timer;
     @FXML
@@ -193,7 +195,6 @@ public class ChatController {
         drawnA6.getItems().addAll(regList);
         drawnA7.getItems().addAll(regList);
         drawnA8.getItems().addAll(regList);
-
 
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
@@ -407,8 +408,26 @@ public class ChatController {
                 setMapInGUI(mapInGUI);
             }
         });
+/*
+        @FXML
+        public void drawnButton0() throws IOException {
+            System.out.println("drawnButton0 clicked.");
+            // set Image to right register
+            int regNum = drawnA0.getValue();
+            Image image = DrawnCard0.getImage();
+            setRegCard(regNum, image);
+
+            DrawnCard0.setImage(imageDiscard);
+            regButton.put(regNum, 0);*/
 
         //====================Bindings for drawnCards===================
+        client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
+            @Override
+            public void changed(ObservableValue<? extends ObservableList<String>> observable, ObservableList<String> oldValue, ObservableList<String> newValue) {
+
+            }
+        });
+
         client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
