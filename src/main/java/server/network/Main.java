@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * @author can ren
+ * @author Jonas Gottal
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Main {
