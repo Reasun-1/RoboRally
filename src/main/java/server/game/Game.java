@@ -1,15 +1,17 @@
 package server.game;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
+import protocol.ExecuteOrder;
+import server.feldobjects.*;
 import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
 
+import javax.print.attribute.IntegerSyntax;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.zip.CheckedInputStream;
 
 public class Game {
 
@@ -18,7 +20,6 @@ public class Game {
 
     List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
     List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
-    List<Integer> energyCubes; // who has how many cubes
     int energyBank; // total common energy cubes for the game
     boolean isGameOver; // true for game over
 
@@ -26,7 +27,7 @@ public class Game {
     //==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
-    @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS)
+    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
     public static String mapName = null; // storage for map name
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
@@ -40,6 +41,18 @@ public class Game {
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
+    public static int checkPointTotal = 0;
+    public static Position rebootPosition = new Position();// storage of the reboot position
+    public static Stack<RegisterCard> spamPile = new Stack<>(); // pile for 38 Spam cards
+    public static Stack<RegisterCard> trojanHorsePile = new Stack<>(); // pile for 12 TrojanHorse cards
+    public static Stack<RegisterCard> wormPile = new Stack<>(); // pile for 6 Worm cards
+    public static Stack<RegisterCard> virusPile = new Stack<>(); // pile for 18 Virus cards
+    public static boolean hasMap = false; // flag for selected map
+    public static HashMap<Integer, Integer> energyCubes = new HashMap<>();// key=clientID, value=energyCount
+    public static Position positionAntenna = null;
+    public static String directionAntenna = null;
+    //public static Iterator<Integer> iter = activePlayersList.iterator();
+
 
     /**
      * constructor Game:
@@ -55,31 +68,34 @@ public class Game {
      */
     public void initGame() {
 
-        for(int client : clientIDs){
+        for (int client : clientIDs) {
             // init registers with 5 slots for all clients
             RegisterCard[] registers = new RegisterCard[5];
             registersAllClients.put(client, registers);
 
-            // init directions of all clients to RIGHT
-            directionsAllClients.put(client, Direction.RIGHT);
+            // init directions of all clients
+            if (mapName.equals("Death Trap")) {
+                directionsAllClients.put(client, Direction.LEFT);
+            } else {
+                directionsAllClients.put(client, Direction.RIGHT);
+            }
 
             // init activePlayerList with all clients
             activePlayersList.add(client);
 
             // init arrivedCheckpoints list
             arrivedCheckpoints.put(client, new HashSet<>());
+
+            // init energy cubes for each client
+            energyCubes.put(client, 5);
         }
+        //iter = activePlayersList.iterator();
 
         // init undrawn and discarded cards deck for each player
-        for(int client : clientIDs){
+        for (int client : clientIDs) {
             // for undrawn cards
             List<RegisterCard> cards = new ArrayList<>();
-            for (int i = 0; i < Again.cardCount; i++) {
-                cards.add(new Again());
-            }
-            for (int i = 0; i < UTurn.cardCount; i++) {
-                cards.add(new UTurn());
-            }
+
             for (int i = 0; i < MoveIII.cardCount; i++) {
                 cards.add(new MoveIII());
             }
@@ -89,26 +105,49 @@ public class Game {
             for (int i = 0; i < MoveI.cardCount; i++) {
                 cards.add(new MoveI());
             }
-
             for (int i = 0; i < BackUp.cardCount; i++) {
                 cards.add(new BackUp());
             }
+
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
+
+            for (int i = 0; i < UTurn.cardCount; i++) {
+                cards.add(new UTurn());
+            }
             for (int i = 0; i < TurnRight.cardCount; i++) {
                 cards.add(new TurnRight());
+            }
+            for (int i = 0; i < Again.cardCount; i++) {
+                cards.add(new Again());
             }
 
             for (int i = 0; i < MoveII.cardCount; i++) {
                 cards.add(new MoveII());
             }
 
-            undrawnCards.put(client, cards);
+            List<RegisterCard> shuffledDeck = shuffleUndrawnDeck(cards);
+
+            undrawnCards.put(client, shuffledDeck);
 
             // init for discarded cards
             List<RegisterCard> discards = new ArrayList<>();
             discardedCards.put(client, discards);
+
+            // init for damage card piles
+            for (int i = 0; i < Spam.cardCount; i++) {
+                spamPile.push(new Spam());
+            }
+            for (int i = 0; i < Trojan.cardCount; i++) {
+                trojanHorsePile.push(new Trojan());
+            }
+            for (int i = 0; i < Worm.cardCount; i++) {
+                wormPile.push(new Worm());
+            }
+            for (int i = 0; i < Virus.cardCount; i++) {
+                virusPile.push(new Virus());
+            }
 
         }
     }
@@ -116,11 +155,11 @@ public class Game {
     /**
      * init Board
      */
-    public void initBoard(){
+    public void initBoard() {
         // init board (start board + game board)
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 13; i++) {
             List<List<FeldObject>> row = new ArrayList<>();
-            for (int j = 0; j < 13; j++) {
+            for (int j = 0; j < 10; j++) {
                 List<FeldObject> zelle = new ArrayList<>();
                 row.add(zelle);
             }
@@ -130,15 +169,31 @@ public class Game {
 
     /**
      * invoked fom "MapSelected" in ExecuteOrder
+     *
      * @param mapName
      */
     public void setMap3DList(String mapName) {
         logger.info("Game sets map.");
-        switch (mapName){
+        switch (mapName) {
             case "Dizzy Highway":
                 Board.buildDizzyHighway();
                 break;
+            case "Lost Bearings":
+                Board.buildLostBearings();
+                break;
+            case "Death Trap":
+                Board.buildDeathTrap();
+                break;
+            case "Extra Crispy":
+                Board.buildExtraCrispy();
+                break;
         }
+        // count the total num of checkpoints
+        findCheckpointTotal();
+        // store the position of reboot
+        findRebootPosition();
+        // store the position and direction of antenna
+        findAntenna();
     }
 
 
@@ -167,8 +222,20 @@ public class Game {
                     RegisterCard card = undrawnCards.get(clientID).get(i);
                     String cardName = card.getCardName();
                     list.add(cardName);
-                    // add the drawn cards to discarded card deck
-                    discardedCards.get(clientID).add(card);
+                    // add the drawn cards to discarded card deck or damage card piles
+                    if (card.getCardType().equals("PROGRAMME")) {
+                        discardedCards.get(clientID).add(card);
+                    } else { // if this is a damage card, put it into damage card piles
+                        if (card.getCardName().equals("Spam")) {
+                            spamPile.push(card);
+                        } else if (card.getCardName().equals("Trojan")) {
+                            trojanHorsePile.push(card);
+                        } else if (card.getCardName().equals("Virus")) {
+                            virusPile.push(card);
+                        } else if (card.getCardName().equals("Worm")) {
+                            wormPile.push(card);
+                        }
+                    }
                 }
                 // the first 9 cards have been drawn, remove them from deck
                 for (int i = 0; i < 9; i++) {
@@ -197,7 +264,7 @@ public class Game {
 
                 // put discarded cards deck into undrawn deck
                 undrawnCards.get(clientID).addAll(discardedCards.get(clientID));
-                System.out.println(discardedCards.get(clientID) + " : "+ discardedCards.get(clientID).size());
+                System.out.println(discardedCards.get(clientID) + " : " + discardedCards.get(clientID).size());
                 // put drawn cards in this round into discarded deck
                 discardedCards.get(clientID).clear();
                 discardedCards.get(clientID).addAll(tempListForDrawnCards);
@@ -217,12 +284,33 @@ public class Game {
                     discardedCards.get(clientID).add(undrawnCards.get(clientID).get(0));
                     undrawnCards.get(clientID).remove(0);
                 }
+
+                // filter the discardedCardDeck for damage cards
+                List<RegisterCard> tempToRemove = new ArrayList<>();
+                for (RegisterCard card : discardedCards.get(clientID)) {
+                    if (!card.getCardType().equals("PROGRAMME")) {
+                        //discardedCards.get(clientID).remove(card);
+                        tempToRemove.add(card);
+
+                        if (card.getCardName().equals("Spam")) {
+                            spamPile.push(card);
+                        } else if (card.getCardName().equals("Trojan")) {
+                            trojanHorsePile.push(card);
+                        } else if (card.getCardName().equals("Virus")) {
+                            virusPile.push(card);
+                        } else if (card.getCardName().equals("Worm")) {
+                            wormPile.push(card);
+                        }
+
+                    }
+                }
+                discardedCards.get(clientID).removeAll(tempToRemove);
             }
             drawCardsAllClients.put(clientID, list);
             // only for test
-            for(int clientNum : clientIDs){
+            for (int clientNum : clientIDs) {
                 System.out.println(clientNum + " undrawncardsNum: " + undrawnCards.get(clientNum).size());
-                System.out.println(clientNum + " discardedNum: " +  discardedCards.get(clientNum).size());
+                System.out.println(clientNum + " discardedNum: " + discardedCards.get(clientNum).size());
             }
         }
         return drawCardsAllClients;
@@ -231,7 +319,7 @@ public class Game {
     /**
      * invoke method in class Timer(in another thread)
      */
-    public void startTimer(){
+    public void startTimer() {
         Thread thread = new Thread(Timer.timer);
         thread.start();
         logger.info("game starts timer");
@@ -240,9 +328,30 @@ public class Game {
     /**
      * if all players finished programming within 30 seconds, timer stops
      */
-    public void stopTimer(){
+    public void stopTimer() {
         Timer.flag = false;
         logger.info("game stops timer");
+    }
+
+    /**
+     * shuffle undrawn deck
+     *
+     * @param cards
+     * @return
+     */
+    public List<RegisterCard> shuffleUndrawnDeck(List<RegisterCard> cards) {
+
+        java.util.Random random = new Random();
+
+        // randomly change two cards for 50 times
+        for (int i = 0; i < 50; i++) {
+            int indexCard1 = random.nextInt(20);
+            int indexCard2 = random.nextInt(20);
+            RegisterCard card = cards.get(indexCard1);
+            cards.set(indexCard1, cards.get(indexCard2));
+            cards.set(indexCard2, card);
+        }
+        return cards;
     }
 
     /**
@@ -250,19 +359,16 @@ public class Game {
      * analog game rules, priority list will be reset
      */
     public void checkAndSetPriority() {
-        // soon: calculate distance to set priority
-        // here only for test
-        for (int clientID : activePlayersList){
-            priorityEachTurn.add(clientID);
-        }
+
+        Antenna.calculateDistances();
     }
 
     // help function to remove one client from a list
-    public static List<Integer> removeOneClientFromList(List<Integer> list, int clientID){
+    public static List<Integer> removeOneClientFromList(List<Integer> list, int clientID) {
         Iterator iterator = list.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Object cur = iterator.next();
-            if(cur.equals(clientID)){
+            if (cur.equals(clientID)) {
                 iterator.remove();
             }
         }
@@ -271,19 +377,21 @@ public class Game {
 
     /**
      * execute the logical functions for the played card
+     *
      * @param clientID
      * @param card
      */
     public void playCard(int clientID, RegisterCard card) throws IOException {
         // if no card played, skip
         // if card played, do card function
-        if(card != null){
+        if (card != null) {
             card.doCardFunction(clientID);
         }
     }
 
     /**
      * check if a client´s position out of board
+     *
      * @param clientID
      * @param position
      * @return
@@ -292,13 +400,13 @@ public class Game {
         System.out.println("Game checks onBoard.");
         System.out.println("new position: " + position.getX() + "-" + position.getY());
         // if out of board, reboot and clear the registers and remove from priorityList
-        if(position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9){
+        if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
             System.out.println("not on board anymore");
-            if(position.getX() >= 3){
-                reboot(clientID, new Position(7,3));
-            }else if(position.getX() < 3){
+            if (position.getX() >= 3) {
+                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()), false);
+            } else if (position.getX() < 3) {
                 System.out.println("x < 0");
-                reboot(clientID, startPositionsAllClients.get(clientID));
+                reboot(clientID, startPositionsAllClients.get(clientID), false);
             }
             return false;
         }
@@ -307,11 +415,18 @@ public class Game {
 
     /**
      * if one player out of board, reboot
+     *
      * @param clientID
      */
-    public void reboot(int clientID, Position position) throws IOException {
-        // set robots position to start point
+    public void reboot(int clientID, Position position, boolean fromPit) throws IOException {
+        // got a spam card
+        String cardName = Laser.drawOneDamageCard(clientID);
+        List<String> damageCards = new ArrayList<>();
+        damageCards.add(cardName);
+        System.out.println("got damage card because of reboot");
+        Server.getServer().handleDrawDamage(clientID, damageCards);
 
+        // set robots position to start point
         playerPositions.get(clientID).setX(position.getX());
         playerPositions.get(clientID).setY(position.getY());
 
@@ -319,31 +434,90 @@ public class Game {
         registersAllClients.put(clientID, new RegisterCard[5]);
 
         // remove client from activePlayersList and current playersInTurn list
-        removeOneClientFromList(activePlayersList, clientID);
-        removeOneClientFromList(priorityEachTurn, clientID);
+        if (!fromPit) {
+            removeOneClientFromList(activePlayersList, clientID);
+        }
+
+        System.out.println("game reboots: actList: " + activePlayersList);
 
         // inform others about reboot client
         Server.getServer().handleReboot(clientID);
         // inform all the position of reboot
         Server.getServer().handleMovement(clientID, position.getX(), position.getY());
+        setRebootDirectonToNord(clientID);
+        directionsAllClients.put(clientID, Direction.UP);
+
+
+        // if all players rebooted, start a new round
+        if (activePlayersList.size() == 0) {
+
+            System.out.println("game rebooted all players");
+            ExecuteOrder.allplayersRebooted = true;
+            activePlayersList.clear();
+            priorityEachTurn.clear();
+            registerPointer = 0;
+
+            for (int cltID : clientIDs) {
+                // set all clients active
+                activePlayersList.add(cltID);
+
+                // reset all the register slots with no cards in game
+                RegisterCard[] registers = new RegisterCard[5];
+                registersAllClients.put(cltID, registers);
+            }
+            // reset selection finish list to null for the next round selection
+            selectionFinishList.clear();
+
+            Server.getServer().handleYourCards();
+            // inform all players: programming phase begins
+            Server.getServer().handleActivePhase(2);
+            ExecuteOrder.activePhase = 2;
+        }
+
+    }
+
+    /**
+     * set reboot direction to nord
+     *
+     * @param clientID
+     * @throws IOException
+     */
+    public void setRebootDirectonToNord(int clientID) throws IOException {
+        Direction direction = directionsAllClients.get(clientID);
+        switch (direction) {
+            case UP:
+                break;
+            case RIGHT:
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                break;
+            case DOWN:
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                break;
+            case LEFT:
+                Server.getServer().handlePlayerTurning(clientID, "clockwise");
+                break;
+        }
     }
 
     /**
      * if the priority list is empty, there is no more client to play in this turn
      * then this turn is over, reset priority
+     *
      * @return
      */
     public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
-        System.out.println("game turn over: " + registerPointer);
-        System.out.println("turn over prioritylist: " + priorityEachTurn);
-        if(priorityEachTurn.size() == 0){
+        System.out.println("game reg Pointer: " + registerPointer);
+        System.out.println("game checkturnover prints prioritylist: " + priorityEachTurn);
+        if (priorityEachTurn.size() == 0) {
+            activeBoardElements();
+            robotShoot();
             System.out.println("active players: " + activePlayersList);
             checkAndSetPriority();
             registerPointer++;
-            activeBoardElements();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -352,14 +526,20 @@ public class Game {
      * soon: with robot laser also
      */
     public void activeBoardElements() throws IOException {
-        for(int client : activePlayersList){
-            Position position = playerPositions.get(client);
-            int row = position.getY();
-            int column = position.getX();
 
-            List<FeldObject> feldObjects = board.get(row).get(column);
-            for(FeldObject obj : feldObjects){
-                if(!obj.getClass().getSimpleName().equals("Empty")){
+        for (Iterator<Integer> iterator = activePlayersList.iterator(); iterator.hasNext(); ) {
+            int client = iterator.next();
+            Position position = playerPositions.get(client);
+            int x = position.getX();
+            int y = position.getY();
+
+            List<FeldObject> feldObjects = board.get(x).get(y);
+            for (FeldObject obj : feldObjects) {
+                if (obj.getClass().getSimpleName().equals("Pit")) {
+                    iterator.remove();
+                    reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()), true);
+                }
+                if (!obj.getClass().getSimpleName().equals("Empty") && !obj.getClass().getSimpleName().equals("Pit")) {
                     obj.doBoardFunction(client, obj);
                 }
             }
@@ -368,18 +548,21 @@ public class Game {
 
     /**
      * check if all the register slots have been played
+     *
      * @return
      */
-    public boolean checkRoundOver(){
+    public boolean checkRoundOver() {
         logger.info("Game checks round over" + registerPointer);
         System.out.println("game round over : " + registerPointer);
-        if(registerPointer == 5){
+        if (registerPointer == 5) {
             registerPointer = 0;
             activePlayersList.clear();
+
             priorityEachTurn.clear();
-            for(int clientID : clientIDs){
+            for (int clientID : clientIDs) {
                 // set all clients active
                 activePlayersList.add(clientID);
+
                 // reset all the register slots with no cards in game
                 RegisterCard[] registers = new RegisterCard[5];
                 registersAllClients.put(clientID, registers);
@@ -388,7 +571,7 @@ public class Game {
             selectionFinishList.clear();
             System.out.println("priority list: " + priorityEachTurn);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -397,14 +580,16 @@ public class Game {
     /**
      * for Dizzy Highway, if someone arrived at checkpoint, game is finished
      * soon: adjust for other game maps
+     *
      * @return
      * @throws IOException
      */
     public boolean checkGameOver() throws IOException {
         logger.info("Game checks game over.");
-        for(int client : clientIDs){
+        for (int client : clientIDs) {
             // soon size() to number of checkpoints
-            if(arrivedCheckpoints.get(client).size() == 1){
+            if (arrivedCheckpoints.get(client).size() == checkPointTotal) {
+                System.out.println("print how many checkpoints: " + checkPointTotal);
                 Server.getServer().handleGameFinished(client);
                 return true;
             }
@@ -414,14 +599,15 @@ public class Game {
 
     /**
      * check if one field hat a wall, if has, return the orientation of the wall
+     *
      * @return
      */
-    public String checkWall(int row, int column){
+    public String checkWall(int row, int column) {
         logger.info("Game checks wall on board for move");
         String wallOrientation = "";
         List<FeldObject> feldObjects = board.get(row).get(column);
-        for(FeldObject obj : feldObjects){
-            if(obj.getClass().getSimpleName().equals("Wall")){
+        for (FeldObject obj : feldObjects) {
+            if (obj.getClass().getSimpleName().equals("Wall")) {
                 wallOrientation = obj.getOrientations().get(0);
             }
         }
@@ -429,50 +615,168 @@ public class Game {
     }
 
     /**
+     * check if there are other robots who stand in the way
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public int checkOtherRobot(int whoChecks, int x, int y) {
+        for (int client : playerPositions.keySet()) {
+            if (client != whoChecks) {
+                if (playerPositions.get(client).getX() == x && playerPositions.get(client).getY() == y) {
+                    return client;
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * for the robot, which is pushed
+     *
+     * @param client
+     * @param pushedPo
+     * @throws IOException
+     */
+    public void checkAndSetPushedPosition(int client, Position pushedPo) throws IOException {
+        // check if robot is still on board
+        boolean isOnBoard = Game.getInstance().checkOnBoard(client, pushedPo);
+        if (isOnBoard) {
+            // set new Position in Game
+            Game.playerPositions.put(client, pushedPo);
+            // transport new Position to client
+            Server.getServer().handleMovement(client, pushedPo.getX(), pushedPo.getY());
+        }
+    }
+
+    /**
      * if the client is offline, should be removed from game
      */
-    public void removePlayer(String clientName) {
+    public void removePlayer(int clientId) {
+        for (int i = 0; i < activePlayersList.size(); i++) {
+            if (activePlayersList.get(i) == clientId) {
+                activePlayersList.remove(i);
 
-
-        // TODO SEND INFO VIA SERVER TO ALL CLIENTS: who was removed
+            }
+        }
+        for (int i = 0; i < priorityEachTurn.size(); i++) {
+            if (priorityEachTurn.get(i) == clientId) {
+                priorityEachTurn.remove(i);
+            }
+        }
+        clientIDs.remove(clientId);
     }
 
-
-
-
-
+    /**
+     * store the total num of checkpoints
+     */
+    public void findCheckpointTotal() {
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (board.get(i).get(j).size() == 2) {
+                    if (board.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")) {
+                        checkPointTotal++;
+                    }
+                }
+            }
+        }
+        System.out.println("findCheckPointTotal: " + checkPointTotal);
+    }
 
     /**
-     * invoked from Game: activatePhase
+     * find the reboot position and direction in map
      */
-    public void shootLaser() {
+    public void findRebootPosition() {
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (board.get(i).get(j).size() == 2) {
+                    if (board.get(i).get(j).get(1).getClass().getSimpleName().equals("RestartPoint")) {
+                        RestartPoint restartPoint = (RestartPoint) (board.get(i).get(j).get(1));
+                        String restartDirection = restartPoint.getOrientations().get(0);
+                        rebootPosition = new Position(i, j);
+                    }
+                }
+            }
 
-        setRobotLaserLine();
+        }
+    }
 
-        // check damage for each robot
-        for (int i = 0; i < clientIDs.size(); i++) {
+    /**
+     * store the position and direction of antenna
+     */
+    public void findAntenna() {
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (board.get(i).get(j).get(0).getClass().getSimpleName().equals("Antenna")) {
+                    Antenna antenna = (Antenna) (board.get(i).get(j).get(0));
+                    String dirAntenna = antenna.getOrientations().get(0);
+                    positionAntenna = new Position(i, j);
+                    directionAntenna = dirAntenna;
+                }
+
+            }
+
         }
 
-        clearRobotLaseLine();
-    }
-
-
-    /**
-     * invoked from Game: shootLaser
-     * calculate the line of robot laser, set the line into board list (3D)
-     */
-    public void setRobotLaserLine() {
     }
 
     /**
-     * invoked from Game: shootLaser
-     * erase the line of robot laser from board list (3D), ready for next turn
+     * calculate the shooting line and check if there are other robots in the line
+     * @throws IOException
      */
-    public void clearRobotLaseLine() {
+    public void robotShoot() throws IOException {
+        for (int bot : activePlayersList) {
+            Direction direction = directionsAllClients.get(bot);
+            int botX = playerPositions.get(bot).getX();
+            int botY = playerPositions.get(bot).getY();
+
+            switch (direction) {
+                case UP:
+                    for (int i = 0; i < botY; i++) {
+                        checkHit(botX, i);
+                    }
+                    break;
+                case DOWN:
+                    for (int i = botY+1; i < 10; i++) {
+                        checkHit(botX, i);
+                    }
+                    break;
+                case RIGHT:
+                    for (int i = botX+1; i < 13; i++) {
+                        checkHit(i, botY);
+                    }
+                    break;
+                case LEFT:
+                    for (int i = 0; i < botX; i++) {
+                        checkHit(i, botY);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * check if there are other robots in the shooting line
+     * @param x
+     * @param y
+     * @throws IOException
+     */
+    public void checkHit(int x, int y) throws IOException {
+        for (int clt : activePlayersList) {
+            if (x == playerPositions.get(clt).getX() && y == playerPositions.get(clt).getY()) {
+
+                List<String> damageCards = new ArrayList<>();
+                String cardName = Laser.drawOneDamageCard(clt);
+                damageCards.add(cardName);
+
+                System.out.println("got damages by bot shooting : " + damageCards);
+                Server.getServer().handleDrawDamage(clt, damageCards);
+            }
+        }
     }
 
     // only for test:
-
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             List<List<FeldObject>> row = new ArrayList<>();

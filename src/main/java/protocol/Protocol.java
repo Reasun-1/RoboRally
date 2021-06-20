@@ -506,6 +506,58 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static DrawDamageBody readJsonDrawDamage(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        DrawDamageBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<DrawDamageBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
+    public static ReplaceCardBody readJsonReplaceCard(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ReplaceCardBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ReplaceCardBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
+    public static ConnectionUpdateBody readJsonConnectionUpdate(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ConnectionUpdateBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ConnectionUpdateBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
+    public static EnergyBody readJsonEnergy(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        EnergyBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<EnergyBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

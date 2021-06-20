@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * @author can ren
+ * @author Megzon Mehmedali
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class MoveIII extends RegisterCard{
@@ -43,66 +44,86 @@ public class MoveIII extends RegisterCard{
         System.out.println("card moveIII");
         Direction currentDirection = Game.directionsAllClients.get(clientID);
         Position currentPosition = Game.playerPositions.get(clientID);
-        int curColumn = currentPosition.getX();
-        int curRow = currentPosition.getY();
+        int x = currentPosition.getX();
+        int y = currentPosition.getY();
 
         // set new Position
-        Position newPosition = new Position(curColumn, curRow);
+        Position newPosition = new Position(x, y);
         switch (currentDirection){
             case RIGHT:
-                for (int i = curColumn; i < Math.min(curColumn+4,13); i++) {
-                    String wallOri = Game.getInstance().checkWall(curRow, i);
-                    if (i > curColumn && wallOri.equals("left")){
+                for (int i = x; i < Math.min(x+4,13); i++) {
+                    String wallOri = Game.getInstance().checkWall(i, y);
+                    if (i > x && wallOri.equals("left")){
                         newPosition.setX(i-1);
                         break;
                     }else if(wallOri.equals("right")){
                         newPosition.setX(i);
                         break;
                     }else{
-                        newPosition.setX(curColumn+3);
+                        newPosition.setX(x+3);
+                    }
+                    // check other robot in the way
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID, i,y);
+                    if(clientPushed != 0){ // if there is one robot, which is pushed
+                        Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x+4,y));
                     }
                 }
                 break;
 
             case LEFT:
-                for (int i = curColumn; i > Math.max(curColumn-4,-1); i--) {
-                    String wallOri = Game.getInstance().checkWall(curRow, i);
+                for (int i = x; i > Math.max(x-4,-1); i--) {
+                    String wallOri = Game.getInstance().checkWall(i, y);
                     if (wallOri.equals("left")){
                         newPosition.setX(i);
                         break;
-                    }else if(i < curColumn && wallOri.equals("right")){
+                    }else if(i < x && wallOri.equals("right")){
                         newPosition.setX(i+1);
                         break;
                     }else{
-                        newPosition.setX(curColumn-3);
+                        newPosition.setX(x-3);
+                    }
+                    // check other robot in the way
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
+                    if(clientPushed != 0){ // if there is one robot, which is pushed
+                        Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x-4,y));
                     }
                 }
                 break;
             case UP:
-                for (int i = curRow; i > Math.max(curRow-4, -1); i--) {
-                    String wallOri = Game.getInstance().checkWall(i, curColumn);
+                for (int i = y; i > Math.max(y-4, -1); i--) {
+                    String wallOri = Game.getInstance().checkWall(x, i);
                     if(wallOri.equals("top")){
                         newPosition.setY(i);
                         break;
-                    }else if(i < curRow && wallOri.equals("bottom")){
+                    }else if(i < y && wallOri.equals("bottom")){
                         newPosition.setY(i+1);
                         break;
                     }else{
-                        newPosition.setY(curRow-3);
+                        newPosition.setY(y-3);
+                    }
+                    // check other robot in the way
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
+                    if(clientPushed != 0){ // if there is one robot, which is pushed
+                        Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x,y-4));
                     }
                 }
                 break;
             case DOWN:
-                for (int i = curRow; i < Math.min(curRow+4, 10); i++) {
-                    String wallOri = Game.getInstance().checkWall(i, curColumn);
-                    if(i > curRow && wallOri.equals("top")){
+                for (int i = y; i < Math.min(y+4, 10); i++) {
+                    String wallOri = Game.getInstance().checkWall(x, i);
+                    if(i > y && wallOri.equals("top")){
                         newPosition.setY(i-1);
                         break;
                     }else if(wallOri.equals("bottom")){
                         newPosition.setY(i);
                         break;
                     }else{
-                        newPosition.setY(curRow+3);
+                        newPosition.setY(y+3);
+                    }
+                    // check other robot in the way
+                    int clientPushed = Game.getInstance().checkOtherRobot(clientID,i,y);
+                    if(clientPushed != 0){ // if there is one robot, which is pushed
+                        Game.getInstance().checkAndSetPushedPosition(clientPushed, new Position(x,y+4));
                     }
                 }
                 break;

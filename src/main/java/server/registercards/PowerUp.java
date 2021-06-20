@@ -1,9 +1,13 @@
 package server.registercards;
 
+import server.game.Game;
+import server.network.Server;
+
 import java.io.IOException;
 
 /**
  * @author can ren
+ * @author Megzon Mehmedali
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class PowerUp extends RegisterCard{
@@ -33,6 +37,9 @@ public class PowerUp extends RegisterCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-        //TODO
+        //update energy cubes in Game
+        Game.energyCubes.put(clientID, Game.energyCubes.get(clientID)+1);
+        // send inform via server to all clients
+        Server.getServer().handleEnergy(clientID, 1,"PowerUpCard");
     }
 }

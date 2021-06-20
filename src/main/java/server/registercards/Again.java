@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * @author can ren
+ * @author Megzon Mehmedali
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Again extends RegisterCard{
@@ -47,11 +48,15 @@ public class Again extends RegisterCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         int curReg = Game.registerPointer;
-        int lastReg = curReg - 2;
+        int lastReg = curReg - 1;
         RegisterCard[] registerCards = Game.registersAllClients.get(clientID);
         RegisterCard lastCardPlayed = registerCards[lastReg];
-        lastCardPlayed.doCardFunction(clientID);
-
+        // if last card is also Again, do the function of the card before last card
+        if(lastCardPlayed.getCardName().equals("Again")){
+            registerCards[lastReg-1].doCardFunction(clientID);
+        }else{
+            lastCardPlayed.doCardFunction(clientID);
+        }
         System.out.println("doFunction of card again");
     }
 

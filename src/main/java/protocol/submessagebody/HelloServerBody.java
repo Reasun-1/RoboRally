@@ -1,6 +1,7 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author can ren
@@ -13,7 +14,7 @@ public class HelloServerBody {
 
     private String group;
 
-    private boolean isAI;
+    private @JsonProperty(value="isAI") boolean isAI;
 
     private String protocol;
 
@@ -30,6 +31,7 @@ public class HelloServerBody {
         return group;
     }
 
+    @JsonProperty(value="isAI")
     public boolean isAI() {
         return isAI;
     }

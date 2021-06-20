@@ -1,5 +1,6 @@
 package server.network;
 
+import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.scene.effect.Bloom;
 import protocol.Protocol;
@@ -50,7 +51,7 @@ public class Server {
     /**
      * private constructor for singleton implementation
      */
-    private Server() {
+    protected Server() {
     }
 
     /**
@@ -159,7 +160,9 @@ public class Server {
      * @throws IOException
      */
     public void makeOrderToOneClient(int targetClientID, String json) throws IOException {
-        new PrintWriter(clientList.get(targetClientID).getSocket().getOutputStream(), true).println(json);
+        if(clientList.containsKey(targetClientID)){
+            new PrintWriter(clientList.get(targetClientID).getSocket().getOutputStream(), true).println(json);
+        }
     }
 
     /**
@@ -175,10 +178,10 @@ public class Server {
      * check all players online
      * @throws IOException
      */
-    public void handleAlive() throws IOException {
+    public void handleAlive(int client) throws IOException {
         Protocol protocol = new Protocol("Alive", null);
         String json = Protocol.writeJson(protocol);
-        makeOrderToAllClients(json);
+        makeOrderToOneClient(client, json);
     }
 
     /**
@@ -247,6 +250,9 @@ public class Server {
     public void handleSelectMap(int clientID) throws IOException {
         ArrayList<String> mapList = new ArrayList<>();
         mapList.add("Dizzy Highway");
+        mapList.add("Lost Bearings");
+        mapList.add("Death Trap");
+        mapList.add("Extra Crispy");
         Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs first ready player to select a map");
@@ -476,6 +482,7 @@ public class Server {
         Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs game finished");
+        System.out.println(json);
         makeOrderToAllClients(json);
     }
 
@@ -494,10 +501,91 @@ public class Server {
         makeOrderToAllClients(json);
     }
 
+    /**
+     * inform all clients which player turns to which direction
+     * @param clientID
+     * @param turnDirection
+     * @throws IOException
+     */
     public void handlePlayerTurning(int clientID, String turnDirection) throws IOException {
         Protocol protocol = new Protocol("PlayerTurning", new PlayerTurningBody(clientID, turnDirection));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs turnDirection");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all clients who has drawn which damage cards
+     * @param clientID
+     * @throws IOException
+     */
+    public void handleDrawDamage(int clientID, List<String> drawnDamageCards) throws IOException {
+
+        Protocol protocol = new Protocol("DrawDamage", new DrawDamageBody(clientID, drawnDamageCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs drawn damage cards");
+        makeOrderToAllClients(json);
+
+    }
+
+    /**
+     * if damage card played, inform all clients which random card has be drawn
+     * @param register
+     * @param client
+     * @param cardName
+     * @throws IOException
+     */
+    public void handleReplaceCard(int register, int client, String cardName) throws IOException {
+        Protocol protocol = new Protocol("ReplaceCard", new ReplaceCardBody(register, cardName, client));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs replace card");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * if connection loses, inform all clients
+     * @param clientID
+     * @throws IOException
+     */
+    public void handleConnectionUpdate(int clientID) throws IOException {
+        Game.getInstance().removePlayer(clientID);
+        // if only one player left, can not continue
+        if(clientList.size() == 1){
+            for(int remainedClient : clientList.keySet()){
+                exception(remainedClient, "Only you left in game, please quit the game.");
+            }
+        }
+        // reinform the next player
+        int curClient = Game.priorityEachTurn.get(0);
+        handleCurrentPlayer(curClient);
+
+        Protocol protocol = new Protocol("ConnectionUpdate", new ConnectionUpdateBody(clientID, false, "remove"));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs connection update");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all clients who has got how many cubes
+     * @param client
+     * @param addNum
+     * @param source
+     */
+    public void handleEnergy(int client, int addNum, String source) throws IOException {
+        Protocol protocol = new Protocol("Energy", new EnergyBody(client, addNum, source));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs energy got.");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all players which map was selected
+     * @param mapName
+     */
+    public void handleMapSelected(String mapName) throws IOException {
+        Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs which map selected");
         makeOrderToAllClients(json);
     }
 }

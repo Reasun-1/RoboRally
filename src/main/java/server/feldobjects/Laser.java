@@ -1,7 +1,12 @@
 package server.feldobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import server.game.Game;
+import server.network.Server;
+import server.registercards.Spam;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +16,7 @@ import java.util.List;
  * (Take a SPAM damage card for each laser that hits you.)
  *
  * @author Jonas Gottal
+ * @author Can Ren
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -31,13 +37,6 @@ public class Laser extends FeldObject{
         this.count = count;
     }
 
-   /* @Override
-    public String getType() {
-        return type;
-    }
-
-    */
-
     @Override
     public String getIsOnBoard() {
         return isOnBoard;
@@ -54,7 +53,39 @@ public class Laser extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID, FeldObject obj) {
-        //TODO
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
+        int laserNum = obj.getCount();
+        List<String> damageCards = new ArrayList<>();
+
+        for (int i = 0; i < laserNum; i++) {
+            String cardName = drawOneDamageCard(clientID);
+            damageCards.add(cardName);
+        }
+        System.out.println("got damages : " + damageCards);
+        Server.getServer().handleDrawDamage(clientID, damageCards);
+    }
+
+    /**
+     * draw one damage card from damage card piles
+     * @param clientID
+     * @return
+     */
+    public static String drawOneDamageCard(int clientID){
+        String damageCardName = "";
+
+        if(!Game.spamPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.spamPile.pop());
+            damageCardName = "Spam";
+        }else if(!Game.wormPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.wormPile.pop());
+            damageCardName = "Worm";
+        }else if(!Game.virusPile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.virusPile.pop());
+            damageCardName = "Virus";
+        }else if(!Game.trojanHorsePile.isEmpty()){
+            Game.getInstance().discardedCards.get(clientID).add(Game.trojanHorsePile.pop());
+            damageCardName = "Trojan";
+        }
+        return damageCardName;
     }
 }

@@ -1,5 +1,9 @@
 package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import server.game.Game;
+import server.network.Server;
+
+import java.io.IOException;
 
 /**
  * The FeldObject Energy space: When you end a register on an energy space,
@@ -25,13 +29,6 @@ public class EnergySpace extends FeldObject{
         this.count = count;
     }
 
-   /* @Override
-    public String getType() {
-        return type;
-    }
-
-    */
-
     @Override
     public String getIsOnBoard() {
         return isOnBoard;
@@ -43,7 +40,11 @@ public class EnergySpace extends FeldObject{
     }
 
     @Override
-    public void doBoardFunction(int clientID, FeldObject obj) {
-        //TODO
+    public void doBoardFunction(int clientID, FeldObject obj) throws IOException {
+        int addNumEnergy = obj.getCount();
+        //update energy cubes in Game
+        Game.energyCubes.put(clientID, Game.energyCubes.get(clientID)+addNumEnergy);
+        // send inform via server to all clients
+        Server.getServer().handleEnergy(clientID, addNumEnergy,"EnergySpace");
     }
 }

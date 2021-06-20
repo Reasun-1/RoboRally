@@ -6,10 +6,14 @@ import server.game.Game;
 import server.game.Position;
 import server.game.Timer;
 import server.network.AliveCheck;
+import server.network.Connected;
 import server.network.Server;
 import server.registercards.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -22,6 +26,12 @@ import java.util.logging.Logger;
 public class ExecuteOrder {
 
     private static final Logger logger = Logger.getLogger(ExecuteOrder.class.getName());
+    public static HashMap<Integer, Connected> connectList = new HashMap<>();
+    public static HashMap<Integer, AliveCheck> aliveCheckList = new HashMap<>();
+    public static int clientIDOfAI = 0;
+    public static int activePhase = 0;
+    public static boolean allplayersRebooted = false;
+
 
     public static void executeOrder(int clientID, String json) throws IOException, ClassNotFoundException {
 
@@ -63,12 +73,28 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
-                    Thread thread = new Thread(AliveCheck.aliveCheck);
-                    thread.start();
+                    /*
+                    // start connect check for each player
+                    Connected connected = new Connected(clientID);
+                    Thread threadConnect = new Thread(connected);
+                    connectList.put(clientID, connected);
+                    System.out.println(connectList.get(clientID));
+                    System.out.println(connectList.keySet());
+                    threadConnect.start();
+
+                    // start alive check for each player
+                    AliveCheck aliveCheck = new AliveCheck(clientID);
+                    Thread threadAliveCheck = new Thread(aliveCheck);
+                    aliveCheckList.put(clientID, aliveCheck);
+                    System.out.println(aliveCheckList.keySet());
+                    threadAliveCheck.start();
+
+                     */
                 }
                 break;
             case "Alive":
-                //TODO
+                System.out.println("check alive " + connectList.get(clientID));
+                connectList.get(clientID).flagConnect = false;
                 break;
             case "SetStatus":
                 logger.info("set Status in ExecuteOrder");
@@ -78,32 +104,15 @@ public class ExecuteOrder {
                 Server.getServer().handlePlayerStatus(clientID, isReady);
 
                 // first client who ist ready can select a map
-                for(int clientIDEach : Server.clientIDUndReady.keySet()){
-                    if(Server.clientIDUndReady.get(clientIDEach) == true){
-                           Server.getServer().handleSelectMap(clientIDEach);
+                for (int clientIDEach : Server.clientIDUndReady.keySet()) {
+                    System.out.println("print the AI ID: " +  clientIDOfAI);
+                    if (Server.clientIDUndReady.get(clientIDEach) == true && clientIDEach != clientIDOfAI) {
+                        Server.getServer().handleSelectMap(clientIDEach);
                         break;
                     }
                 }
-
-                // if there are more than 2 clients and all clients are ready, start the game
-                int numReadyClients = 0;
-                for (int clientIDEach : Server.clientIDUndReady.keySet()) {
-                    if (Server.clientIDUndReady.get(clientIDEach) == true) {
-                        numReadyClients++;
-                    }
-                }
-                logger.info("number of ready clients: " + numReadyClients);
-                if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size()) {
-                    logger.info("number enough, to play");
-
-                    Server.getServer().handleGameStarted(Game.mapName);
-                    Server.getServer().handleActivePhase(0);
-
-                    // find the first client, who first logged in
-                    int clientFirst = (Integer) Server.clientList.keySet().toArray()[Server.clientListPointer];
-                    Server.clientListPointer++;
-                    Server.getServer().handleCurrentPlayer(clientFirst);
-                }
+                // if there are more than 2 clients and all clients are ready and map is selected, start the game
+                checkAndStartGame();
                 break;
             case "MapSelected":
                 logger.info("set Map in ExecuteOrder");
@@ -111,10 +120,16 @@ public class ExecuteOrder {
                 MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
                 String mapName = mapSelectedBody.getMap();
 
+                Server.getServer().handleMapSelected(mapName);
+
                 Game.mapName = mapName;
                 Game.getInstance().initGame();
                 Game.getInstance().initBoard();
                 Game.getInstance().setMap3DList(mapName);
+                Game.hasMap = true;
+
+                // if there are more than 2 clients and all clients are ready and map is selected, start the game
+                checkAndStartGame();
 
                 break;
             case "SendChat": // send private message
@@ -138,7 +153,7 @@ public class ExecuteOrder {
 
                         Server.clientList.get(clientID).sendPrivateMessage(toClient, clientID, message);
                         // also to myself as info
-                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID,  message);
+                        Server.clientList.get(clientID).sendPrivateMessage(clientID, clientID, message);
                     } else {
                         System.out.println("There is no client with this name!"); // optional in terminal
                         Protocol protocol = new Protocol("Error", new ErrorBody("There is no client with this name!"));
@@ -148,7 +163,7 @@ public class ExecuteOrder {
                     // public message
                 } else {
                     logger.info("send message to all");
-                    Server.clientList.get(clientID).sendMessage(clientID,  message);
+                    Server.clientList.get(clientID).sendMessage(clientID, message);
                 }
                 break;
             case "SetStartingPoint":
@@ -157,7 +172,7 @@ public class ExecuteOrder {
                 int y = setStartingPointBody.getY();
 
                 // set client´s position in Game
-                Game.playerPositions.put(clientID,new Position(x, y));
+                Game.playerPositions.put(clientID, new Position(x, y));
                 // storage all clients´ start positions
                 Game.startPositionsAllClients.put(clientID, new Position(x, y));
                 // inform others about the client´s position
@@ -171,6 +186,7 @@ public class ExecuteOrder {
                     // if all players haven chosen start points, go to next phase
                 } else if (Server.clientListPointer == Server.clientList.size()) {
                     Server.getServer().handleActivePhase(2);
+                    activePhase = 2;
                     Server.getServer().handleYourCards();
                 }
                 break;
@@ -179,14 +195,14 @@ public class ExecuteOrder {
                 int registerNum = selectedCardBody.getRegister();
 
                 // if register slot with card
-                if(selectedCardBody.getCard() != null){
+                if (selectedCardBody.getCard() != null) {
                     String cardName = selectedCardBody.getCard();
                     RegisterCard card = convertCardToObject(cardName);
-                    Game.registersAllClients.get(clientID)[registerNum-1] = card;
+                    Game.registersAllClients.get(clientID)[registerNum - 1] = card;
                     logger.info(card.getCardName());
                     Server.getServer().handleCardSelected(clientID, registerNum, true);
-                }else{ // if register slot without card
-                    Game.registersAllClients.get(clientID)[registerNum-1] = null;
+                } else { // if register slot without card
+                    Game.registersAllClients.get(clientID)[registerNum - 1] = null;
                     Server.getServer().handleCardSelected(clientID, registerNum, false);
                 }
                 break;
@@ -194,18 +210,24 @@ public class ExecuteOrder {
                 SelectionFinishedBody selectionFinishedBody = Protocol.readJsonSelectionFinished(json);
                 int clientFinished = selectionFinishedBody.getClientID();
                 Game.selectionFinishList.add(clientFinished);
+                System.out.println("executeOrder: selectionFinished : " + Game.selectionFinishList);
 
-                // if only one client finished programming, timer starts
-                if(Game.selectionFinishList.size() == 1){
+                // if only one client(not AI) finished programming, timer starts
+                if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
-                    // if all clients finished programming, next phase begins
-                }else if(Game.selectionFinishList.size() == Game.clientIDs.size()){
+                    // if one client finished and AI also finished, start timer
+                } else if(Game.clientIDs.size() > 2 && Game.selectionFinishList.size() == 2 && Game.selectionFinishList.contains(clientIDOfAI)){
+                    Game.getInstance().startTimer();
+                    Server.getServer().handleTimerStarted();
+                } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {// if all clients finished programming, next phase begins
                     Game.getInstance().stopTimer();
+                    System.out.println("flag executeOrder: all players finished programmed.");
                     logger.info("executeOrder all clients finished programming in time");
 
                     // Aktivierungsphase beginns
                     Server.getServer().handleActivePhase(3);
+                    activePhase = 3;
                     // inform all clients about current register cards of all
                     Server.getServer().handleCurrentCards();
                     // set priority for this turn
@@ -213,11 +235,11 @@ public class ExecuteOrder {
                     // set player in turn
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
-                    Game.priorityEachTurn.remove(0);
                 }
                 break;
             case "PlayCard":
                 logger.info("executeOrder playCard");
+                allplayersRebooted = false;
                 PlayCardBody playCardBody = Protocol.readJsonPlayCard(json);
                 String cardName = playCardBody.getCard();
                 // server inform others which card was by whom played
@@ -226,31 +248,37 @@ public class ExecuteOrder {
                 RegisterCard card = convertCardToObject(cardName);
                 Game.getInstance().playCard(clientID, card);
 
+                // if damage card played, must be replaced and play again
+                if ((card.getCardType().equals("PROGRAMME") ||card.getCardName().equals("Worm") ) && !Game.priorityEachTurn.isEmpty()) {
+                    Game.priorityEachTurn.remove(0);
+                }
+
+                // if not all players rebooted, check turn over, otherwise break
+                if(!allplayersRebooted && activePhase != 2){
+
+
                 // check turnOver
                 boolean isTurnOver = Game.getInstance().checkTurnOver();
-                if(isTurnOver){
+                if (isTurnOver) {
                     logger.info("ExecuteOrder: turn is over!");
                     // if turn is over, check if round is over
                     boolean isRoundOver = Game.getInstance().checkRoundOver();
-                    if(isRoundOver){
-                        // if round over, check if game is over
-                        boolean isGameOver = Game.getInstance().checkGameOver();
-                        // if game is not over, play new round
-                        if(!isGameOver){ // if game not over but round over, distribute new cards to clients
+                    if (isRoundOver) {
+
                             logger.info("ExecuteOrder: round is over!");
                             Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
-                            Server.getServer().handleActivePhase(3);
+                            Server.getServer().handleActivePhase(2);
+                            activePhase = 2;
                             break;
-                        }else{
-                            break;
-                        }
                     }
                 }
-                // if turn is not over inform next player to play
-                int curClient = Game.priorityEachTurn.get(0);
-                Server.getServer().handleCurrentPlayer(curClient);
-                Game.priorityEachTurn.remove(0);
+
+                    // if turn is not over inform next player to play
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+                }
+
                 break;
             case "RebootDirection":
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
@@ -264,13 +292,14 @@ public class ExecuteOrder {
 
     /**
      * convert String cardName to object card
+     *
      * @param cardName
      * @return
      */
-    public static RegisterCard convertCardToObject(String cardName){
+    public static RegisterCard convertCardToObject(String cardName) {
         RegisterCard card = null;
 
-        switch (cardName){
+        switch (cardName) {
             case "Again":
                 card = new Again();
                 break;
@@ -298,8 +327,50 @@ public class ExecuteOrder {
             case "UTurn":
                 card = new UTurn();
                 break;
+            case "Spam":
+                card = new Spam();
+                break;
+            case "Trojan":
+                card = new Trojan();
+                break;
+            case "Virus":
+                card = new Virus();
+                break;
+            case "Worm":
+                card = new Worm();
+                break;
+            case "":
+                card = new BlankCard();
+                break;
         }
 
         return card;
+    }
+
+
+    /**
+     *                 // if there are more than 2 clients and all clients are ready and map is selected, start the game
+     * @throws IOException
+     */
+    public static void checkAndStartGame() throws IOException {
+        int numReadyClients = 0;
+        for (int clientIDEach : Server.clientIDUndReady.keySet()) {
+            if (Server.clientIDUndReady.get(clientIDEach) == true) {
+                numReadyClients++;
+            }
+        }
+
+        logger.info("number of ready clients: " + numReadyClients);
+        if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size() && Game.hasMap == true) {
+            logger.info("number enough, to play");
+
+            Server.getServer().handleGameStarted(Game.mapName);
+            Server.getServer().handleActivePhase(0);
+
+            // find the first client, who first logged in
+            int clientFirst = (Integer) Server.clientList.keySet().toArray()[Server.clientListPointer];
+            Server.clientListPointer++;
+            Server.getServer().handleCurrentPlayer(clientFirst);
+        }
     }
 }

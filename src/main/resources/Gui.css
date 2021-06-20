@@ -11,9 +11,6 @@
     -fx-text-fill: #270404" ;
 }
 
-#backgroundLogin {
-    -fx-image: url('BackgroundImageLoginWindow.jpg');
-}
-#backgroundText {
-    -fx-image: url('BackgroundImage2LoginWindow.jpg');
+.text-area {
+    -fx-text-fill: WHITE;
 }
