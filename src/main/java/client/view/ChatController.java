@@ -1006,6 +1006,12 @@ public class ChatController {
      */
     public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");
+
+        // manuell adding for lasers
+
+
+
+
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
@@ -1325,6 +1331,133 @@ public class ChatController {
                     }
                 }
             }
+        }
+
+        String mapName = client.mapName;
+
+
+
+
+
+        switch (mapName){
+            case "Dizzy Highway":
+                ImageView laserHori1 = new ImageView(Lasers1);
+                laserHori1.setFitHeight(43);
+                laserHori1.setFitWidth(43);
+                gridPaneBoard.add(laserHori1,9,3);
+
+                ImageView laserHori2 = new ImageView(Lasers1);
+                laserHori2.setFitHeight(43);
+                laserHori2.setFitWidth(43);
+                gridPaneBoard.add(laserHori2,6,6);
+
+                ImageView laserVert1 = new ImageView(Lasers1);
+                laserVert1.setFitHeight(43);
+                laserVert1.setFitWidth(43);
+                laserVert1.setRotate(laserVert1.getRotate()+90);
+                gridPaneBoard.add(laserVert1,6,3);
+
+                ImageView laserVert2 = new ImageView(Lasers1);
+                laserVert2.setFitHeight(43);
+                laserVert2.setFitWidth(43);
+                laserVert2.setRotate(laserVert2.getRotate()+90);
+                gridPaneBoard.add(laserVert2,9,6);
+                break;
+            case "Lost Bearings":
+                ImageView laserHori3 = new ImageView(Lasers1);
+                laserHori3.setFitHeight(43);
+                laserHori3.setFitWidth(43);
+                gridPaneBoard.add(laserHori3,6,3);
+
+                ImageView laserHori4 = new ImageView(Lasers1);
+                laserHori4.setFitHeight(43);
+                laserHori4.setFitWidth(43);
+                gridPaneBoard.add(laserHori4,7,3);
+
+                ImageView laserHori5 = new ImageView(Lasers1);
+                laserHori5.setFitHeight(43);
+                laserHori5.setFitWidth(43);
+                gridPaneBoard.add(laserHori5,8,3);
+
+                ImageView laserHori6 = new ImageView(Lasers1);
+                laserHori6.setFitHeight(43);
+                laserHori6.setFitWidth(43);
+                gridPaneBoard.add(laserHori6,7,6);
+
+                ImageView laserHori7 = new ImageView(Lasers1);
+                laserHori7.setFitHeight(43);
+                laserHori7.setFitWidth(43);
+                gridPaneBoard.add(laserHori7,8,6);
+
+                ImageView laserHori8 = new ImageView(Lasers1);
+                laserHori8.setFitHeight(43);
+                laserHori8.setFitWidth(43);
+                gridPaneBoard.add(laserHori8,9,6);
+
+                break;
+            case "Death Trap":
+                break;
+            case "Extra Crispy":
+
+                ImageView laserHori9 = new ImageView(Lasers1);
+                laserHori9.setFitHeight(43);
+                laserHori9.setFitWidth(43);
+                gridPaneBoard.add(laserHori9,10,0);
+
+                ImageView laserHori10 = new ImageView(Lasers1);
+                laserHori10.setFitHeight(43);
+                laserHori10.setFitWidth(43);
+                gridPaneBoard.add(laserHori10,5,9);
+
+                ImageView laserVert3 = new ImageView(Lasers1);
+                laserVert3.setFitHeight(43);
+                laserVert3.setFitWidth(43);
+                laserVert3.setRotate(laserVert3.getRotate()+90);
+                gridPaneBoard.add(laserVert3,5,3);
+
+                ImageView laserVert4 = new ImageView(Lasers1);
+                laserVert4.setFitHeight(43);
+                laserVert4.setFitWidth(43);
+                laserVert4.setRotate(laserVert4.getRotate()+90);
+                gridPaneBoard.add(laserVert4,5,4);
+
+                ImageView laserVert5 = new ImageView(Lasers1);
+                laserVert5.setFitHeight(43);
+                laserVert5.setFitWidth(43);
+                laserVert5.setRotate(laserVert5.getRotate()+90);
+                gridPaneBoard.add(laserVert5,5,5);
+
+                ImageView laserVert6 = new ImageView(Lasers1);
+                laserVert6.setFitHeight(43);
+                laserVert6.setFitWidth(43);
+                laserVert6.setRotate(laserVert6.getRotate()+90);
+                gridPaneBoard.add(laserVert6,5,6);
+
+                ImageView laserVert7 = new ImageView(Lasers1);
+                laserVert7.setFitHeight(43);
+                laserVert7.setFitWidth(43);
+                laserVert7.setRotate(laserVert7.getRotate()+90);
+                gridPaneBoard.add(laserVert7,10,3);
+
+                ImageView laserVert8 = new ImageView(Lasers1);
+                laserVert8.setFitHeight(43);
+                laserVert8.setFitWidth(43);
+                laserVert8.setRotate(laserVert8.getRotate()+90);
+                gridPaneBoard.add(laserVert8,10,4);
+
+                ImageView laserVert9 = new ImageView(Lasers1);
+                laserVert9.setFitHeight(43);
+                laserVert9.setFitWidth(43);
+                laserVert9.setRotate(laserVert9.getRotate()+90);
+                gridPaneBoard.add(laserVert9,10,5);
+
+                ImageView laserVert10 = new ImageView(Lasers1);
+                laserVert10.setFitHeight(43);
+                laserVert10.setFitWidth(43);
+                laserVert10.setRotate(laserVert10.getRotate()+90);
+                gridPaneBoard.add(laserVert10,10,6);
+
+                break;
         }
     }
 
