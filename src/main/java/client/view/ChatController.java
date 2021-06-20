@@ -1063,19 +1063,77 @@ public class ChatController {
                                 // if it is a green belt
                                 if (obj.getSpeed() == 1) {
 
-                                    ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
-                                    beltGreenImg.setFitHeight(43);
-                                    beltGreenImg.setFitWidth(43);
 
-                                    if(obj.getOrientations().get(0).equals("right")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
-                                    }else if(obj.getOrientations().get(0).equals("bottom")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 180);
-                                    }else if(obj.getOrientations().get(0).equals("left")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 270);
+
+                                    if(obj.getOrientations().size() == 1){ // if only one direction
+
+                                        ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
+                                        beltGreenImg.setFitHeight(43);
+                                        beltGreenImg.setFitWidth(43);
+
+                                        if(obj.getOrientations().get(0).equals("right")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
+                                        }else if(obj.getOrientations().get(0).equals("bottom")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 180);
+                                        }else if(obj.getOrientations().get(0).equals("left")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 270);
+                                        }
+
+                                        gridPaneBoard.add(beltGreenImg, i, j);
                                     }
 
-                                    gridPaneBoard.add(beltGreenImg, i, j);
+                                    if(obj.getOrientations().size() == 2){ // for a corner belt
+                                        if(obj.getOrientations().get(0).equals("top") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView topRight = new ImageView(GreenConveyorBelts90mirrored);
+                                            topRight.setFitHeight(43);
+                                            topRight.setFitWidth(43);
+                                            topRight.setRotate(topRight.getRotate()+270);
+                                            gridPaneBoard.add(topRight,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("bottom")){
+                                            ImageView rightBottom = new ImageView(GreenConveyorBelts90mirrored);
+                                            rightBottom.setFitHeight(43);
+                                            rightBottom.setFitWidth(43);
+                                            gridPaneBoard.add(rightBottom,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("bottom") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView bottomLeft = new ImageView(GreenConveyorBelts90mirrored);
+                                            bottomLeft.setFitHeight(43);
+                                            bottomLeft.setFitWidth(43);
+                                            bottomLeft.setRotate(bottomLeft.getRotate()+90);
+                                            gridPaneBoard.add(bottomLeft,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("top")){
+                                            ImageView leftTop = new ImageView(GreenConveyorBelts90mirrored);
+                                            leftTop.setFitHeight(43);
+                                            leftTop.setFitWidth(43);
+                                            leftTop.setRotate(leftTop.getRotate()+180);
+                                            gridPaneBoard.add(leftTop,i,j);
+
+                                            // mirrored direction
+                                        }else if(obj.getOrientations().get(0).equals("top") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView topLeft = new ImageView(GreenConveyorBelts90);
+                                            topLeft.setFitHeight(43);
+                                            topLeft.setFitWidth(43);
+                                            topLeft.setRotate(topLeft.getRotate()+90);
+                                            gridPaneBoard.add(topLeft,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("top")){
+                                            ImageView rightTop = new ImageView(GreenConveyorBelts90);
+                                            rightTop.setFitHeight(43);
+                                            rightTop.setFitWidth(43);
+                                            rightTop.setRotate(rightTop.getRotate()+180);
+                                            gridPaneBoard.add(rightTop,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("bottom") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView bottomRight = new ImageView(GreenConveyorBelts90);
+                                            bottomRight.setFitHeight(43);
+                                            bottomRight.setFitWidth(43);
+                                            bottomRight.setRotate(bottomRight.getRotate()+270);
+                                            gridPaneBoard.add(bottomRight,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("bottom")){
+                                            ImageView leftBottom = new ImageView(GreenConveyorBelts90);
+                                            leftBottom.setFitHeight(43);
+                                            leftBottom.setFitWidth(43);
+                                            gridPaneBoard.add(leftBottom,i,j);
+                                        }
+                                    }
+
 
                                 } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
