@@ -84,7 +84,7 @@ public class ChatController {
     @FXML
     private Label energyCube;
     @FXML
-    private TextArea timer;
+    private Label timer;
     @FXML
     private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
     @FXML
@@ -236,6 +236,7 @@ public class ChatController {
 
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
+        outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
 
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
