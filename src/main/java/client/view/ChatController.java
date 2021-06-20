@@ -126,6 +126,7 @@ public class ChatController {
 
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
+    Image BlueConveyorBelts90mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90mirro.png").toExternalForm());
     Image BlueConveyorBeltsR = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-R.png").toExternalForm());
     Image BlueConveyorBelts21 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1.png").toExternalForm());
     Image BlueConveyorBelts21mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1-mirrored.png").toExternalForm());
@@ -1007,11 +1008,6 @@ public class ChatController {
     public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");
 
-        // manuell adding for lasers
-
-
-
-
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
@@ -1020,7 +1016,6 @@ public class ChatController {
 
                         switch (obj.getClass().getSimpleName()) {
                             case "Antenna":
-
 
                                 ImageView antennaImg = new ImageView(Antenna);
                                 antennaImg.setFitHeight(43);
@@ -1068,8 +1063,6 @@ public class ChatController {
                             case "ConveyorBelt":
                                 // if it is a green belt
                                 if (obj.getSpeed() == 1) {
-
-
 
                                     if(obj.getOrientations().size() == 1){ // if only one direction
 
@@ -1153,7 +1146,7 @@ public class ChatController {
                                         }
 
                                         // if there are several orientations, choose another pic
-                                        if (obj.getOrientations().size() > 1) {
+                                        if (obj.getOrientations().size() > 2) {
                                             if (obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right")) {
                                                 ImageView bluerightImg = new ImageView(BlueConveyorBelts21mirror);
                                                 bluerightImg.setFitHeight(43);
@@ -1170,6 +1163,22 @@ public class ChatController {
                                             }
                                         }
 
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView topRightBlue = new ImageView(BlueConveyorBelts90);
+                                                topRightBlue.setFitHeight(43);
+                                                topRightBlue.setFitWidth(43);
+                                                topRightBlue.setRotate(topRightBlue.getRotate() + 270);
+                                                gridPaneBoard.add(topRightBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView topLeftBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                topLeftBlue.setFitHeight(43);
+                                                topLeftBlue.setFitWidth(43);
+                                                topLeftBlue.setRotate(topLeftBlue.getRotate() + 90);
+                                                gridPaneBoard.add(topLeftBlue, i, j);
+                                            }
+                                        }
+
 
                                     } else if (obj.getOrientations().get(0).equals("right")) {
 
@@ -1179,7 +1188,7 @@ public class ChatController {
                                         }
 
                                         // if there are several orientations, choose another pic
-                                        if (obj.getOrientations().size() > 2) {
+                                        if (obj.getOrientations().size() == 3) {
                                             if (obj.getOrientations().get(1).equals("top") || obj.getOrientations().get(2).equals("top")) {
                                                 ImageView bluetopImg = new ImageView(BlueConveyorBelts21);
                                                 bluetopImg.setFitHeight(43);
@@ -1192,6 +1201,21 @@ public class ChatController {
                                                 blueleftImg.setFitWidth(43);
                                                 blueleftImg.setRotate(blueleftImg.getRotate() + 180);
                                                 gridPaneBoard.add(blueleftImg, i, j);
+                                            }
+                                        }
+
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView rightTopBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                rightTopBlue.setFitHeight(43);
+                                                rightTopBlue.setFitWidth(43);
+                                                rightTopBlue.setRotate(rightTopBlue.getRotate() + 180);
+                                                gridPaneBoard.add(rightTopBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView rightTopBlue = new ImageView(BlueConveyorBelts90);
+                                                rightTopBlue.setFitHeight(43);
+                                                rightTopBlue.setFitWidth(43);
+                                                gridPaneBoard.add(rightTopBlue, i, j);
                                             }
                                         }
 
@@ -1218,6 +1242,22 @@ public class ChatController {
                                             }
                                         }
 
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView bottomRightBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                bottomRightBlue.setFitHeight(43);
+                                                bottomRightBlue.setFitWidth(43);
+                                                bottomRightBlue.setRotate(bottomRightBlue.getRotate() + 270);
+                                                gridPaneBoard.add(bottomRightBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView bottomLeftBlue = new ImageView(BlueConveyorBelts90);
+                                                bottomLeftBlue.setFitHeight(43);
+                                                bottomLeftBlue.setFitWidth(43);
+                                                bottomLeftBlue.setRotate(bottomLeftBlue.getRotate() + 90);
+                                                gridPaneBoard.add(bottomLeftBlue, i, j);
+                                            }
+                                        }
+
                                     } else if (obj.getOrientations().get(0).equals("left")) {
                                         if (obj.getOrientations().size() == 1) {
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
@@ -1237,6 +1277,21 @@ public class ChatController {
                                                 bluelbImg.setFitWidth(43);
                                                 bluelbImg.setRotate(bluelbImg.getRotate() + 90);
                                                 gridPaneBoard.add(bluelbImg, i, j);
+                                            }
+                                        }
+
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView leftTopBlue = new ImageView(BlueConveyorBelts90);
+                                                leftTopBlue.setFitHeight(43);
+                                                leftTopBlue.setFitWidth(43);
+                                                leftTopBlue.setRotate(leftTopBlue.getRotate() + 180);
+                                                gridPaneBoard.add(leftTopBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView leftBottomBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                leftBottomBlue.setFitHeight(43);
+                                                leftBottomBlue.setFitWidth(43);
+                                                gridPaneBoard.add(leftBottomBlue, i, j);
                                             }
                                         }
 
@@ -1334,10 +1389,6 @@ public class ChatController {
         }
 
         String mapName = client.mapName;
-
-
-
-
 
         switch (mapName){
             case "Dizzy Highway":
