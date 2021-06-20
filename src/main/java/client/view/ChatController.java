@@ -12,10 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -80,12 +77,12 @@ public class ChatController {
     @FXML
     private Button testButton;
     @FXML
-    private TextArea energyCube;
+    private Label energyCube;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
     @FXML
-    private TextArea timer;
+    private Label timer;
 
 
     //====================DrawnCardsBindings===================================
@@ -127,7 +124,6 @@ public class ChatController {
     Image ImageCheckpoint6 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint6.png").toExternalForm());
 
 
-
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
     Image BlueConveyorBeltsR = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-R.png").toExternalForm());
@@ -137,6 +133,8 @@ public class ChatController {
     Image GreenConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90.png").toExternalForm());
     Image GreenConveyorBeltsD = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D.png").toExternalForm());
     Image GreenConveyorBeltsL = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-L.png").toExternalForm());
+    Image GreenConveyorBeltsDmirror = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D-mirrored.png").toExternalForm());
+    Image GreenConveyorBelts90mirrored = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90mirrored.png").toExternalForm());
 
     Image EnergyOff = new Image(getClass().getResource("/images/Energy/energyOff.png").toExternalForm());
     Image EnergyOn = new Image(getClass().getResource("/images/Energy/energyOn.png").toExternalForm());
@@ -225,7 +223,7 @@ public class ChatController {
 
         //bind GAMEPHASE in client
         currentPhase.textProperty().bindBidirectional(client.GAMEPHASEProperty());
-        
+
 
         //bind CANCLICKFINISH in client
         finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
@@ -235,14 +233,14 @@ public class ChatController {
 
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
-
+        outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 ObservableList<String> mapObsList = client.getMAPS();
                 System.out.println("in Controller " + mapObsList);
-                if(mapList.getItems().size() < 4){
+                if (mapList.getItems().size() < 4) {
                     mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
                 }
@@ -855,11 +853,12 @@ public class ChatController {
 
     /**
      * if remove the register, the image will show again in drawn cards
+     *
      * @param buttonNum
      * @param backImage
      */
-    public void setBackToDrawnCard(int buttonNum, Image backImage){
-        switch (buttonNum){
+    public void setBackToDrawnCard(int buttonNum, Image backImage) {
+        switch (buttonNum) {
             case 0:
                 DrawnCard0.setImage(backImage);
                 break;
@@ -892,54 +891,55 @@ public class ChatController {
 
     /**
      * find the removed back card image
+     *
      * @param backCardName
      * @return
      */
-    public Image findBackImg(String backCardName){
+    public Image findBackImg(String backCardName) {
 
         Image backImg = null;
 
-            switch (backCardName) {
-                case "Again":
-                    backImg = imageAgain;
-                    break;
-                case "BackUp":
-                    backImg = imageMoveBack;
-                    break;
-                case "MoveI":
-                    backImg = imageMove1;
-                    break;
-                case "MoveII":
-                    backImg = imageMove2;
-                    break;
-                case "MoveIII":
-                    backImg = imageMove3;
-                    break;
-                case "PowerUp":
-                    backImg = imagePowerUp;
-                    break;
-                case "TurnLeft":
-                    backImg = imageTurnL;
-                    break;
-                case "TurnRight":
-                    backImg = imageTurnR;
-                    break;
-                case "UTurn":
-                    backImg = imageTurnU;
-                    break;
-                case "Spam":
-                    backImg = imageSpam;
-                    break;
-                case "Trojan":
-                    backImg = imageTrojan;
-                    break;
-                case "Virus":
-                    backImg = imageVirus;
-                    break;
-                case "Worm":
-                    backImg = imageWorm;
-                    break;
-            }
+        switch (backCardName) {
+            case "Again":
+                backImg = imageAgain;
+                break;
+            case "BackUp":
+                backImg = imageMoveBack;
+                break;
+            case "MoveI":
+                backImg = imageMove1;
+                break;
+            case "MoveII":
+                backImg = imageMove2;
+                break;
+            case "MoveIII":
+                backImg = imageMove3;
+                break;
+            case "PowerUp":
+                backImg = imagePowerUp;
+                break;
+            case "TurnLeft":
+                backImg = imageTurnL;
+                break;
+            case "TurnRight":
+                backImg = imageTurnR;
+                break;
+            case "UTurn":
+                backImg = imageTurnU;
+                break;
+            case "Spam":
+                backImg = imageSpam;
+                break;
+            case "Trojan":
+                backImg = imageTrojan;
+                break;
+            case "Virus":
+                backImg = imageVirus;
+                break;
+            case "Worm":
+                backImg = imageWorm;
+                break;
+        }
         return backImg;
     }
 
@@ -1062,6 +1062,7 @@ public class ChatController {
                             case "ConveyorBelt":
                                 // if it is a green belt
                                 if (obj.getSpeed() == 1) {
+
                                     ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
                                     beltGreenImg.setFitHeight(43);
                                     beltGreenImg.setFitWidth(43);
@@ -1075,6 +1076,7 @@ public class ChatController {
                                     }
 
                                     gridPaneBoard.add(beltGreenImg, i, j);
+
                                 } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
                                     beltBlueImg.setFitHeight(43);
@@ -1189,9 +1191,9 @@ public class ChatController {
                                 List<String> orientations = obj.getOrientations();
                                 String richtung = orientations.get(0);
 
-                                if(richtung.equals("clockwise")){
+                                if (richtung.equals("clockwise")) {
                                     gearImg = new ImageView(GearTRight);
-                                } else if(richtung.equals("counterclockwise")){
+                                } else if (richtung.equals("counterclockwise")) {
                                     gearImg = new ImageView(GearTLeft);
                                 }
                                 gearImg.setFitHeight(43);
@@ -1222,12 +1224,12 @@ public class ChatController {
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
                                 String pushDirection = obj.getOrientations().get(0);
-                                if(pushDirection.equals("bottom")){
-                                    pushImg.setRotate(pushImg.getRotate()+90);
-                                }else if(pushDirection.equals("left")){
-                                    pushImg.setRotate(pushImg.getRotate()+180);
-                                }else if(pushDirection.equals("top")){
-                                    pushImg.setRotate(pushImg.getRotate()+270);
+                                if (pushDirection.equals("bottom")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 90);
+                                } else if (pushDirection.equals("left")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 180);
+                                } else if (pushDirection.equals("top")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 270);
                                 }
                                 gridPaneBoard.add(pushImg, i, j);
                                 break;
