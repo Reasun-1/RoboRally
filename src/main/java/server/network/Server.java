@@ -1,5 +1,6 @@
 package server.network;
 
+import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.scene.effect.Bloom;
 import protocol.Protocol;
@@ -50,7 +51,7 @@ public class Server {
     /**
      * private constructor for singleton implementation
      */
-    private Server() {
+    protected Server() {
     }
 
     /**

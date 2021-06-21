@@ -58,7 +58,7 @@ public class Client extends Application {
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
-    private String mapName = null;
+    public String mapName = null;
     // store the available startPoints for the maps(death trap is different)
     private HashSet<Position> avaibleStartsMaps = new HashSet<>();
     private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
@@ -302,7 +302,7 @@ public class Client extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
 
@@ -322,6 +322,7 @@ public class Client extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        Platform.setImplicitExit(false);
 
         new Thread(() -> {
             try {

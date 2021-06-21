@@ -3,7 +3,6 @@ package client.view;
 import client.model.Client;
 //import client.viewmodel.ChatViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -22,7 +21,6 @@ import server.feldobjects.FeldObject;
 import server.game.Direction;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,9 +69,7 @@ public class ChatController {
     @FXML
     private Button finish; // invoke methode finishEvent()
     @FXML
-    private Button canPlayNextRegister; // invoke methode playNextRegisterEvent()
-    @FXML
-    private Button btnSetRegister;
+    private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
     @FXML
     private ImageView myFigure;
     @FXML
@@ -82,23 +78,11 @@ public class ChatController {
     private Button testButton;
     @FXML
     private Label energyCube;
-    @FXML
-    private Label timer;
-    @FXML
-    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
-    @FXML
-    private ImageView Register1, Register2, Register3, Register4, Register5;
-    @FXML
-    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-    @FXML
-    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
-    @FXML
-    private ComboBox<String> mapList;
-
-    private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
+    @FXML
+    private Label timer;
 
 
     //====================DrawnCardsBindings===================================
@@ -117,7 +101,19 @@ public class ChatController {
     Image imageVirus = new Image(getClass().getResource("/images/Cards/DamageCards/D-Virus.jpg").toExternalForm());
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
+    @FXML
+    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
+    @FXML
+    private ImageView Register1, Register2, Register3, Register4, Register5;
+    @FXML
+    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
+    @FXML
+    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
 
+    private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
+
+    @FXML
+    private ComboBox<String> mapList;
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -128,9 +124,9 @@ public class ChatController {
     Image ImageCheckpoint6 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint6.png").toExternalForm());
 
 
-
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
+    Image BlueConveyorBelts90mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90mirro.png").toExternalForm());
     Image BlueConveyorBeltsR = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-R.png").toExternalForm());
     Image BlueConveyorBelts21 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1.png").toExternalForm());
     Image BlueConveyorBelts21mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-2-1-mirrored.png").toExternalForm());
@@ -138,6 +134,8 @@ public class ChatController {
     Image GreenConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90.png").toExternalForm());
     Image GreenConveyorBeltsD = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D.png").toExternalForm());
     Image GreenConveyorBeltsL = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-L.png").toExternalForm());
+    Image GreenConveyorBeltsDmirror = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D-mirrored.png").toExternalForm());
+    Image GreenConveyorBelts90mirrored = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90mirrored.png").toExternalForm());
 
     Image EnergyOff = new Image(getClass().getResource("/images/Energy/energyOff.png").toExternalForm());
     Image EnergyOn = new Image(getClass().getResource("/images/Energy/energyOn.png").toExternalForm());
@@ -196,6 +194,7 @@ public class ChatController {
         drawnA7.getItems().addAll(regList);
         drawnA8.getItems().addAll(regList);
 
+
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
 
@@ -225,7 +224,7 @@ public class ChatController {
 
         //bind GAMEPHASE in client
         currentPhase.textProperty().bindBidirectional(client.GAMEPHASEProperty());
-        
+
 
         //bind CANCLICKFINISH in client
         finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
@@ -236,14 +235,13 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
-
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
                 ObservableList<String> mapObsList = client.getMAPS();
                 System.out.println("in Controller " + mapObsList);
-                if(mapList.getItems().size() < 4){
+                if (mapList.getItems().size() < 4) {
                     mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
                 }
@@ -413,26 +411,8 @@ public class ChatController {
                 setMapInGUI(mapInGUI);
             }
         });
-/*
-        @FXML
-        public void drawnButton0() throws IOException {
-            System.out.println("drawnButton0 clicked.");
-            // set Image to right register
-            int regNum = drawnA0.getValue();
-            Image image = DrawnCard0.getImage();
-            setRegCard(regNum, image);
-
-            DrawnCard0.setImage(imageDiscard);
-            regButton.put(regNum, 0);*/
 
         //====================Bindings for drawnCards===================
-        client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
-            @Override
-            public void changed(ObservableValue<? extends ObservableList<String>> observable, ObservableList<String> oldValue, ObservableList<String> newValue) {
-
-            }
-        });
-
         client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
@@ -874,11 +854,12 @@ public class ChatController {
 
     /**
      * if remove the register, the image will show again in drawn cards
+     *
      * @param buttonNum
      * @param backImage
      */
-    public void setBackToDrawnCard(int buttonNum, Image backImage){
-        switch (buttonNum){
+    public void setBackToDrawnCard(int buttonNum, Image backImage) {
+        switch (buttonNum) {
             case 0:
                 DrawnCard0.setImage(backImage);
                 break;
@@ -911,54 +892,55 @@ public class ChatController {
 
     /**
      * find the removed back card image
+     *
      * @param backCardName
      * @return
      */
-    public Image findBackImg(String backCardName){
+    public Image findBackImg(String backCardName) {
 
         Image backImg = null;
 
-            switch (backCardName) {
-                case "Again":
-                    backImg = imageAgain;
-                    break;
-                case "BackUp":
-                    backImg = imageMoveBack;
-                    break;
-                case "MoveI":
-                    backImg = imageMove1;
-                    break;
-                case "MoveII":
-                    backImg = imageMove2;
-                    break;
-                case "MoveIII":
-                    backImg = imageMove3;
-                    break;
-                case "PowerUp":
-                    backImg = imagePowerUp;
-                    break;
-                case "TurnLeft":
-                    backImg = imageTurnL;
-                    break;
-                case "TurnRight":
-                    backImg = imageTurnR;
-                    break;
-                case "UTurn":
-                    backImg = imageTurnU;
-                    break;
-                case "Spam":
-                    backImg = imageSpam;
-                    break;
-                case "Trojan":
-                    backImg = imageTrojan;
-                    break;
-                case "Virus":
-                    backImg = imageVirus;
-                    break;
-                case "Worm":
-                    backImg = imageWorm;
-                    break;
-            }
+        switch (backCardName) {
+            case "Again":
+                backImg = imageAgain;
+                break;
+            case "BackUp":
+                backImg = imageMoveBack;
+                break;
+            case "MoveI":
+                backImg = imageMove1;
+                break;
+            case "MoveII":
+                backImg = imageMove2;
+                break;
+            case "MoveIII":
+                backImg = imageMove3;
+                break;
+            case "PowerUp":
+                backImg = imagePowerUp;
+                break;
+            case "TurnLeft":
+                backImg = imageTurnL;
+                break;
+            case "TurnRight":
+                backImg = imageTurnR;
+                break;
+            case "UTurn":
+                backImg = imageTurnU;
+                break;
+            case "Spam":
+                backImg = imageSpam;
+                break;
+            case "Trojan":
+                backImg = imageTrojan;
+                break;
+            case "Virus":
+                backImg = imageVirus;
+                break;
+            case "Worm":
+                backImg = imageWorm;
+                break;
+        }
         return backImg;
     }
 
@@ -1025,6 +1007,7 @@ public class ChatController {
      */
     public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");
+
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
                 List<FeldObject> feldObjects = map.get(i).get(j);
@@ -1033,7 +1016,6 @@ public class ChatController {
 
                         switch (obj.getClass().getSimpleName()) {
                             case "Antenna":
-
 
                                 ImageView antennaImg = new ImageView(Antenna);
                                 antennaImg.setFitHeight(43);
@@ -1081,19 +1063,77 @@ public class ChatController {
                             case "ConveyorBelt":
                                 // if it is a green belt
                                 if (obj.getSpeed() == 1) {
-                                    ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
-                                    beltGreenImg.setFitHeight(43);
-                                    beltGreenImg.setFitWidth(43);
 
-                                    if(obj.getOrientations().get(0).equals("right")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
-                                    }else if(obj.getOrientations().get(0).equals("bottom")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 180);
-                                    }else if(obj.getOrientations().get(0).equals("left")){
-                                        beltGreenImg.setRotate(beltGreenImg.getRotate() + 270);
+                                    if(obj.getOrientations().size() == 1){ // if only one direction
+
+                                        ImageView beltGreenImg = new ImageView(GreenConveyorBelts);
+                                        beltGreenImg.setFitHeight(43);
+                                        beltGreenImg.setFitWidth(43);
+
+                                        if(obj.getOrientations().get(0).equals("right")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 90);
+                                        }else if(obj.getOrientations().get(0).equals("bottom")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 180);
+                                        }else if(obj.getOrientations().get(0).equals("left")){
+                                            beltGreenImg.setRotate(beltGreenImg.getRotate() + 270);
+                                        }
+
+                                        gridPaneBoard.add(beltGreenImg, i, j);
                                     }
 
-                                    gridPaneBoard.add(beltGreenImg, i, j);
+                                    if(obj.getOrientations().size() == 2){ // for a corner belt
+                                        if(obj.getOrientations().get(0).equals("top") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView topRight = new ImageView(GreenConveyorBelts90mirrored);
+                                            topRight.setFitHeight(43);
+                                            topRight.setFitWidth(43);
+                                            topRight.setRotate(topRight.getRotate()+270);
+                                            gridPaneBoard.add(topRight,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("bottom")){
+                                            ImageView rightBottom = new ImageView(GreenConveyorBelts90mirrored);
+                                            rightBottom.setFitHeight(43);
+                                            rightBottom.setFitWidth(43);
+                                            gridPaneBoard.add(rightBottom,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("bottom") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView bottomLeft = new ImageView(GreenConveyorBelts90mirrored);
+                                            bottomLeft.setFitHeight(43);
+                                            bottomLeft.setFitWidth(43);
+                                            bottomLeft.setRotate(bottomLeft.getRotate()+90);
+                                            gridPaneBoard.add(bottomLeft,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("top")){
+                                            ImageView leftTop = new ImageView(GreenConveyorBelts90mirrored);
+                                            leftTop.setFitHeight(43);
+                                            leftTop.setFitWidth(43);
+                                            leftTop.setRotate(leftTop.getRotate()+180);
+                                            gridPaneBoard.add(leftTop,i,j);
+
+                                            // mirrored direction
+                                        }else if(obj.getOrientations().get(0).equals("top") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView topLeft = new ImageView(GreenConveyorBelts90);
+                                            topLeft.setFitHeight(43);
+                                            topLeft.setFitWidth(43);
+                                            topLeft.setRotate(topLeft.getRotate()+90);
+                                            gridPaneBoard.add(topLeft,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("top")){
+                                            ImageView rightTop = new ImageView(GreenConveyorBelts90);
+                                            rightTop.setFitHeight(43);
+                                            rightTop.setFitWidth(43);
+                                            rightTop.setRotate(rightTop.getRotate()+180);
+                                            gridPaneBoard.add(rightTop,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("bottom") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView bottomRight = new ImageView(GreenConveyorBelts90);
+                                            bottomRight.setFitHeight(43);
+                                            bottomRight.setFitWidth(43);
+                                            bottomRight.setRotate(bottomRight.getRotate()+270);
+                                            gridPaneBoard.add(bottomRight,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("bottom")){
+                                            ImageView leftBottom = new ImageView(GreenConveyorBelts90);
+                                            leftBottom.setFitHeight(43);
+                                            leftBottom.setFitWidth(43);
+                                            gridPaneBoard.add(leftBottom,i,j);
+                                        }
+                                    }
+
+
                                 } else {// then a blue belt
                                     ImageView beltBlueImg = new ImageView(BlueConveyorBelts);
                                     beltBlueImg.setFitHeight(43);
@@ -1106,7 +1146,7 @@ public class ChatController {
                                         }
 
                                         // if there are several orientations, choose another pic
-                                        if (obj.getOrientations().size() > 1) {
+                                        if (obj.getOrientations().size() > 2) {
                                             if (obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right")) {
                                                 ImageView bluerightImg = new ImageView(BlueConveyorBelts21mirror);
                                                 bluerightImg.setFitHeight(43);
@@ -1123,6 +1163,22 @@ public class ChatController {
                                             }
                                         }
 
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView topRightBlue = new ImageView(BlueConveyorBelts90);
+                                                topRightBlue.setFitHeight(43);
+                                                topRightBlue.setFitWidth(43);
+                                                topRightBlue.setRotate(topRightBlue.getRotate() + 270);
+                                                gridPaneBoard.add(topRightBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView topLeftBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                topLeftBlue.setFitHeight(43);
+                                                topLeftBlue.setFitWidth(43);
+                                                topLeftBlue.setRotate(topLeftBlue.getRotate() + 90);
+                                                gridPaneBoard.add(topLeftBlue, i, j);
+                                            }
+                                        }
+
 
                                     } else if (obj.getOrientations().get(0).equals("right")) {
 
@@ -1132,7 +1188,7 @@ public class ChatController {
                                         }
 
                                         // if there are several orientations, choose another pic
-                                        if (obj.getOrientations().size() > 2) {
+                                        if (obj.getOrientations().size() == 3) {
                                             if (obj.getOrientations().get(1).equals("top") || obj.getOrientations().get(2).equals("top")) {
                                                 ImageView bluetopImg = new ImageView(BlueConveyorBelts21);
                                                 bluetopImg.setFitHeight(43);
@@ -1145,6 +1201,21 @@ public class ChatController {
                                                 blueleftImg.setFitWidth(43);
                                                 blueleftImg.setRotate(blueleftImg.getRotate() + 180);
                                                 gridPaneBoard.add(blueleftImg, i, j);
+                                            }
+                                        }
+
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView rightTopBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                rightTopBlue.setFitHeight(43);
+                                                rightTopBlue.setFitWidth(43);
+                                                rightTopBlue.setRotate(rightTopBlue.getRotate() + 180);
+                                                gridPaneBoard.add(rightTopBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView rightTopBlue = new ImageView(BlueConveyorBelts90);
+                                                rightTopBlue.setFitHeight(43);
+                                                rightTopBlue.setFitWidth(43);
+                                                gridPaneBoard.add(rightTopBlue, i, j);
                                             }
                                         }
 
@@ -1171,6 +1242,22 @@ public class ChatController {
                                             }
                                         }
 
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("right")){
+                                                ImageView bottomRightBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                bottomRightBlue.setFitHeight(43);
+                                                bottomRightBlue.setFitWidth(43);
+                                                bottomRightBlue.setRotate(bottomRightBlue.getRotate() + 270);
+                                                gridPaneBoard.add(bottomRightBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("left")){
+                                                ImageView bottomLeftBlue = new ImageView(BlueConveyorBelts90);
+                                                bottomLeftBlue.setFitHeight(43);
+                                                bottomLeftBlue.setFitWidth(43);
+                                                bottomLeftBlue.setRotate(bottomLeftBlue.getRotate() + 90);
+                                                gridPaneBoard.add(bottomLeftBlue, i, j);
+                                            }
+                                        }
+
                                     } else if (obj.getOrientations().get(0).equals("left")) {
                                         if (obj.getOrientations().size() == 1) {
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
@@ -1193,6 +1280,21 @@ public class ChatController {
                                             }
                                         }
 
+                                        if(obj.getOrientations().size() == 2){
+                                            if(obj.getOrientations().get(1).equals("top")){
+                                                ImageView leftTopBlue = new ImageView(BlueConveyorBelts90);
+                                                leftTopBlue.setFitHeight(43);
+                                                leftTopBlue.setFitWidth(43);
+                                                leftTopBlue.setRotate(leftTopBlue.getRotate() + 180);
+                                                gridPaneBoard.add(leftTopBlue, i, j);
+                                            }else if(obj.getOrientations().get(1).equals("bottom")){
+                                                ImageView leftBottomBlue = new ImageView(BlueConveyorBelts90mirror);
+                                                leftBottomBlue.setFitHeight(43);
+                                                leftBottomBlue.setFitWidth(43);
+                                                gridPaneBoard.add(leftBottomBlue, i, j);
+                                            }
+                                        }
+
                                     }
                                 }
                                 break;
@@ -1208,9 +1310,9 @@ public class ChatController {
                                 List<String> orientations = obj.getOrientations();
                                 String richtung = orientations.get(0);
 
-                                if(richtung.equals("clockwise")){
+                                if (richtung.equals("clockwise")) {
                                     gearImg = new ImageView(GearTRight);
-                                } else if(richtung.equals("counterclockwise")){
+                                } else if (richtung.equals("counterclockwise")) {
                                     gearImg = new ImageView(GearTLeft);
                                 }
                                 gearImg.setFitHeight(43);
@@ -1241,12 +1343,12 @@ public class ChatController {
                                 pushImg.setFitHeight(43);
                                 pushImg.setFitWidth(43);
                                 String pushDirection = obj.getOrientations().get(0);
-                                if(pushDirection.equals("bottom")){
-                                    pushImg.setRotate(pushImg.getRotate()+90);
-                                }else if(pushDirection.equals("left")){
-                                    pushImg.setRotate(pushImg.getRotate()+180);
-                                }else if(pushDirection.equals("top")){
-                                    pushImg.setRotate(pushImg.getRotate()+270);
+                                if (pushDirection.equals("bottom")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 90);
+                                } else if (pushDirection.equals("left")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 180);
+                                } else if (pushDirection.equals("top")) {
+                                    pushImg.setRotate(pushImg.getRotate() + 270);
                                 }
                                 gridPaneBoard.add(pushImg, i, j);
                                 break;
@@ -1284,6 +1386,129 @@ public class ChatController {
                     }
                 }
             }
+        }
+
+        String mapName = client.mapName;
+
+        switch (mapName){
+            case "Dizzy Highway":
+                ImageView laserHori1 = new ImageView(Lasers1);
+                laserHori1.setFitHeight(43);
+                laserHori1.setFitWidth(43);
+                gridPaneBoard.add(laserHori1,9,3);
+
+                ImageView laserHori2 = new ImageView(Lasers1);
+                laserHori2.setFitHeight(43);
+                laserHori2.setFitWidth(43);
+                gridPaneBoard.add(laserHori2,6,6);
+
+                ImageView laserVert1 = new ImageView(Lasers1);
+                laserVert1.setFitHeight(43);
+                laserVert1.setFitWidth(43);
+                laserVert1.setRotate(laserVert1.getRotate()+90);
+                gridPaneBoard.add(laserVert1,6,3);
+
+                ImageView laserVert2 = new ImageView(Lasers1);
+                laserVert2.setFitHeight(43);
+                laserVert2.setFitWidth(43);
+                laserVert2.setRotate(laserVert2.getRotate()+90);
+                gridPaneBoard.add(laserVert2,9,6);
+                break;
+            case "Lost Bearings":
+                ImageView laserHori3 = new ImageView(Lasers1);
+                laserHori3.setFitHeight(43);
+                laserHori3.setFitWidth(43);
+                gridPaneBoard.add(laserHori3,6,3);
+
+                ImageView laserHori4 = new ImageView(Lasers1);
+                laserHori4.setFitHeight(43);
+                laserHori4.setFitWidth(43);
+                gridPaneBoard.add(laserHori4,7,3);
+
+                ImageView laserHori5 = new ImageView(Lasers1);
+                laserHori5.setFitHeight(43);
+                laserHori5.setFitWidth(43);
+                gridPaneBoard.add(laserHori5,8,3);
+
+                ImageView laserHori6 = new ImageView(Lasers1);
+                laserHori6.setFitHeight(43);
+                laserHori6.setFitWidth(43);
+                gridPaneBoard.add(laserHori6,7,6);
+
+                ImageView laserHori7 = new ImageView(Lasers1);
+                laserHori7.setFitHeight(43);
+                laserHori7.setFitWidth(43);
+                gridPaneBoard.add(laserHori7,8,6);
+
+                ImageView laserHori8 = new ImageView(Lasers1);
+                laserHori8.setFitHeight(43);
+                laserHori8.setFitWidth(43);
+                gridPaneBoard.add(laserHori8,9,6);
+
+                break;
+            case "Death Trap":
+                break;
+            case "Extra Crispy":
+
+                ImageView laserHori9 = new ImageView(Lasers1);
+                laserHori9.setFitHeight(43);
+                laserHori9.setFitWidth(43);
+                gridPaneBoard.add(laserHori9,10,0);
+
+                ImageView laserHori10 = new ImageView(Lasers1);
+                laserHori10.setFitHeight(43);
+                laserHori10.setFitWidth(43);
+                gridPaneBoard.add(laserHori10,5,9);
+
+                ImageView laserVert3 = new ImageView(Lasers1);
+                laserVert3.setFitHeight(43);
+                laserVert3.setFitWidth(43);
+                laserVert3.setRotate(laserVert3.getRotate()+90);
+                gridPaneBoard.add(laserVert3,5,3);
+
+                ImageView laserVert4 = new ImageView(Lasers1);
+                laserVert4.setFitHeight(43);
+                laserVert4.setFitWidth(43);
+                laserVert4.setRotate(laserVert4.getRotate()+90);
+                gridPaneBoard.add(laserVert4,5,4);
+
+                ImageView laserVert5 = new ImageView(Lasers1);
+                laserVert5.setFitHeight(43);
+                laserVert5.setFitWidth(43);
+                laserVert5.setRotate(laserVert5.getRotate()+90);
+                gridPaneBoard.add(laserVert5,5,5);
+
+                ImageView laserVert6 = new ImageView(Lasers1);
+                laserVert6.setFitHeight(43);
+                laserVert6.setFitWidth(43);
+                laserVert6.setRotate(laserVert6.getRotate()+90);
+                gridPaneBoard.add(laserVert6,5,6);
+
+                ImageView laserVert7 = new ImageView(Lasers1);
+                laserVert7.setFitHeight(43);
+                laserVert7.setFitWidth(43);
+                laserVert7.setRotate(laserVert7.getRotate()+90);
+                gridPaneBoard.add(laserVert7,10,3);
+
+                ImageView laserVert8 = new ImageView(Lasers1);
+                laserVert8.setFitHeight(43);
+                laserVert8.setFitWidth(43);
+                laserVert8.setRotate(laserVert8.getRotate()+90);
+                gridPaneBoard.add(laserVert8,10,4);
+
+                ImageView laserVert9 = new ImageView(Lasers1);
+                laserVert9.setFitHeight(43);
+                laserVert9.setFitWidth(43);
+                laserVert9.setRotate(laserVert9.getRotate()+90);
+                gridPaneBoard.add(laserVert9,10,5);
+
+                ImageView laserVert10 = new ImageView(Lasers1);
+                laserVert10.setFitHeight(43);
+                laserVert10.setFitWidth(43);
+                laserVert10.setRotate(laserVert10.getRotate()+90);
+                gridPaneBoard.add(laserVert10,10,6);
+
+                break;
         }
     }
 
