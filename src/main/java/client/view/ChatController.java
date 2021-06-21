@@ -235,6 +235,7 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
+
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
@@ -247,6 +248,19 @@ public class ChatController {
                 }
             }
         });
+        //TODO can click finish register
+        // bind register
+        /*client.CANCLICKFINISHProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println("you can click FINISH-Button");
+                int finalRegister = client.getMYREGISTER().length;
+                if (finalRegister != 5) {
+                    finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
+                                }
+
+            }
+        }); */
 
 
         //bind flag replace register
@@ -703,6 +717,10 @@ public class ChatController {
         // send selected card message to server
         String cardName0 = client.MYCARDSProperty().get(0);
         client.setRegister(cardName0, regNum);
+
+        //Combox refresh
+        drawnA0.getItems().clear();
+        drawnA0.getItems().addAll(regList);
     }
 
 
@@ -719,6 +737,10 @@ public class ChatController {
 
         String cardName1 = client.MYCARDSProperty().get(1);
         client.setRegister(cardName1, regNum);
+
+        //Combox refresh
+        drawnA1.getItems().clear();
+        drawnA1.getItems().addAll(regList);
     }
 
     @FXML
@@ -734,6 +756,10 @@ public class ChatController {
 
         String cardName2 = client.MYCARDSProperty().get(2);
         client.setRegister(cardName2, regNum);
+
+        //Combox refresh
+        drawnA2.getItems().clear();
+        drawnA2.getItems().addAll(regList);
     }
 
     @FXML
@@ -749,6 +775,10 @@ public class ChatController {
 
         String cardName3 = client.MYCARDSProperty().get(3);
         client.setRegister(cardName3, regNum);
+
+        //Combox refresh
+        drawnA3.getItems().clear();
+        drawnA3.getItems().addAll(regList);
     }
 
     @FXML
@@ -764,6 +794,10 @@ public class ChatController {
 
         String cardName4 = client.MYCARDSProperty().get(4);
         client.setRegister(cardName4, regNum);
+
+        //Combox refresh
+        drawnA4.getItems().clear();
+        drawnA4.getItems().addAll(regList);
     }
 
     @FXML
@@ -779,6 +813,10 @@ public class ChatController {
 
         String cardName5 = client.MYCARDSProperty().get(5);
         client.setRegister(cardName5, regNum);
+
+        //Combox refresh
+        drawnA5.getItems().clear();
+        drawnA5.getItems().addAll(regList);
     }
 
     @FXML
@@ -794,6 +832,10 @@ public class ChatController {
 
         String cardName6 = client.MYCARDSProperty().get(6);
         client.setRegister(cardName6, regNum);
+
+        //Combox refresh
+        drawnA6.getItems().clear();
+        drawnA6.getItems().addAll(regList);
     }
 
     @FXML
@@ -809,6 +851,10 @@ public class ChatController {
 
         String cardName7 = client.MYCARDSProperty().get(7);
         client.setRegister(cardName7, regNum);
+
+        //Combox refresh
+        drawnA7.getItems().clear();
+        drawnA7.getItems().addAll(regList);
     }
 
     @FXML
@@ -824,6 +870,10 @@ public class ChatController {
 
         String cardName8 = client.MYCARDSProperty().get(8);
         client.setRegister(cardName8, regNum);
+
+        //Combox refresh
+        drawnA8.getItems().clear();
+        drawnA8.getItems().addAll(regList);
     }
 
     /**

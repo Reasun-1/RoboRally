@@ -514,6 +514,7 @@ public class Client extends Application {
                                 } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
+                                    CANCLICKFINISH.set(false);
                                     CANPLAYNEXTREGISTER.set(true);
                                 }else if(GAMEPHASE.get().equals("Programmierphase")){
                                     INFORMATION.set("");
