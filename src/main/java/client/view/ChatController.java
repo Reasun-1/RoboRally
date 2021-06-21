@@ -622,14 +622,19 @@ public class ChatController {
         Register1.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                Register1.setImage(dragEvent.getDragboard().getImage());
-                regButton.put(1, tempButtonNum);
-                clearDrawnCardImage(tempButtonNum);
-                try {
-                    // send selected card message to serverv
-                    client.setRegister(tempCardName, 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                String url = Register1.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register1.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(1, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -644,14 +649,20 @@ public class ChatController {
         Register2.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                Register2.setImage(dragEvent.getDragboard().getImage());
-                regButton.put(2, tempButtonNum);
-                clearDrawnCardImage(tempButtonNum);
-                try {
-                    // send selected card message to serverv
-                    client.setRegister(tempCardName, 2);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String url = Register2.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register2.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(2, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -666,14 +677,20 @@ public class ChatController {
         Register3.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                Register3.setImage(dragEvent.getDragboard().getImage());
-                regButton.put(3, tempButtonNum);
-                clearDrawnCardImage(tempButtonNum);
-                try {
-                    // send selected card message to serverv
-                    client.setRegister(tempCardName, 3);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String url = Register3.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register3.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(3, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 3);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -688,14 +705,20 @@ public class ChatController {
         Register4.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                Register4.setImage(dragEvent.getDragboard().getImage());
-                regButton.put(4, tempButtonNum);
-                clearDrawnCardImage(tempButtonNum);
-                try {
-                    // send selected card message to serverv
-                    client.setRegister(tempCardName, 4);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String url = Register4.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register4.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(4, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 4);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -710,14 +733,20 @@ public class ChatController {
         Register5.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                Register5.setImage(dragEvent.getDragboard().getImage());
-                regButton.put(5, tempButtonNum);
-                clearDrawnCardImage(tempButtonNum);
-                try {
-                    // send selected card message to serverv
-                    client.setRegister(tempCardName, 5);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String url = Register5.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register5.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(5, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
