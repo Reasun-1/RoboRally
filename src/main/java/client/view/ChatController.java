@@ -72,7 +72,6 @@ public class ChatController {
     private Button finish; // invoke methode finishEvent()
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegisterEvent()
-    //TODO Button for all comboboxes
     @FXML
     private Button btnSetRegister;
     @FXML
