@@ -510,7 +510,6 @@ public class ChatController {
                 content.putImage(DrawnCard0.getImage());
                 db.setContent(content);
 
-                DrawnCard0.setImage(imageDiscard);
                 tempButtonNum = 0;
                 tempCardName = client.MYCARDSProperty().get(0);
             }
@@ -523,7 +522,6 @@ public class ChatController {
                 content.putImage(DrawnCard1.getImage());
                 db.setContent(content);
 
-                DrawnCard1.setImage(imageDiscard);
                 tempButtonNum = 1;
                 tempCardName = client.MYCARDSProperty().get(1);
             }
@@ -536,7 +534,6 @@ public class ChatController {
                 content.putImage(DrawnCard2.getImage());
                 db.setContent(content);
 
-                DrawnCard2.setImage(imageDiscard);
                 tempButtonNum = 2;
                 tempCardName = client.MYCARDSProperty().get(2);
             }
@@ -549,7 +546,6 @@ public class ChatController {
                 content.putImage(DrawnCard3.getImage());
                 db.setContent(content);
 
-                DrawnCard3.setImage(imageDiscard);
                 tempButtonNum = 3;
                 tempCardName = client.MYCARDSProperty().get(3);
             }
@@ -562,7 +558,6 @@ public class ChatController {
                 content.putImage(DrawnCard4.getImage());
                 db.setContent(content);
 
-                DrawnCard4.setImage(imageDiscard);
                 tempButtonNum = 4;
                 tempCardName = client.MYCARDSProperty().get(4);
             }
@@ -575,7 +570,6 @@ public class ChatController {
                 content.putImage(DrawnCard5.getImage());
                 db.setContent(content);
 
-                DrawnCard5.setImage(imageDiscard);
                 tempButtonNum = 5;
                 tempCardName = client.MYCARDSProperty().get(5);
             }
@@ -588,7 +582,6 @@ public class ChatController {
                 content.putImage(DrawnCard6.getImage());
                 db.setContent(content);
 
-                DrawnCard6.setImage(imageDiscard);
                 tempButtonNum = 6;
                 tempCardName = client.MYCARDSProperty().get(6);
             }
@@ -601,7 +594,6 @@ public class ChatController {
                 content.putImage(DrawnCard7.getImage());
                 db.setContent(content);
 
-                DrawnCard7.setImage(imageDiscard);
                 tempButtonNum = 7;
                 tempCardName = client.MYCARDSProperty().get(7);
             }
@@ -614,7 +606,6 @@ public class ChatController {
                 content.putImage(DrawnCard8.getImage());
                 db.setContent(content);
 
-                DrawnCard8.setImage(imageDiscard);
                 tempButtonNum = 8;
                 tempCardName = client.MYCARDSProperty().get(8);
             }
@@ -633,6 +624,7 @@ public class ChatController {
             public void handle(DragEvent dragEvent) {
                 Register1.setImage(dragEvent.getDragboard().getImage());
                 regButton.put(1, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
                 try {
                     // send selected card message to serverv
                     client.setRegister(tempCardName, 1);
@@ -654,6 +646,7 @@ public class ChatController {
             public void handle(DragEvent dragEvent) {
                 Register2.setImage(dragEvent.getDragboard().getImage());
                 regButton.put(2, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
                 try {
                     // send selected card message to serverv
                     client.setRegister(tempCardName, 2);
@@ -675,6 +668,7 @@ public class ChatController {
             public void handle(DragEvent dragEvent) {
                 Register3.setImage(dragEvent.getDragboard().getImage());
                 regButton.put(3, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
                 try {
                     // send selected card message to serverv
                     client.setRegister(tempCardName, 3);
@@ -696,6 +690,7 @@ public class ChatController {
             public void handle(DragEvent dragEvent) {
                 Register4.setImage(dragEvent.getDragboard().getImage());
                 regButton.put(4, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
                 try {
                     // send selected card message to serverv
                     client.setRegister(tempCardName, 4);
@@ -717,6 +712,7 @@ public class ChatController {
             public void handle(DragEvent dragEvent) {
                 Register5.setImage(dragEvent.getDragboard().getImage());
                 regButton.put(5, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
                 try {
                     // send selected card message to serverv
                     client.setRegister(tempCardName, 5);
@@ -725,6 +721,39 @@ public class ChatController {
                 }
             }
         });
+    }
+
+    public void clearDrawnCardImage(int cardButtoNum){
+
+        switch (cardButtoNum){
+            case 0:
+                DrawnCard0.setImage(imageDiscard);
+                break;
+            case 1:
+                DrawnCard1.setImage(imageDiscard);
+                break;
+            case 2:
+                DrawnCard2.setImage(imageDiscard);
+                break;
+            case 3:
+                DrawnCard3.setImage(imageDiscard);
+                break;
+            case 4:
+                DrawnCard4.setImage(imageDiscard);
+                break;
+            case 5:
+                DrawnCard5.setImage(imageDiscard);
+                break;
+            case 6:
+                DrawnCard6.setImage(imageDiscard);
+                break;
+            case 7:
+                DrawnCard7.setImage(imageDiscard);
+                break;
+            case 8:
+                DrawnCard8.setImage(imageDiscard);
+                break;
+        }
     }
 
     public void updateRegisters() {
