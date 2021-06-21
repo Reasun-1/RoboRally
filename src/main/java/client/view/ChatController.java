@@ -107,12 +107,6 @@ public class ChatController {
     private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
     @FXML
     private ImageView Register1, Register2, Register3, Register4, Register5;
-    @FXML
-    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-    @FXML
-    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
-
-    private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
 
     @FXML
     private ComboBox<String> mapList;
@@ -187,18 +181,6 @@ public class ChatController {
 
     public void init(Client client) {
         this.client = client;
-
-        //get items for comboboxes of the register
-        drawnA0.getItems().addAll(regList);
-        drawnA1.getItems().addAll(regList);
-        drawnA2.getItems().addAll(regList);
-        drawnA3.getItems().addAll(regList);
-        drawnA4.getItems().addAll(regList);
-        drawnA5.getItems().addAll(regList);
-        drawnA6.getItems().addAll(regList);
-        drawnA7.getItems().addAll(regList);
-        drawnA8.getItems().addAll(regList);
-
 
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
@@ -915,146 +897,6 @@ public class ChatController {
             System.out.println("round over checked by GUI");
             client.registerPointer = 0;
         }
-    }
-
-
-    //=========================EventDrawnCards=================================
-
-    @FXML
-    public void drawnButton0() throws IOException {
-        System.out.println("drawnButton0 clicked.");
-        // set Image to right register
-        int regNum = drawnA0.getValue();
-        Image image = DrawnCard0.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard0.setImage(imageDiscard);
-        regButton.put(regNum, 0);
-
-        // send selected card message to server
-        String cardName0 = client.MYCARDSProperty().get(0);
-        client.setRegister(cardName0, regNum);
-    }
-
-
-    @FXML
-    public void drawnButton1() throws IOException {
-        System.out.println("drawnButton1 clicked.");
-        // set Image to right register
-        int regNum = drawnA1.getValue();
-        Image image = DrawnCard1.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard1.setImage(imageDiscard);
-        regButton.put(regNum, 1);
-
-        String cardName1 = client.MYCARDSProperty().get(1);
-        client.setRegister(cardName1, regNum);
-    }
-
-    @FXML
-    public void drawnButton2() throws IOException {
-        System.out.println("drawnButton2 clicked.");
-        // set Image to right register
-        int regNum = drawnA2.getValue();
-        Image image = DrawnCard2.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard2.setImage(imageDiscard);
-        regButton.put(regNum, 2);
-
-        String cardName2 = client.MYCARDSProperty().get(2);
-        client.setRegister(cardName2, regNum);
-    }
-
-    @FXML
-    public void drawnButton3() throws IOException {
-        System.out.println("drawnButton3 clicked.");
-        // set Image to right register
-        int regNum = drawnA3.getValue();
-        Image image = DrawnCard3.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard3.setImage(imageDiscard);
-        regButton.put(regNum, 3);
-
-        String cardName3 = client.MYCARDSProperty().get(3);
-        client.setRegister(cardName3, regNum);
-    }
-
-    @FXML
-    public void drawnButton4() throws IOException {
-        System.out.println("drawnButton4 clicked.");
-        // set Image to right register
-        int regNum = drawnA4.getValue();
-        Image image = DrawnCard4.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard4.setImage(imageDiscard);
-        regButton.put(regNum, 4);
-
-        String cardName4 = client.MYCARDSProperty().get(4);
-        client.setRegister(cardName4, regNum);
-    }
-
-    @FXML
-    public void drawnButton5() throws IOException {
-        System.out.println("drawnButton5 clicked.");
-        // set Image to right register
-        int regNum = drawnA5.getValue();
-        Image image = DrawnCard5.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard5.setImage(imageDiscard);
-        regButton.put(regNum, 5);
-
-        String cardName5 = client.MYCARDSProperty().get(5);
-        client.setRegister(cardName5, regNum);
-    }
-
-    @FXML
-    public void drawnButton6() throws IOException {
-        System.out.println("drawnButton6 clicked.");
-        // set Image to right register
-        int regNum = drawnA6.getValue();
-        Image image = DrawnCard6.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard6.setImage(imageDiscard);
-        regButton.put(regNum, 6);
-
-        String cardName6 = client.MYCARDSProperty().get(6);
-        client.setRegister(cardName6, regNum);
-    }
-
-    @FXML
-    public void drawnButton7() throws IOException {
-        System.out.println("drawnButton7 clicked.");
-        // set Image to right register
-        int regNum = drawnA7.getValue();
-        Image image = DrawnCard7.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard7.setImage(imageDiscard);
-        regButton.put(regNum, 7);
-
-        String cardName7 = client.MYCARDSProperty().get(7);
-        client.setRegister(cardName7, regNum);
-    }
-
-    @FXML
-    public void drawnButton8() throws IOException {
-        System.out.println("drawnButton8 clicked.");
-        // set Image to right register
-        int regNum = drawnA8.getValue();
-        Image image = DrawnCard8.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard8.setImage(imageDiscard);
-        regButton.put(regNum, 8);
-
-        String cardName8 = client.MYCARDSProperty().get(8);
-        client.setRegister(cardName8, regNum);
     }
 
     /**

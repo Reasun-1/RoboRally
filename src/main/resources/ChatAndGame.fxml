@@ -402,12 +402,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="30.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA0" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB0" mnemonicParsing="false" onAction="#drawnButton0" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="30.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane prefHeight="145.0" prefWidth="25.0" />
@@ -418,12 +413,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="37.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA1" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB1" mnemonicParsing="false" onAction="#drawnButton1" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="37.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
@@ -434,12 +424,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="37.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA2" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB2" mnemonicParsing="false" onAction="#drawnButton2" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="37.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -454,12 +439,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="30.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA3" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB3" mnemonicParsing="false" onAction="#drawnButton3" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="30.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
@@ -470,12 +450,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="30.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA4" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB4" mnemonicParsing="false" onAction="#drawnButton4" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="30.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="144.0" prefWidth="25.0" />
@@ -486,12 +461,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="37.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA5" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB5" mnemonicParsing="false" onAction="#drawnButton5" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="37.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -506,12 +476,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="30.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA6" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB6" mnemonicParsing="false" onAction="#drawnButton6" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="30.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane prefHeight="160.0" prefWidth="25.0" />
@@ -522,12 +487,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="37.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA7" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB7" mnemonicParsing="false" onAction="#drawnButton7" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="37.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane layoutX="90.0" layoutY="10.0" prefHeight="160.0" prefWidth="25.0" />
@@ -538,12 +498,7 @@
                                                             <Image url="@images/Cards/C-Discard.jpg" />
                                                          </image>
                                                       </ImageView>
-                                                      <HBox prefHeight="37.0" prefWidth="80.0">
-                                                         <children>
-                                                            <ComboBox fx:id="drawnA8" prefHeight="25.0" prefWidth="40.0" />
-                                                            <Button fx:id="drawnB8" mnemonicParsing="false" onAction="#drawnButton8" prefHeight="25.0" prefWidth="40.0" text="set" />
-                                                         </children>
-                                                      </HBox>
+                                                      <HBox prefHeight="37.0" prefWidth="80.0" />
                                                    </children>
                                                 </VBox>
                                              </children>
