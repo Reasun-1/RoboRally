@@ -15,10 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
+import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -105,15 +107,12 @@ public class ChatController {
     private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
     @FXML
     private ImageView Register1, Register2, Register3, Register4, Register5;
-    @FXML
-    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-    @FXML
-    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
-
-    private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
 
     @FXML
     private ComboBox<String> mapList;
+
+    String tempCardName = ""; // for drag&drop
+    int tempButtonNum; // for drag&drop
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -183,18 +182,6 @@ public class ChatController {
     public void init(Client client) {
         this.client = client;
 
-        //get items for comboboxes of the register
-        drawnA0.getItems().addAll(regList);
-        drawnA1.getItems().addAll(regList);
-        drawnA2.getItems().addAll(regList);
-        drawnA3.getItems().addAll(regList);
-        drawnA4.getItems().addAll(regList);
-        drawnA5.getItems().addAll(regList);
-        drawnA6.getItems().addAll(regList);
-        drawnA7.getItems().addAll(regList);
-        drawnA8.getItems().addAll(regList);
-
-
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
 
@@ -235,7 +222,6 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
-
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
@@ -248,19 +234,6 @@ public class ChatController {
                 }
             }
         });
-        //TODO can click finish register
-        // bind register
-        /*client.CANCLICKFINISHProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                System.out.println("you can click FINISH-Button");
-                int finalRegister = client.getMYREGISTER().length;
-                if (finalRegister != 5) {
-                    finish.disableProperty().bind(client.CANCLICKFINISHProperty().not());
-                                }
-
-            }
-        }); */
 
 
         //bind flag replace register
@@ -526,6 +499,261 @@ public class ChatController {
                 setRoundOver();
             }
         });
+
+        // ====================bind drag&drop for choosing cards==========================
+
+        DrawnCard0.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard0.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard0.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 0;
+                tempCardName = client.MYCARDSProperty().get(0);
+            }
+        });
+        DrawnCard1.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard1.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard1.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 1;
+                tempCardName = client.MYCARDSProperty().get(1);
+            }
+        });
+        DrawnCard2.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard2.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard2.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 2;
+                tempCardName = client.MYCARDSProperty().get(2);
+            }
+        });
+        DrawnCard3.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard3.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard3.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 3;
+                tempCardName = client.MYCARDSProperty().get(3);
+            }
+        });
+        DrawnCard4.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard4.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard4.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 4;
+                tempCardName = client.MYCARDSProperty().get(4);
+            }
+        });
+        DrawnCard5.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard5.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard5.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 5;
+                tempCardName = client.MYCARDSProperty().get(5);
+            }
+        });
+        DrawnCard6.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard6.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard6.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 6;
+                tempCardName = client.MYCARDSProperty().get(6);
+            }
+        });
+        DrawnCard7.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard7.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard7.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 7;
+                tempCardName = client.MYCARDSProperty().get(7);
+            }
+        });
+        DrawnCard8.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard8.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard8.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 8;
+                tempCardName = client.MYCARDSProperty().get(8);
+            }
+        });
+
+
+        Register1.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register1.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register1.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(1, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register2.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register2.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register2.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(2, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register3.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register3.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register3.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(3, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 3);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register4.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register4.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register4.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(4, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 4);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register5.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register5.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register5.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(5, tempButtonNum);
+                clearDrawnCardImage(tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 5);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void clearDrawnCardImage(int cardButtoNum){
+
+        switch (cardButtoNum){
+            case 0:
+                DrawnCard0.setImage(imageDiscard);
+                break;
+            case 1:
+                DrawnCard1.setImage(imageDiscard);
+                break;
+            case 2:
+                DrawnCard2.setImage(imageDiscard);
+                break;
+            case 3:
+                DrawnCard3.setImage(imageDiscard);
+                break;
+            case 4:
+                DrawnCard4.setImage(imageDiscard);
+                break;
+            case 5:
+                DrawnCard5.setImage(imageDiscard);
+                break;
+            case 6:
+                DrawnCard6.setImage(imageDiscard);
+                break;
+            case 7:
+                DrawnCard7.setImage(imageDiscard);
+                break;
+            case 8:
+                DrawnCard8.setImage(imageDiscard);
+                break;
+        }
     }
 
     public void updateRegisters() {
@@ -698,182 +926,6 @@ public class ChatController {
             System.out.println("round over checked by GUI");
             client.registerPointer = 0;
         }
-    }
-
-
-    //=========================EventDrawnCards=================================
-
-    @FXML
-    public void drawnButton0() throws IOException {
-        System.out.println("drawnButton0 clicked.");
-        // set Image to right register
-        int regNum = drawnA0.getValue();
-        Image image = DrawnCard0.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard0.setImage(imageDiscard);
-        regButton.put(regNum, 0);
-
-        // send selected card message to server
-        String cardName0 = client.MYCARDSProperty().get(0);
-        client.setRegister(cardName0, regNum);
-
-        //Combox refresh
-        drawnA0.getItems().clear();
-        drawnA0.getItems().addAll(regList);
-    }
-
-
-    @FXML
-    public void drawnButton1() throws IOException {
-        System.out.println("drawnButton1 clicked.");
-        // set Image to right register
-        int regNum = drawnA1.getValue();
-        Image image = DrawnCard1.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard1.setImage(imageDiscard);
-        regButton.put(regNum, 1);
-
-        String cardName1 = client.MYCARDSProperty().get(1);
-        client.setRegister(cardName1, regNum);
-
-        //Combox refresh
-        drawnA1.getItems().clear();
-        drawnA1.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton2() throws IOException {
-        System.out.println("drawnButton2 clicked.");
-        // set Image to right register
-        int regNum = drawnA2.getValue();
-        Image image = DrawnCard2.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard2.setImage(imageDiscard);
-        regButton.put(regNum, 2);
-
-        String cardName2 = client.MYCARDSProperty().get(2);
-        client.setRegister(cardName2, regNum);
-
-        //Combox refresh
-        drawnA2.getItems().clear();
-        drawnA2.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton3() throws IOException {
-        System.out.println("drawnButton3 clicked.");
-        // set Image to right register
-        int regNum = drawnA3.getValue();
-        Image image = DrawnCard3.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard3.setImage(imageDiscard);
-        regButton.put(regNum, 3);
-
-        String cardName3 = client.MYCARDSProperty().get(3);
-        client.setRegister(cardName3, regNum);
-
-        //Combox refresh
-        drawnA3.getItems().clear();
-        drawnA3.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton4() throws IOException {
-        System.out.println("drawnButton4 clicked.");
-        // set Image to right register
-        int regNum = drawnA4.getValue();
-        Image image = DrawnCard4.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard4.setImage(imageDiscard);
-        regButton.put(regNum, 4);
-
-        String cardName4 = client.MYCARDSProperty().get(4);
-        client.setRegister(cardName4, regNum);
-
-        //Combox refresh
-        drawnA4.getItems().clear();
-        drawnA4.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton5() throws IOException {
-        System.out.println("drawnButton5 clicked.");
-        // set Image to right register
-        int regNum = drawnA5.getValue();
-        Image image = DrawnCard5.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard5.setImage(imageDiscard);
-        regButton.put(regNum, 5);
-
-        String cardName5 = client.MYCARDSProperty().get(5);
-        client.setRegister(cardName5, regNum);
-
-        //Combox refresh
-        drawnA5.getItems().clear();
-        drawnA5.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton6() throws IOException {
-        System.out.println("drawnButton6 clicked.");
-        // set Image to right register
-        int regNum = drawnA6.getValue();
-        Image image = DrawnCard6.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard6.setImage(imageDiscard);
-        regButton.put(regNum, 6);
-
-        String cardName6 = client.MYCARDSProperty().get(6);
-        client.setRegister(cardName6, regNum);
-
-        //Combox refresh
-        drawnA6.getItems().clear();
-        drawnA6.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton7() throws IOException {
-        System.out.println("drawnButton7 clicked.");
-        // set Image to right register
-        int regNum = drawnA7.getValue();
-        Image image = DrawnCard7.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard7.setImage(imageDiscard);
-        regButton.put(regNum, 7);
-
-        String cardName7 = client.MYCARDSProperty().get(7);
-        client.setRegister(cardName7, regNum);
-
-        //Combox refresh
-        drawnA7.getItems().clear();
-        drawnA7.getItems().addAll(regList);
-    }
-
-    @FXML
-    public void drawnButton8() throws IOException {
-        System.out.println("drawnButton8 clicked.");
-        // set Image to right register
-        int regNum = drawnA8.getValue();
-        Image image = DrawnCard8.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard8.setImage(imageDiscard);
-        regButton.put(regNum, 8);
-
-        String cardName8 = client.MYCARDSProperty().get(8);
-        client.setRegister(cardName8, regNum);
-
-        //Combox refresh
-        drawnA8.getItems().clear();
-        drawnA8.getItems().addAll(regList);
     }
 
     /**
