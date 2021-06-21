@@ -15,10 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
+import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -114,6 +116,9 @@ public class ChatController {
 
     @FXML
     private ComboBox<String> mapList;
+
+    String tempCardName = ""; // for drag&drop
+    int tempButtonNum; // for drag&drop
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -510,6 +515,232 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 setRoundOver();
+            }
+        });
+
+        // ====================bind drag&drop for choosing cards==========================
+
+        DrawnCard0.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard0.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard0.getImage());
+                db.setContent(content);
+
+                DrawnCard0.setImage(imageDiscard);
+                tempButtonNum = 0;
+                tempCardName = client.MYCARDSProperty().get(0);
+            }
+        });
+        DrawnCard1.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard1.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard1.getImage());
+                db.setContent(content);
+
+                DrawnCard1.setImage(imageDiscard);
+                tempButtonNum = 1;
+                tempCardName = client.MYCARDSProperty().get(1);
+            }
+        });
+        DrawnCard2.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard2.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard2.getImage());
+                db.setContent(content);
+
+                DrawnCard2.setImage(imageDiscard);
+                tempButtonNum = 2;
+                tempCardName = client.MYCARDSProperty().get(2);
+            }
+        });
+        DrawnCard3.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard3.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard3.getImage());
+                db.setContent(content);
+
+                DrawnCard3.setImage(imageDiscard);
+                tempButtonNum = 3;
+                tempCardName = client.MYCARDSProperty().get(3);
+            }
+        });
+        DrawnCard4.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard4.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard4.getImage());
+                db.setContent(content);
+
+                DrawnCard4.setImage(imageDiscard);
+                tempButtonNum = 4;
+                tempCardName = client.MYCARDSProperty().get(4);
+            }
+        });
+        DrawnCard5.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard5.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard5.getImage());
+                db.setContent(content);
+
+                DrawnCard5.setImage(imageDiscard);
+                tempButtonNum = 5;
+                tempCardName = client.MYCARDSProperty().get(5);
+            }
+        });
+        DrawnCard6.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard6.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard6.getImage());
+                db.setContent(content);
+
+                DrawnCard6.setImage(imageDiscard);
+                tempButtonNum = 6;
+                tempCardName = client.MYCARDSProperty().get(6);
+            }
+        });
+        DrawnCard7.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard7.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard7.getImage());
+                db.setContent(content);
+
+                DrawnCard7.setImage(imageDiscard);
+                tempButtonNum = 7;
+                tempCardName = client.MYCARDSProperty().get(7);
+            }
+        });
+        DrawnCard8.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard8.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard8.getImage());
+                db.setContent(content);
+
+                DrawnCard8.setImage(imageDiscard);
+                tempButtonNum = 8;
+                tempCardName = client.MYCARDSProperty().get(8);
+            }
+        });
+
+
+        Register1.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register1.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register1.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(1, tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register2.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register2.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register2.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(2, tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register3.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register3.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register3.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(3, tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 3);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register4.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register4.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register4.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(4, tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 4);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Register5.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register5.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Register5.setImage(dragEvent.getDragboard().getImage());
+                regButton.put(5, tempButtonNum);
+                try {
+                    // send selected card message to serverv
+                    client.setRegister(tempCardName, 5);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
