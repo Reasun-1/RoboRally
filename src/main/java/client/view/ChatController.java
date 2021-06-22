@@ -199,9 +199,12 @@ public class ChatController {
 
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
+        mapList.disableProperty().bind(client.CANSELECTMAPProperty().not());
 
         //bind the player who can select a start point
         setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
+        startPointX.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
+        startPointY.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
