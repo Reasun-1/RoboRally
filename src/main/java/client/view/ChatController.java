@@ -180,9 +180,6 @@ public class ChatController {
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
 
-        //connects the clear button with combobox private clientlist
-        //clearPrivate.disableProperty().bind(sendto.disableProperty().not());
-
         //binds the button of sending a message with the chat TextArea that saves all the messages(chat history)
         outOfRoundCards1.textProperty().bindBidirectional(client.getChatHistory());
 
@@ -245,6 +242,7 @@ public class ChatController {
                 System.out.println("in Controller " + clientObsList);
                 if (sendto.getItems().size() < 6) {
                     sendto.getItems().clear();
+                    sendto.getItems().add(-1);
                     sendto.getItems().addAll(clientObsList);
                 }
             }
@@ -897,13 +895,13 @@ public class ChatController {
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-        if (sendto.getValue().equals(null)) {
+        if (sendto.getValue().equals(-1)) {
             client.sendMessage(messageField.getText());
         } else {
             client.sendPersonalMessage(Integer.valueOf(sendto.getValue()), messageField.getText());
         }
         messageField.clear();
-        sendto.getItems().clear();
+        //sendto.getItems().clear();
     }
 
 
@@ -1082,10 +1080,11 @@ public class ChatController {
         }
         return backImg;
     }
-    //TODO
+
     public void setClear (ActionEvent event) throws JsonProcessingException {
         ObservableList<Integer> clientObsList = client.getCLIENTNUMBER();
         sendto.getItems().clear();
+        sendto.getItems().add(-1);
         sendto.getItems().addAll(clientObsList);
         sendto.setPromptText("private Message");
     }

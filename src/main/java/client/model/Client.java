@@ -118,9 +118,7 @@ public class Client extends Application {
     private StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
-    //bind client list to combobox in ChatController
-    private final ListProperty<String> CLIENTLIST = new SimpleListProperty<>(FXCollections.observableArrayList());
-    //bind client number to combobox for setter
+    //bind client number to combobox in ChatController
     private final ListProperty<Integer> CLIENTNUMBER = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind timer to ChatController
     private StringProperty timerScreen = new SimpleStringProperty();
@@ -441,8 +439,6 @@ public class Client extends Application {
                             //List<String> clientList = Collections.singletonList(playerAddedBody.getName() + " , " + getClientID() + " , " + figureAdded);
                             List<Integer> clientNumber = Collections.singletonList(playerAddedBody.getClientID());
 
-                            System.out.println("in client " + CLIENTLIST);
-
                             // not add infos twice
                             if (!clientNames.containsKey(clientIDAdded)) {
                                 CLIENTNAME.set(CLIENTNAME.get() + clientIDAdded + " , " + nameAdded + " , " + figureAdded + "\n");
@@ -711,7 +707,6 @@ public class Client extends Application {
                         case "ConnectionUpdate":
                             ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
                             int removedClient = connectionUpdateBody.getClientID();
-                            //int clientList = connectionUpdateBody.getClientID();
                             List<Integer> numbers = Collections.singletonList(connectionUpdateBody.getClientID());
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
@@ -722,7 +717,6 @@ public class Client extends Application {
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
                             for(int clients : numbers){
-                                CLIENTNUMBER.clear();
                                 CLIENTNUMBER.add(clients);
                             }
                             // update GUI info for client who are ready
