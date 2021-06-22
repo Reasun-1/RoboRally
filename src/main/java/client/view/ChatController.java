@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,8 +55,6 @@ public class ChatController {
     private GridPane gridPaneRobot;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField sendTo; //send Message to a specific player on private
     @FXML
     private TextField startPointX;
     @FXML
@@ -110,6 +109,9 @@ public class ChatController {
 
     @FXML
     private ComboBox<String> mapList;
+
+    @FXML
+    private ComboBox<String> sendto;
 
     String tempCardName = ""; // for drag&drop
     int tempButtonNum; // for drag&drop
@@ -199,9 +201,12 @@ public class ChatController {
 
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
+        mapList.disableProperty().bind(client.CANSELECTMAPProperty().not());
 
         //bind the player who can select a start point
         setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
+        startPointX.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
+        startPointY.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
@@ -222,6 +227,7 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
+
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
@@ -232,6 +238,16 @@ public class ChatController {
                     mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
                 }
+            }
+        });
+
+        // bind robotsNames Properylist in Client with comboBox
+        client.ROBOTSNAMESFORCHATProperty().addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> change) {
+                ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
+                System.out.println("in Controller " + robotsnamesforchat);
+                sendto.getItems().addAll(robotsnamesforchat);
             }
         });
 
@@ -890,13 +906,29 @@ public class ChatController {
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-        if (sendTo.getText().isEmpty()) {
+        if (sendto.getValue() == null) { // if no message destination, then it´s a public message
             client.sendMessage(messageField.getText());
         } else {
-            client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
+            int robotTO = 0;
+            int clientSendTo = 0;
+            String robotName = sendto.getValue();
+
+            for(int robotNum : client.robotNumAndNames.keySet()){
+                if(robotName.equals(client.robotNumAndNames.get(robotNum))){
+                    robotTO = robotNum;
+                }
+            }
+
+            for(int clientNum : client.robotFigureAllClients.keySet()){
+                if(client.robotFigureAllClients.get(clientNum) == robotTO){
+                    clientSendTo = clientNum;
+                }
+            }
+
+            System.out.println(robotTO + " robotTO");
+            client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
-        sendTo.clear();
     }
 
     @FXML
