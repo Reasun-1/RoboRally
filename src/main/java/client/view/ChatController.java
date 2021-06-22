@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,10 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
-import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -55,8 +52,6 @@ public class ChatController {
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
-    private TextField sendTo; //send Message to a specific player on private
-    @FXML
     private TextField startPointX;
     @FXML
     private TextField startPointY;
@@ -75,11 +70,11 @@ public class ChatController {
     @FXML
     private ImageView myFigure;
     @FXML
-    private ImageView testImageView;
-    @FXML
-    private Button testButton;
-    @FXML
     private Label energyCube;
+    @FXML
+    private ComboBox<Integer> sendto; //send Message to a specific player on private
+    @FXML
+    private Button clearPrivate;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
@@ -185,6 +180,9 @@ public class ChatController {
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
 
+        //connects the clear button with combobox private clientlist
+        //clearPrivate.disableProperty().bind(sendto.disableProperty().not());
+
         //binds the button of sending a message with the chat TextArea that saves all the messages(chat history)
         outOfRoundCards1.textProperty().bindBidirectional(client.getChatHistory());
 
@@ -225,6 +223,7 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
+
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
@@ -234,6 +233,19 @@ public class ChatController {
                 if (mapList.getItems().size() < 4) {
                     mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
+                }
+            }
+        });
+
+        //====================Bindings for Clientlist / private Messages =========================
+        client.CLIENTNUMBERProperty().addListener(new ChangeListener<ObservableList<Integer>>() {
+            @Override
+            public void changed(ObservableValue<? extends ObservableList<Integer>> observable, ObservableList<Integer> oldValue, ObservableList<Integer> newValue) {
+                ObservableList<Integer> clientObsList = client.getCLIENTNUMBER();
+                System.out.println("in Controller " + clientObsList);
+                if (sendto.getItems().size() < 6) {
+                    sendto.getItems().clear();
+                    sendto.getItems().addAll(clientObsList);
                 }
             }
         });
@@ -881,26 +893,19 @@ public class ChatController {
         client.registerPointer = 0;
     }
 
-    //only for test
-    @FXML
-    public void testButtonClick() {
-        System.out.println("button clicked.");
-
-        System.out.println(imageAgain.getHeight());
-        testImageView.setImage(imageAgain);
-    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-        if (sendTo.getText().isEmpty()) {
+        if (sendto.getValue().equals(null)) {
             client.sendMessage(messageField.getText());
         } else {
-            client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
+            client.sendPersonalMessage(Integer.valueOf(sendto.getValue()), messageField.getText());
         }
         messageField.clear();
-        sendTo.clear();
+        sendto.getItems().clear();
     }
+
 
     @FXML
     private void setReady() throws JsonProcessingException {
@@ -1076,6 +1081,13 @@ public class ChatController {
                 break;
         }
         return backImg;
+    }
+    //TODO
+    public void setClear (ActionEvent event) throws JsonProcessingException {
+        ObservableList<Integer> clientObsList = client.getCLIENTNUMBER();
+        sendto.getItems().clear();
+        sendto.getItems().addAll(clientObsList);
+        sendto.setPromptText("private Message");
     }
 
     // clear each register and set image back to drawn cards

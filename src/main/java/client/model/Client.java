@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -119,6 +118,10 @@ public class Client extends Application {
     private StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
+    //bind client list to combobox in ChatController
+    private final ListProperty<String> CLIENTLIST = new SimpleListProperty<>(FXCollections.observableArrayList());
+    //bind client number to combobox for setter
+    private final ListProperty<Integer> CLIENTNUMBER = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind timer to ChatController
     private StringProperty timerScreen = new SimpleStringProperty();
 
@@ -248,6 +251,14 @@ public class Client extends Application {
     public ListProperty<String> MAPSProperty() { return MAPS; }
 
     public ObservableList<String> getMAPS() { return MAPS.get(); }
+
+    public ListProperty<Integer> CLIENTNUMBERProperty() {
+        return CLIENTNUMBER;
+    }
+
+    public ObservableList<Integer> getCLIENTNUMBER() {
+        return CLIENTNUMBER.get();
+    }
 
     public StringProperty timerScreenProperty() { return timerScreen; }
 
@@ -427,15 +438,22 @@ public class Client extends Application {
                             int clientIDAdded = playerAddedBody.getClientID();
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
+                            //List<String> clientList = Collections.singletonList(playerAddedBody.getName() + " , " + getClientID() + " , " + figureAdded);
+                            List<Integer> clientNumber = Collections.singletonList(playerAddedBody.getClientID());
+
+                            System.out.println("in client " + CLIENTLIST);
 
                             // not add infos twice
                             if (!clientNames.containsKey(clientIDAdded)) {
-
+                                CLIENTNAME.set(CLIENTNAME.get() + clientIDAdded + " , " + nameAdded + " , " + figureAdded + "\n");
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
                                 logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
                                 // update clientsFigure list and clients list
                                 robotFigureAllClients.put(clientIDAdded, figureAdded);
                                 clientNames.put(clientIDAdded, nameAdded);
+                                for(int numbers : clientNumber) {
+                                    CLIENTNUMBER.add(numbers);
+                                }
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
@@ -693,16 +711,20 @@ public class Client extends Application {
                         case "ConnectionUpdate":
                             ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
                             int removedClient = connectionUpdateBody.getClientID();
+                            //int clientList = connectionUpdateBody.getClientID();
+                            List<Integer> numbers = Collections.singletonList(connectionUpdateBody.getClientID());
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
-
                             // update GUI info for client in server
                             clientNames.remove(removedClient);
                             PLAYERSINSERVER.set("");
                             for(int clientNum : clientNames.keySet()){
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
-
+                            for(int clients : numbers){
+                                CLIENTNUMBER.clear();
+                                CLIENTNUMBER.add(clients);
+                            }
                             // update GUI info for client who are ready
                             readyClients.remove(removedClient);
                             PLAYERSWHOAREREADY.set("");
