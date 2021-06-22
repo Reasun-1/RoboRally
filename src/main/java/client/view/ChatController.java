@@ -247,7 +247,7 @@ public class ChatController {
             @Override
             public void onChanged(Change<? extends String> change) {
                 ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
-                System.out.println("in Controller " + robotsnamesforchat);
+                sendto.getItems().clear();
                 sendto.getItems().addAll(robotsnamesforchat);
             }
         });
