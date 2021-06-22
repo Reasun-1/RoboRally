@@ -33,6 +33,7 @@ import java.util.List;
  * @author rajna fani
  * @author Chiara Welz
  * @author Yuliia Shaparenko
+ * @author Jonas Gottal
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {

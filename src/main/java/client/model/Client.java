@@ -453,10 +453,6 @@ public class Client extends Application {
                                 robotFigureAllClients.put(clientIDAdded, figureAdded);
                                 clientNames.put(clientIDAdded, nameAdded);
 
-                                String robotNameAdded = robotNumAndNames.get(figureAdded);
-                                ROBOTSNAMESFORCHAT.add(robotNameAdded);
-                                System.out.println(ROBOTSNAMESFORCHAT);
-
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
                                     logger.info("flag launchen window");
@@ -467,6 +463,10 @@ public class Client extends Application {
                                     // update flag for listener
                                     flagMyFigure.set(flagMyFigure.getValue() + 1);
                                 }
+
+                                String robotNameAdded = robotNumAndNames.get(figureAdded);
+                                ROBOTSNAMESFORCHAT.add(robotNameAdded);
+                                System.out.println(ROBOTSNAMESFORCHAT);
                             }
                             break;
                         case "PlayerStatus":
