@@ -776,7 +776,7 @@ public class Client extends Application {
      */
     public void sendMessage(String message) throws JsonProcessingException {
         // Check logout condition
-        if (message.equals("bye")) {
+        /*if (message.equals("bye")) {
             Protocol protocol = new Protocol("Quit", null);
             String json = Protocol.writeJson(protocol);
             logger.info(json);
@@ -793,12 +793,13 @@ public class Client extends Application {
             System.out.println("You left the room.");
 
         } else {
+         */
             // Send message to server
             Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
-        }
+        //}
     }
 
     /**
