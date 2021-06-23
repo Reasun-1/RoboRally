@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -932,9 +933,19 @@ public class ChatController {
             client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
-        sendto.getItems().clear();
-        sendto.setPromptText("public");
-        sendto.getItems().addAll(robotsnamesforchat);
+
+        sendto.getSelectionModel().clearSelection();
+        sendto.setButtonCell(new ListCell<String>(){
+            @Override
+            protected void updateItem(String item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty || item == null){
+                    setText("public");
+                }else{
+                    setText(item);
+                }
+            }
+        });
     }
 
     @FXML
