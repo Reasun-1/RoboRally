@@ -249,6 +249,7 @@ public class ChatController {
                 ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
                 sendto.getItems().clear();
                 sendto.getItems().addAll(robotsnamesforchat);
+                sendto.setPromptText("private Message to...");
             }
         });
 
