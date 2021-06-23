@@ -103,7 +103,8 @@ public class ServerThread implements Runnable {
             try {
                 closeConnect();
                 Server.getServer().handleConnectionUpdate(clientID);
-                ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
+                // active with the alive check in Execute Order
+                //ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

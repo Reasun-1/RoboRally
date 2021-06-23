@@ -556,8 +556,10 @@ public class Server {
             }
         }
         // reinform the next player
-        int curClient = Game.priorityEachTurn.get(0);
-        handleCurrentPlayer(curClient);
+        if(Game.priorityEachTurn.size() != 0){
+            int curClient = Game.priorityEachTurn.get(0);
+            handleCurrentPlayer(curClient);
+        }
 
         Protocol protocol = new Protocol("ConnectionUpdate", new ConnectionUpdateBody(clientID, false, "remove"));
         String json = Protocol.writeJson(protocol);

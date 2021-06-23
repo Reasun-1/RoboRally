@@ -722,6 +722,14 @@ public class Client extends Application {
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
 
+                            // update GUI robot list for Chat
+                            int removedRobotNum = robotFigureAllClients.get(removedClient);
+                            String removedRobotName = robotNumAndNames.get(removedRobotNum);
+                            System.out.println("flag removedRobotName: " + removedRobotName);
+                            System.out.println("flag before: " + ROBOTSNAMESFORCHAT);
+                            ROBOTSNAMESFORCHAT.remove(removedRobotName);
+                            System.out.println("flag after: " + ROBOTSNAMESFORCHAT);
+
                             // update GUI info for client who are ready
                             readyClients.remove(removedClient);
                             PLAYERSWHOAREREADY.set("");
