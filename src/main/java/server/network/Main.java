@@ -30,8 +30,6 @@ public class Main {
         });
         t0.start();
 
-
-
         Thread.sleep(5000);
 
         Thread t1 = new Thread(new Runnable() {

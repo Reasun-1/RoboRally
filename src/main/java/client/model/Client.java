@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
+import server.feldobjects.Pit;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -43,7 +44,7 @@ public class Client extends Application {
     // client list with all clientIDs
     private List<Integer> clientsList;
     // map: key = clientID, value = robotfigure;
-    private HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
+    public HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
     // map : key = clientID, value = name;
     private HashMap<Integer, String> clientNames = new HashMap<>();
     // map : key = clientID, value = isReady
@@ -61,9 +62,8 @@ public class Client extends Application {
     // store the available startPoints for the maps(death trap is different)
     private HashSet<Position> avaibleStartsMaps = new HashSet<>();
     private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
-
-
-
+    // key=robotNum, value=robotName
+    public HashMap<Integer, String> robotNumAndNames = new HashMap<>();
 
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
@@ -118,8 +118,8 @@ public class Client extends Application {
     private StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
-    //bind client number to combobox in ChatController
-    private final ListProperty<Integer> CLIENTNUMBER = new SimpleListProperty<>(FXCollections.observableArrayList());
+    // bind list to sendTo comboBox in ChatController
+    private final ListProperty<String> ROBOTSNAMESFORCHAT = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind timer to ChatController
     private StringProperty timerScreen = new SimpleStringProperty();
 
@@ -250,15 +250,13 @@ public class Client extends Application {
 
     public ObservableList<String> getMAPS() { return MAPS.get(); }
 
-    public ListProperty<Integer> CLIENTNUMBERProperty() {
-        return CLIENTNUMBER;
-    }
+    public ListProperty<String> ROBOTSNAMESFORCHATProperty() { return ROBOTSNAMESFORCHAT; }
 
-    public ObservableList<Integer> getCLIENTNUMBER() {
-        return CLIENTNUMBER.get();
-    }
+    public ObservableList<String> getROBOTSNAMESFORCHAT() { return ROBOTSNAMESFORCHAT.get(); }
 
     public StringProperty timerScreenProperty() { return timerScreen; }
+
+
 
 
 
@@ -304,6 +302,15 @@ public class Client extends Application {
         INFORMATION.set("");
         PLAYERSINSERVER.set("");
         PLAYERSWHOAREREADY.set("");
+
+        // init nums and names of all the robots
+        robotNumAndNames.put(1,"Hulk");
+        robotNumAndNames.put(2,"Spinbot");
+        robotNumAndNames.put(3,"Squashbot");
+        robotNumAndNames.put(4,"Trundlebot");
+        robotNumAndNames.put(5,"Twitch");
+        robotNumAndNames.put(6,"Twonky");
+
 
         // init MYREGISTER[]
         for (int i = 0; i < 5; i++) {
@@ -436,20 +443,15 @@ public class Client extends Application {
                             int clientIDAdded = playerAddedBody.getClientID();
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
-                            //List<String> clientList = Collections.singletonList(playerAddedBody.getName() + " , " + getClientID() + " , " + figureAdded);
-                            List<Integer> clientNumber = Collections.singletonList(playerAddedBody.getClientID());
 
                             // not add infos twice
                             if (!clientNames.containsKey(clientIDAdded)) {
-                                CLIENTNAME.set(CLIENTNAME.get() + clientIDAdded + " , " + nameAdded + " , " + figureAdded + "\n");
+
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientIDAdded + "\n");
                                 logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
                                 // update clientsFigure list and clients list
                                 robotFigureAllClients.put(clientIDAdded, figureAdded);
                                 clientNames.put(clientIDAdded, nameAdded);
-                                for(int numbers : clientNumber) {
-                                    CLIENTNUMBER.add(numbers);
-                                }
 
                                 // if the added player is self, then launch the chatAndGame window
                                 if (clientIDAdded == clientID) {
@@ -461,6 +463,10 @@ public class Client extends Application {
                                     // update flag for listener
                                     flagMyFigure.set(flagMyFigure.getValue() + 1);
                                 }
+
+                                String robotNameAdded = robotNumAndNames.get(figureAdded);
+                                ROBOTSNAMESFORCHAT.add(robotNameAdded);
+                                System.out.println(ROBOTSNAMESFORCHAT);
                             }
                             break;
                         case "PlayerStatus":
@@ -528,7 +534,6 @@ public class Client extends Application {
                                 } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
-                                    CANCLICKFINISH.set(false);
                                     CANPLAYNEXTREGISTER.set(true);
                                 }else if(GAMEPHASE.get().equals("Programmierphase")){
                                     INFORMATION.set("");
@@ -707,18 +712,16 @@ public class Client extends Application {
                         case "ConnectionUpdate":
                             ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
                             int removedClient = connectionUpdateBody.getClientID();
-                            List<Integer> numbers = Collections.singletonList(connectionUpdateBody.getClientID());
                             currentPositions.remove(removedClient);
                             flagPositions.set(flagPositions.get() + 1);
+
                             // update GUI info for client in server
                             clientNames.remove(removedClient);
                             PLAYERSINSERVER.set("");
                             for(int clientNum : clientNames.keySet()){
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
-                            for(int clients : numbers){
-                                CLIENTNUMBER.add(clients);
-                            }
+
                             // update GUI info for client who are ready
                             readyClients.remove(removedClient);
                             PLAYERSWHOAREREADY.set("");

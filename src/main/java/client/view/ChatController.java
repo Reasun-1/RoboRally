@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,8 +18,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
+import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,6 +33,7 @@ import java.util.List;
  * @author rajna fani
  * @author Chiara Welz
  * @author Yuliia Shaparenko
+ * @author Jonas Gottal
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {
@@ -70,11 +75,11 @@ public class ChatController {
     @FXML
     private ImageView myFigure;
     @FXML
+    private ImageView testImageView;
+    @FXML
+    private Button testButton;
+    @FXML
     private Label energyCube;
-    @FXML
-    private ComboBox<Integer> sendto; //send Message to a specific player on private
-    @FXML
-    private Button clearPrivate;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
@@ -105,6 +110,9 @@ public class ChatController {
 
     @FXML
     private ComboBox<String> mapList;
+
+    @FXML
+    private ComboBox<String> sendto;
 
     String tempCardName = ""; // for drag&drop
     int tempButtonNum; // for drag&drop
@@ -234,17 +242,13 @@ public class ChatController {
             }
         });
 
-        //====================Bindings for Clientlist / private Messages =========================
-        client.CLIENTNUMBERProperty().addListener(new ChangeListener<ObservableList<Integer>>() {
+        // bind robotsNames Properylist in Client with comboBox
+        client.ROBOTSNAMESFORCHATProperty().addListener(new ListChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends ObservableList<Integer>> observable, ObservableList<Integer> oldValue, ObservableList<Integer> newValue) {
-                ObservableList<Integer> clientObsList = client.getCLIENTNUMBER();
-                System.out.println("in Controller " + clientObsList);
-                if (sendto.getItems().size() < 6) {
-                    sendto.getItems().clear();
-                    sendto.getItems().add(-1);
-                    sendto.getItems().addAll(clientObsList);
-                }
+            public void onChanged(Change<? extends String> change) {
+                ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
+                sendto.getItems().clear();
+                sendto.getItems().addAll(robotsnamesforchat);
             }
         });
 
@@ -891,19 +895,42 @@ public class ChatController {
         client.registerPointer = 0;
     }
 
+    //only for test
+    @FXML
+    public void testButtonClick() {
+        System.out.println("button clicked.");
+
+        System.out.println(imageAgain.getHeight());
+        testImageView.setImage(imageAgain);
+    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-        if (sendto.getValue().equals(-1)) {
+        if (sendto.getValue() == null) { // if no message destination, then it´s a public message
             client.sendMessage(messageField.getText());
         } else {
-            client.sendPersonalMessage(Integer.valueOf(sendto.getValue()), messageField.getText());
+            int robotTO = 0;
+            int clientSendTo = 0;
+            String robotName = sendto.getValue();
+
+            for(int robotNum : client.robotNumAndNames.keySet()){
+                if(robotName.equals(client.robotNumAndNames.get(robotNum))){
+                    robotTO = robotNum;
+                }
+            }
+
+            for(int clientNum : client.robotFigureAllClients.keySet()){
+                if(client.robotFigureAllClients.get(clientNum) == robotTO){
+                    clientSendTo = clientNum;
+                }
+            }
+
+            System.out.println(robotTO + " robotTO");
+            client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
-        //sendto.getItems().clear();
     }
-
 
     @FXML
     private void setReady() throws JsonProcessingException {
@@ -1079,14 +1106,6 @@ public class ChatController {
                 break;
         }
         return backImg;
-    }
-
-    public void setClear (ActionEvent event) throws JsonProcessingException {
-        ObservableList<Integer> clientObsList = client.getCLIENTNUMBER();
-        sendto.getItems().clear();
-        sendto.getItems().add(-1);
-        sendto.getItems().addAll(clientObsList);
-        sendto.setPromptText("private Message");
     }
 
     // clear each register and set image back to drawn cards

@@ -137,7 +137,7 @@ public class AILow implements Runnable{
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
-                            if(fromClient != -1){
+                            if(fromClient != clientID){
                                 sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
                             }
                             break;
