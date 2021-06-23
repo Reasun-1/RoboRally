@@ -75,6 +75,8 @@ public class ChatController {
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
     @FXML
+    private Button remove1, remove2, remove3, remove4, remove5;
+    @FXML
     private ImageView myFigure;
     @FXML
     private ImageView testImageView;
@@ -231,6 +233,13 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
+
+        //init remove buttons deactive as default
+        remove1.setDisable(true);
+        remove2.setDisable(true);
+        remove3.setDisable(true);
+        remove4.setDisable(true);
+        remove5.setDisable(true);
 
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
@@ -664,6 +673,7 @@ public class ChatController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    remove1.setDisable(false);
                 }
             }
         });
@@ -692,6 +702,7 @@ public class ChatController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    remove2.setDisable(false);
                 }
             }
         });
@@ -720,6 +731,7 @@ public class ChatController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    remove3.setDisable(false);
                 }
             }
         });
@@ -748,6 +760,7 @@ public class ChatController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    remove4.setDisable(false);
                 }
             }
         });
@@ -776,6 +789,7 @@ public class ChatController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    remove5.setDisable(false);
                 }
             }
         });
@@ -982,6 +996,11 @@ public class ChatController {
     @FXML
     private void finishEvent() throws JsonProcessingException {
         client.selectFinish();
+        remove1.setDisable(true);
+        remove2.setDisable(true);
+        remove3.setDisable(true);
+        remove4.setDisable(true);
+        remove5.setDisable(true);
     }
 
     @FXML
@@ -1144,6 +1163,7 @@ public class ChatController {
 
         client.setRegister(null, 1);
         Register1.setImage(imageDiscard);
+        remove1.setDisable(true);
     }
 
     public void clearRegister2() throws IOException {
@@ -1155,6 +1175,7 @@ public class ChatController {
 
         client.setRegister(null, 2);
         Register2.setImage(imageDiscard);
+        remove2.setDisable(true);
     }
 
     public void clearRegister3() throws IOException {
@@ -1166,6 +1187,7 @@ public class ChatController {
 
         client.setRegister(null, 3);
         Register3.setImage(imageDiscard);
+        remove3.setDisable(true);
     }
 
     public void clearRegister4() throws IOException {
@@ -1177,6 +1199,7 @@ public class ChatController {
 
         client.setRegister(null, 4);
         Register4.setImage(imageDiscard);
+        remove4.setDisable(true);
     }
 
     public void clearRegister5() throws IOException {
@@ -1188,6 +1211,7 @@ public class ChatController {
 
         client.setRegister(null, 5);
         Register5.setImage(imageDiscard);
+        remove5.setDisable(true);
     }
 
     /**
