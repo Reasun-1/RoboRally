@@ -2,6 +2,7 @@ package client.view;
 
 import client.model.Client;
 //import client.viewmodel.ChatViewModel;
+import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -87,6 +88,7 @@ public class ChatController {
     @FXML
     private Label timer;
 
+    private final WindowLauncher LAUNCHER = new WindowLauncher();
 
     //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
@@ -644,7 +646,15 @@ public class ChatController {
                 String url = Register1.getImage().getUrl();
                 String urlSub = url.substring(url.length()-11,url.length());
 
-                if(urlSub.equals("Discard.jpg")){
+                if(tempCardName.equals("Again")){
+                    try {
+                        LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(urlSub.equals("Discard.jpg") && !tempCardName.equals("Again")){
                     Register1.setImage(dragEvent.getDragboard().getImage());
                     regButton.put(1, tempButtonNum);
                     clearDrawnCardImage(tempButtonNum);
