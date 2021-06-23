@@ -1443,15 +1443,15 @@ public class ChatController {
                                         // if there are several orientations, choose another pic
                                         if (obj.getOrientations().size() > 2) {
                                             if (obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right")) {
-                                                ImageView bluebrImg = new ImageView(BlueConveyorBelts21mirror);
+                                                ImageView bluebrImg = new ImageView(BlueConveyorBelts21);
                                                 bluebrImg.setFitHeight(43);
                                                 bluebrImg.setFitWidth(43);
-                                                bluebrImg.setRotate(bluebrImg.getRotate() + 270);
                                                 gridPaneBoard.add(bluebrImg, i, j);
                                             } else if (obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")) {
-                                                ImageView blueblImg = new ImageView(BlueConveyorBelts21);
+                                                ImageView blueblImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueblImg.setFitHeight(43);
                                                 blueblImg.setFitWidth(43);
+                                                blueblImg.setRotate(blueblImg.getRotate()+270);
                                                 gridPaneBoard.add(blueblImg, i, j);
                                             }
                                         }

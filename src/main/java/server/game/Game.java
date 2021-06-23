@@ -32,6 +32,7 @@ public class Game {
     public static String mapName = null; // storage for map name
     public static HashSet<Integer> clientIDs = new HashSet<>(); // storage the clientIDs
     public static HashMap<Integer, Position> playerPositions = new HashMap<>(); // current position of each player
+    public static HashMap<Integer, Position> playersLastPositions = new HashMap<>(); // store the last position for corner belt
     public static HashMap<Integer, Position> startPositionsAllClients = new HashMap<>(); // storage of all start positions
     public static HashMap<Integer, Integer> restToDrawCardCount = new HashMap<>(); // count for the situation, that undrawnCards not enough
     public static HashMap<Integer, RegisterCard[]> registersAllClients = new HashMap<>(); // registers of all players
