@@ -907,6 +907,7 @@ public class ChatController {
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
+        ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
         if (sendto.getValue() == null) { // if no message destination, then it´s a public message
             client.sendMessage(messageField.getText());
         } else {
@@ -930,6 +931,9 @@ public class ChatController {
             client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
+        sendto.getItems().clear();
+        sendto.setPromptText("private Message to...");
+        sendto.getItems().addAll(robotsnamesforchat);
     }
 
     @FXML
