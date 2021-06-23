@@ -249,6 +249,7 @@ public class ChatController {
                 ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
                 sendto.getItems().clear();
                 sendto.getItems().addAll(robotsnamesforchat);
+                sendto.setPromptText("public");
             }
         });
 
@@ -907,6 +908,7 @@ public class ChatController {
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
+        ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
         if (sendto.getValue() == null) { // if no message destination, then it´s a public message
             client.sendMessage(messageField.getText());
         } else {
@@ -930,6 +932,9 @@ public class ChatController {
             client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
+        sendto.getItems().clear();
+        sendto.setPromptText("public");
+        sendto.getItems().addAll(robotsnamesforchat);
     }
 
     @FXML

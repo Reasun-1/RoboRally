@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -8,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
+<AnchorPane prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.ChatController">
     <children>
       <VBox prefHeight="750.0" prefWidth="1250.0">
          <children>
@@ -44,12 +43,12 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
                                                          <color>
-                                                            <Color blue="1.0" green="0.9882352948188782" opacity="0.800000011920929" red="0.5490196347236633" />
+                                                            <Color red="0.5490196347236633" green="0.9882352948188782" blue="1.0" opacity="0.800000011920929" />
                                                          </color>
                                                       </Stop>
                                                    </stops>
@@ -103,12 +102,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9725490212440491" green="0.843137264251709" red="0.26274511218070984" />
+                                                                  <Color red="0.26274511218070984" green="0.843137264251709" blue="0.9725490212440491" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -128,12 +127,12 @@
                                                          <stops>
                                                             <Stop>
                                                                <color>
-                                                                  <Color blue="1.0" green="1.0" red="1.0" />
+                                                                  <Color red="1.0" green="1.0" blue="1.0" />
                                                                </color>
                                                             </Stop>
                                                             <Stop offset="1.0">
                                                                <color>
-                                                                  <Color blue="0.9736841917037964" green="0.8431083559989929" red="0.26145222783088684" />
+                                                                  <Color red="0.26145222783088684" green="0.8431083559989929" blue="0.9736841917037964" />
                                                                </color>
                                                             </Stop>
                                                          </stops>
@@ -157,7 +156,7 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color blue="1.0" green="1.0" red="1.0" />
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="1.0">
@@ -199,7 +198,7 @@
                                                    <children>
                                                       <HBox prefHeight="28.0" prefWidth="186.0">
                                                          <children>
-                                                            <ComboBox fx:id="sendto" prefHeight="25.0" prefWidth="183.0" promptText="public" />
+                                                            <ComboBox fx:id="sendto" prefHeight="25.0" prefWidth="183.0" promptText="private Message to..." />
                                                          </children>
                                                       </HBox>
                                                       <AnchorPane prefHeight="11.0" prefWidth="165.0" />
