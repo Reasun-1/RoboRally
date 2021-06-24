@@ -82,6 +82,21 @@ public class ConveyorBelt extends FeldObject {
                     }
                 } else { // blue belt
                     newPosition = new Position(curX, curY - 2);
+                    if(orientations.size() == 2){
+                        for(String entrance : orientations){
+                            if(entrance.equals("left")){
+                                if (Game.playersLastPositions.get(clientID).getX() - Game.playerPositions.get(clientID).getX() == -2
+                                        && Game.playerPositions.get(clientID).getY() == Game.playerPositions.get(clientID).getY()) {
+                                    turnCounterclockwise(clientID);
+                                }
+                            }else if(entrance.equals("right")){
+                                if (Game.playersLastPositions.get(clientID).getX() - Game.playerPositions.get(clientID).getX() == 2
+                                        && Game.playerPositions.get(clientID).getY() == Game.playerPositions.get(clientID).getY()) {
+                                    turnClockwise(clientID);
+                                }
+                            }
+                        }
+                    }
                     if (orientations.size() > 2) { // if this is a tri-corner-belt
                         for (String entrance : orientations) {
                             if (entrance.equals("left")) {
@@ -121,6 +136,22 @@ public class ConveyorBelt extends FeldObject {
                     }
                 } else { // blue belt
                     newPosition = new Position(curX, curY + 2);
+                    if(orientations.size() == 2){ // condition limited
+                        for (String entrance : orientations) {
+                            if (entrance.equals("left")) {
+                                if (Game.playersLastPositions.get(clientID).getX() - Game.playerPositions.get(clientID).getX() == -2
+                                        && Game.playersLastPositions.get(clientID).getY() == Game.playerPositions.get(clientID).getY()) {
+                                    turnClockwise(clientID);
+                                }
+
+                            } else if (entrance.equals("right")) {
+                                if (Game.playersLastPositions.get(clientID).getX() - Game.playerPositions.get(clientID).getX() == 2
+                                        && Game.playersLastPositions.get(clientID).getY() == Game.playerPositions.get(clientID).getY()) {
+                                    turnCounterclockwise(clientID);
+                                }
+                            }
+                        }
+                    }
                     if (orientations.size() > 2) { // if this is a tri-corner-belt
                         for (String entrance : orientations) {
                             if (entrance.equals("left")) {
@@ -160,6 +191,22 @@ public class ConveyorBelt extends FeldObject {
                     }
                 } else { // blue belt
                     newPosition = new Position(curX + 2, curY);
+                    if(orientations.size() == 2){ // condition limited
+                        for (String entrance : orientations) {
+                            if (entrance.equals("top")) {
+                                if (Game.playersLastPositions.get(clientID).getX() == Game.playerPositions.get(clientID).getX()
+                                        && Game.playersLastPositions.get(clientID).getY() - Game.playerPositions.get(clientID).getY() == -2) {
+                                    turnCounterclockwise(clientID);
+                                }
+
+                            } else if (entrance.equals("bottom")) {
+                                if (Game.playersLastPositions.get(clientID).getX() == Game.playerPositions.get(clientID).getX()
+                                        && Game.playersLastPositions.get(clientID).getY() - Game.playerPositions.get(clientID).getY() == 2) {
+                                    turnClockwise(clientID);
+                                }
+                            }
+                        }
+                    }
                     if (orientations.size() > 2) { // if this is a tri-corner-belt
                         for (String entrance : orientations) {
                             if (entrance.equals("top")) {
@@ -199,6 +246,22 @@ public class ConveyorBelt extends FeldObject {
                     }
                 } else { // blue belt
                     newPosition = new Position(curX - 2, curY);
+                    if(orientations.size() == 2){ // condition limited
+                        for (String entrance : orientations) {
+                            if (entrance.equals("top")) {
+                                if (Game.playersLastPositions.get(clientID).getX() == Game.playerPositions.get(clientID).getX()
+                                        && Game.playersLastPositions.get(clientID).getY() - Game.playerPositions.get(clientID).getY() == -2) {
+                                    turnClockwise(clientID);
+                                }
+
+                            } else if (entrance.equals("bottom")) {
+                                if (Game.playersLastPositions.get(clientID).getX() == Game.playerPositions.get(clientID).getX()
+                                        && Game.playersLastPositions.get(clientID).getY() - Game.playerPositions.get(clientID).getY() == 2) {
+                                    turnCounterclockwise(clientID);
+                                }
+                            }
+                        }
+                    }
                     if (orientations.size() > 2) { // if this is a tri-corner-belt
                         for (String entrance : orientations) {
                             if (entrance.equals("top")) {
