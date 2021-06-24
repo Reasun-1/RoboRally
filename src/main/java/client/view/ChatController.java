@@ -108,6 +108,8 @@ public class ChatController {
     private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
     @FXML
     private ImageView Register1, Register2, Register3, Register4, Register5;
+    @FXML
+    private ImageView LHulk, LSpinbot, LSquashbot, LTrundlebot, LTwitch, LTwonky;
 
     @FXML
     private ComboBox<String> mapList;
