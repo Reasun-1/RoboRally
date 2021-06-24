@@ -4,6 +4,7 @@ import client.model.Client;
 //import client.viewmodel.ChatViewModel;
 import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -172,6 +173,7 @@ public class ChatController {
     Image TrundleBot = new Image(getClass().getResource("/images/Robots/Trundlebot.png").toExternalForm());
     Image TwitchBot = new Image(getClass().getResource("/images/Robots/Twitch.png").toExternalForm());
     Image TwonkyBot = new Image(getClass().getResource("/images/Robots/Twonky.png").toExternalForm());
+    Image DefaultBot = new Image(getClass().getResource("/images/Robots/defaultRobot.png").toExternalForm());
 
     Image Startpoint1 = new Image(getClass().getResource("/images/Startpoints/Start-1.png").toExternalForm());
     Image Startpoint2 = new Image(getClass().getResource("/images/Startpoints/Start-2.png").toExternalForm());
@@ -260,6 +262,37 @@ public class ChatController {
                 sendto.getItems().clear();
                 sendto.getItems().addAll(robotsnamesforchat);
                 sendto.setPromptText("public");
+
+                LHulk.setImage(DefaultBot);
+                LSpinbot.setImage(DefaultBot);
+                LSquashbot.setImage(DefaultBot);
+                LTrundlebot.setImage(DefaultBot);
+                LTwitch.setImage(DefaultBot);
+                LTwonky.setImage(DefaultBot);
+
+                ListProperty<String> robots = client.ROBOTSNAMESFORCHATProperty();
+                for(String robot : robots){
+                    switch(robot){
+                        case "Hulk":
+                            LHulk.setImage(HulkBot);
+                            break;
+                        case "Spinbot":
+                            LSpinbot.setImage(SpinBot);
+                            break;
+                        case "Squashbot":
+                            LSquashbot.setImage(SquashBot);
+                            break;
+                        case "Trundlebot":
+                            LTrundlebot.setImage(TrundleBot);
+                            break;
+                        case "Twitch":
+                            LTwitch.setImage(TwitchBot);
+                            break;
+                        case "Twonky":
+                            LTwonky.setImage(TwonkyBot);
+                            break;
+                    }
+                }
             }
         });
 
