@@ -79,10 +79,6 @@ public class ChatController {
     @FXML
     private ImageView myFigure;
     @FXML
-    private ImageView testImageView;
-    @FXML
-    private Button testButton;
-    @FXML
     private Label energyCube;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
@@ -921,14 +917,6 @@ public class ChatController {
         client.registerPointer = 0;
     }
 
-    //only for test
-    @FXML
-    public void testButtonClick() {
-        System.out.println("button clicked.");
-
-        System.out.println(imageAgain.getHeight());
-        testImageView.setImage(imageAgain);
-    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
