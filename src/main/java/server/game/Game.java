@@ -52,6 +52,7 @@ public class Game {
     public static HashMap<Integer, Integer> energyCubes = new HashMap<>();// key=clientID, value=energyCount
     public static Position positionAntenna = null;
     public static String directionAntenna = null;
+    public static HashMap<Integer, Boolean> clientsOnBoard= new HashMap<>();// key=clientID, value=isOnBoard;
     //public static Iterator<Integer> iter = activePlayersList.iterator();
 
 
@@ -89,6 +90,8 @@ public class Game {
 
             // init energy cubes for each client
             energyCubes.put(client, 5);
+
+            clientsOnBoard.put(client, true);
         }
         //iter = activePlayersList.iterator();
 
@@ -403,11 +406,30 @@ public class Game {
         // if out of board, reboot and clear the registers and remove from priorityList
         if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
             System.out.println("not on board anymore");
+            clientsOnBoard.put(clientID,false);
             if (position.getX() >= 3) {
                 reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()), false);
             } else if (position.getX() < 3) {
                 System.out.println("x < 0");
                 reboot(clientID, startPositionsAllClients.get(clientID), false);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkOnBoardFromBelt(int clientID, Position position) throws IOException {
+        System.out.println("Game checks onBoard.");
+        System.out.println("new position: " + position.getX() + "-" + position.getY());
+        // if out of board, reboot and clear the registers and remove from priorityList
+        if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
+            System.out.println("not on board anymore");
+            clientsOnBoard.put(clientID, false);
+            if (position.getX() >= 3) {
+                reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()), true);
+            } else if (position.getX() < 3) {
+                System.out.println("x < 0");
+                reboot(clientID, startPositionsAllClients.get(clientID), true);
             }
             return false;
         }
@@ -540,7 +562,13 @@ public class Game {
                     iterator.remove();
                     reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()), true);
                 }
-                if (!obj.getClass().getSimpleName().equals("Empty") && !obj.getClass().getSimpleName().equals("Pit")) {
+                if(obj.getClass().getSimpleName().equals("ConveyorBelt")){
+                    obj.doBoardFunction(client,obj);
+                    if(clientsOnBoard.get(client) == false){
+                        iterator.remove();
+                    }
+                }
+                if (!obj.getClass().getSimpleName().equals("Empty") && !obj.getClass().getSimpleName().equals("Pit") && !obj.getClass().getSimpleName().equals("ConveyorBelt")) {
                     obj.doBoardFunction(client, obj);
                 }
             }
@@ -567,6 +595,8 @@ public class Game {
                 // reset all the register slots with no cards in game
                 RegisterCard[] registers = new RegisterCard[5];
                 registersAllClients.put(clientID, registers);
+
+                clientsOnBoard.put(clientID, true);
             }
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
