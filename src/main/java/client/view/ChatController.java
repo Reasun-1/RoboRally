@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -57,6 +58,8 @@ public class ChatController {
     private GridPane gridPaneBoard;
     @FXML
     private GridPane gridPaneRobot;
+    @FXML
+    private GridPane gridPaneButton;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
@@ -186,6 +189,7 @@ public class ChatController {
 
     Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
     Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
+
 
     public void init(Client client) {
         this.client = client;
@@ -559,6 +563,12 @@ public class ChatController {
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 setRoundOver();
             }
+        });
+
+        //TODO gridpane
+        gridPaneButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
+            e.getX();
+            e.getY();
         });
 
         // ====================bind drag&drop for choosing cards==========================
@@ -951,7 +961,29 @@ public class ChatController {
         // reset register pointer to 0
         client.registerPointer = 0;
     }
+//TODO gridpane
+    @FXML
+    private void gridPaneTracking(MouseEvent event) {
+        Node source = (Node)event.getSource();
+        Integer colIndex = gridPaneButton.getColumnIndex(source);
+        Integer rowIndex = gridPaneButton.getRowIndex(source);
+        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+    }
+    //@FXML
+    private void addGridEvent() {
+        gridPaneButton.getChildren().forEach(item -> {
+            item.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Node source = (Node)event.getSource();
+                    Integer colIndex = gridPaneButton.getColumnIndex(source);
+                    Integer rowIndex = gridPaneButton.getRowIndex(source);
+                    System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
+                }
+            });
+        });
+    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
@@ -1750,14 +1782,4 @@ public class ChatController {
     }
 
 
-    public void testBoardButtonEvent() {
-        /*ImageView boardElemen = new ImageView(HulkBot);
-        boardElemen.setFitHeight(43);
-        boardElemen.setFitWidth(43);
-        //boardElemen.setRotate(boardElemen.getRotate() + 90);
-        gridPaneBoard.add(boardElemen,5,1);
-
-         */
-        // gridPaneBoard.getChildren().clear();
-    }
 }
