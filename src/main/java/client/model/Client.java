@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -318,9 +317,11 @@ public class Client extends Application {
         }
     }
 
+    /*
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
+     */
 
     /**
      * Stops the application on the client side

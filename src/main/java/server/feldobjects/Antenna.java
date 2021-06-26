@@ -166,6 +166,7 @@ public class Antenna extends FeldObject {
     }
 
     // only for test
+    /*
     public static void main(String[] args) {
         Game.positionAntenna = new Position(0, 5);
         Game.directionAntenna = "right";
@@ -184,6 +185,6 @@ public class Antenna extends FeldObject {
         calculateDistances();
 
         System.out.println(Game.priorityEachTurn);
-
     }
+     */
 }

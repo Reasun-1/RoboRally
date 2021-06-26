@@ -1,6 +1,5 @@
 package client.view;
 import client.model.Client;
-import client.viewmodel.LoginViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +12,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import java.awt.event.MouseListener;
 
 /**
  * @author chiara welz

@@ -62,10 +62,12 @@ public class Server {
         return server;
     }
 
+
     /**
      * main thread for server class
      * @param args
      */
+
     public static void main(String[] args) {
         try {
             Server server = new Server();
@@ -74,6 +76,8 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Start the Server socket and listen for incoming connections

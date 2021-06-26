@@ -11,7 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import javax.swing.*;
+
 
 
 
@@ -21,8 +21,7 @@ import javax.swing.*;
  */
 
 public class ErrorWindowController {
-    @FXML
-    private JCheckBox robotIndeed;
+
     @FXML
     private Label errorField; // label provides the change of the error message based on the type of error classified on the Client class
     @FXML

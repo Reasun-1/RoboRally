@@ -101,9 +101,8 @@ public class Timer implements Runnable {
         }
     }
 
-
-
     // main only for test
+    /*
     public static void main(String[] args) throws InterruptedException {
 
         Thread thread = new Thread(Timer.timer);
@@ -113,5 +112,6 @@ public class Timer implements Runnable {
 
         Timer.flag = false;
     }
+     */
 
 }

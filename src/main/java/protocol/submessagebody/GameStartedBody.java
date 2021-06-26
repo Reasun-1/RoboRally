@@ -31,9 +31,11 @@ public class GameStartedBody {
         return gameMap;
     }
 
+    /*
     public static void main(String[] args) throws JsonProcessingException {
         List<List<List<FeldObject>>> threeDListAsMap = Arrays.asList(Arrays.asList(Arrays.asList(new Pit("5B"))));
         String js = Protocol.writeJson(new Protocol("GameStarted", new GameStartedBody(threeDListAsMap)));
         System.out.println(js);
     }
+     */
 }

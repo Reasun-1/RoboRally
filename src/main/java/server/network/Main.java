@@ -51,6 +51,8 @@ public class Main {
         thread.start();
 
  */
+
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +64,18 @@ public class Main {
             }
         });
 
+        Thread.sleep(5000);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Client().start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
     }

@@ -19,7 +19,7 @@ public class Connected implements Runnable{
     private int client;
 
     // flag for end or stop the connect check
-    public boolean flagConnect = true;
+    public boolean flagConnect;
 
     // set every 15 second updates
     final long timeInterval = 15000;
@@ -29,31 +29,49 @@ public class Connected implements Runnable{
 
     public Connected(int client) {
         this.client = client;
+        flagConnect = false;
     }
 
     @Override
     public void run() {
         System.out.println("do connected out of while loop");
+        /*
         try {
-            Thread.sleep(12000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (flagConnect){
-            System.out.println("in while loop");
-            System.out.println("in connected flag is: " + flagConnect);
-            //Thread.sleep(timeInterval);
 
-            // try to close connection if no alive checked
+         */
+        while (true){
+
             try {
-                Server.getServer().clientList.get(client).closeConnect();
-                System.out.println("client " + client + " disconnected.");
-                // stop check alive to this disconnected client
-                ExecuteOrder.aliveCheckList.get(client).flagAliveCheck = false;
-                flagConnect = false;
-            } catch (IOException e) {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            System.out.println("in while loop print flagconnect: " + flagConnect);
+
+            if(flagConnect){
+
+                System.out.println("in while loop");
+                System.out.println("in connected flag is: " + flagConnect);
+                //Thread.sleep(timeInterval);
+
+                // try to close connection if no alive checked
+                try {
+                    Server.getServer().clientList.get(client).closeConnect();
+                    System.out.println("client " + client + " disconnected.");
+                    // stop check alive to this disconnected client
+                    ExecuteOrder.aliveCheckList.get(client).flagAliveCheck = false;
+                    break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
     }
 }

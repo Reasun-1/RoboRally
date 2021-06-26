@@ -73,12 +73,12 @@ public class ExecuteOrder {
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
                     }
-                    /*
+
                     // start connect check for each player
                     Connected connected = new Connected(clientID);
                     Thread threadConnect = new Thread(connected);
                     connectList.put(clientID, connected);
-                    System.out.println(connectList.get(clientID));
+                    System.out.println("connected of client " + clientID + "isconneced" +connectList.get(clientID).flagConnect);
                     System.out.println(connectList.keySet());
                     threadConnect.start();
 
@@ -86,10 +86,9 @@ public class ExecuteOrder {
                     AliveCheck aliveCheck = new AliveCheck(clientID);
                     Thread threadAliveCheck = new Thread(aliveCheck);
                     aliveCheckList.put(clientID, aliveCheck);
-                    System.out.println(aliveCheckList.keySet());
+                    System.out.println("alivecheck of all clients "+aliveCheckList.keySet());
                     threadAliveCheck.start();
 
-                     */
                 }
                 break;
             case "Alive":

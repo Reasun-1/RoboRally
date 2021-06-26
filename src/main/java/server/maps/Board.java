@@ -660,6 +660,7 @@ public class Board {
 
 
     // only for test
+    /*
     public static void main(String[] args) {
 
         Game.getInstance().initBoard();
@@ -677,6 +678,7 @@ public class Board {
             System.out.println("");
         }
     }
+     */
 
 
 }

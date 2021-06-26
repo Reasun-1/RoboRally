@@ -28,6 +28,7 @@ public class TestBody {
         return fo;
     }
 
+    /*
     public static void main(String[] args) throws IOException {
         Protocol protocol = new Protocol("TestBody", new TestBody((FeldObject) new Pit("5B")));
         String json = Protocol.writeJson(protocol);
@@ -38,4 +39,6 @@ public class TestBody {
 
 
     }
+
+     */
 }

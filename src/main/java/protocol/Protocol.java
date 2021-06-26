@@ -572,6 +572,7 @@ public class Protocol {
     }
 
     // only for test
+    /*
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Protocol protocol = new Protocol("SendChat", new SendChatBody("hi", 2));
         String json = Protocol.writeJson(protocol);
@@ -581,6 +582,7 @@ public class Protocol {
         SendChatBody sendChatBody = Protocol.readJsonSendChatBody(json);
         System.out.println(sendChatBody.getMessage());
     }
+     */
 
 
 }
