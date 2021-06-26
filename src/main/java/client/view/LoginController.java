@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 
 /**
  * @author chiara welz
+ * @author Rajna Fani
  * @author yuliia shaparenko
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
