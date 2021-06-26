@@ -58,17 +58,15 @@ public class ChatController {
     @FXML
     private GridPane gridPaneRobot;
     @FXML
+    private GridPane gridPaneStartPoint;
+    @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField startPointX;
-    @FXML
-    private TextField startPointY;
+
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
-    @FXML
-    private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
+
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
     @FXML
@@ -208,11 +206,6 @@ public class ChatController {
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
         mapList.disableProperty().bind(client.CANSELECTMAPProperty().not());
-
-        //bind the player who can select a start point
-        setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
-        startPointX.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
-        startPointY.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
@@ -824,6 +817,32 @@ public class ChatController {
                 }
             }
         });
+
+
+
+        client.CANSETSTARTPOINTProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(client.CANSETSTARTPOINT.get() == true){
+                    gridPaneStartPoint.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println(event.getSource());
+                            GridPane gp = (GridPane) event.getTarget();
+                            int x = (int) (event.getX() / 43);
+                            int y = (int) (event.getY() / 43);
+                            try {
+                                client.setStartPoint(x,y);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }else{
+                    gridPaneStartPoint.setOnMouseClicked(null);
+                }
+            }
+        });
     }
 
     public void clearDrawnCardImage(int cardButtoNum){
@@ -1011,10 +1030,6 @@ public class ChatController {
         client.handleMapSelected(mapSelected);
     }
 
-    @FXML
-    private void setStartPointEvent() throws IOException {
-        client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
-    }
 
     @FXML
     private void finishEvent() throws JsonProcessingException {
@@ -1747,17 +1762,5 @@ public class ChatController {
 
                 break;
         }
-    }
-
-
-    public void testBoardButtonEvent() {
-        /*ImageView boardElemen = new ImageView(HulkBot);
-        boardElemen.setFitHeight(43);
-        boardElemen.setFitWidth(43);
-        //boardElemen.setRotate(boardElemen.getRotate() + 90);
-        gridPaneBoard.add(boardElemen,5,1);
-
-         */
-        // gridPaneBoard.getChildren().clear();
     }
 }

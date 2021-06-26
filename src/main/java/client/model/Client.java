@@ -85,7 +85,7 @@ public class Client extends Application {
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
     // player who can set start point, binds with selectStartPoint button in GUI
-    private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
+    public final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
     private final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
@@ -529,7 +529,7 @@ public class Client extends Application {
                                 ISCURRENTPLAYER.set(true);
                                 if (GAMEPHASE.get().equals("Aufbauphase")) {
                                     INFORMATION.set("");
-                                    INFORMATION.set("You are in turn to set start point");
+                                    INFORMATION.set("You are in turn to set start point (click in map)");
                                     CANSETSTARTPOINT.set(true);
                                 } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");
