@@ -55,7 +55,7 @@ public class WindowLauncher {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
-                Platform.exit();
+                //Platform.exit();
                 //System.exit(0);
                 try {
                     client.getSocket().close();
