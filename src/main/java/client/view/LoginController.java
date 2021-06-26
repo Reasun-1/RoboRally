@@ -9,6 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.awt.event.MouseListener;
 
@@ -33,7 +36,7 @@ public class LoginController {
     @FXML
     private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
 
-
+    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/loginwindow.mp3").toString()));
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
@@ -41,6 +44,8 @@ public class LoginController {
      */
     public void init(Client client) {
         this.client = client;
+        mediaPlayer.play();
+        mediaPlayer.seek(Duration.ZERO);
 
         clientID.textProperty().bindBidirectional(client.getCLIENTIDASSTRINGPROPERTY());
 

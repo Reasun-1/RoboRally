@@ -7,9 +7,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import javax.swing.*;
-import java.awt.*;
+
 
 
 /**
@@ -24,6 +27,10 @@ public class ErrorWindowController {
     private Label errorField; // label provides the change of the error message based on the type of error classified on the Client class
     @FXML
     private Button okButton;
+
+    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/errorWindow.mp3").toString()));
+
+
     /**
      * Method to be called from WindowLauncher to set the error that happens.
      *
@@ -31,6 +38,9 @@ public class ErrorWindowController {
      */
     public void init(String msg) {
         errorField.setText(msg);
+        mediaPlayer.play();
+        mediaPlayer.seek(Duration.ZERO);
+
     }
 
 
