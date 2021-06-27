@@ -323,7 +323,6 @@ public class Board {
 
     }
 
-
     public static void buildDeathTrap(){
         logger.info("Board sets map of Death Trap.");
         // fill first row with board elements
@@ -350,11 +349,10 @@ public class Board {
         Game.board.get(1).get(7).add(new Empty( "2A"));
         Game.board.get(1).get(7).add(new CheckPoint("DeathTrap", 1));
         Game.board.get(1).get(8).add(new PushPanel( "2A", new ArrayList<>(){{add("right");}}, new ArrayList<>(){{add(1);add(3);add(5);}}));
-        Game.board.get(1).get(6).add(new Wall( "2A", new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(9).add(new Empty( "2A"));
 
         Game.board.get(2).get(0).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("left");}}));
-        Game.board.get(2).get(1).add(new Wall( "2A", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(2).get(1).add(new Empty( "2A"));
         Game.board.get(2).get(2).add(new PushPanel( "2A", new ArrayList<>(){{add("right");}}, new ArrayList<>(){{add(2);add(4);}}));
         Game.board.get(2).get(2).add(new Wall( "2A", new ArrayList<>(){{add("left");}}));
         Game.board.get(2).get(3).add(new EnergySpace("2A", 1));
@@ -367,7 +365,7 @@ public class Board {
         Game.board.get(2).get(9).add(new Empty( "2A"));
 
         Game.board.get(3).get(0).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("left");}}));
-        Game.board.get(3).get(1).add(new Empty( "2A"));
+        Game.board.get(3).get(1).add(new Wall( "2A", new ArrayList<>(){{add("bottom");}}));
         Game.board.get(3).get(2).add(new Pit( "2A"));
         Game.board.get(3).get(3).add(new Empty( "2A"));
         Game.board.get(3).get(4).add(new Pit( "2A"));
@@ -386,7 +384,6 @@ public class Board {
         Game.board.get(4).get(4).add(new Empty( "2A"));
         Game.board.get(4).get(4).add(new CheckPoint("DeathTrap", 2));
         Game.board.get(4).get(5).add(new PushPanel( "2A", new ArrayList<>(){{add("bottom");}}, new ArrayList<>(){{add(2);add(4);}}));
-        Game.board.get(4).get(3).add(new Wall( "2A", new ArrayList<>(){{add("top");}}));
         Game.board.get(4).get(6).add(new EnergySpace("2A", 1));
         Game.board.get(4).get(7).add(new Empty( "2A"));
         Game.board.get(4).get(8).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("right");}}));
@@ -489,7 +486,6 @@ public class Board {
         Game.board.get(12).get(9).add(new RestartPoint("DeathTrap", new ArrayList<>(){{add("left");}}));
 
     }
-
 
     public static void buildExtraCrispy(){
         logger.info("Board sets map of Extra Crispy.");
