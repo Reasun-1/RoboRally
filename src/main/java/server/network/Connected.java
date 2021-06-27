@@ -55,8 +55,8 @@ public class Connected implements Runnable{
 
             if(flagConnect){
 
-                System.out.println("in while loop");
-                System.out.println("in connected flag is: " + flagConnect);
+                System.out.println("clientNr. "+ client + " in while loop");
+                System.out.println("clientNr. "+ client +" in connected flag is: " + flagConnect);
                 //Thread.sleep(timeInterval);
 
                 // try to close connection if no alive checked
