@@ -353,11 +353,11 @@ public class Client extends Application {
                         logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
                 }
-                Platform.exit();
+                //Platform.exit();
             } catch (IOException e) {
                 try {
                     socket.close();
-                    Platform.exit();
+                    //Platform.exit();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

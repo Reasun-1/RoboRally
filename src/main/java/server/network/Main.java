@@ -17,8 +17,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException, IOException {
 
         Thread t0 = new Thread(new Runnable() {
-            public void run() {
 
+            public void run() {
                 try {
                     Server server = new Server();
                     server.start();
@@ -34,7 +34,6 @@ public class Main {
 
         Thread t1 = new Thread(new Runnable() {
             public void run() {
-
                 Application.launch(Client.class, args);
 
             }
@@ -57,6 +56,7 @@ public class Main {
             @Override
             public void run() {
                 try {
+                    System.out.println(Thread.currentThread().getName());
                     new Client().start(new Stage());
                 } catch (Exception e) {
                     e.printStackTrace();
