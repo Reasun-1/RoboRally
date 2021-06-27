@@ -1382,6 +1382,18 @@ public class ChatController {
                                             leftBottom.setFitHeight(43);
                                             leftBottom.setFitWidth(43);
                                             gridPaneBoard.add(leftBottom,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+270);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+90);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
                                         }
                                     }
 
@@ -1608,7 +1620,15 @@ public class ChatController {
                                 ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
-                                restartImg.setRotate(restartImg.getRotate() + 180);
+                                String dir = obj.getOrientations().get(0);
+                                if(dir.equals("right")){
+                                    restartImg.setRotate(restartImg.getRotate() + 90);
+                                }else if(dir.equals("bottom")){
+                                    restartImg.setRotate(restartImg.getRotate() + 180);
+                                }else if(dir.equals("left")){
+                                    restartImg.setRotate(restartImg.getRotate() + 270);
+                                }
+
                                 gridPaneBoard.add(restartImg, i, j);
                                 break;
                             case "StartPoint":
