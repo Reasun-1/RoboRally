@@ -74,6 +74,20 @@ public class ExecuteOrder {
                         }
                     }
 
+                    // start connect check for each player
+                    Connected connected = new Connected(clientID);
+                    Thread threadConnect = new Thread(connected);
+                    connectList.put(clientID, connected);
+                    System.out.println("connected of client " + clientID + "isconneced" +connectList.get(clientID).flagConnect);
+                    System.out.println(connectList.keySet());
+                    threadConnect.start();
+
+                    // start alive check for each player
+                    AliveCheck aliveCheck = new AliveCheck(clientID);
+                    Thread threadAliveCheck = new Thread(aliveCheck);
+                    aliveCheckList.put(clientID, aliveCheck);
+                    System.out.println("alivecheck of all clients "+aliveCheckList.keySet());
+                    threadAliveCheck.start();
                 }
                 break;
             case "Alive":
@@ -98,20 +112,7 @@ public class ExecuteOrder {
                 // if there are more than 2 clients and all clients are ready and map is selected, start the game
                 checkAndStartGame();
 
-                // start connect check for each player
-                Connected connected = new Connected(clientID);
-                Thread threadConnect = new Thread(connected);
-                connectList.put(clientID, connected);
-                System.out.println("connected of client " + clientID + "isconneced" +connectList.get(clientID).flagConnect);
-                System.out.println(connectList.keySet());
-                threadConnect.start();
 
-                // start alive check for each player
-                AliveCheck aliveCheck = new AliveCheck(clientID);
-                Thread threadAliveCheck = new Thread(aliveCheck);
-                aliveCheckList.put(clientID, aliveCheck);
-                System.out.println("alivecheck of all clients "+aliveCheckList.keySet());
-                threadAliveCheck.start();
 
                 break;
             case "MapSelected":

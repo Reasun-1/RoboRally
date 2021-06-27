@@ -46,7 +46,7 @@ public class Connected implements Runnable{
         while (true){
 
             try {
-                Thread.sleep(10000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -55,20 +55,31 @@ public class Connected implements Runnable{
 
             if(flagConnect){
 
-                System.out.println("clientNr. "+ client + " in while loop");
-                System.out.println("clientNr. "+ client +" in connected flag is: " + flagConnect);
-                //Thread.sleep(timeInterval);
-
-                // try to close connection if no alive checked
                 try {
-                    Server.getServer().clientList.get(client).closeConnect();
-                    System.out.println("client " + client + " disconnected.");
-                    // stop check alive to this disconnected client
-                    ExecuteOrder.aliveCheckList.get(client).flagAliveCheck = false;
-                    break;
-                } catch (IOException e) {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                if(flagConnect){
+
+                    System.out.println("clientNr. "+ client + " in while loop");
+                    System.out.println("clientNr. "+ client +" in connected flag is: " + flagConnect);
+                    //Thread.sleep(timeInterval);
+
+                    // try to close connection if no alive checked
+                    try {
+                        Server.getServer().clientList.get(client).closeConnect();
+                        System.out.println("client " + client + " disconnected.");
+                        // stop check alive to this disconnected client
+                        ExecuteOrder.aliveCheckList.get(client).flagAliveCheck = false;
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
 
             }
 

@@ -436,7 +436,7 @@ public class Client extends Application {
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
-                            System.out.println("client " + clientID +" sent alive checked back.");
+                            logger.info("==========client " + clientID +" sent alive checked back.===========");
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
