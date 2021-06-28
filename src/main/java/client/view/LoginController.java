@@ -1,6 +1,8 @@
 package client.view;
 import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.property.ListProperty;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -90,6 +92,45 @@ public class LoginController {
             @Override
             public void handle(MouseEvent event) {
                 robotFigure.setText(String.valueOf(6));
+            }
+        });
+
+
+        //bind robotsNames Propertylist in Client with Buttons
+        client.ROBOTSNAMESFORCHATProperty().addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> c) {
+                iconHulk.setDisable(false);
+                iconSpinbot.setDisable(false);
+                iconSquashbot.setDisable(false);
+                iconTrundlebot.setDisable(false);
+                iconTwitch.setDisable(false);
+                iconTwonky.setDisable(false);
+
+                ListProperty<String> robots = client.ROBOTSNAMESFORCHATProperty();
+                for(String robot : robots){
+                    switch (robot){
+                        case "Hulk":
+                            iconHulk.setDisable(true);
+                            break;
+                        case "Spinbot":
+                            iconSpinbot.setDisable(true);
+                            break;
+                        case "Squashbot":
+                            iconSquashbot.setDisable(true);
+                            break;
+                        case "Trundlebot":
+                            iconTrundlebot.setDisable(true);
+                            break;
+                        case "Twitch":
+                            iconTwitch.setDisable(true);
+                            break;
+                        case "Twonky":
+                            iconTwonky.setDisable(true);
+                            break;
+
+                    }
+                }
             }
         });
     }
