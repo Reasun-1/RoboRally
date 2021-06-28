@@ -103,6 +103,7 @@ public class ServerThread implements Runnable {
             try {
                 closeConnect();
                 Server.getServer().handleConnectionUpdate(clientID);
+                // active with the alive check in Execute Order
                 ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -151,6 +152,8 @@ public class ServerThread implements Runnable {
         synchronized (Server.clientList) {
             Server.clientList.remove(clientID);
         }
+        Server.getServer().handleConnectionUpdate(clientID);
+        ExecuteOrder.aliveCheckList.get(clientID).flagAliveCheck = false;
         //sendMessage(clientName + " has left the room.");
         SOCKET.close();
     }

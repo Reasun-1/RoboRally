@@ -2,23 +2,29 @@ package client.view;
 
 import client.model.Client;
 //import client.viewmodel.ChatViewModel;
+import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
+import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,6 +36,7 @@ import java.util.List;
  * @author rajna fani
  * @author Chiara Welz
  * @author Yuliia Shaparenko
+ * @author Jonas Gottal
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {
@@ -51,19 +58,15 @@ public class ChatController {
     @FXML
     private GridPane gridPaneRobot;
     @FXML
+    private GridPane gridPaneStartPoint;
+    @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField sendTo; //send Message to a specific player on private
-    @FXML
-    private TextField startPointX;
-    @FXML
-    private TextField startPointY;
+
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
-    @FXML
-    private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
+
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
     @FXML
@@ -71,11 +74,9 @@ public class ChatController {
     @FXML
     private Button canPlayNextRegister; // invoke methode playNextRegistserEvent()
     @FXML
+    private Button remove1, remove2, remove3, remove4, remove5;
+    @FXML
     private ImageView myFigure;
-    @FXML
-    private ImageView testImageView;
-    @FXML
-    private Button testButton;
     @FXML
     private Label energyCube;
 
@@ -84,6 +85,7 @@ public class ChatController {
     @FXML
     private Label timer;
 
+    private final WindowLauncher LAUNCHER = new WindowLauncher();
 
     //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
@@ -106,14 +108,16 @@ public class ChatController {
     @FXML
     private ImageView Register1, Register2, Register3, Register4, Register5;
     @FXML
-    private Button drawnB0, drawnB1, drawnB2, drawnB3, drawnB4, drawnB5, drawnB6, drawnB7, drawnB8;
-    @FXML
-    private ComboBox<Integer> drawnA0, drawnA1, drawnA2, drawnA3, drawnA4, drawnA5, drawnA6, drawnA7, drawnA8;
-
-    private ObservableList<Integer> regList = FXCollections.observableArrayList(1, 2, 3, 4, 5);
+    private ImageView LHulk, LSpinbot, LSquashbot, LTrundlebot, LTwitch, LTwonky;
 
     @FXML
     private ComboBox<String> mapList;
+
+    @FXML
+    private ComboBox<String> sendto;
+
+    String tempCardName = ""; // for drag&drop
+    int tempButtonNum; // for drag&drop
 
     //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
@@ -167,6 +171,7 @@ public class ChatController {
     Image TrundleBot = new Image(getClass().getResource("/images/Robots/Trundlebot.png").toExternalForm());
     Image TwitchBot = new Image(getClass().getResource("/images/Robots/Twitch.png").toExternalForm());
     Image TwonkyBot = new Image(getClass().getResource("/images/Robots/Twonky.png").toExternalForm());
+    Image DefaultBot = new Image(getClass().getResource("/images/Robots/defaultRobot.png").toExternalForm());
 
     Image Startpoint1 = new Image(getClass().getResource("/images/Startpoints/Start-1.png").toExternalForm());
     Image Startpoint2 = new Image(getClass().getResource("/images/Startpoints/Start-2.png").toExternalForm());
@@ -182,18 +187,6 @@ public class ChatController {
 
     public void init(Client client) {
         this.client = client;
-
-        //get items for comboboxes of the register
-        drawnA0.getItems().addAll(regList);
-        drawnA1.getItems().addAll(regList);
-        drawnA2.getItems().addAll(regList);
-        drawnA3.getItems().addAll(regList);
-        drawnA4.getItems().addAll(regList);
-        drawnA5.getItems().addAll(regList);
-        drawnA6.getItems().addAll(regList);
-        drawnA7.getItems().addAll(regList);
-        drawnA8.getItems().addAll(regList);
-
 
         //connects the send button and the message field together (if message field is empty then u can't press the send button)
         sendButton.disableProperty().bind(messageField.textProperty().isEmpty());
@@ -212,9 +205,7 @@ public class ChatController {
 
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
-
-        //bind the player who can select a start point
-        setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
+        mapList.disableProperty().bind(client.CANSELECTMAPProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
@@ -235,6 +226,14 @@ public class ChatController {
         currentPhase.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         information.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 14px;");
         outOfRoundCards1.setStyle("-fx-text-fill: lightskyblue; -fx-control-inner-background: black; -fx-font-size: 12px;");
+
+        //init remove buttons deactive as default
+        remove1.setDisable(true);
+        remove2.setDisable(true);
+        remove3.setDisable(true);
+        remove4.setDisable(true);
+        remove5.setDisable(true);
+
         // bind maps to map list for comboBox
         client.MAPSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
@@ -244,6 +243,48 @@ public class ChatController {
                 if (mapList.getItems().size() < 4) {
                     mapList.getItems().clear();
                     mapList.getItems().addAll(mapObsList);
+                }
+            }
+        });
+
+        // bind robotsNames Properylist in Client with comboBox
+        client.ROBOTSNAMESFORCHATProperty().addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> change) {
+                ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
+                sendto.getItems().clear();
+                sendto.getItems().addAll(robotsnamesforchat);
+                sendto.setPromptText("public");
+
+                LHulk.setImage(DefaultBot);
+                LSpinbot.setImage(DefaultBot);
+                LSquashbot.setImage(DefaultBot);
+                LTrundlebot.setImage(DefaultBot);
+                LTwitch.setImage(DefaultBot);
+                LTwonky.setImage(DefaultBot);
+
+                ListProperty<String> robots = client.ROBOTSNAMESFORCHATProperty();
+                for(String robot : robots){
+                    switch(robot){
+                        case "Hulk":
+                            LHulk.setImage(HulkBot);
+                            break;
+                        case "Spinbot":
+                            LSpinbot.setImage(SpinBot);
+                            break;
+                        case "Squashbot":
+                            LSquashbot.setImage(SquashBot);
+                            break;
+                        case "Trundlebot":
+                            LTrundlebot.setImage(TrundleBot);
+                            break;
+                        case "Twitch":
+                            LTwitch.setImage(TwitchBot);
+                            break;
+                        case "Twonky":
+                            LTwonky.setImage(TwonkyBot);
+                            break;
+                    }
                 }
             }
         });
@@ -512,6 +553,329 @@ public class ChatController {
                 setRoundOver();
             }
         });
+
+        // ====================bind drag&drop for choosing cards==========================
+
+        DrawnCard0.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard0.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard0.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 0;
+                tempCardName = client.MYCARDSProperty().get(0);
+            }
+        });
+        DrawnCard1.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard1.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard1.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 1;
+                tempCardName = client.MYCARDSProperty().get(1);
+            }
+        });
+        DrawnCard2.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard2.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard2.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 2;
+                tempCardName = client.MYCARDSProperty().get(2);
+            }
+        });
+        DrawnCard3.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard3.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard3.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 3;
+                tempCardName = client.MYCARDSProperty().get(3);
+            }
+        });
+        DrawnCard4.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard4.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard4.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 4;
+                tempCardName = client.MYCARDSProperty().get(4);
+            }
+        });
+        DrawnCard5.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard5.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard5.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 5;
+                tempCardName = client.MYCARDSProperty().get(5);
+            }
+        });
+        DrawnCard6.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard6.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard6.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 6;
+                tempCardName = client.MYCARDSProperty().get(6);
+            }
+        });
+        DrawnCard7.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard7.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard7.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 7;
+                tempCardName = client.MYCARDSProperty().get(7);
+            }
+        });
+        DrawnCard8.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dragboard db = DrawnCard8.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(DrawnCard8.getImage());
+                db.setContent(content);
+
+                tempButtonNum = 8;
+                tempCardName = client.MYCARDSProperty().get(8);
+            }
+        });
+
+
+        Register1.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register1.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                String url = Register1.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(tempCardName.equals("Again")){
+                    try {
+                        LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(urlSub.equals("Discard.jpg") && !tempCardName.equals("Again")){
+                    Register1.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(1, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    remove1.setDisable(false);
+                }
+            }
+        });
+
+        Register2.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register2.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                String url = Register2.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register2.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(2, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    remove2.setDisable(false);
+                }
+            }
+        });
+
+        Register3.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register3.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                String url = Register3.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register3.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(3, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 3);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    remove3.setDisable(false);
+                }
+            }
+        });
+
+        Register4.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register4.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                String url = Register4.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register4.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(4, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 4);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    remove4.setDisable(false);
+                }
+            }
+        });
+
+        Register5.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        Register5.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                String url = Register5.getImage().getUrl();
+                String urlSub = url.substring(url.length()-11,url.length());
+
+                if(urlSub.equals("Discard.jpg")){
+                    Register5.setImage(dragEvent.getDragboard().getImage());
+                    regButton.put(5, tempButtonNum);
+                    clearDrawnCardImage(tempButtonNum);
+                    try {
+                        // send selected card message to serverv
+                        client.setRegister(tempCardName, 5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    remove5.setDisable(false);
+                }
+            }
+        });
+
+
+
+        client.CANSETSTARTPOINTProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(client.CANSETSTARTPOINT.get() == true){
+                    gridPaneStartPoint.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println(event.getSource());
+                            GridPane gp = (GridPane) event.getTarget();
+                            int x = (int) (event.getX() / 43);
+                            int y = (int) (event.getY() / 43);
+                            try {
+                                client.setStartPoint(x,y);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }else{
+                    gridPaneStartPoint.setOnMouseClicked(null);
+                }
+            }
+        });
+    }
+
+    public void clearDrawnCardImage(int cardButtoNum){
+
+        switch (cardButtoNum){
+            case 0:
+                DrawnCard0.setImage(imageDiscard);
+                break;
+            case 1:
+                DrawnCard1.setImage(imageDiscard);
+                break;
+            case 2:
+                DrawnCard2.setImage(imageDiscard);
+                break;
+            case 3:
+                DrawnCard3.setImage(imageDiscard);
+                break;
+            case 4:
+                DrawnCard4.setImage(imageDiscard);
+                break;
+            case 5:
+                DrawnCard5.setImage(imageDiscard);
+                break;
+            case 6:
+                DrawnCard6.setImage(imageDiscard);
+                break;
+            case 7:
+                DrawnCard7.setImage(imageDiscard);
+                break;
+            case 8:
+                DrawnCard8.setImage(imageDiscard);
+                break;
+        }
     }
 
     public void updateRegisters() {
@@ -607,25 +971,47 @@ public class ChatController {
         client.registerPointer = 0;
     }
 
-    //only for test
-    @FXML
-    public void testButtonClick() {
-        System.out.println("button clicked.");
-
-        System.out.println(imageAgain.getHeight());
-        testImageView.setImage(imageAgain);
-    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
     private void send() throws JsonProcessingException {
-        if (sendTo.getText().isEmpty()) {
+        ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
+        if (sendto.getValue() == null) { // if no message destination, then it´s a public message
             client.sendMessage(messageField.getText());
         } else {
-            client.sendPersonalMessage(Integer.valueOf(sendTo.getText()), messageField.getText());
+            int robotTO = 0;
+            int clientSendTo = 0;
+            String robotName = sendto.getValue();
+
+            for(int robotNum : client.robotNumAndNames.keySet()){
+                if(robotName.equals(client.robotNumAndNames.get(robotNum))){
+                    robotTO = robotNum;
+                }
+            }
+
+            for(int clientNum : client.robotFigureAllClients.keySet()){
+                if(client.robotFigureAllClients.get(clientNum) == robotTO){
+                    clientSendTo = clientNum;
+                }
+            }
+
+            System.out.println(robotTO + " robotTO");
+            client.sendPersonalMessage(clientSendTo, messageField.getText());
         }
         messageField.clear();
-        sendTo.clear();
+
+        sendto.getSelectionModel().clearSelection();
+        sendto.setButtonCell(new ListCell<String>(){
+            @Override
+            protected void updateItem(String item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty || item == null){
+                    setText("public");
+                }else{
+                    setText(item);
+                }
+            }
+        });
     }
 
     @FXML
@@ -644,14 +1030,15 @@ public class ChatController {
         client.handleMapSelected(mapSelected);
     }
 
-    @FXML
-    private void setStartPointEvent() throws IOException {
-        client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
-    }
 
     @FXML
     private void finishEvent() throws JsonProcessingException {
         client.selectFinish();
+        remove1.setDisable(true);
+        remove2.setDisable(true);
+        remove3.setDisable(true);
+        remove4.setDisable(true);
+        remove5.setDisable(true);
     }
 
     @FXML
@@ -684,146 +1071,6 @@ public class ChatController {
             System.out.println("round over checked by GUI");
             client.registerPointer = 0;
         }
-    }
-
-
-    //=========================EventDrawnCards=================================
-
-    @FXML
-    public void drawnButton0() throws IOException {
-        System.out.println("drawnButton0 clicked.");
-        // set Image to right register
-        int regNum = drawnA0.getValue();
-        Image image = DrawnCard0.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard0.setImage(imageDiscard);
-        regButton.put(regNum, 0);
-
-        // send selected card message to server
-        String cardName0 = client.MYCARDSProperty().get(0);
-        client.setRegister(cardName0, regNum);
-    }
-
-
-    @FXML
-    public void drawnButton1() throws IOException {
-        System.out.println("drawnButton1 clicked.");
-        // set Image to right register
-        int regNum = drawnA1.getValue();
-        Image image = DrawnCard1.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard1.setImage(imageDiscard);
-        regButton.put(regNum, 1);
-
-        String cardName1 = client.MYCARDSProperty().get(1);
-        client.setRegister(cardName1, regNum);
-    }
-
-    @FXML
-    public void drawnButton2() throws IOException {
-        System.out.println("drawnButton2 clicked.");
-        // set Image to right register
-        int regNum = drawnA2.getValue();
-        Image image = DrawnCard2.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard2.setImage(imageDiscard);
-        regButton.put(regNum, 2);
-
-        String cardName2 = client.MYCARDSProperty().get(2);
-        client.setRegister(cardName2, regNum);
-    }
-
-    @FXML
-    public void drawnButton3() throws IOException {
-        System.out.println("drawnButton3 clicked.");
-        // set Image to right register
-        int regNum = drawnA3.getValue();
-        Image image = DrawnCard3.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard3.setImage(imageDiscard);
-        regButton.put(regNum, 3);
-
-        String cardName3 = client.MYCARDSProperty().get(3);
-        client.setRegister(cardName3, regNum);
-    }
-
-    @FXML
-    public void drawnButton4() throws IOException {
-        System.out.println("drawnButton4 clicked.");
-        // set Image to right register
-        int regNum = drawnA4.getValue();
-        Image image = DrawnCard4.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard4.setImage(imageDiscard);
-        regButton.put(regNum, 4);
-
-        String cardName4 = client.MYCARDSProperty().get(4);
-        client.setRegister(cardName4, regNum);
-    }
-
-    @FXML
-    public void drawnButton5() throws IOException {
-        System.out.println("drawnButton5 clicked.");
-        // set Image to right register
-        int regNum = drawnA5.getValue();
-        Image image = DrawnCard5.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard5.setImage(imageDiscard);
-        regButton.put(regNum, 5);
-
-        String cardName5 = client.MYCARDSProperty().get(5);
-        client.setRegister(cardName5, regNum);
-    }
-
-    @FXML
-    public void drawnButton6() throws IOException {
-        System.out.println("drawnButton6 clicked.");
-        // set Image to right register
-        int regNum = drawnA6.getValue();
-        Image image = DrawnCard6.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard6.setImage(imageDiscard);
-        regButton.put(regNum, 6);
-
-        String cardName6 = client.MYCARDSProperty().get(6);
-        client.setRegister(cardName6, regNum);
-    }
-
-    @FXML
-    public void drawnButton7() throws IOException {
-        System.out.println("drawnButton7 clicked.");
-        // set Image to right register
-        int regNum = drawnA7.getValue();
-        Image image = DrawnCard7.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard7.setImage(imageDiscard);
-        regButton.put(regNum, 7);
-
-        String cardName7 = client.MYCARDSProperty().get(7);
-        client.setRegister(cardName7, regNum);
-    }
-
-    @FXML
-    public void drawnButton8() throws IOException {
-        System.out.println("drawnButton8 clicked.");
-        // set Image to right register
-        int regNum = drawnA8.getValue();
-        Image image = DrawnCard8.getImage();
-        setRegCard(regNum, image);
-
-        DrawnCard8.setImage(imageDiscard);
-        regButton.put(regNum, 8);
-
-        String cardName8 = client.MYCARDSProperty().get(8);
-        client.setRegister(cardName8, regNum);
     }
 
     /**
@@ -954,6 +1201,7 @@ public class ChatController {
 
         client.setRegister(null, 1);
         Register1.setImage(imageDiscard);
+        remove1.setDisable(true);
     }
 
     public void clearRegister2() throws IOException {
@@ -965,6 +1213,7 @@ public class ChatController {
 
         client.setRegister(null, 2);
         Register2.setImage(imageDiscard);
+        remove2.setDisable(true);
     }
 
     public void clearRegister3() throws IOException {
@@ -976,6 +1225,7 @@ public class ChatController {
 
         client.setRegister(null, 3);
         Register3.setImage(imageDiscard);
+        remove3.setDisable(true);
     }
 
     public void clearRegister4() throws IOException {
@@ -987,6 +1237,7 @@ public class ChatController {
 
         client.setRegister(null, 4);
         Register4.setImage(imageDiscard);
+        remove4.setDisable(true);
     }
 
     public void clearRegister5() throws IOException {
@@ -998,6 +1249,7 @@ public class ChatController {
 
         client.setRegister(null, 5);
         Register5.setImage(imageDiscard);
+        remove5.setDisable(true);
     }
 
     /**
@@ -1130,6 +1382,18 @@ public class ChatController {
                                             leftBottom.setFitHeight(43);
                                             leftBottom.setFitWidth(43);
                                             gridPaneBoard.add(leftBottom,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+270);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+90);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
                                         }
                                     }
 
@@ -1229,15 +1493,15 @@ public class ChatController {
                                         // if there are several orientations, choose another pic
                                         if (obj.getOrientations().size() > 2) {
                                             if (obj.getOrientations().get(1).equals("right") || obj.getOrientations().get(2).equals("right")) {
-                                                ImageView bluebrImg = new ImageView(BlueConveyorBelts21mirror);
+                                                ImageView bluebrImg = new ImageView(BlueConveyorBelts21);
                                                 bluebrImg.setFitHeight(43);
                                                 bluebrImg.setFitWidth(43);
-                                                bluebrImg.setRotate(bluebrImg.getRotate() + 270);
                                                 gridPaneBoard.add(bluebrImg, i, j);
                                             } else if (obj.getOrientations().get(1).equals("left") || obj.getOrientations().get(2).equals("left")) {
-                                                ImageView blueblImg = new ImageView(BlueConveyorBelts21);
+                                                ImageView blueblImg = new ImageView(BlueConveyorBelts21mirror);
                                                 blueblImg.setFitHeight(43);
                                                 blueblImg.setFitWidth(43);
+                                                blueblImg.setRotate(blueblImg.getRotate()+270);
                                                 gridPaneBoard.add(blueblImg, i, j);
                                             }
                                         }
@@ -1356,7 +1620,15 @@ public class ChatController {
                                 ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
-                                restartImg.setRotate(restartImg.getRotate() + 180);
+                                String dir = obj.getOrientations().get(0);
+                                if(dir.equals("right")){
+                                    restartImg.setRotate(restartImg.getRotate() + 90);
+                                }else if(dir.equals("bottom")){
+                                    restartImg.setRotate(restartImg.getRotate() + 180);
+                                }else if(dir.equals("left")){
+                                    restartImg.setRotate(restartImg.getRotate() + 270);
+                                }
+
                                 gridPaneBoard.add(restartImg, i, j);
                                 break;
                             case "StartPoint":
@@ -1510,17 +1782,5 @@ public class ChatController {
 
                 break;
         }
-    }
-
-
-    public void testBoardButtonEvent() {
-        /*ImageView boardElemen = new ImageView(HulkBot);
-        boardElemen.setFitHeight(43);
-        boardElemen.setFitWidth(43);
-        //boardElemen.setRotate(boardElemen.getRotate() + 90);
-        gridPaneBoard.add(boardElemen,5,1);
-
-         */
-        // gridPaneBoard.getChildren().clear();
     }
 }

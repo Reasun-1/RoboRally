@@ -144,7 +144,7 @@ public class AITowardsCheckpoint implements Runnable{
                 ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
                 String message = receivedChatBody.getMessage();
                 int fromClient = receivedChatBody.getFrom();
-                if(fromClient != -1){
+                if(fromClient != clientID){
                     sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
                 }
                 break;
@@ -809,9 +809,10 @@ public class AITowardsCheckpoint implements Runnable{
     public void findCheckpoints() {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
-                if (Game.board.get(i).get(j).size() == 2) {
-                    if (Game.board.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")) {
-                        int pointsNum = Game.board.get(i).get(j).get(1).getCount();
+                System.out.println("flag i : " + i + " j: " + j);
+                if (mapInGUI.get(i).get(j).size() == 2) {
+                    if (mapInGUI.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")) {
+                        int pointsNum = mapInGUI.get(i).get(j).get(1).getCount();
                         checkpointsPositions.put(pointsNum, new Position(i, j));
                     }
                 }
@@ -1802,7 +1803,7 @@ public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingExcept
 
 
     public static void main(String[] args) throws IOException {
-        AILow ki = new AILow();
+        AITowardsCheckpoint ki = new AITowardsCheckpoint();
         Thread thread = new Thread(ki);
         thread.start();
     }

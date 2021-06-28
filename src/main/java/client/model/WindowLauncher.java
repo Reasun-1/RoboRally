@@ -7,9 +7,11 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -49,7 +51,19 @@ public class WindowLauncher {
         stage.setScene(new Scene(root, 1250, 750));
         stage.show();
         chatWindowStage.put(client.getClientID(), stage);
-        stage.setOnCloseRequest((event) -> Platform.exit());
+        //stage.setOnCloseRequest((event) -> Platform.exit());
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                //Platform.exit();
+                //System.exit(0);
+                try {
+                    client.getSocket().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**

@@ -1,6 +1,7 @@
 package server.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import protocol.ExecuteOrder;
 import server.network.Server;
 
 import java.io.IOException;
@@ -79,6 +80,7 @@ public class Timer implements Runnable {
                     e.printStackTrace();
                 }
 
+                ExecuteOrder.activePhase = 3;
                 // inform all clients about current register cards of all
                 try {
                     Server.getServer().handleCurrentCards();
@@ -101,9 +103,8 @@ public class Timer implements Runnable {
         }
     }
 
-
-
     // main only for test
+    /*
     public static void main(String[] args) throws InterruptedException {
 
         Thread thread = new Thread(Timer.timer);
@@ -113,5 +114,6 @@ public class Timer implements Runnable {
 
         Timer.flag = false;
     }
+     */
 
 }

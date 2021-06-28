@@ -62,10 +62,12 @@ public class Server {
         return server;
     }
 
+
     /**
      * main thread for server class
      * @param args
      */
+
     public static void main(String[] args) {
         try {
             Server server = new Server();
@@ -74,6 +76,8 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Start the Server socket and listen for incoming connections
@@ -556,8 +560,10 @@ public class Server {
             }
         }
         // reinform the next player
-        int curClient = Game.priorityEachTurn.get(0);
-        handleCurrentPlayer(curClient);
+        if(Game.priorityEachTurn.size() != 0){
+            int curClient = Game.priorityEachTurn.get(0);
+            handleCurrentPlayer(curClient);
+        }
 
         Protocol protocol = new Protocol("ConnectionUpdate", new ConnectionUpdateBody(clientID, false, "remove"));
         String json = Protocol.writeJson(protocol);

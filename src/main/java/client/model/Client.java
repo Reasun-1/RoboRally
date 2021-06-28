@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -44,7 +43,7 @@ public class Client extends Application {
     // client list with all clientIDs
     private List<Integer> clientsList;
     // map: key = clientID, value = robotfigure;
-    private HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
+    public HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
     // map : key = clientID, value = name;
     private HashMap<Integer, String> clientNames = new HashMap<>();
     // map : key = clientID, value = isReady
@@ -62,9 +61,8 @@ public class Client extends Application {
     // store the available startPoints for the maps(death trap is different)
     private HashSet<Position> avaibleStartsMaps = new HashSet<>();
     private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
-
-
-
+    // key=robotNum, value=robotName
+    public HashMap<Integer, String> robotNumAndNames = new HashMap<>();
 
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
@@ -86,7 +84,7 @@ public class Client extends Application {
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
     // player who can set start point, binds with selectStartPoint button in GUI
-    private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
+    public final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
     private final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
@@ -119,6 +117,8 @@ public class Client extends Application {
     private StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
+    // bind list to sendTo comboBox in ChatController
+    private final ListProperty<String> ROBOTSNAMESFORCHAT = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind timer to ChatController
     private StringProperty timerScreen = new SimpleStringProperty();
 
@@ -249,7 +249,13 @@ public class Client extends Application {
 
     public ObservableList<String> getMAPS() { return MAPS.get(); }
 
+    public ListProperty<String> ROBOTSNAMESFORCHATProperty() { return ROBOTSNAMESFORCHAT; }
+
+    public ObservableList<String> getROBOTSNAMESFORCHAT() { return ROBOTSNAMESFORCHAT.get(); }
+
     public StringProperty timerScreenProperty() { return timerScreen; }
+
+
 
 
 
@@ -296,15 +302,26 @@ public class Client extends Application {
         PLAYERSINSERVER.set("");
         PLAYERSWHOAREREADY.set("");
 
+        // init nums and names of all the robots
+        robotNumAndNames.put(1,"Hulk");
+        robotNumAndNames.put(2,"Spinbot");
+        robotNumAndNames.put(3,"Squashbot");
+        robotNumAndNames.put(4,"Trundlebot");
+        robotNumAndNames.put(5,"Twitch");
+        robotNumAndNames.put(6,"Twonky");
+
+
         // init MYREGISTER[]
         for (int i = 0; i < 5; i++) {
             MYREGISTER[i] = new SimpleStringProperty("");
         }
     }
 
+    /*
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
+     */
 
     /**
      * Stops the application on the client side
@@ -336,11 +353,11 @@ public class Client extends Application {
                         logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
                 }
-                Platform.exit();
+                //Platform.exit();
             } catch (IOException e) {
                 try {
                     socket.close();
-                    Platform.exit();
+                    //Platform.exit();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -419,6 +436,7 @@ public class Client extends Application {
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
+                            logger.info("==========client " + clientID +" sent alive checked back.===========");
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
@@ -447,6 +465,10 @@ public class Client extends Application {
                                     // update flag for listener
                                     flagMyFigure.set(flagMyFigure.getValue() + 1);
                                 }
+
+                                String robotNameAdded = robotNumAndNames.get(figureAdded);
+                                ROBOTSNAMESFORCHAT.add(robotNameAdded);
+                                System.out.println(ROBOTSNAMESFORCHAT);
                             }
                             break;
                         case "PlayerStatus":
@@ -509,7 +531,7 @@ public class Client extends Application {
                                 ISCURRENTPLAYER.set(true);
                                 if (GAMEPHASE.get().equals("Aufbauphase")) {
                                     INFORMATION.set("");
-                                    INFORMATION.set("You are in turn to set start point");
+                                    INFORMATION.set("You are in turn to set start point (click in map)");
                                     CANSETSTARTPOINT.set(true);
                                 } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");
@@ -702,6 +724,14 @@ public class Client extends Application {
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
 
+                            // update GUI robot list for Chat
+                            int removedRobotNum = robotFigureAllClients.get(removedClient);
+                            String removedRobotName = robotNumAndNames.get(removedRobotNum);
+                            System.out.println("flag removedRobotName: " + removedRobotName);
+                            System.out.println("flag before: " + ROBOTSNAMESFORCHAT);
+                            ROBOTSNAMESFORCHAT.remove(removedRobotName);
+                            System.out.println("flag after: " + ROBOTSNAMESFORCHAT);
+
                             // update GUI info for client who are ready
                             readyClients.remove(removedClient);
                             PLAYERSWHOAREREADY.set("");
@@ -748,7 +778,7 @@ public class Client extends Application {
      */
     public void sendMessage(String message) throws JsonProcessingException {
         // Check logout condition
-        if (message.equals("bye")) {
+        /*if (message.equals("bye")) {
             Protocol protocol = new Protocol("Quit", null);
             String json = Protocol.writeJson(protocol);
             logger.info(json);
@@ -765,12 +795,13 @@ public class Client extends Application {
             System.out.println("You left the room.");
 
         } else {
+         */
             // Send message to server
             Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
-        }
+        //}
     }
 
     /**

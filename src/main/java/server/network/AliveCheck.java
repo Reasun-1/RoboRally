@@ -30,6 +30,10 @@ public class AliveCheck implements Runnable {
     public void run() {
 
         while (flagAliveCheck){
+
+            // set connected back zu while loop
+            ExecuteOrder.connectList.get(client).flagConnect = true;
+
             try {
                 Server.getServer().handleAlive(client);
             } catch (IOException e) {
@@ -40,8 +44,10 @@ public class AliveCheck implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            // set connected back zu while loop
-            ExecuteOrder.connectList.get(client).flagConnect = true;
+
+
+            System.out.println("server sends alive check, clientNr. " + client);
+            System.out.println("client flag connect = " + ExecuteOrder.connectList.get(client).flagConnect);
 
         }
     }
