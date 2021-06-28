@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -85,7 +84,7 @@ public class Client extends Application {
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
     // player who can set start point, binds with selectStartPoint button in GUI
-    private final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
+    public final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
     private final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
@@ -318,9 +317,11 @@ public class Client extends Application {
         }
     }
 
+    /*
     public static void main(String[] args) throws InterruptedException {
         launch(args);
     }
+     */
 
     /**
      * Stops the application on the client side
@@ -352,11 +353,11 @@ public class Client extends Application {
                         logger.info("json from server: " + json + Thread.currentThread().getName());
                     }
                 }
-                Platform.exit();
+                //Platform.exit();
             } catch (IOException e) {
                 try {
                     socket.close();
-                    Platform.exit();
+                    //Platform.exit();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -435,6 +436,7 @@ public class Client extends Application {
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
+                            logger.info("==========client " + clientID +" sent alive checked back.===========");
                             OUT.println(alive);
                             break;
                         case "PlayerAdded":
@@ -529,7 +531,7 @@ public class Client extends Application {
                                 ISCURRENTPLAYER.set(true);
                                 if (GAMEPHASE.get().equals("Aufbauphase")) {
                                     INFORMATION.set("");
-                                    INFORMATION.set("You are in turn to set start point");
+                                    INFORMATION.set("You are in turn to set start point (click in map)");
                                     CANSETSTARTPOINT.set(true);
                                 } else if (GAMEPHASE.get().equals("Aktivierungsphase")) {
                                     INFORMATION.set("");

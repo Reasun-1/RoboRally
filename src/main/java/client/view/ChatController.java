@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -59,19 +58,15 @@ public class ChatController {
     @FXML
     private GridPane gridPaneRobot;
     @FXML
-    private GridPane gridPaneButton;
+    private GridPane gridPaneStartPoint;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
-    @FXML
-    private TextField startPointX;
-    @FXML
-    private TextField startPointY;
+
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
-    @FXML
-    private Button setStartPoint; // bind the BooleanProperty canSelectStartPoint in Client
+
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
     @FXML
@@ -190,7 +185,6 @@ public class ChatController {
     Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
     Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
 
-
     public void init(Client client) {
         this.client = client;
 
@@ -212,11 +206,6 @@ public class ChatController {
         //bind the player who can select the map
         selectMap.disableProperty().bind(client.CANSELECTMAPProperty().not());
         mapList.disableProperty().bind(client.CANSELECTMAPProperty().not());
-
-        //bind the player who can select a start point
-        setStartPoint.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
-        startPointX.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
-        startPointY.disableProperty().bind(client.CANSETSTARTPOINTProperty().not());
 
         //bind Information StringProperty in Client to get the current info
         information.textProperty().bindBidirectional(client.INFORMATIONProperty());
@@ -565,12 +554,6 @@ public class ChatController {
             }
         });
 
-        //TODO gridpane
-        gridPaneButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
-            e.getX();
-            e.getY();
-        });
-
         // ====================bind drag&drop for choosing cards==========================
 
         DrawnCard0.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -834,6 +817,32 @@ public class ChatController {
                 }
             }
         });
+
+
+
+        client.CANSETSTARTPOINTProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(client.CANSETSTARTPOINT.get() == true){
+                    gridPaneStartPoint.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println(event.getSource());
+                            GridPane gp = (GridPane) event.getTarget();
+                            int x = (int) (event.getX() / 43);
+                            int y = (int) (event.getY() / 43);
+                            try {
+                                client.setStartPoint(x,y);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }else{
+                    gridPaneStartPoint.setOnMouseClicked(null);
+                }
+            }
+        });
     }
 
     public void clearDrawnCardImage(int cardButtoNum){
@@ -961,29 +970,7 @@ public class ChatController {
         // reset register pointer to 0
         client.registerPointer = 0;
     }
-//TODO gridpane
-    @FXML
-    private void gridPaneTracking(MouseEvent event) {
-        Node source = (Node)event.getSource();
-        Integer colIndex = gridPaneButton.getColumnIndex(source);
-        Integer rowIndex = gridPaneButton.getRowIndex(source);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-    }
-    //@FXML
-    private void addGridEvent() {
-        gridPaneButton.getChildren().forEach(item -> {
-            item.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    Node source = (Node)event.getSource();
-                    Integer colIndex = gridPaneButton.getColumnIndex(source);
-                    Integer rowIndex = gridPaneButton.getRowIndex(source);
-                    System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
-                }
-            });
-        });
-    }
 
     @FXML
     //send method makes the message get sent from message field to messages History(ScrollPane)
@@ -1043,10 +1030,6 @@ public class ChatController {
         client.handleMapSelected(mapSelected);
     }
 
-    @FXML
-    private void setStartPointEvent() throws IOException {
-        client.setStartPoint(Integer.valueOf(startPointX.getText()), Integer.valueOf(startPointY.getText()));
-    }
 
     @FXML
     private void finishEvent() throws JsonProcessingException {
@@ -1399,6 +1382,18 @@ public class ChatController {
                                             leftBottom.setFitHeight(43);
                                             leftBottom.setFitWidth(43);
                                             gridPaneBoard.add(leftBottom,i,j);
+                                        }else if(obj.getOrientations().get(0).equals("left") && obj.getOrientations().get(1).equals("right")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+270);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
+                                        }else if(obj.getOrientations().get(0).equals("right") && obj.getOrientations().get(1).equals("left")){
+                                            ImageView beltGreenSimple = new ImageView(GreenConveyorBelts);
+                                            beltGreenSimple.setFitHeight(43);
+                                            beltGreenSimple.setFitWidth(43);
+                                            beltGreenSimple.setRotate(beltGreenSimple.getRotate()+90);
+                                            gridPaneBoard.add(beltGreenSimple, i, j);
                                         }
                                     }
 
@@ -1625,7 +1620,15 @@ public class ChatController {
                                 ImageView restartImg = new ImageView(Reboot);
                                 restartImg.setFitHeight(43);
                                 restartImg.setFitWidth(43);
-                                restartImg.setRotate(restartImg.getRotate() + 180);
+                                String dir = obj.getOrientations().get(0);
+                                if(dir.equals("right")){
+                                    restartImg.setRotate(restartImg.getRotate() + 90);
+                                }else if(dir.equals("bottom")){
+                                    restartImg.setRotate(restartImg.getRotate() + 180);
+                                }else if(dir.equals("left")){
+                                    restartImg.setRotate(restartImg.getRotate() + 270);
+                                }
+
                                 gridPaneBoard.add(restartImg, i, j);
                                 break;
                             case "StartPoint":
@@ -1780,6 +1783,4 @@ public class ChatController {
                 break;
         }
     }
-
-
 }

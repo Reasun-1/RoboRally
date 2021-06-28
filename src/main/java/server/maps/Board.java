@@ -2,7 +2,6 @@ package server.maps;
 
 import server.feldobjects.*;
 import server.game.Game;
-import server.network.Server;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -324,7 +323,6 @@ public class Board {
 
     }
 
-
     public static void buildDeathTrap(){
         logger.info("Board sets map of Death Trap.");
         // fill first row with board elements
@@ -351,11 +349,10 @@ public class Board {
         Game.board.get(1).get(7).add(new Empty( "2A"));
         Game.board.get(1).get(7).add(new CheckPoint("DeathTrap", 1));
         Game.board.get(1).get(8).add(new PushPanel( "2A", new ArrayList<>(){{add("right");}}, new ArrayList<>(){{add(1);add(3);add(5);}}));
-        Game.board.get(1).get(6).add(new Wall( "2A", new ArrayList<>(){{add("left");}}));
         Game.board.get(1).get(9).add(new Empty( "2A"));
 
         Game.board.get(2).get(0).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("left");}}));
-        Game.board.get(2).get(1).add(new Wall( "2A", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(2).get(1).add(new Empty( "2A"));
         Game.board.get(2).get(2).add(new PushPanel( "2A", new ArrayList<>(){{add("right");}}, new ArrayList<>(){{add(2);add(4);}}));
         Game.board.get(2).get(2).add(new Wall( "2A", new ArrayList<>(){{add("left");}}));
         Game.board.get(2).get(3).add(new EnergySpace("2A", 1));
@@ -368,7 +365,7 @@ public class Board {
         Game.board.get(2).get(9).add(new Empty( "2A"));
 
         Game.board.get(3).get(0).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("left");}}));
-        Game.board.get(3).get(1).add(new Empty( "2A"));
+        Game.board.get(3).get(1).add(new Wall( "2A", new ArrayList<>(){{add("bottom");}}));
         Game.board.get(3).get(2).add(new Pit( "2A"));
         Game.board.get(3).get(3).add(new Empty( "2A"));
         Game.board.get(3).get(4).add(new Pit( "2A"));
@@ -387,7 +384,6 @@ public class Board {
         Game.board.get(4).get(4).add(new Empty( "2A"));
         Game.board.get(4).get(4).add(new CheckPoint("DeathTrap", 2));
         Game.board.get(4).get(5).add(new PushPanel( "2A", new ArrayList<>(){{add("bottom");}}, new ArrayList<>(){{add(2);add(4);}}));
-        Game.board.get(4).get(3).add(new Wall( "2A", new ArrayList<>(){{add("top");}}));
         Game.board.get(4).get(6).add(new EnergySpace("2A", 1));
         Game.board.get(4).get(7).add(new Empty( "2A"));
         Game.board.get(4).get(8).add(new ConveyorBelt( "2A", 1, new ArrayList<>(){{add("right");}}));
@@ -491,7 +487,6 @@ public class Board {
 
     }
 
-
     public static void buildExtraCrispy(){
         logger.info("Board sets map of Extra Crispy.");
         // fill first row with board elements
@@ -590,7 +585,7 @@ public class Board {
         Game.board.get(7).get(6).add(new Laser( "4A", new ArrayList<>(){{add("right");}}, 1));
         Game.board.get(7).get(6).add(new Wall("4A", new ArrayList<>(){{add("left");}}));
         Game.board.get(7).get(7).add(new Empty( "4A"));
-        Game.board.get(7).get(8).add(new ConveyorBelt( "4A",1, new ArrayList<>(){{add("right");}}));
+        Game.board.get(7).get(8).add(new Empty( "4A"));
         Game.board.get(7).get(9).add(new Empty( "4A"));
 
         Game.board.get(8).get(0).add(new EnergySpace("4A", 1));
@@ -603,7 +598,7 @@ public class Board {
         Game.board.get(8).get(6).add(new Laser( "4A", new ArrayList<>(){{add("left");}}, 1));
         Game.board.get(8).get(6).add(new Wall("4A", new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(7).add(new Empty( "4A"));
-        Game.board.get(8).get(8).add(new ConveyorBelt( "4A",1, new ArrayList<>(){{add("top");add("left");}}));
+        Game.board.get(8).get(8).add(new ConveyorBelt( "4A",1, new ArrayList<>(){{add("right");}}));
         Game.board.get(8).get(9).add(new Empty( "4A"));
 
         Game.board.get(9).get(0).add(new Laser( "4A", new ArrayList<>(){{add("right");}}, 1));
@@ -615,7 +610,7 @@ public class Board {
         Game.board.get(9).get(5).add(new Gear( "4A", new ArrayList<>(){{add("counterclockwise");}}));
         Game.board.get(9).get(6).add(new Pit("4A"));
         Game.board.get(9).get(7).add(new Pit("4A"));
-        Game.board.get(9).get(8).add(new Empty( "4A"));
+        Game.board.get(9).get(8).add(new ConveyorBelt( "4A",1, new ArrayList<>(){{add("top");add("left");}}));
         Game.board.get(9).get(9).add(new Empty( "4A"));
 
         Game.board.get(10).get(0).add(new Empty( "4A"));
@@ -640,7 +635,7 @@ public class Board {
         Game.board.get(11).get(3).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("left");add("top");}}));
         Game.board.get(11).get(4).add(new EnergySpace("4A", 1));
         Game.board.get(11).get(5).add(new Empty( "4A"));
-        Game.board.get(11).get(6).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("bottom");add("left");}}));
+        Game.board.get(11).get(6).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("left");add("bottom");}}));
         Game.board.get(11).get(7).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("top");}}));
         Game.board.get(11).get(8).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("top");}}));
         Game.board.get(11).get(9).add(new ConveyorBelt( "4A",2, new ArrayList<>(){{add("top");}}));
@@ -660,6 +655,7 @@ public class Board {
 
 
     // only for test
+    /*
     public static void main(String[] args) {
 
         Game.getInstance().initBoard();
@@ -677,6 +673,7 @@ public class Board {
             System.out.println("");
         }
     }
+     */
 
 
 }

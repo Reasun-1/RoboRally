@@ -7,11 +7,11 @@ import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
 
-import javax.print.attribute.IntegerSyntax;
+//import javax.print.attribute.IntegerSyntax;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.zip.CheckedInputStream;
+//import java.util.zip.CheckedInputStream;
 
 public class Game {
 
@@ -808,6 +808,7 @@ public class Game {
     }
 
     // only for test:
+    /*
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             List<List<FeldObject>> row = new ArrayList<>();
@@ -832,6 +833,7 @@ public class Game {
             System.out.println("");
         }
     }
+     */
 
 
 }
