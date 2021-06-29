@@ -37,7 +37,7 @@ public class LoginController {
     @FXML
     private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
 
-    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/loginwindow.mp3").toString()));
+    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/loginwindowSound.mp3").toString()));
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
