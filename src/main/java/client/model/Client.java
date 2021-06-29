@@ -563,7 +563,16 @@ public class Client extends Application {
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
-                                    handleBuyUpgrade("RealLaser");
+                                    if(availableUpgradesCards.contains("RealLaser")){
+                                        handleBuyUpgrade("RealLaser");
+                                    }else if(availableUpgradesCards.contains("AdminPrivilege")){
+                                        handleBuyUpgrade("AdminPrivilege");
+                                    }else if(availableUpgradesCards.contains("SpamBlocker")){
+                                        handleBuyUpgrade("SpamBlocker");
+                                    }else if(availableUpgradesCards.contains("MemorySwap")){
+                                        handleBuyUpgrade("MemorySwap");
+                                    }
+
                                 }
 
                             } else {
