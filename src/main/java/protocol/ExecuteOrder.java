@@ -79,7 +79,7 @@ public class ExecuteOrder {
                     Connected connected = new Connected(clientID);
                     Thread threadConnect = new Thread(connected);
                     connectList.put(clientID, connected);
-                    System.out.println("connected of client " + clientID + "isconneced" +connectList.get(clientID).flagConnect);
+                    System.out.println("connected of client " + clientID + "isconneced" + connectList.get(clientID).flagConnect);
                     System.out.println(connectList.keySet());
                     threadConnect.start();
 
@@ -87,7 +87,7 @@ public class ExecuteOrder {
                     AliveCheck aliveCheck = new AliveCheck(clientID);
                     Thread threadAliveCheck = new Thread(aliveCheck);
                     aliveCheckList.put(clientID, aliveCheck);
-                    System.out.println("alivecheck of all clients "+aliveCheckList.keySet());
+                    System.out.println("alivecheck of all clients " + aliveCheckList.keySet());
                     threadAliveCheck.start();
                 }
                 break;
@@ -104,7 +104,7 @@ public class ExecuteOrder {
 
                 // first client who ist ready can select a map
                 for (int clientIDEach : Server.clientIDUndReady.keySet()) {
-                    System.out.println("print the AI ID: " +  clientIDOfAI);
+                    System.out.println("print the AI ID: " + clientIDOfAI);
                     if (Server.clientIDUndReady.get(clientIDEach) == true && clientIDEach != clientIDOfAI) {
                         Server.getServer().handleSelectMap(clientIDEach);
                         break;
@@ -112,7 +112,6 @@ public class ExecuteOrder {
                 }
                 // if there are more than 2 clients and all clients are ready and map is selected, start the game
                 checkAndStartGame();
-
 
 
                 break;
@@ -199,10 +198,6 @@ public class ExecuteOrder {
                     Server.getServer().handleCurrentPlayer(curClient);
                     Game.priorityEachTurn.remove(0);
 
-
-                    //Server.getServer().handleActivePhase(2);
-                    //activePhase = 2;
-                    //Server.getServer().handleYourCards();
                 }
                 break;
             case "SelectedCard":
@@ -232,7 +227,7 @@ public class ExecuteOrder {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
                     // if one client finished and AI also finished, start timer
-                } else if(Game.clientIDs.size() > 2 && Game.selectionFinishList.size() == 2 && Game.selectionFinishList.contains(clientIDOfAI)){
+                } else if (Game.clientIDs.size() > 2 && Game.selectionFinishList.size() == 2 && Game.selectionFinishList.contains(clientIDOfAI)) {
                     Game.getInstance().startTimer();
                     Server.getServer().handleTimerStarted();
                 } else if (Game.selectionFinishList.size() == Game.clientIDs.size()) {// if all clients finished programming, next phase begins
@@ -265,30 +260,43 @@ public class ExecuteOrder {
                 Game.getInstance().playCard(clientID, card);
 
                 // if damage card played, must be replaced and play again
-                if ((card.getCardType().equals("PROGRAMME") ||card.getCardName().equals("Worm") ) && !Game.priorityEachTurn.isEmpty()) {
+                if ((card.getCardType().equals("PROGRAMME") || card.getCardName().equals("Worm")) && !Game.priorityEachTurn.isEmpty()) {
                     Game.priorityEachTurn.remove(0);
                 }
 
                 // if not all players rebooted, check turn over, otherwise break
-                if(!allplayersRebooted && activePhase != 2){
+                if (!allplayersRebooted && activePhase != 2) {
 
 
-                // check turnOver
-                boolean isTurnOver = Game.getInstance().checkTurnOver();
-                if (isTurnOver) {
-                    logger.info("ExecuteOrder: turn is over!");
-                    // if turn is over, check if round is over
-                    boolean isRoundOver = Game.getInstance().checkRoundOver();
-                    if (isRoundOver) {
+                    // check turnOver
+                    boolean isTurnOver = Game.getInstance().checkTurnOver();
+                    if (isTurnOver) {
+                        logger.info("ExecuteOrder: turn is over!");
+                        // if turn is over, check if round is over
+                        boolean isRoundOver = Game.getInstance().checkRoundOver();
+                        if (isRoundOver) {
 
                             logger.info("ExecuteOrder: round is over!");
-                            Server.getServer().handleYourCards();
+
+                            Server.getServer().handleActivePhase(1);
+                            activePhase = 1;
+
+                            // send available upgrade cards info to client
+                            Server.getServer().handleRefillShop();
+                            // set priority for this turn
+                            Game.getInstance().checkAndSetPriority();
+                            // set player in turn
+                            int curClient = Game.priorityEachTurn.get(0);
+                            Server.getServer().handleCurrentPlayer(curClient);
+                            Game.priorityEachTurn.remove(0);
+
+                            //Server.getServer().handleYourCards();
                             // inform all players: programming phase begins
-                            Server.getServer().handleActivePhase(2);
-                            activePhase = 2;
+                            //Server.getServer().handleActivePhase(2);
+                            //activePhase = 2;
                             break;
+                        }
                     }
-                }
 
                     // if turn is not over inform next player to play
                     int curClient = Game.priorityEachTurn.get(0);
@@ -312,18 +320,18 @@ public class ExecuteOrder {
 
                 //update info in Game
                 int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
-                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString,(curCount+1));
+                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
 
                 //inform all the clients this info
                 Server.getServer().handleUpgradeBought(clientID, boughtCardString);
 
                 //check if all clients finished buying
                 Game.buyUpgradeCardsFinished.add(clientID);
-                if(Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()){
+                if (Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()) {
                     Server.getServer().handleActivePhase(2);
                     activePhase = 2;
                     Server.getServer().handleYourCards();
-                }else{// else inform next player to buy upgrade card
+                } else {// else inform next player to buy upgrade card
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
                 }
@@ -412,7 +420,8 @@ public class ExecuteOrder {
 
 
     /**
-     *                 // if there are more than 2 clients and all clients are ready and map is selected, start the game
+     * // if there are more than 2 clients and all clients are ready and map is selected, start the game
+     *
      * @throws IOException
      */
     public static void checkAndStartGame() throws IOException {
