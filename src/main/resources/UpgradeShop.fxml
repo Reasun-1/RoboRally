@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UpgradeShopController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -54,7 +54,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="7.0" layoutY="29.0" prefHeight="36.0" prefWidth="84.0" text="Label" />
+                        <Label fx:id="energyNow" layoutX="7.0" layoutY="29.0" prefHeight="36.0" prefWidth="84.0" text="Label" />
                      </children>
                   </AnchorPane>
                </children>
@@ -64,7 +64,7 @@
                   <AnchorPane prefHeight="192.0" prefWidth="19.0" />
                   <AnchorPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" prefWidth="138.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="131.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="adminPrivilege" fitHeight="163.0" fitWidth="131.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
                            </image>
@@ -72,7 +72,7 @@
                      </children></AnchorPane>
                   <AnchorPane prefHeight="192.0" prefWidth="138.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
+                        <ImageView fx:id="spamBlocker" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
                            <image>
                               <Image url="@images/Cards/UpgradeCards/UpGradeBlocker.jpg" />
                            </image>
@@ -81,16 +81,16 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="192.0" prefWidth="138.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="138.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="rearLaser" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
                            <image>
-                              <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
+                              <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="192.0" prefWidth="138.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
+                        <ImageView fx:id="memorySwap" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
                            <image>
                               <Image url="@images/Cards/UpgradeCards/UpGradeMemory.jpg" />
                            </image>
@@ -101,9 +101,9 @@
                <children>
                   <AnchorPane prefHeight="59.0" prefWidth="218.0">
                      <children>
-                        <Button layoutX="97.0" layoutY="17.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="102.0" text="No selection">
+                        <Button fx:id="noSelection" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="102.0" text="No selection">
                            <effect>
-                              <InnerShadow />
+                              <InnerShadow choke="0.25" color="#463f3f" height="36.18" radius="23.66" width="60.46" />
                            </effect>
                         </Button>
                      </children></AnchorPane>
@@ -111,7 +111,10 @@
                      <children>
                         <AnchorPane layoutX="105.0" prefHeight="60.0" prefWidth="287.0">
                            <children>
-                              <Button layoutX="85.0" layoutY="16.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" text="Finish" textFill="#2c2a2a" />
+                              <Button fx:id="finishButton" layoutX="65.0" layoutY="17.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" text="Finish" textFill="#2c2a2a">
+                                 <effect>
+                                    <InnerShadow choke="0.25" color="#403a3a" height="56.67" radius="28.7825" width="60.46" />
+                                 </effect></Button>
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
@@ -121,4 +124,4 @@
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</fx:root>
