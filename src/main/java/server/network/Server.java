@@ -8,6 +8,7 @@ import protocol.submessagebody.*;
 import server.game.Game;
 import server.game.Register;
 import server.registercards.RegisterCard;
+import server.upgradecards.UpgradeCard;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -592,6 +593,22 @@ public class Server {
         Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs which map selected");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * after start point setted,
+     */
+    public void handleRefillShop() throws IOException {
+        List<String> upgradeCardsString = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            UpgradeCard upgradeCard = Game.upgradeShop.pop();
+            String upCardName = upgradeCard.getCardName();
+            upgradeCardsString.add(upCardName);
+        }
+        Protocol protocol = new Protocol("RefillShop", new RefillShopBody(upgradeCardsString));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs Refill upgrade shop.");
         makeOrderToAllClients(json);
     }
 }

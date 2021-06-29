@@ -63,6 +63,11 @@ public class Client extends Application {
     private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
     // key=robotNum, value=robotName
     public HashMap<Integer, String> robotNumAndNames = new HashMap<>();
+    // for the listner in update shop
+    public List<String> availableUpgradesCards = new ArrayList<>();
+
+
+
 
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
@@ -121,6 +126,8 @@ public class Client extends Application {
     private final ListProperty<String> ROBOTSNAMESFORCHAT = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind timer to ChatController
     private StringProperty timerScreen = new SimpleStringProperty();
+    // bind flag in window upgrade shop
+    private IntegerProperty flagRefreshUpdateSop = new SimpleIntegerProperty(0);
 
 
 
@@ -254,6 +261,8 @@ public class Client extends Application {
     public ObservableList<String> getROBOTSNAMESFORCHAT() { return ROBOTSNAMESFORCHAT.get(); }
 
     public StringProperty timerScreenProperty() { return timerScreen; }
+
+    public IntegerProperty flagRefreshUpdateSopProperty() { return flagRefreshUpdateSop; }
 
 
 
@@ -523,6 +532,7 @@ public class Client extends Application {
                                 timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
+
                             break;
                         case "CurrentPlayer":
                             CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
@@ -540,6 +550,11 @@ public class Client extends Application {
                                 }else if(GAMEPHASE.get().equals("Programmierphase")){
                                     INFORMATION.set("");
                                     INFORMATION.set("Begin programming!");
+                                }else if(GAMEPHASE.get().equals("Upgradephase")){
+                                    INFORMATION.set("");
+                                    INFORMATION.set("Now you can purchase upgrade cards!");
+                                    //===launch upgrade shop window====
+                                    System.out.println(availableUpgradesCards);
                                 }
 
                             } else {
@@ -746,6 +761,13 @@ public class Client extends Application {
                             int addCubes = energyBody.getCount();
                             if(energyClient == clientID){
                                 energyCount.set((Integer.valueOf(energyCount.getValue()) + addCubes)+"");
+                            }
+                            break;
+                        case "RefillShop":
+                            RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
+                            List<String> upCards = refillShopBody.getCards();
+                            for(String upCard : upCards){
+                                availableUpgradesCards.add(upCard);
                             }
                             break;
                     }

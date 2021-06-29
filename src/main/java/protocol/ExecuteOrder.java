@@ -186,9 +186,22 @@ public class ExecuteOrder {
                     Server.getServer().handleCurrentPlayer(clientCurren);
                     // if all players haven chosen start points, go to next phase
                 } else if (Server.clientListPointer == Server.clientList.size()) {
-                    Server.getServer().handleActivePhase(2);
-                    activePhase = 2;
-                    Server.getServer().handleYourCards();
+                    Server.getServer().handleActivePhase(1);
+                    activePhase = 1;
+
+                    // send available upgrade cards info to client
+                    Server.getServer().handleRefillShop();
+
+                    // set priority for this turn
+                    Game.getInstance().checkAndSetPriority();
+                    // set player in turn
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+
+
+                    //Server.getServer().handleActivePhase(2);
+                    //activePhase = 2;
+                    //Server.getServer().handleYourCards();
                 }
                 break;
             case "SelectedCard":
