@@ -559,9 +559,10 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
+                                    LAUNCHER.launchUpgradeShop(client);
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
-
+/*
                                     //===only for test, will be deleted later=====
                                     if(availableUpgradesCards.contains("RealLaser")){
                                         handleBuyUpgrade("RealLaser");
@@ -571,8 +572,7 @@ public class Client extends Application {
                                         handleBuyUpgrade("SpamBlocker");
                                     }else if(availableUpgradesCards.contains("MemorySwap")){
                                         handleBuyUpgrade("MemorySwap");
-                                    }
-
+                                    } */
                                 }
 
                             } else {

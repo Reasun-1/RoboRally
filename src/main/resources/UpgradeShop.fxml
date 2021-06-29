@@ -88,7 +88,7 @@
                               <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
                            </image>
                         </ImageView>
-                        <Label layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" text="Label" />
+                        <Label fx:id="rearKosten" layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="192.0" prefWidth="138.0">
@@ -98,7 +98,7 @@
                               <Image url="@images/Cards/UpgradeCards/UpGradeMemory.jpg" />
                            </image>
                         </ImageView>
-                        <Label layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" text="Label" />
+                        <Label fx:id="memoryKosten" layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" text="Label" />
                      </children></AnchorPane>
                </children></HBox>
             <HBox prefHeight="60.0" prefWidth="600.0">

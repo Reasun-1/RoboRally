@@ -847,24 +847,23 @@ public class ChatController {
             }
         });
 
-        client.flagMapUpdateProperty().addListener(new ChangeListener<Number>() {
+        client.flagMyUpgradesProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 for(String upCard : client.myUpgradesCards.keySet()){
-                    int cardCount = client.myUpgradesCards.get(upCard);
 
                     switch (upCard){
                         case "AdminPrivilege":
-                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")+1));
+                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")));
                             break;
                         case "RealLaser":
-                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")+1));
+                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")));
                             break;
                         case "SpamBlocker":
-                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")+1));
+                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")));
                             break;
                         case "MemorySwap":
-                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")+1));
+                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")));
                             break;
                     }
 
