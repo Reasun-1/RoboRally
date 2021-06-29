@@ -85,6 +85,9 @@ public class ChatController {
     @FXML
     private Label timer;
 
+    @FXML
+    private Label LabelAdmin, LabelLaser, LabelBlocker, LabelMemory;
+
     private final WindowLauncher LAUNCHER = new WindowLauncher();
 
     //====================DrawnCardsBindings===================================
@@ -840,6 +843,31 @@ public class ChatController {
                     });
                 }else{
                     gridPaneStartPoint.setOnMouseClicked(null);
+                }
+            }
+        });
+
+        client.flagMapUpdateProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                for(String upCard : client.myUpgradesCards.keySet()){
+                    int cardCount = client.myUpgradesCards.get(upCard);
+
+                    switch (upCard){
+                        case "AdminPrivilege":
+                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")+1));
+                            break;
+                        case "RealLaser":
+                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")+1));
+                            break;
+                        case "SpamBlocker":
+                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")+1));
+                            break;
+                        case "MemorySwap":
+                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")+1));
+                            break;
+                    }
+
                 }
             }
         });

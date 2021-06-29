@@ -6,6 +6,7 @@ import server.feldobjects.*;
 import server.maps.Board;
 import server.network.Server;
 import server.registercards.*;
+import server.upgradecards.*;
 
 //import javax.print.attribute.IntegerSyntax;
 import java.io.IOException;
@@ -18,10 +19,7 @@ public class Game {
     private static final Logger logger = Logger.getLogger(Game.class.getName());
     private final static Game game = new Game();
 
-    List<List<UpgradeCard>> upgradeCards; // deck of upgrade cards of all players
-    List<UpgradeCard> upgradeShop; // total common deck of all upgrade cards
     int energyBank; // total common energy cubes for the game
-    boolean isGameOver; // true for game over
 
 
     //==========================================================================
@@ -53,8 +51,9 @@ public class Game {
     public static Position positionAntenna = null;
     public static String directionAntenna = null;
     public static HashMap<Integer, Boolean> clientsOnBoard= new HashMap<>();// key=clientID, value=isOnBoard;
-    //public static Iterator<Integer> iter = activePlayersList.iterator();
-
+    public static Stack<UpgradeCard> upgradeShop = new Stack<>();
+    //key=clientID value=(key=UpgradeCardName value=count of this card)
+    public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
 
     /**
      * constructor Game:
@@ -92,8 +91,16 @@ public class Game {
             energyCubes.put(client, 5);
 
             clientsOnBoard.put(client, true);
+
+            // init upgrade cards for each client(null cards at the beginning)
+            HashMap<String, Integer> initUpgrades = new HashMap<>();
+            initUpgrades.put(new MemorySwap().getCardName(),0);
+            initUpgrades.put(new RealLaser().getCardName(),0);
+            initUpgrades.put(new AdminPrivilege().getCardName(),0);
+            initUpgrades.put(new SpamBlocker().getCardName(),0);
+            upgradesCardsAllClients.put(client, initUpgrades);
+
         }
-        //iter = activePlayersList.iterator();
 
         // init undrawn and discarded cards deck for each player
         for (int client : clientIDs) {
@@ -153,6 +160,9 @@ public class Game {
                 virusPile.push(new Virus());
             }
 
+            // init upgrade shop
+            Stack<UpgradeCard> newStackOfUpgrades = getAndShuffleUndrawnDeck();
+            upgradeShop = newStackOfUpgrades;
         }
     }
 
@@ -356,6 +366,39 @@ public class Game {
             cards.set(indexCard2, card);
         }
         return cards;
+    }
+
+    /**
+     * creart and shuffle the deck of upgrade cards
+     * @return
+     */
+    public Stack<UpgradeCard> getAndShuffleUndrawnDeck() {
+
+        java.util.Random random = new Random();
+
+        Stack<UpgradeCard> shuffledDeck = new Stack<>();
+
+        List<UpgradeCard> cards = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            cards.add(new AdminPrivilege());
+            cards.add(new RealLaser());
+            cards.add(new SpamBlocker());
+            cards.add(new MemorySwap());
+        }
+
+        // randomly change two cards for 50 times
+        for (int i = 0; i < 50; i++) {
+            int indexCard1 = random.nextInt(40);
+            int indexCard2 = random.nextInt(40);
+            UpgradeCard card = cards.get(indexCard1);
+            cards.set(indexCard1, cards.get(indexCard2));
+            cards.set(indexCard2, card);
+        }
+
+        for (int i = 0; i < 40; i++) {
+            shuffledDeck.push(cards.get(i));
+        }
+        return shuffledDeck;
     }
 
     /**

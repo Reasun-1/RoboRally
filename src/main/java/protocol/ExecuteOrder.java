@@ -9,6 +9,7 @@ import server.network.AliveCheck;
 import server.network.Connected;
 import server.network.Server;
 import server.registercards.*;
+import server.upgradecards.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -186,9 +187,22 @@ public class ExecuteOrder {
                     Server.getServer().handleCurrentPlayer(clientCurren);
                     // if all players haven chosen start points, go to next phase
                 } else if (Server.clientListPointer == Server.clientList.size()) {
-                    Server.getServer().handleActivePhase(2);
-                    activePhase = 2;
-                    Server.getServer().handleYourCards();
+                    Server.getServer().handleActivePhase(1);
+                    activePhase = 1;
+
+                    // send available upgrade cards info to client
+                    Server.getServer().handleRefillShop();
+
+                    // set priority for this turn
+                    Game.getInstance().checkAndSetPriority();
+                    // set player in turn
+                    int curClient = Game.priorityEachTurn.get(0);
+                    Server.getServer().handleCurrentPlayer(curClient);
+
+
+                    //Server.getServer().handleActivePhase(2);
+                    //activePhase = 2;
+                    //Server.getServer().handleYourCards();
                 }
                 break;
             case "SelectedCard":
@@ -288,8 +302,45 @@ public class ExecuteOrder {
                 Game.directionsAllClients.put(clientID, direction);
                 logger.info("executeOder reboot direction");
                 break;
+
+            case "BuyUpgrade":
+                System.out.println("client " + clientID + "bought upgrade card");
+                BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
+                String boughtCardString = buyUpgradeBody.getCard();
+
+                //UpgradeCard boughtUpCard = convertStringUpdateToObject(boughtCardString);
+
+                //update info in Game
+                int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
+                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString,(curCount+1));
+
+                //inform all the clients this info
+                Server.getServer().handleUpgradeBought(clientID, boughtCardString);
+                break;
         }
     }
+
+    public static UpgradeCard convertStringUpdateToObject(String cardName) {
+        UpgradeCard card = null;
+
+        switch (cardName) {
+            case "AdminPrivilege":
+                card = new AdminPrivilege();
+                break;
+            case "RealLaser":
+                card = new RealLaser();
+                break;
+            case "SpamBlocker":
+                card = new SpamBlocker();
+                break;
+            case "MemorySwap":
+                card = new MemorySwap();
+                break;
+        }
+
+        return card;
+    }
+
 
     /**
      * convert String cardName to object card
