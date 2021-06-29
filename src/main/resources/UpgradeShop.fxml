@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UpgradeShopController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@images/updateCardsShop.jpg" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="UPGRADE SHOP" textAlignment="CENTER" wrappingWidth="595.22900390625">
+               <effect>
+                  <InnerShadow choke="0.5" color="#e0dada94" height="160.64" radius="77.54499999999999" width="151.54" />
+               </effect>
+               <fill>
+                  <RadialGradient centerX="0.8651685393258427" centerY="0.7067307692307692" radius="0.5">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <font>
+                  <Font name="Optima Bold Italic" size="33.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="87.0" prefWidth="600.0">
+               <children>
+                  <ImageView fitHeight="99.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@images/upgradeRobot.gif" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#9e9797" layoutX="22.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your current energy:">
+                           <font>
+                              <Font name="Kohinoor Devanagari Regular" size="26.0" />
+                           </font>
+                           <effect>
+                              <InnerShadow color="#eae1e1" />
+                           </effect>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="energyNow" layoutX="7.0" layoutY="29.0" prefHeight="36.0" prefWidth="84.0" text="Label" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox prefHeight="191.0" prefWidth="576.0">
+               <children>
+                  <AnchorPane prefHeight="192.0" prefWidth="19.0" />
+                  <AnchorPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" prefWidth="138.0">
+                     <children>
+                        <ImageView fx:id="adminPrivilege" fitHeight="163.0" fitWidth="131.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
+                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                     <children>
+                        <ImageView fx:id="spamBlocker" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeBlocker.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                     <children>
+                        <ImageView fx:id="rearLaser" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                     <children>
+                        <ImageView fx:id="memorySwap" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeMemory.jpg" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
+               </children></HBox>
+            <HBox prefHeight="60.0" prefWidth="600.0">
+               <children>
+                  <AnchorPane prefHeight="59.0" prefWidth="218.0">
+                     <children>
+                        <Button fx:id="noSelection" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="102.0" text="No selection">
+                           <effect>
+                              <InnerShadow choke="0.25" color="#463f3f" height="36.18" radius="23.66" width="60.46" />
+                           </effect>
+                        </Button>
+                     </children></AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutX="105.0" prefHeight="60.0" prefWidth="287.0">
+                           <children>
+                              <Button fx:id="finishButton" layoutX="65.0" layoutY="17.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" text="Finish" textFill="#2c2a2a">
+                                 <effect>
+                                    <InnerShadow choke="0.25" color="#403a3a" height="56.67" radius="28.7825" width="60.46" />
+                                 </effect></Button>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</fx:root>
