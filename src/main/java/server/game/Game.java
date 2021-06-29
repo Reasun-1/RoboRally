@@ -54,6 +54,8 @@ public class Game {
     public static Stack<UpgradeCard> upgradeShop = new Stack<>();
     //key=clientID value=(key=UpgradeCardName value=count of this card)
     public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
+    public static List<Integer> buyUpgradeCardsFinished = new ArrayList<>(); // clientID who finished buying upgrade cards
+
 
     /**
      * constructor Game:
