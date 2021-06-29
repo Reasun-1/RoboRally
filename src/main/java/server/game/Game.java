@@ -94,6 +94,10 @@ public class Game {
 
             // init upgrade cards for each client(null cards at the beginning)
             HashMap<UpgradeCard, Integer> initUpgrades = new HashMap<>();
+            initUpgrades.put(new MemorySwap(),0);
+            initUpgrades.put(new RealLaser(),0);
+            initUpgrades.put(new AdminPrivilege(),0);
+            initUpgrades.put(new SpamBlocker(),0);
             upgradesCardsAllClients.put(client, initUpgrades);
         }
 
