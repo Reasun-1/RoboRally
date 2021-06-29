@@ -855,16 +855,16 @@ public class ChatController {
 
                     switch (upCard){
                         case "AdminPrivilege":
-                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")+1));
+                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")));
                             break;
                         case "RealLaser":
-                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")+1));
+                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")));
                             break;
                         case "SpamBlocker":
-                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")+1));
+                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")));
                             break;
                         case "MemorySwap":
-                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")+1));
+                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")));
                             break;
                     }
 

@@ -572,7 +572,6 @@ public class Client extends Application {
                                     }else if(availableUpgradesCards.contains("MemorySwap")){
                                         handleBuyUpgrade("MemorySwap");
                                     }
-
                                 }
 
                             } else {
