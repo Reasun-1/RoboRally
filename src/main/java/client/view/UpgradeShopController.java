@@ -41,6 +41,18 @@ public class UpgradeShopController {
     @FXML
     private ImageView memorySwap;
 
+    @FXML
+    private Label adminKosten;
+
+    @FXML
+    private Label spamKosten;
+
+    @FXML
+    private Label rearKosten;
+
+    @FXML
+    private Label memoryKosten;
+
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
 
