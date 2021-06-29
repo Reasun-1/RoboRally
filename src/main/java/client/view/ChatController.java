@@ -847,7 +847,7 @@ public class ChatController {
             }
         });
 
-        client.flagMapUpdateProperty().addListener(new ChangeListener<Number>() {
+        client.flagMyUpgradesProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 for(String upCard : client.myUpgradesCards.keySet()){
