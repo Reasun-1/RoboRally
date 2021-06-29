@@ -960,6 +960,12 @@ public class Client extends Application {
         avaibleStartsMapTrap.add(new Position(11,5));
         avaibleStartsMapTrap.add(new Position(12,6));
         avaibleStartsMapTrap.add(new Position(11,8));
+
+        // init my upgrade card
+        myUpgradesCards.put("AdminPrivilege", 0);
+        myUpgradesCards.put("RealLaser", 0);
+        myUpgradesCards.put("MemorySwap", 0);
+        myUpgradesCards.put("SpamBlocker", 0);
     }
 
     /**
@@ -1111,15 +1117,16 @@ public class Client extends Application {
             logger.info(json);
             OUT.println(json);
 
-            // update my upgrade cards in Chat&Game
-            int curCount = myUpgradesCards.get(upCardName);
-            myUpgradesCards.put(upCardName, curCount+1);
-            flagMyUpgrades.set(flagMyUpgrades.get()+1);
         }else{
             Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(true, upCardName));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
+
+            // update my upgrade cards in Chat&Game
+            int curCount = myUpgradesCards.get(upCardName);
+            myUpgradesCards.put(upCardName, curCount+1);
+            flagMyUpgrades.set(flagMyUpgrades.get()+1);
         }
     }
 }

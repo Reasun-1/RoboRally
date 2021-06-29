@@ -308,11 +308,11 @@ public class ExecuteOrder {
                 BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
                 String boughtCardString = buyUpgradeBody.getCard();
 
-                UpgradeCard boughtUpCard = convertStringUpdateToObject(boughtCardString);
+                //UpgradeCard boughtUpCard = convertStringUpdateToObject(boughtCardString);
 
                 //update info in Game
-                int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtUpCard);
-                Game.upgradesCardsAllClients.get(clientID).put(boughtUpCard,(curCount+1));
+                int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
+                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString,(curCount+1));
 
                 //inform all the clients this info
                 Server.getServer().handleUpgradeBought(clientID, boughtCardString);
