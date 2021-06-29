@@ -315,7 +315,7 @@ public class ExecuteOrder {
                 Game.upgradesCardsAllClients.get(clientID).put(boughtUpCard,(curCount+1));
 
                 //inform all the clients this info
-
+                Server.getServer().handleUpgradeBought(clientID, boughtCardString);
                 break;
         }
     }

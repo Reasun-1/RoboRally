@@ -584,6 +584,19 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static UpgradeBoughtBody readJsonUpgradeBought(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        UpgradeBoughtBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<UpgradeBoughtBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

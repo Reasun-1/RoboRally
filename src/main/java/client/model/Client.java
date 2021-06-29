@@ -779,6 +779,16 @@ public class Client extends Application {
                                 availableUpgradesCards.add(upCard);
                             }
                             break;
+                        case "UpgradeBought":
+                            UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
+                            int clientWhoBought = upgradeBoughtBody.getClientID();
+                            String upCardBought = upgradeBoughtBody.getCard();
+
+                            if(upCardBought != null){
+                                availableUpgradesCards.remove(upCardBought);
+                            }
+
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -1091,6 +1101,11 @@ public class Client extends Application {
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
+
+            // update my upgrade cards in Chat&Game
+            int curCount = myUpgradesCards.get(upCardName);
+            myUpgradesCards.put(upCardName, curCount+1);
+            flagMyUpgrades.set(flagMyUpgrades.get()+1);
         }else{
             Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(true, upCardName));
             String json = Protocol.writeJson(protocol);
