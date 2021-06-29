@@ -13,6 +13,7 @@ import javafx.util.Duration;
 /**
  * @author rajna fani
  * @author chiara welz
+ * @author yuliia shaparenko
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 
