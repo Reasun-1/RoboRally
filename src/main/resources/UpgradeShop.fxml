@@ -59,20 +59,43 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox prefHeight="197.0" prefWidth="596.0">
+            <HBox prefHeight="191.0" prefWidth="576.0">
                <children>
-                  <AnchorPane prefHeight="187.0" prefWidth="47.0" />
-                  <AnchorPane prefHeight="195.0" prefWidth="177.0">
+                  <AnchorPane prefHeight="192.0" prefWidth="19.0" />
+                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="131.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="163.0" fitWidth="131.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
                            </image>
                         </ImageView>
                      </children></AnchorPane>
-                  <AnchorPane prefHeight="197.0" prefWidth="176.0">
+                  <AnchorPane prefHeight="190.0" prefWidth="133.0">
                      <children>
-                        <ImageView fitHeight="163.0" fitWidth="131.0" layoutX="20.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="163.0" fitWidth="124.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="192.0" prefWidth="137.0">
+                     <children>
+                        <ImageView fitHeight="163.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <ImageView fitHeight="163.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane prefHeight="192.0" prefWidth="137.0">
+                     <children>
+                        <ImageView fitHeight="163.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
                            </image>
