@@ -851,7 +851,6 @@ public class ChatController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 for(String upCard : client.myUpgradesCards.keySet()){
-                    int cardCount = client.myUpgradesCards.get(upCard);
 
                     switch (upCard){
                         case "AdminPrivilege":

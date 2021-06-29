@@ -559,6 +559,7 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
+
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
