@@ -632,6 +632,9 @@ public class Game {
             registerPointer = 0;
             activePlayersList.clear();
 
+            //update for upgrade cards
+            buyUpgradeCardsFinished.clear();
+
             priorityEachTurn.clear();
             for (int clientID : clientIDs) {
                 // set all clients active
