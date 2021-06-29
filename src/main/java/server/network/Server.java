@@ -611,4 +611,17 @@ public class Server {
         logger.info("server informs Refill upgrade shop.");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all clients who bought which upgrade
+     * @param client
+     * @param boughtCard
+     * @throws IOException
+     */
+    public void handleUpgradeBought(int client, String boughtCard) throws IOException {
+        Protocol protocol = new Protocol("UpgradeBought", new UpgradeBoughtBody(client, boughtCard));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs who bought which upgrade.");
+        makeOrderToAllClients(json);
+    }
 }

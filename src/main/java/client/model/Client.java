@@ -65,6 +65,8 @@ public class Client extends Application {
     public HashMap<Integer, String> robotNumAndNames = new HashMap<>();
     // for the listner in update shop
     public List<String> availableUpgradesCards = new ArrayList<>();
+    // for the listner in Chat&Game: key=CardName value=count
+    public HashMap<String, Integer> myUpgradesCards = new HashMap<>();
 
 
 
@@ -128,6 +130,8 @@ public class Client extends Application {
     private StringProperty timerScreen = new SimpleStringProperty();
     // bind flag in window upgrade shop
     private IntegerProperty flagRefreshUpdateSop = new SimpleIntegerProperty(0);
+    // bind flag in Chat&Game for my upgrade cards
+    private IntegerProperty flagMyUpgrades = new SimpleIntegerProperty(0);
 
 
 
@@ -264,6 +268,7 @@ public class Client extends Application {
 
     public IntegerProperty flagRefreshUpdateSopProperty() { return flagRefreshUpdateSop; }
 
+    public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
 
 
 
@@ -555,6 +560,19 @@ public class Client extends Application {
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
                                     System.out.println(availableUpgradesCards);
+                                    flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
+
+                                    //===only for test, will be deleted later=====
+                                    if(availableUpgradesCards.contains("RealLaser")){
+                                        handleBuyUpgrade("RealLaser");
+                                    }else if(availableUpgradesCards.contains("AdminPrivilege")){
+                                        handleBuyUpgrade("AdminPrivilege");
+                                    }else if(availableUpgradesCards.contains("SpamBlocker")){
+                                        handleBuyUpgrade("SpamBlocker");
+                                    }else if(availableUpgradesCards.contains("MemorySwap")){
+                                        handleBuyUpgrade("MemorySwap");
+                                    }
+
                                 }
 
                             } else {
@@ -770,6 +788,16 @@ public class Client extends Application {
                                 availableUpgradesCards.add(upCard);
                             }
                             break;
+                        case "UpgradeBought":
+                            UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
+                            int clientWhoBought = upgradeBoughtBody.getClientID();
+                            String upCardBought = upgradeBoughtBody.getCard();
+
+                            if(upCardBought != null){
+                                availableUpgradesCards.remove(upCardBought);
+                            }
+
+                            break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -932,6 +960,12 @@ public class Client extends Application {
         avaibleStartsMapTrap.add(new Position(11,5));
         avaibleStartsMapTrap.add(new Position(12,6));
         avaibleStartsMapTrap.add(new Position(11,8));
+
+        // init my upgrade card
+        myUpgradesCards.put("AdminPrivilege", 0);
+        myUpgradesCards.put("RealLaser", 0);
+        myUpgradesCards.put("MemorySwap", 0);
+        myUpgradesCards.put("SpamBlocker", 0);
     }
 
     /**
@@ -1069,5 +1103,30 @@ public class Client extends Application {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
+    }
+
+    /**
+     * client buys upgrade card
+     * @param upCardName
+     * @throws JsonProcessingException
+     */
+    public void handleBuyUpgrade(String upCardName) throws JsonProcessingException {
+        if(upCardName == null){
+            Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(false, null));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            OUT.println(json);
+
+        }else{
+            Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(true, upCardName));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            OUT.println(json);
+
+            // update my upgrade cards in Chat&Game
+            int curCount = myUpgradesCards.get(upCardName);
+            myUpgradesCards.put(upCardName, curCount+1);
+            flagMyUpgrades.set(flagMyUpgrades.get()+1);
+        }
     }
 }

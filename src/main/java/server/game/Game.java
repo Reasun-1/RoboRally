@@ -52,8 +52,8 @@ public class Game {
     public static String directionAntenna = null;
     public static HashMap<Integer, Boolean> clientsOnBoard= new HashMap<>();// key=clientID, value=isOnBoard;
     public static Stack<UpgradeCard> upgradeShop = new Stack<>();
-    //key=clientID value=(key=UpgradeCard value=count of this card)
-    public static HashMap<Integer, HashMap<UpgradeCard, Integer>> upgradesCardsAllClients = new HashMap<>();
+    //key=clientID value=(key=UpgradeCardName value=count of this card)
+    public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
 
     /**
      * constructor Game:
@@ -93,8 +93,13 @@ public class Game {
             clientsOnBoard.put(client, true);
 
             // init upgrade cards for each client(null cards at the beginning)
-            HashMap<UpgradeCard, Integer> initUpgrades = new HashMap<>();
+            HashMap<String, Integer> initUpgrades = new HashMap<>();
+            initUpgrades.put(new MemorySwap().getCardName(),0);
+            initUpgrades.put(new RealLaser().getCardName(),0);
+            initUpgrades.put(new AdminPrivilege().getCardName(),0);
+            initUpgrades.put(new SpamBlocker().getCardName(),0);
             upgradesCardsAllClients.put(client, initUpgrades);
+
         }
 
         // init undrawn and discarded cards deck for each player
