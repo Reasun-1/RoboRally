@@ -1,6 +1,7 @@
 package client.view;
 
 
+import client.model.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,8 @@ import javafx.util.Duration;
  */
 
 public class UpgradeShopController {
+
+    private Client client;
 
     @FXML
     private Label energyNow;
@@ -43,10 +46,11 @@ public class UpgradeShopController {
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
-     * @param ??
+     * @param client
      */
 
-    public void init() {
+    public void init(Client client) {
+        this.client = client;
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
     }

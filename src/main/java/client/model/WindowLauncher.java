@@ -95,20 +95,20 @@ public class WindowLauncher {
         stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
- /*
-    public void launchUpgradeShop() throws IOException{
+
+    public void launchUpgradeShop(Client client) throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Upgrade Shop");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/UpgradeShop.fxml"));
         Parent root = loader.load();
         UpgradeShopController controller = loader.getController();
-       // controller.init();
+        controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
         //stage.show();
         stage.showAndWait();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
-    } */
+    }
 
 }
