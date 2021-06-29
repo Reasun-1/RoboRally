@@ -1,8 +1,5 @@
 package client.model;
-import client.view.ChatController;
-import client.view.ErrorWindowController;
-import client.view.GameOverController;
-import client.view.LoginController;
+import client.view.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -94,6 +91,21 @@ public class WindowLauncher {
         GameOverController controller = loader.getController();
         controller.init(winner);
         stage.setScene(new Scene(root, 600, 400));
+        stage.showAndWait();
+        stage.setOnCloseRequest((event) -> Platform.exit());
+
+    }
+
+    public void launchUpgradeShop(Client client) throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Upgrade Shop");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/UpgradeShop.fxml"));
+        Parent root = loader.load();
+        UpgradeShopController controller = loader.getController();
+        controller.init(client);
+        stage.setScene(new Scene(root, 600, 400));
+        //stage.show();
         stage.showAndWait();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
