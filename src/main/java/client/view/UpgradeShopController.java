@@ -15,7 +15,7 @@ import javafx.util.Duration;
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 
-public class UpgardeShopController {
+public class UpgradeShopController {
 
     @FXML
     private Label energyNow;
