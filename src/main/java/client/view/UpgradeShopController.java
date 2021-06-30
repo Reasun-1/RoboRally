@@ -69,12 +69,32 @@ public class UpgradeShopController {
      * @param
      */
 
-    public void init(boolean isBuying, String curCount) {
+    public void init(Client client) {
+        this.client = client;
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
+
+        //TODO Erst auf 0 setzen, dann addieren
+        for(String availableUpgrade : client.availableUpgradesCards) {
+            switch (availableUpgrade) {
+                case "AdminPrivilege":
+                    adminKosten.textProperty().set(String.valueOf(0 +(client.availableUpgradesCards.get(+1))));
+                    break;
+                case "RealLaser":
+                    rearKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    break;
+                case "SpamBlocker":
+                    spamKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    break;
+                case "MemorySwap":
+                    memoryKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    break;
+            }
+
+        }
     }
 
-        //this.client = client;
+
 
 
         /*client.flagRefreshUpdateShopProperty().addListener(new ChangeListener<Number>() {

@@ -562,7 +562,7 @@ public class Client extends Application {
                                     BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
                                     boolean isBuying = buyUpgradeBody.isBuying();
                                     String curCount = buyUpgradeBody.getCard();
-                                    LAUNCHER.launchUpgradeShop(isBuying, curCount);
+                                    LAUNCHER.launchUpgradeShop(client);
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 /*
