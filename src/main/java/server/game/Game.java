@@ -203,6 +203,9 @@ public class Game {
             case "Extra Crispy":
                 Board.buildExtraCrispy();
                 break;
+            case "Twister":
+                Board.buildTwister();
+                break;
         }
         // count the total num of checkpoints
         findCheckpointTotal();

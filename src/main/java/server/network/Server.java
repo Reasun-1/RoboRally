@@ -1,8 +1,6 @@
 package server.network;
 
-import client.model.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import javafx.scene.effect.Bloom;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.game.Game;
@@ -258,6 +256,7 @@ public class Server {
         mapList.add("Lost Bearings");
         mapList.add("Death Trap");
         mapList.add("Extra Crispy");
+        mapList.add("Twister");
         Protocol protocol = new Protocol("SelectMap", new SelectMapBody(mapList));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs first ready player to select a map");

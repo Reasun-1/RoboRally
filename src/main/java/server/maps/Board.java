@@ -487,6 +487,167 @@ public class Board {
 
     }
 
+    public static void buildTwister(){
+        logger.info("Board sets map of Twister.");
+        // fill first row with board elements
+        Game.board.get(0).get(0).add(new Empty( "Start A"));
+        Game.board.get(0).get(1).add(new Empty("Start A"));
+        Game.board.get(0).get(2).add(new Empty("Start A"));
+        Game.board.get(0).get(3).add(new StartPoint( "Start A"));
+        Game.board.get(0).get(4).add(new Antenna("Start A", new ArrayList<>(){{add("right");}}));
+        Game.board.get(0).get(5).add(new Empty("Start A"));
+        Game.board.get(0).get(6).add(new StartPoint( "Start A"));
+        Game.board.get(0).get(7).add(new Empty("Start A"));
+        Game.board.get(0).get(7).add(new RestartPoint("Twister", new ArrayList<>(){{add("right");}}));
+        Game.board.get(0).get(8).add(new Empty( "Start A"));
+        Game.board.get(0).get(9).add(new Empty( "Start A"));
+
+        Game.board.get(1).get(0).add(new Empty("Start A"));
+        Game.board.get(1).get(1).add(new StartPoint( "Start A"));
+        Game.board.get(1).get(2).add(new Wall("Start A", new ArrayList<>(){{add("top");}}));
+        Game.board.get(1).get(3).add(new Empty( "Start A"));
+        Game.board.get(1).get(4).add(new StartPoint("Start A"));
+        Game.board.get(1).get(5).add(new StartPoint("Start A"));
+        Game.board.get(1).get(6).add(new Empty("Start A"));
+        Game.board.get(1).get(7).add(new Wall( "Start A", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(1).get(8).add(new StartPoint( "Start A"));
+        Game.board.get(1).get(9).add(new Empty( "Start A"));
+
+        Game.board.get(2).get(0).add(new ConveyorBelt( "Start A",1, new ArrayList<>(){{add("right");add("left");}}));
+        Game.board.get(2).get(1).add(new Empty( "Start A"));
+        Game.board.get(2).get(2).add(new Empty( "Start A"));
+        Game.board.get(2).get(3).add(new Empty( "Start A"));
+        Game.board.get(2).get(4).add(new Wall("Start A", new ArrayList<>(){{add("right");}}));
+        Game.board.get(2).get(5).add(new Wall( "Start A", new ArrayList<>(){{add("right");}}));
+        Game.board.get(2).get(6).add(new Empty( "Start A"));
+        Game.board.get(2).get(7).add(new Empty( "Start A"));
+        Game.board.get(2).get(8).add(new Empty( "Start A"));
+        Game.board.get(2).get(9).add(new ConveyorBelt( "Start A", 1, new ArrayList<>(){{add("right");add("left");}}));
+
+        Game.board.get(3).get(0).add(new Empty( "6B"));
+        Game.board.get(3).get(1).add(new Empty( "6B"));
+        Game.board.get(3).get(2).add(new Empty( "6B"));
+        Game.board.get(3).get(3).add(new Empty( "6B"));
+        Game.board.get(3).get(4).add(new Wall("6B", new ArrayList<>(){{add("top");}}));
+        Game.board.get(3).get(4).add(new Laser( "6B", new ArrayList<>(){{add("bottom");}}, 1));
+        Game.board.get(3).get(5).add(new Wall("6B", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(3).get(6).add(new Empty( "6B"));
+        Game.board.get(3).get(7).add(new Empty( "6B"));
+        Game.board.get(3).get(8).add(new Empty( "6B"));
+        Game.board.get(3).get(9).add(new Empty( "6B"));
+
+
+        Game.board.get(4).get(0).add(new Empty( "6B"));
+        Game.board.get(4).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");add("bottom");}}));
+        Game.board.get(4).get(2).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");}}));
+        Game.board.get(4).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");add("right");}}));
+        Game.board.get(4).get(4).add(new Empty( "6B"));
+        Game.board.get(4).get(5).add(new Empty( "6B"));
+        Game.board.get(4).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");add("bottom");}}));
+        Game.board.get(4).get(7).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(4).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");add("right");}}));
+        Game.board.get(4).get(9).add(new Empty( "6B"));
+
+
+        Game.board.get(5).get(0).add(new Empty( "6B"));
+        Game.board.get(5).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");}}));
+        Game.board.get(5).get(2).add(new EnergySpace("6B", 1));
+        Game.board.get(5).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");}}));
+        Game.board.get(5).get(4).add(new Empty( "6B"));
+        Game.board.get(5).get(5).add(new Empty( "6B"));
+        Game.board.get(5).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");}}));
+        Game.board.get(5).get(7).add(new EnergySpace("6B", 1));
+        Game.board.get(5).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");}}));
+        Game.board.get(5).get(9).add(new Empty( "6B"));
+
+
+        Game.board.get(6).get(0).add(new Empty( "6B"));
+        Game.board.get(6).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");add("left");}}));
+        Game.board.get(6).get(2).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(6).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");add("top");}}));
+        Game.board.get(6).get(4).add(new Empty( "6B"));
+        Game.board.get(6).get(5).add(new Empty( "6B"));
+        Game.board.get(6).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");add("left");}}));
+        Game.board.get(6).get(7).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(6).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");add("top");}}));
+        Game.board.get(6).get(9).add(new Empty( "6B"));
+
+        Game.board.get(7).get(0).add(new Wall("6B", new ArrayList<>(){{add("left");}}));
+        Game.board.get(7).get(1).add(new Empty( "6B"));
+        Game.board.get(7).get(2).add(new Empty( "6B"));
+        Game.board.get(7).get(3).add(new Empty( "6B"));
+        Game.board.get(7).get(4).add(new Wall("6B", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(7).get(4).add(new EnergySpace("6B", 1));
+        Game.board.get(7).get(5).add(new Wall("6B", new ArrayList<>(){{add("right");}}));
+        Game.board.get(7).get(6).add(new Empty( "6B"));
+        Game.board.get(7).get(7).add(new Empty( "6B"));
+        Game.board.get(7).get(8).add(new Empty( "6B"));
+        Game.board.get(7).get(9).add(new Wall("6B", new ArrayList<>(){{add("left");}}));
+        Game.board.get(7).get(9).add(new Laser( "6B", new ArrayList<>(){{add("right");}}, 1));
+
+        Game.board.get(8).get(0).add(new Wall("6B", new ArrayList<>(){{add("right");}}));
+        Game.board.get(8).get(0).add(new Laser( "6B", new ArrayList<>(){{add("left");}}, 1));
+        Game.board.get(8).get(1).add(new Empty( "6B"));
+        Game.board.get(8).get(2).add(new Empty( "6B"));
+        Game.board.get(8).get(3).add(new Empty( "6B"));
+        Game.board.get(8).get(4).add(new Wall("6B", new ArrayList<>(){{add("left");}}));
+        Game.board.get(8).get(5).add(new Wall("6B", new ArrayList<>(){{add("top");}}));
+        Game.board.get(8).get(5).add(new EnergySpace("6B", 1));
+        Game.board.get(8).get(6).add(new Empty( "6B"));
+        Game.board.get(8).get(7).add(new Empty( "6B"));
+        Game.board.get(8).get(8).add(new Empty( "6B"));
+        Game.board.get(8).get(9).add(new Wall("6B", new ArrayList<>(){{add("right");}}));
+
+        Game.board.get(9).get(0).add(new Empty( "6B"));
+        Game.board.get(9).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");add("bottom");}}));
+        Game.board.get(9).get(2).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");}}));
+        Game.board.get(9).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");add("right");}}));
+        Game.board.get(9).get(4).add(new Empty( "6B"));
+        Game.board.get(9).get(5).add(new Empty( "6B"));
+        Game.board.get(9).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");add("bottom");}}));
+        Game.board.get(9).get(7).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(9).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("top");add("right");}}));
+        Game.board.get(9).get(9).add(new Empty( "6B"));
+
+        Game.board.get(10).get(0).add(new Empty( "6B"));
+        Game.board.get(10).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");}}));
+        Game.board.get(10).get(2).add(new EnergySpace("6B", 1));
+        Game.board.get(10).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");}}));
+        Game.board.get(10).get(4).add(new Empty( "6B"));
+        Game.board.get(10).get(5).add(new Empty( "6B"));
+        Game.board.get(10).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("right");}}));
+        Game.board.get(10).get(7).add(new EnergySpace("6B", 1));
+        Game.board.get(10).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");}}));
+        Game.board.get(10).get(9).add(new Empty( "6B"));
+
+
+        Game.board.get(11).get(0).add(new Empty( "6B"));
+        Game.board.get(11).get(1).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");add("left");}}));
+        Game.board.get(11).get(2).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(11).get(3).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");add("top");}}));
+        Game.board.get(11).get(4).add(new Empty( "6B"));
+        Game.board.get(11).get(5).add(new Empty( "6B"));
+        Game.board.get(11).get(6).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");add("left");}}));
+        Game.board.get(11).get(7).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(11).get(8).add(new ConveyorBelt( "6B",2, new ArrayList<>(){{add("left");add("top");}}));
+        Game.board.get(11).get(9).add(new Empty( "6B"));
+
+
+        Game.board.get(12).get(0).add(new Empty( "6B"));
+        Game.board.get(12).get(1).add(new Empty( "6B"));
+        Game.board.get(12).get(2).add(new Empty( "6B"));
+        Game.board.get(12).get(3).add(new Empty( "6B"));
+        Game.board.get(12).get(4).add(new Wall("6B", new ArrayList<>(){{add("top");}}));
+        Game.board.get(12).get(5).add(new Laser( "6B", new ArrayList<>(){{add("top");}}, 1));
+        Game.board.get(12).get(5).add(new Wall("6B", new ArrayList<>(){{add("bottom");}}));
+        Game.board.get(12).get(6).add(new Empty( "6B"));
+        Game.board.get(12).get(7).add(new Empty( "6B"));
+        Game.board.get(12).get(8).add(new Empty( "6B"));
+        Game.board.get(12).get(9).add(new Empty( "6B"));
+
+    }
+
+
     public static void buildExtraCrispy(){
         logger.info("Board sets map of Extra Crispy.");
         // fill first row with board elements

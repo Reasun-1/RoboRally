@@ -1,7 +1,6 @@
 package client.view;
 
 import client.model.Client;
-//import client.viewmodel.ChatViewModel;
 import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.property.ListProperty;
@@ -9,26 +8,23 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
-import server.game.Register;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+//import client.viewmodel.ChatViewModel;
 
 
 /**
@@ -1746,6 +1742,9 @@ public class ChatController {
 
                 break;
             case "Death Trap":
+                break;
+            case "Twister":
+                //TODO add Lasers - tbd
                 break;
             case "Extra Crispy":
 
