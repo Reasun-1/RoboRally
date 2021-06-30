@@ -559,9 +559,6 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
-                                    BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
-                                    boolean isBuying = buyUpgradeBody.isBuying();
-                                    String curCount = buyUpgradeBody.getCard();
                                     //LAUNCHER.launchUpgradeShop(client);
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);

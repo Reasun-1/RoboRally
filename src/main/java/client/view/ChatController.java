@@ -72,6 +72,8 @@ public class ChatController {
     @FXML
     private Button remove1, remove2, remove3, remove4, remove5;
     @FXML
+    private Button UpgradeAdmin, UpgradeBlocker, UpgradeMemory;
+    @FXML
     private ImageView myFigure;
     @FXML
     private Label energyCube;
@@ -866,6 +868,16 @@ public class ChatController {
                 }
             }
         });
+    }
+
+    public void activeAdmin(){
+
+    }
+    public void activeBlocker(){
+
+    }
+    public void activeMemory(){
+
     }
 
     public void clearDrawnCardImage(int cardButtoNum){
