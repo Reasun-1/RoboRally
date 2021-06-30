@@ -51,10 +51,10 @@ public class Connected implements Runnable{
                 e.printStackTrace();
             }
 
-            System.out.println("in while loop print flagconnect: " + flagConnect);
+            logger.info(client + " in while loop print flagconnect: " + flagConnect);
 
             if(flagConnect){
-
+                logger.info(client + " in first if print flagconnect: " + flagConnect);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -63,14 +63,14 @@ public class Connected implements Runnable{
 
                 if(flagConnect){
 
-                    System.out.println("clientNr. "+ client + " in while loop");
-                    System.out.println("clientNr. "+ client +" in connected flag is: " + flagConnect);
-                    //Thread.sleep(timeInterval);
+                    logger.info("clientNr. "+ client + " in while loop");
+                    logger.info("clientNr. "+ client +" in connected flag is: " + flagConnect);
+
 
                     // try to close connection if no alive checked
                     try {
                         Server.getServer().clientList.get(client).closeConnect();
-                        System.out.println("client " + client + " disconnected.");
+                        logger.info("client " + client + " disconnected.");
                         // stop check alive to this disconnected client
                         ExecuteOrder.aliveCheckList.get(client).flagAliveCheck = false;
                         break;

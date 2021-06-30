@@ -46,8 +46,8 @@ public class AliveCheck implements Runnable {
             }
 
 
-            System.out.println("server sends alive check, clientNr. " + client);
-            System.out.println("client flag connect = " + ExecuteOrder.connectList.get(client).flagConnect);
+            logger.info("server sends alive check, clientNr. " + client);
+            logger.info("client flag connect = " + ExecuteOrder.connectList.get(client).flagConnect);
 
         }
     }
