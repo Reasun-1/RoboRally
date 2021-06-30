@@ -96,14 +96,14 @@ public class WindowLauncher {
 
     }
 
-    public void launchUpgradeShop(Client client) throws IOException{
+    public void launchUpgradeShop(boolean isBuying, String curCount) throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Upgrade Shop");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/UpgradeShop.fxml"));
         Parent root = loader.load();
         UpgradeShopController controller = loader.getController();
-        controller.init(client);
+        controller.init(isBuying, curCount);
         stage.setScene(new Scene(root, 600, 400));
         //stage.show();
         stage.showAndWait();

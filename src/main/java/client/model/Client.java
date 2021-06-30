@@ -266,7 +266,7 @@ public class Client extends Application {
 
     public StringProperty timerScreenProperty() { return timerScreen; }
 
-    public IntegerProperty flagRefreshUpdateSopProperty() { return flagRefreshUpdateSop; }
+    public IntegerProperty flagRefreshUpdateShopProperty() { return flagRefreshUpdateSop; }
 
     public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
 
@@ -559,7 +559,10 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
-                                    LAUNCHER.launchUpgradeShop(client);
+                                    BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
+                                    boolean isBuying = buyUpgradeBody.isBuying();
+                                    String curCount = buyUpgradeBody.getCard();
+                                    LAUNCHER.launchUpgradeShop(isBuying, curCount);
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 /*
