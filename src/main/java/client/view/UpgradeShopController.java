@@ -29,37 +29,15 @@ public class UpgradeShopController {
     private Client client;
 
     @FXML
-    private Label energyNow;
-
-    @FXML
     private Button noSelection;
-
     @FXML
     private Button finishButton;
-
     @FXML
-    private ImageView adminPrivilege;
-
+    private ImageView adminPrivilege, spamBlocker, rearLaser, memorySwap;
     @FXML
-    private ImageView spamBlocker;
-
+    private Label adminKosten, spamKosten, rearKosten, memoryKosten;
     @FXML
-    private ImageView rearLaser;
-
-    @FXML
-    private ImageView memorySwap;
-
-    @FXML
-    private Label adminKosten;
-
-    @FXML
-    private Label spamKosten;
-
-    @FXML
-    private Label rearKosten;
-
-    @FXML
-    private Label memoryKosten;
+    private Label energyNow;
 
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
@@ -74,56 +52,32 @@ public class UpgradeShopController {
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
 
-        //TODO Erst auf 0 setzen, dann addieren
+        adminKosten.textProperty().set(String.valueOf(0));
+        rearKosten.textProperty().set(String.valueOf(0));
+        spamKosten.textProperty().set(String.valueOf(0));
+        memoryKosten.textProperty().set(String.valueOf(0));
+
+        //binds count of energy cubes
+        energyNow.textProperty().bindBidirectional(client.energyCountProperty());
+
+        /*
         for(String availableUpgrade : client.availableUpgradesCards) {
             switch (availableUpgrade) {
                 case "AdminPrivilege":
-                    adminKosten.textProperty().set(String.valueOf(0 +(client.availableUpgradesCards.get(+1))));
+                    adminKosten.textProperty().set(adminKosten + client.availableUpgradesCards.get(+1));
                     break;
                 case "RealLaser":
-                    rearKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    rearKosten.textProperty().set(rearKosten + client.availableUpgradesCards.get(+1));
                     break;
                 case "SpamBlocker":
-                    spamKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    spamKosten.textProperty().set(spamKosten + client.availableUpgradesCards.get(+1));
                     break;
                 case "MemorySwap":
-                    memoryKosten.textProperty().set(String.valueOf(0 +(client.myUpgradesCards.get(+1))));
+                    memoryKosten.textProperty().set(memoryKosten + client.availableUpgradesCards.get(+1));
                     break;
             }
 
-        }
-    }
-
-
-
-
-        /*client.flagRefreshUpdateShopProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                for(String upGradeCard : client.availableUpgradesCards){
-                    switch (upGradeCard){
-                        case "AdminPrivilege":
-                            adminKosten.textProperty().set(""+(client.availableUpgradesCards.get(+1)));
-                            break;
-                        case "RealLaser":
-                            rearKosten.textProperty().set(""+(client.myUpgradesCards.get(+1)));
-                            break;
-                        case "SpamBlocker":
-                            spamKosten.textProperty().set(""+(client.myUpgradesCards.get(+1)));
-                            break;
-                        case "MemorySwap":
-                            memoryKosten.textProperty().set(""+(client.myUpgradesCards.get(+1)));
-                            break;
-                    }
-                }
-
-            }
-        });
-
-
-
-
-
+        } */
     }
 
 
