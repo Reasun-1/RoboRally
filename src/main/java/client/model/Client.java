@@ -266,7 +266,7 @@ public class Client extends Application {
 
     public StringProperty timerScreenProperty() { return timerScreen; }
 
-    public IntegerProperty flagRefreshUpdateSopProperty() { return flagRefreshUpdateSop; }
+    public IntegerProperty flagRefreshUpdateShopProperty() { return flagRefreshUpdateSop; }
 
     public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
 
@@ -559,10 +559,13 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
-
+                                    BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
+                                    boolean isBuying = buyUpgradeBody.isBuying();
+                                    String curCount = buyUpgradeBody.getCard();
+                                    LAUNCHER.launchUpgradeShop(client);
                                     System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
-
+/*
                                     //===only for test, will be deleted later=====
                                     if(availableUpgradesCards.contains("RealLaser")){
                                         handleBuyUpgrade("RealLaser");
@@ -572,7 +575,7 @@ public class Client extends Application {
                                         handleBuyUpgrade("SpamBlocker");
                                     }else if(availableUpgradesCards.contains("MemorySwap")){
                                         handleBuyUpgrade("MemorySwap");
-                                    }
+                                    } */
                                 }
 
                             } else {

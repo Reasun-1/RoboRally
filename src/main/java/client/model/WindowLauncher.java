@@ -105,7 +105,6 @@ public class WindowLauncher {
         UpgradeShopController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.show();
         stage.showAndWait();
         stage.setOnCloseRequest((event) -> Platform.exit());
 

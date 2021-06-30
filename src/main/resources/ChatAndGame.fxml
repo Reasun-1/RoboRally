@@ -840,15 +840,11 @@
                                                 <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="10.0" />
                                                 <VBox layoutX="25.0" layoutY="10.0" prefHeight="125.0" prefWidth="72.0">
                                                    <children>
-                                                      <Button ellipsisString="" minHeight="100.0" minWidth="72.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="72.0">
-                                                         <graphic>
-                                                            <ImageView fx:id="UpgradeLaser" fitHeight="100.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
-                                                               <image>
-                                                                  <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
-                                                               </image>
-                                                            </ImageView>
-                                                         </graphic>
-                                                      </Button>
+                                                      <ImageView fx:id="UpgradeLaser" fitHeight="100.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
+                                                         </image>
+                                                      </ImageView>
                                                       <HBox prefHeight="100.0" prefWidth="200.0">
                                                          <children>
                                                             <AnchorPane prefHeight="10.0" prefWidth="28.0" />
