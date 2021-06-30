@@ -79,21 +79,22 @@ public class ExecuteOrder {
                     Connected connected = new Connected(clientID);
                     Thread threadConnect = new Thread(connected);
                     connectList.put(clientID, connected);
-                    System.out.println("connected of client " + clientID + "isconneced" + connectList.get(clientID).flagConnect);
-                    System.out.println(connectList.keySet());
+                    //System.out.println("connected of client " + clientID + " isconneced" + connectList.get(clientID).flagConnect);
+                    //System.out.println(connectList.keySet());
                     threadConnect.start();
 
                     // start alive check for each player
                     AliveCheck aliveCheck = new AliveCheck(clientID);
                     Thread threadAliveCheck = new Thread(aliveCheck);
                     aliveCheckList.put(clientID, aliveCheck);
-                    System.out.println("alivecheck of all clients " + aliveCheckList.keySet());
+                    //System.out.println("alivecheck of all clients " + aliveCheckList.keySet());
                     threadAliveCheck.start();
                 }
                 break;
             case "Alive":
-                System.out.println("check alive " + connectList.get(clientID));
+                logger.info("received alive backinfo, before setFalse " + clientID + ": " + connectList.get(clientID).flagConnect);
                 connectList.get(clientID).flagConnect = false;
+                logger.info("received alive backinfo, after setFalse " + clientID + ": " + connectList.get(clientID).flagConnect);
                 break;
             case "SetStatus":
                 logger.info("set Status in ExecuteOrder");
