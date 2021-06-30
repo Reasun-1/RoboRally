@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UpgradeShopController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UpgradeShopController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -104,7 +104,7 @@
                <children>
                   <AnchorPane prefHeight="59.0" prefWidth="218.0">
                      <children>
-                        <Button fx:id="noSelection" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" onAction="#noSelectionClicked" prefHeight="12.0" prefWidth="102.0" text="No selection">
+                        <Button fx:id="noSelection" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="102.0" text="No selection">
                            <effect>
                               <InnerShadow choke="0.25" color="#463f3f" height="36.18" radius="23.66" width="60.46" />
                            </effect>
@@ -127,4 +127,4 @@
          </children>
       </VBox>
    </children>
-</fx:root>
+</AnchorPane>
