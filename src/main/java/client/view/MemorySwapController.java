@@ -1,11 +1,14 @@
 package client.view;
 
+import client.model.Client;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 
 import java.awt.*;
 
 public class MemorySwapController {
+
+    private Client client;
 
     @FXML
     private Button card1Button;
@@ -57,4 +60,8 @@ public class MemorySwapController {
     private ImageView card12;
     @FXML
     private Label chooseCards;
+
+    public void init(Client client){
+        this.client = client;
+    }
 }

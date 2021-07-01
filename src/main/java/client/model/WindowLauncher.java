@@ -110,4 +110,18 @@ public class WindowLauncher {
 
     }
 
+    public void launchMemorySwap(Client client) throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Memory Swap");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/MemorySwap.fxml"));
+        Parent root = loader.load();
+        MemorySwapController controller = loader.getController();
+        controller.init(client);
+        stage.setScene(new Scene(root, 600, 400));
+        stage.showAndWait();
+        stage.setOnCloseRequest((event) -> Platform.exit());
+
+    }
+
 }
