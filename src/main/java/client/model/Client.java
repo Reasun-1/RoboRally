@@ -93,7 +93,7 @@ public class Client extends Application {
     // player who can set start point, binds with selectStartPoint button in GUI
     public final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
     // binds with drawnCards in GUI
-    private final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
+    public final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
     private final StringProperty[] MYREGISTER = new StringProperty[5];
     // bind button finish in GUI
@@ -461,8 +461,8 @@ public class Client extends Application {
                             break;
                         case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
-                            logger.info("==========client " + clientID +" sent alive checked back.===========");
                             OUT.println(alive);
+                            logger.info("==========client " + clientID +" sent alive checked back.===========");
                             break;
                         case "PlayerAdded":
                             logger.info(json + Thread.currentThread().getName());
@@ -581,12 +581,12 @@ public class Client extends Application {
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
-                                    if(availableUpgradesCards.contains("RealLaser")){
-                                        handleBuyUpgrade("RealLaser");
+                                    if(availableUpgradesCards.contains("SpamBlocker")){
+                                        handleBuyUpgrade("SpamBlocker");
                                     }else if(availableUpgradesCards.contains("AdminPrivilege")){
                                         handleBuyUpgrade("AdminPrivilege");
-                                    }else if(availableUpgradesCards.contains("SpamBlocker")){
-                                        handleBuyUpgrade("SpamBlocker");
+                                    }else if(availableUpgradesCards.contains("RealLaser")){
+                                        handleBuyUpgrade("RealLaser");
                                     }else if(availableUpgradesCards.contains("MemorySwap")){
                                         handleBuyUpgrade("MemorySwap");
                                     }
@@ -629,6 +629,7 @@ public class Client extends Application {
                             for (String card : cardsInHand) {
                                 MYCARDS.add(card);
                             }
+                            System.out.println("print mycards in client: "+MYCARDS);
 
                             INFORMATION.set("");
                             INFORMATION.set("Begin programming!");

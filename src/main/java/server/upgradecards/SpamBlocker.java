@@ -1,6 +1,13 @@
 package server.upgradecards;
 
+import server.game.Game;
+import server.network.Server;
+import server.registercards.*;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * @author can ren
@@ -34,5 +41,29 @@ public class SpamBlocker extends UpgradeCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         System.out.println("DO UPGRADE BLOCKER FUNCTION");
+
+        int countNewcardForSpam = Game.countSpamAllClients.get(clientID);
+
+        System.out.println("count spam in game: " + countNewcardForSpam);
+
+        Stack<RegisterCard> tempDeck = new Stack<>();
+        tempDeck.push(new TurnRight());
+        tempDeck.push(new MoveI());
+        tempDeck.push(new MoveIII());
+        tempDeck.push(new MoveII());
+        tempDeck.push(new TurnLeft());
+        tempDeck.push(new UTurn());
+        tempDeck.push(new BackUp());
+        tempDeck.push(new PowerUp());
+        tempDeck.push(new Again());
+
+        List<String> newCards = new ArrayList<>();
+
+        for (int i = 0; i < countNewcardForSpam; i++) {
+            newCards.add(tempDeck.pop().getCardName());
+        }
+
+
+        Server.getServer().handleSpamBlocker(clientID, newCards);
     }
 }

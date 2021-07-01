@@ -63,7 +63,7 @@ public class Connected implements Runnable{
 
                 if(flagConnect){
 
-                    logger.info("clientNr. "+ client + " in while loop");
+                    logger.info("clientNr. "+ client + " in second if print flagconnect");
                     logger.info("clientNr. "+ client +" in connected flag is: " + flagConnect);
 
 

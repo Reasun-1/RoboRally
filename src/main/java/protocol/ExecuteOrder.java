@@ -261,6 +261,12 @@ public class ExecuteOrder {
                 if(cardName.equals("AdminPrivilege") || cardName.equals("RealLaser") || cardName.equals("MemorySwap") || cardName.equals("SpamBlocker")){
 
                     System.out.println("************UPGRADE played!!*********");
+
+                    // update Game info of upgrade cards
+                    int countCard = Game.upgradesCardsAllClients.get(clientID).get(cardName);
+                    Game.upgradesCardsAllClients.get(clientID).put(cardName, countCard-1);
+
+                    // do the function of upgrade card
                     UpgradeCard upgradeCard = convertStringUpdateToObject(cardName);
                     Game.getInstance().playUpgradeCard(clientID, upgradeCard);
 

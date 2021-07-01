@@ -55,7 +55,8 @@ public class Game {
     //key=clientID value=(key=UpgradeCardName value=count of this card)
     public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
     public static List<Integer> buyUpgradeCardsFinished = new ArrayList<>(); // clientID who finished buying upgrade cards
-
+    // count of the SpamCards each round; key=cleintID value=count of Spam Cards
+    public static HashMap<Integer, Integer> countSpamAllClients = new HashMap<>();
 
     /**
      * constructor Game:
@@ -102,6 +103,9 @@ public class Game {
             initUpgrades.put(new SpamBlocker().getCardName(),0);
             upgradesCardsAllClients.put(client, initUpgrades);
 
+            // inti count of spam cards for each cleint
+            countSpamAllClients.put(client, 0);
+
         }
 
         // init undrawn and discarded cards deck for each player
@@ -121,7 +125,6 @@ public class Game {
             for (int i = 0; i < BackUp.cardCount; i++) {
                 cards.add(new BackUp());
             }
-
             for (int i = 0; i < TurnLeft.cardCount; i++) {
                 cards.add(new TurnLeft());
             }
@@ -245,6 +248,9 @@ public class Game {
                     if (card.getCardType().equals("PROGRAMME")) {
                         discardedCards.get(clientID).add(card);
                     } else { // if this is a damage card, put it into damage card piles
+                        int curCountSpam = countSpamAllClients.get(clientID);
+                        countSpamAllClients.put(clientID, curCountSpam+1);
+
                         if (card.getCardName().equals("Spam")) {
                             spamPile.push(card);
                         } else if (card.getCardName().equals("Trojan")) {
@@ -320,6 +326,9 @@ public class Game {
                         } else if (card.getCardName().equals("Worm")) {
                             wormPile.push(card);
                         }
+
+                        int curCountSpam = countSpamAllClients.get(clientID);
+                        countSpamAllClients.put(clientID, curCountSpam+1);
 
                     }
                 }
@@ -657,9 +666,13 @@ public class Game {
                 registersAllClients.put(clientID, registers);
 
                 clientsOnBoard.put(clientID, true);
+
+                // reset the count of damage cards for all clients
+                countSpamAllClients.put(clientID, 0);
             }
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
+
             System.out.println("priority list: " + priorityEachTurn);
             return true;
         } else {

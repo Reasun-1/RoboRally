@@ -184,6 +184,7 @@ public class Server {
     public void handleAlive(int client) throws IOException {
         Protocol protocol = new Protocol("Alive", null);
         String json = Protocol.writeJson(protocol);
+        logger.info("Server sends Alive check for client " + client);
         makeOrderToOneClient(client, json);
     }
 
@@ -322,6 +323,19 @@ public class Server {
             logger.info("server informs your cards.");
             makeOrderToOneClient(clientID, json);
         }
+    }
+
+    /**
+     * server handles new cards instead of damage cards for spamBlocker
+     * @param clientID
+     * @param newCards
+     * @throws IOException
+     */
+    public void handleSpamBlocker(int clientID, List<String> newCards) throws IOException {
+        Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server sends new cards for spam blocker.");
+        makeOrderToOneClient(clientID, json);
     }
 
     /**

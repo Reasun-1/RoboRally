@@ -21,6 +21,7 @@ import server.feldobjects.FeldObject;
 import server.game.Direction;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -460,85 +461,82 @@ public class ChatController {
         client.MYCARDSProperty().addListener(new ChangeListener<ObservableList<String>>() {
             @Override
             public void changed(ObservableValue<? extends ObservableList<String>> observableValue, ObservableList<String> strings, ObservableList<String> t1) {
-                System.out.println("drawn cards in GUI changed.");
 
-                if (client.MYCARDSProperty().size() > 0) {
-                    int curCardIndex = client.MYCARDSProperty().size() - 1;
-                    String curCard = client.MYCARDSProperty().get(curCardIndex);
-                    Image curImage = null;
-                    switch (curCard) {
-                        case "Again":
-                            curImage = imageAgain;
-                            break;
-                        case "BackUp":
-                            curImage = imageMoveBack;
-                            break;
-                        case "MoveI":
-                            curImage = imageMove1;
-                            break;
-                        case "MoveII":
-                            curImage = imageMove2;
-                            break;
-                        case "MoveIII":
-                            curImage = imageMove3;
-                            break;
-                        case "PowerUp":
-                            curImage = imagePowerUp;
-                            break;
-                        case "TurnLeft":
-                            curImage = imageTurnL;
-                            break;
-                        case "TurnRight":
-                            curImage = imageTurnR;
-                            break;
-                        case "UTurn":
-                            curImage = imageTurnU;
-                            break;
-                        case "Spam":
-                            curImage = imageSpam;
-                            break;
-                        case "Trojan":
-                            curImage = imageTrojan;
-                            break;
-                        case "Virus":
-                            curImage = imageVirus;
-                            break;
-                        case "Worm":
-                            curImage = imageWorm;
-                            break;
-                    }
+                for (int i = 0; i < client.MYCARDSProperty().size(); i++) {
+                        String curCard = client.MYCARDSProperty().get(i);
+                        Image curImage = null;
+                        switch (curCard) {
+                            case "Again":
+                                curImage = imageAgain;
+                                break;
+                            case "BackUp":
+                                curImage = imageMoveBack;
+                                break;
+                            case "MoveI":
+                                curImage = imageMove1;
+                                break;
+                            case "MoveII":
+                                curImage = imageMove2;
+                                break;
+                            case "MoveIII":
+                                curImage = imageMove3;
+                                break;
+                            case "PowerUp":
+                                curImage = imagePowerUp;
+                                break;
+                            case "TurnLeft":
+                                curImage = imageTurnL;
+                                break;
+                            case "TurnRight":
+                                curImage = imageTurnR;
+                                break;
+                            case "UTurn":
+                                curImage = imageTurnU;
+                                break;
+                            case "Spam":
+                                curImage = imageSpam;
+                                break;
+                            case "Trojan":
+                                curImage = imageTrojan;
+                                break;
+                            case "Virus":
+                                curImage = imageVirus;
+                                break;
+                            case "Worm":
+                                curImage = imageWorm;
+                                break;
+                        }
 
-                    switch (curCardIndex) {
-                        case 0:
-                            DrawnCard0.setImage(curImage);
-                            break;
-                        case 1:
-                            DrawnCard1.setImage(curImage);
-                            break;
-                        case 2:
-                            DrawnCard2.setImage(curImage);
-                            break;
-                        case 3:
-                            DrawnCard3.setImage(curImage);
-                            break;
-                        case 4:
-                            DrawnCard4.setImage(curImage);
-                            break;
-                        case 5:
-                            DrawnCard5.setImage(curImage);
-                            break;
-                        case 6:
-                            DrawnCard6.setImage(curImage);
-                            break;
-                        case 7:
-                            DrawnCard7.setImage(curImage);
-                            break;
-                        case 8:
-                            DrawnCard8.setImage(curImage);
-                            break;
-                    }
+                        switch (i) {
+                            case 0:
+                                DrawnCard0.setImage(curImage);
+                                break;
+                            case 1:
+                                DrawnCard1.setImage(curImage);
+                                break;
+                            case 2:
+                                DrawnCard2.setImage(curImage);
+                                break;
+                            case 3:
+                                DrawnCard3.setImage(curImage);
+                                break;
+                            case 4:
+                                DrawnCard4.setImage(curImage);
+                                break;
+                            case 5:
+                                DrawnCard5.setImage(curImage);
+                                break;
+                            case 6:
+                                DrawnCard6.setImage(curImage);
+                                break;
+                            case 7:
+                                DrawnCard7.setImage(curImage);
+                                break;
+                            case 8:
+                                DrawnCard8.setImage(curImage);
+                                break;
+                        }
                 }
-
             }
         });
 
@@ -937,6 +935,15 @@ public class ChatController {
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
 
         client.playUpgrade("SpamBlocker");
+        //remove all the damage cards in hand
+        List<String> tempToRemove = new ArrayList<>();
+        for(String card : client.MYCARDS.get()){
+            if(card.equals("Virus") || card.equals("Worm") || card.equals("Spam") || card.equals("Trojan")){
+                tempToRemove.add(card);
+            }
+        }
+        client.MYCARDS.removeAll(tempToRemove);
+        System.out.println("after removed damage cards"+client.MYCARDS);
     }
 
     /**
