@@ -33,6 +33,6 @@ public class RealLaser extends UpgradeCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-
+        System.out.println("DO UPGRADE LASER FUNCTION");
     }
 }

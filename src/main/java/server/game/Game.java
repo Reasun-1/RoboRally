@@ -442,6 +442,15 @@ public class Game {
     }
 
     /**
+     * execute the logical functions for the upgrade cards
+     * @param clientID
+     * @param card
+     */
+    public void playUpgradeCard(int clientID, UpgradeCard card) throws IOException {
+        card.doCardFunction(clientID);
+    }
+
+    /**
      * check if a client´s position out of board
      *
      * @param clientID

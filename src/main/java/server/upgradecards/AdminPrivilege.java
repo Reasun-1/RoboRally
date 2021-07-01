@@ -34,6 +34,6 @@ public class AdminPrivilege extends UpgradeCard {
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-
+        System.out.println("DO UPGRADE ADMIN FUNCTION");
     }
 }

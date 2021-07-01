@@ -261,6 +261,8 @@ public class ExecuteOrder {
                 if(cardName.equals("AdminPrivilege") || cardName.equals("RealLaser") || cardName.equals("MemorySwap") || cardName.equals("SpamBlocker")){
 
                     System.out.println("************UPGRADE played!!*********");
+                    UpgradeCard upgradeCard = convertStringUpdateToObject(cardName);
+                    Game.getInstance().playUpgradeCard(clientID, upgradeCard);
 
                 }else {// when registerCards played
 

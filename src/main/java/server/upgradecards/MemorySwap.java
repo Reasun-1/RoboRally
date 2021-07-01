@@ -33,7 +33,7 @@ public class MemorySwap extends UpgradeCard{
 
     @Override
     public void doCardFunction(int clientID) throws IOException {
-
+        System.out.println("DO UPGRADE MEMORY FUNCTION");
     }
 
 }
