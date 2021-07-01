@@ -868,16 +868,47 @@ public class ChatController {
                 }
             }
         });
+
+        UpgradeAdmin.setDisable(true);
+        UpgradeMemory.setDisable(true);
+        UpgradeBlocker.setDisable(true);
+
+        client.flagAdminProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if(client.myUpgradesCards.get("AdminPrivilege") != 0){
+                    UpgradeAdmin.setDisable(false);
+                }
+            }
+        });
+
+        client.flagMemoryProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if(client.myUpgradesCards.get("MemorySwap") != 0){
+                    UpgradeMemory.setDisable(false);
+                }
+            }
+        });
+
+        client.flagBlockerProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if(client.myUpgradesCards.get("SpamBlocker") != 0){
+                    UpgradeBlocker.setDisable(false);
+                }
+            }
+        });
     }
 
     public void activeAdmin(){
-
+        System.out.println("activeAdmin Card ativated.");
     }
     public void activeBlocker(){
-
+        System.out.println("activeBlocker Card ativated.");
     }
     public void activeMemory(){
-
+        System.out.println("activeMemory Card ativated.");
     }
 
     public void clearDrawnCardImage(int cardButtoNum){

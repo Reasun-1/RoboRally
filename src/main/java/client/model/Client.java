@@ -132,6 +132,12 @@ public class Client extends Application {
     private IntegerProperty flagRefreshUpdateSop = new SimpleIntegerProperty(0);
     // bind flag in Chat&Game for my upgrade cards
     private IntegerProperty flagMyUpgrades = new SimpleIntegerProperty(0);
+    // flag update enable/disable the upgrades button Admin in Chat&Game
+    private IntegerProperty flagAdmin = new SimpleIntegerProperty(0);
+    // flag update enable/disable the upgrades button Memory in Chat&Game
+    private IntegerProperty flagMemory = new SimpleIntegerProperty(0);
+    // flag update enable/disable the upgrades button Blocker in Chat&Game
+    private IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
 
 
 
@@ -270,6 +276,11 @@ public class Client extends Application {
 
     public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
 
+    public IntegerProperty flagAdminProperty() { return flagAdmin; }
+
+    public IntegerProperty flagMemoryProperty() { return flagMemory; }
+
+    public IntegerProperty flagBlockerProperty() { return flagBlocker; }
 
 
 
@@ -552,9 +563,12 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
+                                    //active admin button in Chat&Game
+                                    flagAdmin.set(flagAdmin.get()+1);
                                 }else if(GAMEPHASE.get().equals("Programmierphase")){
                                     INFORMATION.set("");
                                     INFORMATION.set("Begin programming!");
+
                                 }else if(GAMEPHASE.get().equals("Upgradephase")){
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
@@ -615,6 +629,10 @@ public class Client extends Application {
 
                             INFORMATION.set("");
                             INFORMATION.set("Begin programming!");
+
+                            // activate buttons in Chat&Game
+                            flagMemory.set(flagMemory.get()+1);
+                            flagBlocker.set(flagBlocker.get()+1);
 
                             break;
                         case "NotYourCards":
