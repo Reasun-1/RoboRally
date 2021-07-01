@@ -37,6 +37,8 @@ public class Game {
     public static List<Integer> selectionFinishList = new ArrayList<>(); // clientID who finished programming
     public static List<Integer> priorityEachTurn = new ArrayList<>(); // e.g. [22,33,11] means clientID 22 has first priority in this round
     public static int registerPointer = 0; // to point the current register
+    public static int changePriorityRegPointer = -1; // to point the register which changed priority because of upgrade card Admin
+    public static List<Integer> changedPriorityList = new ArrayList<>(); // changed priority due to Admin played
     public static HashMap<Integer, Direction> directionsAllClients = new HashMap<>(); // current directions of all clients: key=clientID, value=Direction
     public static List<Integer> activePlayersList = new ArrayList<>(); // if a player out of board, remove it from this list. For priority calculate
     public static HashMap<Integer, HashSet<Integer>> arrivedCheckpoints = new HashMap<>(); // who has arrived which checkpoints;
@@ -672,6 +674,9 @@ public class Game {
             }
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
+
+            // reset changedRegPointer to -1 for next round
+            changePriorityRegPointer = -1;
 
             System.out.println("priority list: " + priorityEachTurn);
             return true;

@@ -5,6 +5,7 @@ import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -55,36 +56,74 @@ public class Antenna extends FeldObject {
 
     public static void calculateDistances() {
 
-        // To determine who is closest to the priority antenna, start at the antenna and count the number of spaces to each robot.
-        // Count by row, then by column. (Betrag Differenz xPos und yPos )
-        // In case of a tie:  imagine an invisible line pointing straight out from the
-        // antenna’s dish. Once this line reaches the tied robots, it moves clockwise, and
-        // the tied robots have priority according to the order in which the line reaches them.
+        if(Game.registerPointer != Game.changePriorityRegPointer){
 
-        TreeMap<Float, Integer> distanceMap = new TreeMap<>();
-        // List of Distances by IDs
-        for (int clientID : Game.activePlayersList) {
-            Position A = Game.playerPositions.get(clientID);
-            //Position B = Game.positionAntenna;
-            Position B = Game.positionAntenna;
-            float distance = distanceBetweenAntennaAndRobot(A, B);
-            if (distanceMap.containsKey(distance)) {
-                Integer clientIDinList = distanceMap.get(distance);
-                if (swapPlayerPriority(clientIDinList, clientID)) {
-                    distance -= 0.5;
-                } else {
-                    distance += 0.5;
+            // To determine who is closest to the priority antenna, start at the antenna and count the number of spaces to each robot.
+            // Count by row, then by column. (Betrag Differenz xPos und yPos )
+            // In case of a tie:  imagine an invisible line pointing straight out from the
+            // antenna’s dish. Once this line reaches the tied robots, it moves clockwise, and
+            // the tied robots have priority according to the order in which the line reaches them.
+            TreeMap<Float, Integer> distanceMap = new TreeMap<>();
+            // List of Distances by IDs
+            for (int clientID : Game.activePlayersList) {
+                Position A = Game.playerPositions.get(clientID);
+                //Position B = Game.positionAntenna;
+                Position B = Game.positionAntenna;
+                float distance = distanceBetweenAntennaAndRobot(A, B);
+                if (distanceMap.containsKey(distance)) {
+                    Integer clientIDinList = distanceMap.get(distance);
+                    if (swapPlayerPriority(clientIDinList, clientID)) {
+                        distance -= 0.5;
+                    } else {
+                        distance += 0.5;
+                    }
                 }
+                distanceMap.put(distance, clientID);
             }
-            distanceMap.put(distance, clientID);
-        }
 
-        for (Integer clientID : distanceMap.values()) {
-            Game.priorityEachTurn.add(clientID);
+            for (Integer clientID : distanceMap.values()) {
+                Game.priorityEachTurn.add(clientID);
+            }
+            // Set priorityEachTurn with smallest distance first to largest
+            // check for tie
+            // if two have same priority --> check for swap (boolean)
+
+        }else{// use the changed priority list
+
+            System.out.println("ANTENNA print regpointer: " + Game.registerPointer);
+
+            List<Integer> allclients = new ArrayList<>();
+            for(int clt : Game.clientIDs){
+                allclients.add(clt);
+            }
+
+            List<Integer> notActiveClients = new ArrayList<>();
+            notActiveClients = allclients;
+            notActiveClients.removeAll(Game.activePlayersList);
+
+            List<Integer> activeAndPriorityClients = new ArrayList<>();
+            for(int clt : Game.changedPriorityList){// deep copy from changedPriority
+                activeAndPriorityClients.add(clt);
+            }
+            activeAndPriorityClients.removeAll(notActiveClients);
+
+            List<Integer> activeWithoutPriority = new ArrayList<>();
+            for(int clt : Game.activePlayersList){// deep copy from activePlayersList
+                activeWithoutPriority.add(clt);
+            }
+            activeWithoutPriority.removeAll(activeAndPriorityClients);
+
+            activeAndPriorityClients.addAll(activeWithoutPriority);
+
+            for(int clt : activeAndPriorityClients){
+                Game.priorityEachTurn.add(clt);
+            }
+
+            Game.changedPriorityList.clear();
+            Game.changePriorityRegPointer = -1;
+
+            System.out.println("change priority by Admin "+Game.priorityEachTurn);
         }
-        // Set priorityEachTurn with smallest distance first to largest
-        // check for tie
-        // if two have same priority --> check for swap (boolean)
     }
 
 

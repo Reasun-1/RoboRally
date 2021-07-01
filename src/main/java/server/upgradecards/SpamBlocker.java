@@ -62,8 +62,6 @@ public class SpamBlocker extends UpgradeCard{
         for (int i = 0; i < countNewcardForSpam; i++) {
             newCards.add(tempDeck.pop().getCardName());
         }
-
-
         Server.getServer().handleSpamBlocker(clientID, newCards);
     }
 }

@@ -1,5 +1,7 @@
 package server.upgradecards;
 
+import server.game.Game;
+
 import java.io.IOException;
 
 /**
@@ -35,5 +37,8 @@ public class AdminPrivilege extends UpgradeCard {
     @Override
     public void doCardFunction(int clientID) throws IOException {
         System.out.println("DO UPGRADE ADMIN FUNCTION");
+        // set at which register the priority should be changed.
+        Game.changePriorityRegPointer = Game.registerPointer;
+        Game.changedPriorityList.add(clientID);
     }
 }

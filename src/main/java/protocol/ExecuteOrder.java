@@ -251,7 +251,7 @@ public class ExecuteOrder {
                 break;
             case "PlayCard":
                 logger.info("executeOrder playCard");
-                allplayersRebooted = false;
+
                 PlayCardBody playCardBody = Protocol.readJsonPlayCard(json);
                 String cardName = playCardBody.getCard();
                 // server inform others which card was by whom played
@@ -271,6 +271,8 @@ public class ExecuteOrder {
                     Game.getInstance().playUpgradeCard(clientID, upgradeCard);
 
                 }else {// when registerCards played
+
+                    allplayersRebooted = false;
 
                     // logic function in Game: move or turn
                     RegisterCard card = convertCardToObject(cardName);
