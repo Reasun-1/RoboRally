@@ -545,6 +545,8 @@ public class Client extends Application {
                                 phaseString = "Programmierphase";
                             } else {
                                 phaseString = "Aktivierungsphase";
+                                //active admin button in Chat&Game
+                                flagAdmin.set(flagAdmin.get()+1);
                                 timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
@@ -566,8 +568,7 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
-                                    //active admin button in Chat&Game
-                                    flagAdmin.set(flagAdmin.get()+1);
+
                                 }else if(GAMEPHASE.get().equals("Programmierphase")){
                                     INFORMATION.set("");
                                     INFORMATION.set("Begin programming!");
