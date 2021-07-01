@@ -74,6 +74,8 @@ public class ChatController {
     @FXML
     private Button UpgradeAdmin, UpgradeBlocker, UpgradeMemory;
     @FXML
+    private ImageView UpgradeLaser;
+    @FXML
     private ImageView myFigure;
     @FXML
     private Label energyCube;
@@ -872,6 +874,7 @@ public class ChatController {
         UpgradeAdmin.setDisable(true);
         UpgradeMemory.setDisable(true);
         UpgradeBlocker.setDisable(true);
+        UpgradeLaser.setOpacity(0.50);
 
         client.flagAdminProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -887,6 +890,9 @@ public class ChatController {
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if(client.myUpgradesCards.get("MemorySwap") != 0){
                     UpgradeMemory.setDisable(false);
+                }
+                if(client.myUpgradesCards.get("RealLaser") != 0){
+                    UpgradeLaser.setOpacity(1.0);
                 }
             }
         });
