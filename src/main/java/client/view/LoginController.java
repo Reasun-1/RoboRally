@@ -45,6 +45,7 @@ public class LoginController {
      */
     public void init(Client client) {
         this.client = client;
+        mediaPlayer.setVolume(0.15);
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
 

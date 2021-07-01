@@ -6,6 +6,13 @@ import javafx.scene.image.ImageView;
 
 import java.awt.*;
 
+/**
+ * @author rajna fani
+ * @author chiara welz
+ * @author yuliia shaparenko
+ * @create $(YEAR)-$(MONTH)-$(DAY)
+ */
+
 public class MemorySwapController {
 
     private Client client;

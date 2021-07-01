@@ -11,6 +11,7 @@ import javafx.util.Duration;
 
 /**
  * @author Yuliia Shaparenko
+ * @author Rajna Fani
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class GameOverController {
@@ -22,6 +23,7 @@ public class GameOverController {
 
     public void init(int winner) {
         mediaPlayer.play();
+        mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
         winnerText.setText(""+winner);
     }

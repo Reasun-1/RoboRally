@@ -37,6 +37,7 @@ public class ErrorWindowController {
      */
     public void init(String msg) {
         errorField.setText(msg);
+        mediaPlayer.setVolume(0.15);
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
 

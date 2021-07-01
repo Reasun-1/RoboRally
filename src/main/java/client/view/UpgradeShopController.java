@@ -50,6 +50,7 @@ public class UpgradeShopController {
     public void init(Client client) {
         this.client = client;
         mediaPlayer.play();
+        mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
 
         adminKosten.textProperty().set(String.valueOf(0));
