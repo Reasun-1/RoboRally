@@ -85,7 +85,7 @@ public class Client extends Application {
     // players who are ready to play
     private final StringProperty PLAYERSWHOAREREADY = new SimpleStringProperty();
     // show the info about game phase
-    private final StringProperty GAMEPHASE = new SimpleStringProperty();
+    public final StringProperty GAMEPHASE = new SimpleStringProperty();
     // who is in the first place of ready list, is allowed to select a map
     private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
     // player who is in turn
@@ -131,13 +131,13 @@ public class Client extends Application {
     // bind flag in window upgrade shop
     private IntegerProperty flagRefreshUpdateSop = new SimpleIntegerProperty(0);
     // bind flag in Chat&Game for my upgrade cards
-    private IntegerProperty flagMyUpgrades = new SimpleIntegerProperty(0);
+    public IntegerProperty flagMyUpgrades = new SimpleIntegerProperty(0);
     // flag update enable/disable the upgrades button Admin in Chat&Game
-    private IntegerProperty flagAdmin = new SimpleIntegerProperty(0);
+    public IntegerProperty flagAdmin = new SimpleIntegerProperty(0);
     // flag update enable/disable the upgrades button Memory in Chat&Game
-    private IntegerProperty flagMemory = new SimpleIntegerProperty(0);
+    public IntegerProperty flagMemory = new SimpleIntegerProperty(0);
     // flag update enable/disable the upgrades button Blocker in Chat&Game
-    private IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
+    public IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
 
 
 
@@ -548,7 +548,10 @@ public class Client extends Application {
                                 timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
-
+                            //update enable/disable status for buttons upgradeCards in Chat&Game
+                            flagAdmin.set(flagAdmin.get()+1);
+                            flagBlocker.set(flagBlocker.get()+1);
+                            flagMemory.set(flagMemory.get()+1);
                             break;
                         case "CurrentPlayer":
                             CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);

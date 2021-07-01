@@ -879,8 +879,10 @@ public class ChatController {
         client.flagAdminProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.myUpgradesCards.get("AdminPrivilege") != 0){
+                if(client.GAMEPHASE.get().equals("Aktivierungsphase") && client.myUpgradesCards.get("AdminPrivilege") != 0){
                     UpgradeAdmin.setDisable(false);
+                }else{
+                    UpgradeAdmin.setDisable(true);
                 }
             }
         });
@@ -888,8 +890,10 @@ public class ChatController {
         client.flagMemoryProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.myUpgradesCards.get("MemorySwap") != 0){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && (client.myUpgradesCards.get("MemorySwap") != 0)){
                     UpgradeMemory.setDisable(false);
+                }else{
+                    UpgradeMemory.setDisable(true);
                 }
                 if(client.myUpgradesCards.get("RealLaser") != 0){
                     UpgradeLaser.setOpacity(1.0);
@@ -900,21 +904,47 @@ public class ChatController {
         client.flagBlockerProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.myUpgradesCards.get("SpamBlocker") != 0){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("SpamBlocker") != 0){
                     UpgradeBlocker.setDisable(false);
+                }else{
+                    UpgradeBlocker.setDisable(true);
                 }
             }
         });
     }
 
+    /**
+     * play upgrade Admin
+     */
     public void activeAdmin(){
         System.out.println("activeAdmin Card ativated.");
+        //update showCard and count of Card
+        UpgradeAdmin.setDisable(true);
+        client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
     }
+
+    /**
+     * play upgrade Blocker
+     */
     public void activeBlocker(){
         System.out.println("activeBlocker Card ativated.");
+        int curCount = client.myUpgradesCards.get("SpamBlocker");
+        client.myUpgradesCards.put("SpamBlocker", curCount-1);
+        //update showCard and count of Card
+        client.flagBlocker.set(client.flagBlocker.get()+1);
+        client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
     }
+
+    /**
+     * play upgrad Memory
+     */
     public void activeMemory(){
         System.out.println("activeMemory Card ativated.");
+        int curCount = client.myUpgradesCards.get("MemorySwap");
+        client.myUpgradesCards.put("MemorySwap", curCount-1);
+        //update showCard and count of Card
+        client.flagMemory.set(client.flagMemory.get()+1);
+        client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
     }
 
     public void clearDrawnCardImage(int cardButtoNum){
