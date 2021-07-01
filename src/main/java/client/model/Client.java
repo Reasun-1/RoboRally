@@ -1119,6 +1119,18 @@ public class Client extends Application {
         CANPLAYNEXTREGISTER.set(false);
     }
 
+    /**
+     * client plays upgrade card
+     * @param cardName
+     * @throws JsonProcessingException
+     */
+    public void playUpgrade(String cardName) throws JsonProcessingException {
+        Protocol protocol = new Protocol("PlayCard", new PlayCardBody(cardName));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+    }
+
     public void handleRebootDirection(String direction) throws JsonProcessingException {
         Protocol protocol = new Protocol("RebootDirection", new RebootDirectionBody(direction));
         String json = Protocol.writeJson(protocol);

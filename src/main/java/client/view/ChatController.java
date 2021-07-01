@@ -916,35 +916,41 @@ public class ChatController {
     /**
      * play upgrade Admin
      */
-    public void activeAdmin(){
+    public void activeAdmin() throws JsonProcessingException {
         System.out.println("activeAdmin Card ativated.");
         //update showCard and count of Card
         UpgradeAdmin.setDisable(true);
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
+
+        client.playUpgrade("AdminPrivilege");
     }
 
     /**
      * play upgrade Blocker
      */
-    public void activeBlocker(){
+    public void activeBlocker() throws JsonProcessingException {
         System.out.println("activeBlocker Card ativated.");
         int curCount = client.myUpgradesCards.get("SpamBlocker");
         client.myUpgradesCards.put("SpamBlocker", curCount-1);
         //update showCard and count of Card
         client.flagBlocker.set(client.flagBlocker.get()+1);
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
+
+        client.playUpgrade("SpamBlocker");
     }
 
     /**
      * play upgrad Memory
      */
-    public void activeMemory(){
+    public void activeMemory() throws JsonProcessingException {
         System.out.println("activeMemory Card ativated.");
         int curCount = client.myUpgradesCards.get("MemorySwap");
         client.myUpgradesCards.put("MemorySwap", curCount-1);
         //update showCard and count of Card
         client.flagMemory.set(client.flagMemory.get()+1);
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
+
+        client.playUpgrade("MemorySwap");
     }
 
     public void clearDrawnCardImage(int cardButtoNum){

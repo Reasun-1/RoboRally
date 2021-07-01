@@ -256,52 +256,61 @@ public class ExecuteOrder {
                 String cardName = playCardBody.getCard();
                 // server inform others which card was by whom played
                 Server.getServer().handleCardPlayed(clientID, cardName);
-                // logic function in Game: move or turn
-                RegisterCard card = convertCardToObject(cardName);
-                Game.getInstance().playCard(clientID, card);
 
-                // if damage card played, must be replaced and play again
-                if ((card.getCardType().equals("PROGRAMME") || card.getCardName().equals("Worm")) && !Game.priorityEachTurn.isEmpty()) {
-                    Game.priorityEachTurn.remove(0);
-                }
+                // when upgrade cards played
+                if(cardName.equals("AdminPrivilege") || cardName.equals("RealLaser") || cardName.equals("MemorySwap") || cardName.equals("SpamBlocker")){
 
-                // if not all players rebooted, check turn over, otherwise break
-                if (!allplayersRebooted && activePhase != 2) {
+                    System.out.println("************UPGRADE played!!*********");
 
+                }else {// when registerCards played
 
-                    // check turnOver
-                    boolean isTurnOver = Game.getInstance().checkTurnOver();
-                    if (isTurnOver) {
-                        logger.info("ExecuteOrder: turn is over!");
-                        // if turn is over, check if round is over
-                        boolean isRoundOver = Game.getInstance().checkRoundOver();
-                        if (isRoundOver) {
+                    // logic function in Game: move or turn
+                    RegisterCard card = convertCardToObject(cardName);
+                    Game.getInstance().playCard(clientID, card);
 
-                            logger.info("ExecuteOrder: round is over!");
-
-                            Server.getServer().handleActivePhase(1);
-                            activePhase = 1;
-
-                            // send available upgrade cards info to client
-                            Server.getServer().handleRefillShop();
-                            // set priority for this turn
-                            Game.getInstance().checkAndSetPriority();
-                            // set player in turn
-                            int curClient = Game.priorityEachTurn.get(0);
-                            Server.getServer().handleCurrentPlayer(curClient);
-                            Game.priorityEachTurn.remove(0);
-
-                            //Server.getServer().handleYourCards();
-                            // inform all players: programming phase begins
-                            //Server.getServer().handleActivePhase(2);
-                            //activePhase = 2;
-                            break;
-                        }
+                    // if damage card played, must be replaced and play again
+                    if ((card.getCardType().equals("PROGRAMME") || card.getCardName().equals("Worm")) && !Game.priorityEachTurn.isEmpty()) {
+                        Game.priorityEachTurn.remove(0);
                     }
 
-                    // if turn is not over inform next player to play
-                    int curClient = Game.priorityEachTurn.get(0);
-                    Server.getServer().handleCurrentPlayer(curClient);
+                    // if not all players rebooted, check turn over, otherwise break
+                    if (!allplayersRebooted && activePhase != 2) {
+
+
+                        // check turnOver
+                        boolean isTurnOver = Game.getInstance().checkTurnOver();
+                        if (isTurnOver) {
+                            logger.info("ExecuteOrder: turn is over!");
+                            // if turn is over, check if round is over
+                            boolean isRoundOver = Game.getInstance().checkRoundOver();
+                            if (isRoundOver) {
+
+                                logger.info("ExecuteOrder: round is over!");
+
+                                Server.getServer().handleActivePhase(1);
+                                activePhase = 1;
+
+                                // send available upgrade cards info to client
+                                Server.getServer().handleRefillShop();
+                                // set priority for this turn
+                                Game.getInstance().checkAndSetPriority();
+                                // set player in turn
+                                int curClient = Game.priorityEachTurn.get(0);
+                                Server.getServer().handleCurrentPlayer(curClient);
+                                Game.priorityEachTurn.remove(0);
+
+                                //Server.getServer().handleYourCards();
+                                // inform all players: programming phase begins
+                                //Server.getServer().handleActivePhase(2);
+                                //activePhase = 2;
+                                break;
+                            }
+                        }
+
+                        // if turn is not over inform next player to play
+                        int curClient = Game.priorityEachTurn.get(0);
+                        Server.getServer().handleCurrentPlayer(curClient);
+                    }
                 }
 
                 break;
