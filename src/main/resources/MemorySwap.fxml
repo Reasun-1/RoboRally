@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MemorySwap">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@images/memorySwap.jpg" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Text fill="#b2aaaa" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory Swap" textAlignment="CENTER" wrappingWidth="600.22900390625">
+               <font>
+                  <Font name="Papyrus" size="46.0" />
+               </font>
+            </Text>
+            <Label prefHeight="32.0" prefWidth="604.0" text="                               Choose three cards to discard" textAlignment="CENTER" textFill="#c9bdbd">
+               <font>
+                  <Font name="System Bold Italic" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
