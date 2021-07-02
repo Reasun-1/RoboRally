@@ -67,6 +67,8 @@ public class Client extends Application {
     public List<String> availableUpgradesCards = new ArrayList<>();
     // for the listner in Chat&Game: key=CardName value=count
     public HashMap<String, Integer> myUpgradesCards = new HashMap<>();
+    // storage for the cards in memorySwapWindow
+    public List<String> cards12ForMemory = new ArrayList<>();
 
 
 
@@ -138,6 +140,8 @@ public class Client extends Application {
     public IntegerProperty flagMemory = new SimpleIntegerProperty(0);
     // flag update enable/disable the upgrades button Blocker in Chat&Game
     public IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
+    // flag update cards in MemorySwapWindow
+    public IntegerProperty flagCardsInMemorySwapWindow = new SimpleIntegerProperty(0);
 
 
 
@@ -281,6 +285,9 @@ public class Client extends Application {
     public IntegerProperty flagMemoryProperty() { return flagMemory; }
 
     public IntegerProperty flagBlockerProperty() { return flagBlocker; }
+
+    public IntegerProperty flagCardsInMemorySwapWindowProperty() { return flagCardsInMemorySwapWindow; }
+
 
 
 
@@ -625,6 +632,19 @@ public class Client extends Application {
                             //flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
+
+                            if(MYCARDS.size() == 9){
+
+                                for(String cardHad : MYCARDS.get()){
+                                    cards12ForMemory.add(cardHad);
+                                }
+
+                                for(String newCard : cardsInHand){
+                                    cards12ForMemory.add(newCard);
+                                }
+
+                                flagCardsInMemorySwapWindow.set(flagCardsInMemorySwapWindow.get()+1);
+                            }
 
                             for (String card : cardsInHand) {
                                 MYCARDS.add(card);

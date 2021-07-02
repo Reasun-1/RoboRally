@@ -339,6 +339,19 @@ public class Server {
     }
 
     /**
+     * server gives three cards to the target client
+     * @param clientID
+     * @param newCards
+     * @throws IOException
+     */
+    public void handleMemorySwap(int clientID, List<String> newCards) throws IOException {
+        Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server sends new cards for spam blocker.");
+        makeOrderToOneClient(clientID, json);
+    }
+
+    /**
      * for the situation that drawn cards deck hasn´t enough cards, redraw
      * @param clientID
      * @param newCards

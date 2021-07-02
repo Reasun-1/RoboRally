@@ -38,13 +38,13 @@
                         <AnchorPane prefHeight="277.0" prefWidth="24.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card1Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card1Button" mnemonicParsing="false" onAction="#clickButton1" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card1" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card7Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card7Button" mnemonicParsing="false" onAction="#clickButton7" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card7" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
@@ -54,13 +54,13 @@
                         <AnchorPane prefHeight="276.0" prefWidth="7.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card2Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card2Button" mnemonicParsing="false" onAction="#clickButton2" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card2" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card8Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card8Button" mnemonicParsing="false" onAction="#clickButton8" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card8" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
@@ -70,13 +70,13 @@
                         <AnchorPane prefHeight="276.0" prefWidth="7.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card3Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card3Button" mnemonicParsing="false" onAction="#clickButton3" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card3" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card9Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card9Button" mnemonicParsing="false" onAction="#clickButton9" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card9" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
@@ -86,13 +86,13 @@
                         <AnchorPane prefHeight="276.0" prefWidth="7.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card4Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card4Button" mnemonicParsing="false" onAction="#clickButton4" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card4" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card10Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card10Button" mnemonicParsing="false" onAction="#clickButton10" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card10" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
@@ -102,13 +102,13 @@
                         <AnchorPane prefHeight="276.0" prefWidth="7.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card5Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card5Button" mnemonicParsing="false" onAction="#clickButton5" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card5" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card11Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card11Button" mnemonicParsing="false" onAction="#clickButton11" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card11" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
@@ -118,13 +118,13 @@
                         <AnchorPane prefHeight="276.0" prefWidth="7.0" />
                         <VBox prefHeight="256.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="card6Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card6Button" mnemonicParsing="false" onAction="#clickButton6" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card6" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
                               </Button>
                               <AnchorPane prefHeight="17.0" prefWidth="87.0" />
-                              <Button fx:id="card12Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                              <Button fx:id="card12Button" mnemonicParsing="false" onAction="#clickButton12" prefHeight="117.0" prefWidth="86.0">
                                  <graphic>
                                     <ImageView fx:id="card12" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
                                  </graphic>
