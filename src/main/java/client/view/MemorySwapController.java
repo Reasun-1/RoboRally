@@ -210,6 +210,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card1Button.getScene().getWindow();
             stage.close();
         }
@@ -234,6 +236,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card2Button.getScene().getWindow();
             stage.close();
@@ -260,6 +264,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card3Button.getScene().getWindow();
             stage.close();
         }
@@ -284,6 +290,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card4Button.getScene().getWindow();
             stage.close();
@@ -310,6 +318,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card5Button.getScene().getWindow();
             stage.close();
         }
@@ -334,6 +344,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card6Button.getScene().getWindow();
             stage.close();
@@ -360,6 +372,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card7Button.getScene().getWindow();
             stage.close();
         }
@@ -384,6 +398,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card8Button.getScene().getWindow();
             stage.close();
@@ -410,6 +426,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card9Button.getScene().getWindow();
             stage.close();
         }
@@ -434,6 +452,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card10Button.getScene().getWindow();
             stage.close();
@@ -460,6 +480,8 @@ public class MemorySwapController {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
 
+            client.cards12ForMemory.clear();
+
             Stage stage = (Stage) card11Button.getScene().getWindow();
             stage.close();
         }
@@ -484,6 +506,8 @@ public class MemorySwapController {
             for (int i = 0; i < 9; i++) {
                 client.MYCARDS.add(client.cards12ForMemory.get(i));
             }
+
+            client.cards12ForMemory.clear();
 
             Stage stage = (Stage) card12Button.getScene().getWindow();
             stage.close();
