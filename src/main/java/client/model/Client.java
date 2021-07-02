@@ -393,7 +393,6 @@ public class Client extends Application {
         Platform.setImplicitExit(false);
         // start the login process
         LAUNCHER.launchLogin(this);
-
     }
 
     /**
@@ -582,10 +581,10 @@ public class Client extends Application {
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
-                                    if(availableUpgradesCards.contains("AdminPrivilege")){
-                                        handleBuyUpgrade("AdminPrivilege");
-                                    }else if(availableUpgradesCards.contains("MemorySwap")){
+                                    if(availableUpgradesCards.contains("MemorySwap")){
                                         handleBuyUpgrade("MemorySwap");
+                                    }else if(availableUpgradesCards.contains("AdminPrivilege")){
+                                        handleBuyUpgrade("AdminPrivilege");
                                     }else if(availableUpgradesCards.contains("RealLaser")){
                                         handleBuyUpgrade("RealLaser");
                                     }else if(availableUpgradesCards.contains("SpamBlocker")){
