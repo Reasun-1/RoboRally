@@ -949,7 +949,7 @@ public class ChatController {
     /**
      * play upgrad Memory
      */
-    public void activeMemory() throws JsonProcessingException {
+    public void activeMemory() throws IOException {
         System.out.println("activeMemory Card ativated.");
         int curCount = client.myUpgradesCards.get("MemorySwap");
         client.myUpgradesCards.put("MemorySwap", curCount-1);
@@ -958,6 +958,8 @@ public class ChatController {
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
 
         client.playUpgrade("MemorySwap");
+
+        LAUNCHER.launchMemorySwap(client);
     }
 
     public void clearDrawnCardImage(int cardButtoNum){

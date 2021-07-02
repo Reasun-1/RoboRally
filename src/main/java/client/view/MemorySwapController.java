@@ -2,9 +2,10 @@ package client.view;
 
 import client.model.Client;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
 
 /**
  * @author rajna fani
