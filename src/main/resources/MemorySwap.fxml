@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -8,9 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.view.MemorySwapController">
+<fx:root prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.MemorySwapController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -21,15 +20,123 @@
          <children>
             <Text fill="#b2aaaa" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory Swap" textAlignment="CENTER" wrappingWidth="600.22900390625">
                <font>
-                  <Font name="Papyrus" size="46.0" />
+                  <Font name="Papyrus" size="38.0" />
                </font>
             </Text>
-            <Label prefHeight="32.0" prefWidth="604.0" text="                               Choose three cards to discard" textAlignment="CENTER" textFill="#c9bdbd">
+            <Label fx:id="chooseCards" prefHeight="34.0" prefWidth="594.0" text="                  Choose three cards to discard" textAlignment="CENTER" textFill="#f2e3e3">
                <font>
-                  <Font name="System Bold Italic" size="23.0" />
+                  <Font name="Papyrus" size="27.0" />
                </font>
+               <effect>
+                  <DropShadow color="#2f2929" height="121.18" radius="47.947500000000005" spread="0.36" width="72.61" />
+               </effect>
             </Label>
+            <VBox prefHeight="286.0" prefWidth="603.0">
+               <children>
+                  <HBox prefHeight="278.0" prefWidth="600.0">
+                     <children>
+                        <AnchorPane prefHeight="277.0" prefWidth="24.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card1Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card1" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card7Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card7" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="276.0" prefWidth="7.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card2Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card2" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card8Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card8" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="276.0" prefWidth="7.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card3Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card3" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card9Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card9" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="276.0" prefWidth="7.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card4Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card4" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card10Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card10" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="276.0" prefWidth="7.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card5Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card5" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card11Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card11" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="276.0" prefWidth="7.0" />
+                        <VBox prefHeight="256.0" prefWidth="87.0">
+                           <children>
+                              <Button fx:id="card6Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card6" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                              <AnchorPane prefHeight="17.0" prefWidth="87.0" />
+                              <Button fx:id="card12Button" mnemonicParsing="false" prefHeight="117.0" prefWidth="86.0">
+                                 <graphic>
+                                    <ImageView fx:id="card12" fitHeight="108.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <AnchorPane prefHeight="277.0" prefWidth="24.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</fx:root>
