@@ -69,6 +69,8 @@ public class Client extends Application {
     public HashMap<String, Integer> myUpgradesCards = new HashMap<>();
     // storage for the cards in memorySwapWindow
     public List<String> cards12ForMemory = new ArrayList<>();
+    // storage for moving checkpoints: key=checkpointNr. value=int[x,y]
+    public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
 
 
@@ -142,6 +144,8 @@ public class Client extends Application {
     public IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
     // flag update cards in MemorySwapWindow
     public IntegerProperty flagCardsInMemorySwapWindow = new SimpleIntegerProperty(0);
+    // flag update moving checkpoint
+    public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
 
 
 
@@ -287,6 +291,8 @@ public class Client extends Application {
     public IntegerProperty flagBlockerProperty() { return flagBlocker; }
 
     public IntegerProperty flagCardsInMemorySwapWindowProperty() { return flagCardsInMemorySwapWindow; }
+
+    public IntegerProperty flagMovingCheckpointsProperty() { return flagMovingCheckpoints;}
 
 
 
@@ -838,7 +844,17 @@ public class Client extends Application {
                             if(upCardBought != null){
                                 availableUpgradesCards.remove(upCardBought);
                             }
-
+                            break;
+                        case "CheckpointMoved":
+                            CheckpointMovedBody checkpointMovedBody = Protocol.readJsonCheckpointMoved(json);
+                            int checkpointNr = checkpointMovedBody.getCheckpointID();
+                            int locX = checkpointMovedBody.getX();
+                            int locY = checkpointMovedBody.getY();
+                            int[] location = new int[2];
+                            location[0] = locX;
+                            location[1] = locY;
+                            movingCheckpoints.put(checkpointNr, location);
+                            flagMovingCheckpoints.set(flagMovingCheckpoints.get()+1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {

@@ -457,6 +457,12 @@ public class ExecuteOrder {
             logger.info("number enough, to play");
 
             Server.getServer().handleGameStarted(Game.mapName);
+
+            // for map twister, send checkpoints locations additionally
+            if(Game.mapName.equals("Twister")){
+                Server.getServer().handleCheckpointsLocations();
+            }
+
             Server.getServer().handleActivePhase(0);
 
             // find the first client, who first logged in

@@ -52,13 +52,15 @@ public class Game {
     public static HashMap<Integer, Integer> energyCubes = new HashMap<>();// key=clientID, value=energyCount
     public static Position positionAntenna = null;
     public static String directionAntenna = null;
-    public static HashMap<Integer, Boolean> clientsOnBoard= new HashMap<>();// key=clientID, value=isOnBoard;
+    public static HashMap<Integer, Boolean> clientsOnBoard = new HashMap<>();// key=clientID, value=isOnBoard;
     public static Stack<UpgradeCard> upgradeShop = new Stack<>();
     //key=clientID value=(key=UpgradeCardName value=count of this card)
     public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
     public static List<Integer> buyUpgradeCardsFinished = new ArrayList<>(); // clientID who finished buying upgrade cards
     // count of the SpamCards each round; key=cleintID value=count of Spam Cards
     public static HashMap<Integer, Integer> countSpamAllClients = new HashMap<>();
+    // storage for moving checkpoints: key=checkpointNum value=[x,y]
+    public static HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
     /**
      * constructor Game:
@@ -86,6 +88,29 @@ public class Game {
                 directionsAllClients.put(client, Direction.RIGHT);
             }
 
+            // init moving checkpoints for map twister
+            if (mapName.equals("Twister")) {
+                int[] location1 = new int[2];
+                location1[0] = 9;
+                location1[1] = 1;
+                movingCheckpoints.put(1, location1);
+
+                int[] location2 = new int[2];
+                location2[0] = 6;
+                location2[1] = 6;
+                movingCheckpoints.put(2, location2);
+
+                int[] location3 = new int[2];
+                location3[0] = 4;
+                location3[1] = 1;
+                movingCheckpoints.put(3, location3);
+
+                int[] location4 = new int[2];
+                location4[0] = 9;
+                location4[1] = 8;
+                movingCheckpoints.put(4, location4);
+            }
+
             // init activePlayerList with all clients
             activePlayersList.add(client);
 
@@ -99,10 +124,10 @@ public class Game {
 
             // init upgrade cards for each client(null cards at the beginning)
             HashMap<String, Integer> initUpgrades = new HashMap<>();
-            initUpgrades.put(new MemorySwap().getCardName(),0);
-            initUpgrades.put(new RealLaser().getCardName(),0);
-            initUpgrades.put(new AdminPrivilege().getCardName(),0);
-            initUpgrades.put(new SpamBlocker().getCardName(),0);
+            initUpgrades.put(new MemorySwap().getCardName(), 0);
+            initUpgrades.put(new RealLaser().getCardName(), 0);
+            initUpgrades.put(new AdminPrivilege().getCardName(), 0);
+            initUpgrades.put(new SpamBlocker().getCardName(), 0);
             upgradesCardsAllClients.put(client, initUpgrades);
 
             // inti count of spam cards for each cleint
@@ -251,7 +276,7 @@ public class Game {
                         discardedCards.get(clientID).add(card);
                     } else { // if this is a damage card, put it into damage card piles
                         int curCountSpam = countSpamAllClients.get(clientID);
-                        countSpamAllClients.put(clientID, curCountSpam+1);
+                        countSpamAllClients.put(clientID, curCountSpam + 1);
 
                         if (card.getCardName().equals("Spam")) {
                             spamPile.push(card);
@@ -330,7 +355,7 @@ public class Game {
                         }
 
                         int curCountSpam = countSpamAllClients.get(clientID);
-                        countSpamAllClients.put(clientID, curCountSpam+1);
+                        countSpamAllClients.put(clientID, curCountSpam + 1);
 
                     }
                 }
@@ -386,6 +411,7 @@ public class Game {
 
     /**
      * creart and shuffle the deck of upgrade cards
+     *
      * @return
      */
     public Stack<UpgradeCard> getAndShuffleUndrawnDeck() {
@@ -454,6 +480,7 @@ public class Game {
 
     /**
      * execute the logical functions for the upgrade cards
+     *
      * @param clientID
      * @param card
      */
@@ -474,7 +501,7 @@ public class Game {
         // if out of board, reboot and clear the registers and remove from priorityList
         if (position.getX() < 0 || position.getX() > 12 || position.getY() < 0 || position.getY() > 9) {
             System.out.println("not on board anymore");
-            clientsOnBoard.put(clientID,false);
+            clientsOnBoard.put(clientID, false);
             if (position.getX() >= 3) {
                 reboot(clientID, new Position(rebootPosition.getX(), rebootPosition.getY()), false);
             } else if (position.getX() < 3) {
@@ -630,9 +657,9 @@ public class Game {
                     iterator.remove();
                     reboot(client, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()), true);
                 }
-                if(obj.getClass().getSimpleName().equals("ConveyorBelt")){
-                    obj.doBoardFunction(client,obj);
-                    if(clientsOnBoard.get(client) == false){
+                if (obj.getClass().getSimpleName().equals("ConveyorBelt")) {
+                    obj.doBoardFunction(client, obj);
+                    if (clientsOnBoard.get(client) == false) {
                         iterator.remove();
                     }
                 }
@@ -832,6 +859,7 @@ public class Game {
 
     /**
      * calculate the shooting line and check if there are other robots in the line
+     *
      * @throws IOException
      */
     public void robotShoot() throws IOException {
@@ -847,12 +875,12 @@ public class Game {
                     }
                     break;
                 case DOWN:
-                    for (int i = botY+1; i < 10; i++) {
+                    for (int i = botY + 1; i < 10; i++) {
                         checkHit(botX, i);
                     }
                     break;
                 case RIGHT:
-                    for (int i = botX+1; i < 13; i++) {
+                    for (int i = botX + 1; i < 13; i++) {
                         checkHit(i, botY);
                     }
                     break;
@@ -867,6 +895,7 @@ public class Game {
 
     /**
      * check if there are other robots in the shooting line
+     *
      * @param x
      * @param y
      * @throws IOException

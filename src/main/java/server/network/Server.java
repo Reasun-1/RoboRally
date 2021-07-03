@@ -279,6 +279,22 @@ public class Server {
     }
 
     /**
+     * for map twister, send the locations of all 4 checkpoints
+     */
+    public void handleCheckpointsLocations() throws IOException {
+        for (int i = 0; i < 4; i++) {
+            int[] location = Game.movingCheckpoints.get(i + 1);
+            int x = location[0];
+            int y = location[1];
+
+            Protocol protocol = new Protocol("CheckpointMoved", new CheckpointMovedBody(i + 1, x, y));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            makeOrderToAllClients(json);
+        }
+    }
+
+    /**
      * inform all players, which phase is on
      * @param phase
      */

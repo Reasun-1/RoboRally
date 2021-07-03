@@ -597,6 +597,19 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static CheckpointMovedBody readJsonCheckpointMoved(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CheckpointMovedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CheckpointMovedBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
