@@ -668,6 +668,18 @@ public class Game {
                 }
             }
         }
+
+        if(mapName.equals("Twister")){
+            for(int checkpoint : movingCheckpoints.keySet()){
+                int[] location = movingCheckpoints.get(checkpoint);
+                int curX = location[0];
+                int curY = location[1];
+                FeldObject feldObject = board.get(curX).get(curY).get(0);
+                ConveyorBelt belt = (ConveyorBelt)feldObject;
+                belt.moveCheckpoints(checkpoint, belt);
+            }
+            Server.getServer().handleCheckpointsLocations();
+        }
     }
 
     /**
