@@ -33,11 +33,14 @@ public class UpgradeShopController {
     @FXML
     private Button finishButton;
     @FXML
+    private Button btnAdmin, btnSpam, btnLaser, btnMemory;
+    @FXML
     private ImageView adminPrivilege, spamBlocker, rearLaser, memorySwap;
     @FXML
     private Label adminKosten, spamKosten, rearKosten, memoryKosten;
     @FXML
-    private Label energyNow;
+    private Label energyNow, chosenUpgrade;
+
 
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
@@ -49,10 +52,12 @@ public class UpgradeShopController {
 
     public void init(Client client) {
         this.client = client;
+
         mediaPlayer.play();
         mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
 
+        //set the labels 0
         adminKosten.textProperty().set(String.valueOf(0));
         rearKosten.textProperty().set(String.valueOf(0));
         spamKosten.textProperty().set(String.valueOf(0));
@@ -61,40 +66,75 @@ public class UpgradeShopController {
         //binds count of energy cubes
         energyNow.textProperty().bindBidirectional(client.energyCountProperty());
 
-        /*
-        for(String availableUpgrade : client.availableUpgradesCards) {
-            switch (availableUpgrade) {
-                case "AdminPrivilege":
-                    adminKosten.textProperty().set(adminKosten + client.availableUpgradesCards.get(+1));
-                    break;
-                case "RealLaser":
-                    rearKosten.textProperty().set(rearKosten + client.availableUpgradesCards.get(+1));
-                    break;
-                case "SpamBlocker":
-                    spamKosten.textProperty().set(spamKosten + client.availableUpgradesCards.get(+1));
-                    break;
-                case "MemorySwap":
-                    memoryKosten.textProperty().set(memoryKosten + client.availableUpgradesCards.get(+1));
-                    break;
-            }
-
-        } */
+        //binds
+        finishButton.disableProperty().bind(chosenUpgrade.textProperty().isEmpty());
     }
 
 
     /**
-     * Method creates a new event where another scene(window)
-     * is opened after pressing the "start" Button on login window
+     * Method set the text "AdminPrivilige" in the textfield by press the button of this upgradecard.
      * @param event
+     * @throws JsonProcessingException
      */
-        /*
     @FXML
-    private void noSelectionClicked(ActionEvent event) throws JsonProcessingException {
+    private void adminAction(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("AdminPrivilege");
+    }
+    /**
+     * Method set the text "SpamBlocker" in the textfield by press the button of this upgradecard.
+     * @param event
+     * @throws JsonProcessingException
+     */
+    @FXML
+    private void spamAction(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("SpamBlocker");
+    }
+    /**
+     * Method set the text "RealLaser" in the textfield by press the button of this upgradecard.
+     * @param event
+     * @throws JsonProcessingException
+     */
+    @FXML
+    private void laserAction(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("RealLaser");
+    }
+    /**
+     * Method set the text "MemorySwap" in the textfield by press the button of this upgradecard.
+     * @param event
+     * @throws JsonProcessingException
+     */
+    @FXML
+    private void memoryAction(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("MemorySwap");
+    }
+
+    /**
+     * Method creates a new event where another scene(window)
+     * is opened after pressing the "finish"-Button on Upgrade Shop
+     * @param event
+     * @throws JsonProcessingException
+     */
+    @FXML
+    private void finishAction(ActionEvent event) throws JsonProcessingException {
+        Stage stage = (Stage) finishButton.getScene().getWindow();
+        client.handleBuyUpgrade(chosenUpgrade.getText());
+        stage.close();
+    }
+
+    /**
+     * Method creates a new event where another scene(window)
+     * is opened after pressing the "noSelection"-Button on Upgrade Shop
+     * @param event
+     * @throws JsonProcessingException
+     */
+    @FXML
+    private void noSelectionAction(ActionEvent event) throws JsonProcessingException {
         Stage stage = (Stage) noSelection.getScene().getWindow();
+        client.handleBuyUpgrade(null);
         //client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         //client.s
         stage.close();
-    } */
-
-
     }
+
+
+}

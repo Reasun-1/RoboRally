@@ -577,11 +577,12 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
-                                    //LAUNCHER.launchUpgradeShop(client);
-                                    System.out.println(availableUpgradesCards);
+                                    LAUNCHER.launchUpgradeShop(client);
+                                    //System.out.println(availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
+                                    /*
                                     if(availableUpgradesCards.contains("AdminPrivilege")){
                                         handleBuyUpgrade("AdminPrivilege");
                                     }else if(availableUpgradesCards.contains("MemorySwap")){
@@ -590,7 +591,7 @@ public class Client extends Application {
                                         handleBuyUpgrade("RealLaser");
                                     }else if(availableUpgradesCards.contains("SpamBlocker")){
                                         handleBuyUpgrade("SpamBlocker");
-                                    }
+                                    }*/
                                 }
 
                             } else {
