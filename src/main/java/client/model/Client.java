@@ -1198,6 +1198,23 @@ public class Client extends Application {
             // update my upgrade cards in Chat&Game
             int curCount = myUpgradesCards.get(upCardName);
             myUpgradesCards.put(upCardName, curCount+1);
+
+            // buy max.3 cards each type
+            if(myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3){
+                if(myUpgradesCards.get("AdminPrivilege") > 0){
+                    myUpgradesCards.put("AdminPrivilege", myUpgradesCards.get("AdminPrivilege")-1);
+                }else if(myUpgradesCards.get("RealLaser") > 0){
+                    myUpgradesCards.put("RealLaser", myUpgradesCards.get("RealLaser")-1);
+                }
+            }else if(myUpgradesCards.get("MemorySwap") + myUpgradesCards.get("SpamBlocker") > 3){
+                if(myUpgradesCards.get("SpamBlocker") > 0){
+                    myUpgradesCards.put("SpamBlocker", myUpgradesCards.get("SpamBlocker")-1);
+                }else if(myUpgradesCards.get("MemorySwap") > 0){
+                    myUpgradesCards.put("MemorySwap", myUpgradesCards.get("MemorySwap")-1);
+                }
+            }
+
+
             flagMyUpgrades.set(flagMyUpgrades.get()+1);
         }
     }
