@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -41,6 +42,13 @@ public class UpgradeShopController {
     @FXML
     private Label energyNow, chosenUpgrade;
 
+    //====================CardsBindings===================================
+    Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
+    Image adminUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeAdmin.jpg").toExternalForm());
+    Image laserUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeBlocker.jpg").toExternalForm());
+    Image spamUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeLaser.jpg").toExternalForm());
+    Image memoryUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeMemory.jpg").toExternalForm());
+
 
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
@@ -68,6 +76,19 @@ public class UpgradeShopController {
 
         //binds
         finishButton.disableProperty().bind(chosenUpgrade.textProperty().isEmpty());
+
+        List<String> upgradeCards = client.availableUpgradesCards;
+        for (String cards : upgradeCards) {
+            if (upgradeCards.contains(cards = "AdminPrivilege")) {
+                adminKosten.textProperty().set((String.valueOf(+ 1)));
+            } else if (upgradeCards.contains(cards = "RealLaser")) {
+                rearKosten.textProperty().set((String.valueOf(+ 1)));
+            } else if (upgradeCards.contains(cards = "MemorySwap")) {
+                memoryKosten.textProperty().set((String.valueOf(+ 1)));
+            } else if (upgradeCards.contains(cards = "SpamBlocker")) {
+                spamKosten.textProperty().set((String.valueOf(+ 1)));
+            }
+        }
     }
 
 
