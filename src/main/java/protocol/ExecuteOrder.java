@@ -337,23 +337,26 @@ public class ExecuteOrder {
                 BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
                 String boughtCardString = buyUpgradeBody.getCard();
 
+                if(boughtCardString != null){// when really bought a upgrade card
 
-                //update info in Game
-                int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
-                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
+                    //update info in Game
+                    int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
+                    Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
 
-                //inform all the clients this info
-                Server.getServer().handleUpgradeBought(clientID, boughtCardString);
+                    //inform all the clients this info
+                    Server.getServer().handleUpgradeBought(clientID, boughtCardString);
 
-                //check if all clients finished buying
-                Game.buyUpgradeCardsFinished.add(clientID);
-                if (Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()) {
-                    Server.getServer().handleActivePhase(2);
-                    activePhase = 2;
-                    Server.getServer().handleYourCards();
-                } else {// else inform next player to buy upgrade card
-                    int curClient = Game.priorityEachTurn.get(0);
-                    Server.getServer().handleCurrentPlayer(curClient);
+                    //check if all clients finished buying
+                    Game.buyUpgradeCardsFinished.add(clientID);
+                    if (Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()) {
+                        Server.getServer().handleActivePhase(2);
+                        activePhase = 2;
+                        Server.getServer().handleYourCards();
+                    } else {// else inform next player to buy upgrade card
+                        int curClient = Game.priorityEachTurn.get(0);
+                        Server.getServer().handleCurrentPlayer(curClient);
+                    }
+
                 }
                 break;
         }
