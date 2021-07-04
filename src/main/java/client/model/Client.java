@@ -590,7 +590,7 @@ public class Client extends Application {
                                     INFORMATION.set("Now you can purchase upgrade cards!");
                                     //===launch upgrade shop window====
                                     //LAUNCHER.launchUpgradeShop(client);
-                                    System.out.println(availableUpgradesCards);
+                                    System.out.println("current upgradeShop: "+availableUpgradesCards);
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
@@ -832,6 +832,8 @@ public class Client extends Application {
                         case "RefillShop":
                             RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
                             List<String> upCards = refillShopBody.getCards();
+                            // clear last round cards in list of availableUpgradesCards
+                            availableUpgradesCards.clear();
                             for(String upCard : upCards){
                                 availableUpgradesCards.add(upCard);
                             }
