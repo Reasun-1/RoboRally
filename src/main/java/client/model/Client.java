@@ -7,6 +7,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
@@ -17,7 +18,7 @@ import server.game.Register;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 /**
  * Client class is responsible for the connection to the server and for storing the properties connected with the GUI.

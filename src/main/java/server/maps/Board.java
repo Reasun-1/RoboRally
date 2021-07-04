@@ -1,10 +1,11 @@
 package server.maps;
 
+import org.apache.log4j.Logger;
 import server.feldobjects.*;
 import server.game.Game;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+
 
 /**
  * @author Jonas Gottal

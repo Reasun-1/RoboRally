@@ -1,5 +1,6 @@
 package protocol;
 
+import org.apache.log4j.Logger;
 import protocol.submessagebody.*;
 import server.game.Direction;
 import server.game.Game;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 
 /**

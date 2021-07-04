@@ -1,6 +1,7 @@
 package server.network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.game.Game;
@@ -13,7 +14,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.Logger;
+
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());

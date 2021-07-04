@@ -2,6 +2,7 @@ package ai;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Platform;
+import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
@@ -17,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.Logger;
+
 
 /**
  * @author can ren

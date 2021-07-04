@@ -1,6 +1,7 @@
 package server.game;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apache.log4j.Logger;
 import protocol.ExecuteOrder;
 import server.feldobjects.*;
 import server.maps.Board;
@@ -11,7 +12,7 @@ import server.upgradecards.*;
 //import javax.print.attribute.IntegerSyntax;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
+
 //import java.util.zip.CheckedInputStream;
 
 public class Game {
