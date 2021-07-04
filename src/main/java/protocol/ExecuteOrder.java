@@ -340,8 +340,11 @@ public class ExecuteOrder {
                 if(boughtCardString != null){// when really bought a upgrade card
 
                     //update info in Game
-                    int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
-                    Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
+                    //int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
+                    //Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
+                    if(boughtCardString.equals("RealLaser")){
+                        Game.realLaserAllClients.put(clientID, true);
+                    }
 
                     //inform all the clients this info
                     Server.getServer().handleUpgradeBought(clientID, boughtCardString);

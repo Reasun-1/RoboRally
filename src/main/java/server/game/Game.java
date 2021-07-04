@@ -61,6 +61,8 @@ public class Game {
     public static HashMap<Integer, Integer> countSpamAllClients = new HashMap<>();
     // storage for moving checkpoints: key=checkpointNum value=[x,y]
     public static HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
+    // checking who has UpgradeCard RealLaser: key=clientID value=true for has RealLaser
+    public static HashMap<Integer, Boolean> realLaserAllClients = new HashMap<>();
 
     /**
      * constructor Game:
@@ -129,6 +131,9 @@ public class Game {
             initUpgrades.put(new AdminPrivilege().getCardName(), 0);
             initUpgrades.put(new SpamBlocker().getCardName(), 0);
             upgradesCardsAllClients.put(client, initUpgrades);
+
+            // init the RealLaser list
+            realLaserAllClients.put(client, false);
 
             // inti count of spam cards for each cleint
             countSpamAllClients.put(client, 0);
@@ -869,6 +874,28 @@ public class Game {
 
     }
 
+    public List<String> drawThreeCards(){
+        List<String> threeCards = new ArrayList<>();
+        threeCards.add("MoveII");
+        threeCards.add("PowerUp");
+        threeCards.add("TurnRight");
+        return threeCards;
+    }
+
+    public Stack<RegisterCard> drawTempDeck(){
+        Stack<RegisterCard> tempDeck = new Stack<>();
+        tempDeck.push(new TurnRight());
+        tempDeck.push(new MoveI());
+        tempDeck.push(new MoveIII());
+        tempDeck.push(new MoveII());
+        tempDeck.push(new TurnLeft());
+        tempDeck.push(new UTurn());
+        tempDeck.push(new BackUp());
+        tempDeck.push(new PowerUp());
+        tempDeck.push(new Again());
+        return tempDeck;
+    }
+
     /**
      * calculate the shooting line and check if there are other robots in the line
      *
@@ -885,20 +912,44 @@ public class Game {
                     for (int i = 0; i < botY; i++) {
                         checkHit(botX, i);
                     }
+                    // for the realLaser robot, shoot also to behind
+                    if(realLaserAllClients.get(bot) == true){
+                        for (int i = botY + 1; i < 10; i++) {
+                            checkHit(botX, i);
+                        }
+                    }
                     break;
                 case DOWN:
                     for (int i = botY + 1; i < 10; i++) {
                         checkHit(botX, i);
+                    }
+                    // for the realLaser robot, shoot also to behind
+                    if(realLaserAllClients.get(bot) == true){
+                        for (int i = 0; i < botY; i++) {
+                            checkHit(botX, i);
+                        }
                     }
                     break;
                 case RIGHT:
                     for (int i = botX + 1; i < 13; i++) {
                         checkHit(i, botY);
                     }
+                    // for the realLaser robot, shoot also to behind
+                    if(realLaserAllClients.get(bot) == true){
+                        for (int i = 0; i < botX; i++) {
+                            checkHit(i, botY);
+                        }
+                    }
                     break;
                 case LEFT:
                     for (int i = 0; i < botX; i++) {
                         checkHit(i, botY);
+                    }
+                    // for the realLaser robot, shoot also to behind
+                    if(realLaserAllClients.get(bot) == true){
+                        for (int i = 0; i < botX; i++) {
+                            checkHit(i, botY);
+                        }
                     }
                     break;
             }

@@ -46,16 +46,7 @@ public class SpamBlocker extends UpgradeCard{
 
         System.out.println("count spam in game: " + countNewcardForSpam);
 
-        Stack<RegisterCard> tempDeck = new Stack<>();
-        tempDeck.push(new TurnRight());
-        tempDeck.push(new MoveI());
-        tempDeck.push(new MoveIII());
-        tempDeck.push(new MoveII());
-        tempDeck.push(new TurnLeft());
-        tempDeck.push(new UTurn());
-        tempDeck.push(new BackUp());
-        tempDeck.push(new PowerUp());
-        tempDeck.push(new Again());
+        Stack<RegisterCard> tempDeck = Game.getInstance().drawTempDeck();
 
         List<String> newCards = new ArrayList<>();
 

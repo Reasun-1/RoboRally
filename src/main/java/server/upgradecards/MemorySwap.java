@@ -39,10 +39,7 @@ public class MemorySwap extends UpgradeCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         System.out.println("DO UPGRADE MEMORY FUNCTION");
-        List<String> threeCards = new ArrayList<>();
-        threeCards.add("MoveII");
-        threeCards.add("PowerUp");
-        threeCards.add("TurnRight");
+        List<String> threeCards = Game.getInstance().drawThreeCards();
         Server.getServer().handleMemorySwap(clientID, threeCards);
     }
 
