@@ -15,6 +15,9 @@ import java.util.*;
 
 //import java.util.zip.CheckedInputStream;
 
+/**
+ * The type Game.
+ */
 public class Game {
 
     private static final Logger logger = Logger.getLogger(Game.class.getName());
@@ -23,8 +26,9 @@ public class Game {
     int energyBank; // total common energy cubes for the game
 
 
-    //==========================================================================
+//==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
+
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
     public static List<List<List<FeldObject>>> board = new ArrayList<>(); // selected map
@@ -58,6 +62,7 @@ public class Game {
     //key=clientID value=(key=UpgradeCardName value=count of this card)
     public static HashMap<Integer, HashMap<String, Integer>> upgradesCardsAllClients = new HashMap<>();
     public static List<Integer> buyUpgradeCardsFinished = new ArrayList<>(); // clientID who finished buying upgrade cards
+
     // count of the SpamCards each round; key=cleintID value=count of Spam Cards
     public static HashMap<Integer, Integer> countSpamAllClients = new HashMap<>();
     // storage for moving checkpoints: key=checkpointNum value=[x,y]
@@ -222,7 +227,7 @@ public class Game {
     /**
      * invoked fom "MapSelected" in ExecuteOrder
      *
-     * @param mapName
+     * @param mapName the map name
      */
     public void setMap3DList(String mapName) {
         logger.info("Game sets map.");
@@ -256,7 +261,8 @@ public class Game {
      * key = clientID, value = list of undrawn cards
      * convert undrawn cards from object to Strings for server
      *
-     * @return
+     * @return hash map
+     * @throws IOException the io exception
      */
     public HashMap<Integer, List<String>> gameHandleYourCards() throws IOException {
         // before new storage for count, clear the count
@@ -397,8 +403,8 @@ public class Game {
     /**
      * shuffle undrawn deck
      *
-     * @param cards
-     * @return
+     * @param cards the cards
+     * @return list
      */
     public List<RegisterCard> shuffleUndrawnDeck(List<RegisterCard> cards) {
 
@@ -416,9 +422,9 @@ public class Game {
     }
 
     /**
-     * creart and shuffle the deck of upgrade cards
+     * create and shuffle the deck of upgrade cards
      *
-     * @return
+     * @return and shuffle undrawn deck
      */
     public Stack<UpgradeCard> getAndShuffleUndrawnDeck() {
 
@@ -458,7 +464,14 @@ public class Game {
         Antenna.calculateDistances();
     }
 
-    // help function to remove one client from a list
+    /**
+     * Remove one client from list list.
+     *
+     * @param list     the list
+     * @param clientID the client id
+     * @return the list
+     */
+// help function to remove one client from a list
     public static List<Integer> removeOneClientFromList(List<Integer> list, int clientID) {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -473,8 +486,9 @@ public class Game {
     /**
      * execute the logical functions for the played card
      *
-     * @param clientID
-     * @param card
+     * @param clientID the client id
+     * @param card     the card
+     * @throws IOException the io exception
      */
     public void playCard(int clientID, RegisterCard card) throws IOException {
         // if no card played, skip
@@ -487,8 +501,9 @@ public class Game {
     /**
      * execute the logical functions for the upgrade cards
      *
-     * @param clientID
-     * @param card
+     * @param clientID the client id
+     * @param card     the card
+     * @throws IOException the io exception
      */
     public void playUpgradeCard(int clientID, UpgradeCard card) throws IOException {
         card.doCardFunction(clientID);
@@ -497,9 +512,10 @@ public class Game {
     /**
      * check if a client´s position out of board
      *
-     * @param clientID
-     * @param position
-     * @return
+     * @param clientID the client id
+     * @param position the position
+     * @return boolean
+     * @throws IOException the io exception
      */
     public boolean checkOnBoard(int clientID, Position position) throws IOException {
         System.out.println("Game checks onBoard.");
@@ -519,6 +535,14 @@ public class Game {
         return true;
     }
 
+    /**
+     * Check on board from belt boolean.
+     *
+     * @param clientID the client id
+     * @param position the position
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public boolean checkOnBoardFromBelt(int clientID, Position position) throws IOException {
         System.out.println("Game checks onBoard.");
         System.out.println("new position: " + position.getX() + "-" + position.getY());
@@ -540,7 +564,10 @@ public class Game {
     /**
      * if one player out of board, reboot
      *
-     * @param clientID
+     * @param clientID the client id
+     * @param position the position
+     * @param fromPit  the from pit
+     * @throws IOException the io exception
      */
     public void reboot(int clientID, Position position, boolean fromPit) throws IOException {
         // got a spam card
@@ -603,8 +630,8 @@ public class Game {
     /**
      * set reboot direction to nord
      *
-     * @param clientID
-     * @throws IOException
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void setRebootDirectonToNord(int clientID) throws IOException {
         Direction direction = directionsAllClients.get(clientID);
@@ -628,7 +655,8 @@ public class Game {
      * if the priority list is empty, there is no more client to play in this turn
      * then this turn is over, reset priority
      *
-     * @return
+     * @return boolean
+     * @throws IOException the io exception
      */
     public boolean checkTurnOver() throws IOException {
         logger.info("Game checks turn over");
@@ -648,6 +676,8 @@ public class Game {
 
     /**
      * soon: with robot laser also
+     *
+     * @throws IOException the io exception
      */
     public void activeBoardElements() throws IOException {
 
@@ -691,7 +721,7 @@ public class Game {
     /**
      * check if all the register slots have been played
      *
-     * @return
+     * @return boolean
      */
     public boolean checkRoundOver() {
         logger.info("Game checks round over" + registerPointer);
@@ -735,8 +765,8 @@ public class Game {
      * for Dizzy Highway, if someone arrived at checkpoint, game is finished
      * soon: adjust for other game maps
      *
-     * @return
-     * @throws IOException
+     * @return boolean
+     * @throws IOException the io exception
      */
     public boolean checkGameOver() throws IOException {
         logger.info("Game checks game over.");
@@ -754,7 +784,9 @@ public class Game {
     /**
      * check if one field hat a wall, if has, return the orientation of the wall
      *
-     * @return
+     * @param row    the row
+     * @param column the column
+     * @return string
      */
     public String checkWall(int row, int column) {
         logger.info("Game checks wall on board for move");
@@ -771,9 +803,10 @@ public class Game {
     /**
      * check if there are other robots who stand in the way
      *
-     * @param x
-     * @param y
-     * @return
+     * @param whoChecks the who checks
+     * @param x         the x
+     * @param y         the y
+     * @return int
      */
     public int checkOtherRobot(int whoChecks, int x, int y) {
         for (int client : playerPositions.keySet()) {
@@ -789,9 +822,9 @@ public class Game {
     /**
      * for the robot, which is pushed
      *
-     * @param client
-     * @param pushedPo
-     * @throws IOException
+     * @param client   the client
+     * @param pushedPo the pushed po
+     * @throws IOException the io exception
      */
     public void checkAndSetPushedPosition(int client, Position pushedPo) throws IOException {
         // check if robot is still on board
@@ -806,6 +839,8 @@ public class Game {
 
     /**
      * if the client is offline, should be removed from game
+     *
+     * @param clientId the client id
      */
     public void removePlayer(int clientId) {
         for (int i = 0; i < activePlayersList.size(); i++) {
@@ -875,6 +910,11 @@ public class Game {
 
     }
 
+    /**
+     * Draw three cards list.
+     *
+     * @return the list
+     */
     public List<String> drawThreeCards(){
         List<String> threeCards = new ArrayList<>();
         threeCards.add("MoveII");
@@ -883,6 +923,11 @@ public class Game {
         return threeCards;
     }
 
+    /**
+     * Draw temp deck stack.
+     *
+     * @return the stack
+     */
     public Stack<RegisterCard> drawTempDeck(){
         Stack<RegisterCard> tempDeck = new Stack<>();
         tempDeck.push(new TurnRight());
@@ -900,7 +945,7 @@ public class Game {
     /**
      * calculate the shooting line and check if there are other robots in the line
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public void robotShoot() throws IOException {
         for (int bot : activePlayersList) {
@@ -960,9 +1005,9 @@ public class Game {
     /**
      * check if there are other robots in the shooting line
      *
-     * @param x
-     * @param y
-     * @throws IOException
+     * @param x the x
+     * @param y the y
+     * @throws IOException the io exception
      */
     public void checkHit(int x, int y) throws IOException {
         for (int clt : activePlayersList) {
