@@ -1,8 +1,9 @@
 package client.viewmodel;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Chat view model.
+ *
+ * @author can Ren
  */
 public class ChatViewModel {
 }
