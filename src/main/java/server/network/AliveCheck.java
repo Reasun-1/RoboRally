@@ -2,27 +2,38 @@ package server.network;
 
 import org.apache.log4j.Logger;
 import protocol.ExecuteOrder;
-import server.game.Timer;
 
 import java.io.IOException;
 
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Alive check.
+ *
+ * @author Can Ren
  */
 public class AliveCheck implements Runnable {
 
     private static final Logger logger = Logger.getLogger(AliveCheck.class.getName());
 
-    // set every 5 second updates
+    /**
+     * The Time interval.
+     */
+// set every 5 second updates
     final long timeInterval = 10000;
 
-    // flag for end alive check
+    /**
+     * The Flag alive check.
+     */
+// flag for end alive check
     public boolean flagAliveCheck = true;
 
     private int client;
 
+    /**
+     * Instantiates a new Alive check.
+     *
+     * @param client the client
+     */
     public AliveCheck(int client) {
         this.client = client;
     }

@@ -1,6 +1,5 @@
 package server.network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
@@ -16,17 +15,32 @@ import java.net.Socket;
 import java.util.*;
 
 
+/**
+ * The type Server.
+ */
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private final static Server server = new Server();
-    // a map for player index in the game: key = playerIndex, value = clientID
+    /**
+     * The constant playerList.
+     */
+// a map for player index in the game: key = playerIndex, value = clientID
     protected static Hashtable<Integer, Integer> playerList = new Hashtable<>();
-    // a map for the accepted ServerThreads: key = clientID, value = ServerThread
+    /**
+     * The constant clientList.
+     */
+// a map for the accepted ServerThreads: key = clientID, value = ServerThread
     public static final LinkedHashMap<Integer, ServerThread> clientList = new LinkedHashMap<>();
-    // for set start point in aufbauPhase
+    /**
+     * The constant clientListPointer.
+     */
+// for set start point in aufbauPhase
     public static int clientListPointer = 0;
-    // the clientsID to distribute, soon in random 100 numbers
+    /**
+     * The constant clientIDsPool.
+     */
+// the clientsID to distribute, soon in random 100 numbers
     public static final Stack<Integer> clientIDsPool = new Stack<>(){{
         push(42);
         push(25);
@@ -37,15 +51,26 @@ public class Server {
         push(33);
     }};
 
-    // map for clientID - clientName : key = clientID, value = clientName: (give new clients infos of previous players)
+    /**
+     * The constant clientIDUndNames.
+     */
+// map for clientID - clientName : key = clientID, value = clientName: (give new clients infos of previous players)
     public static final HashMap<Integer, String> clientIDUndNames = new HashMap<>();
-    // map for clientID - robotFigure : key = clientID, value = robotNum: (give new clients infos of previous players)
+    /**
+     * The constant clientIDUndRobots.
+     */
+// map for clientID - robotFigure : key = clientID, value = robotNum: (give new clients infos of previous players)
     public static final HashMap<Integer, Integer> clientIDUndRobots = new HashMap<>();
-    // map for clientID- isReady : key = clientID, value = isReady: (give new clients infos of previous players)
+    /**
+     * The constant clientIDUndReady.
+     */
+// map for clientID- isReady : key = clientID, value = isReady: (give new clients infos of previous players)
     public static final LinkedHashMap<Integer, Boolean> clientIDUndReady = new LinkedHashMap<>();
-    // list for clients who are ready: (give new clients infos for previous players)
+    /**
+     * The constant playersWhoAreReady.
+     */
+// list for clients who are ready: (give new clients infos for previous players)
     public static List<Integer> playersWhoAreReady = new ArrayList<>();
-
 
 
     /**
@@ -56,6 +81,7 @@ public class Server {
 
     /**
      * Singleton access on server
+     *
      * @return server instance
      */
     public static Server getServer() {
@@ -65,9 +91,9 @@ public class Server {
 
     /**
      * main thread for server class
-     * @param args
+     *
+     * @param args the input arguments
      */
-
     public static void main(String[] args) {
         try {
             Server server = new Server();
@@ -78,10 +104,10 @@ public class Server {
     }
 
 
-
     /**
      * Start the Server socket and listen for incoming connections
-     * @throws IOException
+     *
+     * @throws IOException the io exception
      */
     public void start() throws IOException {
         // create the server and define the port nr.
@@ -111,6 +137,10 @@ public class Server {
 
     /**
      * send a message to a particular client
+     *
+     * @param to      the to
+     * @param from    the from
+     * @param message the message
      */
     public void sendTo(int to,int from, String message) {
         //send message to Client clientName
@@ -126,7 +156,9 @@ public class Server {
 
     /**
      * server sends message to all clients
-     * @param message
+     *
+     * @param from    the from
+     * @param message the message
      */
     public void sendMessageToAll(int from, String message) {
         try {
@@ -145,8 +177,9 @@ public class Server {
 
     /**
      * send json to all clients
-     * @param json
-     * @throws IOException
+     *
+     * @param json the json
+     * @throws IOException the io exception
      */
     public void makeOrderToAllClients(String json) throws IOException {
         synchronized (clientList) {
@@ -159,9 +192,10 @@ public class Server {
 
     /**
      * send json to one client
-     * @param targetClientID
-     * @param json
-     * @throws IOException
+     *
+     * @param targetClientID the target client id
+     * @param json           the json
+     * @throws IOException the io exception
      */
     public void makeOrderToOneClient(int targetClientID, String json) throws IOException {
         if(clientList.containsKey(targetClientID)){
@@ -171,6 +205,10 @@ public class Server {
 
     /**
      * transmit an error to the client
+     *
+     * @param clientID the client id
+     * @param message  the message
+     * @throws IOException the io exception
      */
     public void exception(int clientID, String message) throws IOException {
         Protocol protocol = new Protocol("Error", new ErrorBody(message));
@@ -180,7 +218,9 @@ public class Server {
 
     /**
      * check all players online
-     * @throws IOException
+     *
+     * @param client the client
+     * @throws IOException the io exception
      */
     public void handleAlive(int client) throws IOException {
         Protocol protocol = new Protocol("Alive", null);
@@ -191,10 +231,11 @@ public class Server {
 
     /**
      * inform all the clients that one new player war added
-     * @param clientID
-     * @param clientName
-     * @param robotFigure
-     * @throws IOException
+     *
+     * @param clientID    the client id
+     * @param clientName  the client name
+     * @param robotFigure the robot figure
+     * @throws IOException the io exception
      */
     public void handlePlayerAddedToAll(int clientID, String clientName, int robotFigure) throws IOException {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
@@ -207,11 +248,12 @@ public class Server {
 
     /**
      * inform the new player about the infos of previous players in server
-     * @param targetClient
-     * @param clientID
-     * @param clientName
-     * @param robotFigure
-     * @throws IOException
+     *
+     * @param targetClient the target client
+     * @param clientID     the client id
+     * @param clientName   the client name
+     * @param robotFigure  the robot figure
+     * @throws IOException the io exception
      */
     public void handlePlayerAddedToOne(int targetClient, int clientID, String clientName, int robotFigure) throws IOException {
         Protocol protocol = new Protocol("PlayerAdded", new PlayerAddedBody(clientID, clientName, robotFigure));
@@ -222,9 +264,10 @@ public class Server {
 
     /**
      * inform all the clients that someone is ready to play
-     * @param clientID
-     * @param isReady
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @param isReady  the is ready
+     * @throws IOException the io exception
      */
     public void handlePlayerStatus(int clientID, boolean isReady) throws IOException {
         Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
@@ -235,10 +278,11 @@ public class Server {
 
     /**
      * inform the new player about the status of previous players in server
-     * @param targetClient
-     * @param clientID
-     * @param isReady
-     * @throws IOException
+     *
+     * @param targetClient the target client
+     * @param clientID     the client id
+     * @param isReady      the is ready
+     * @throws IOException the io exception
      */
     public void handlePlayerStatusToOne(int targetClient, int clientID, boolean isReady) throws IOException {
         Protocol protocol = new Protocol("PlayerStatus", new PlayerStatusBody(clientID, isReady));
@@ -249,8 +293,9 @@ public class Server {
 
     /**
      * inform the first ready client to select a map
-     * @param clientID
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void handleSelectMap(int clientID) throws IOException {
         ArrayList<String> mapList = new ArrayList<>();
@@ -267,8 +312,9 @@ public class Server {
 
     /**
      * give the map as 3D-List to all players to rebuild in GUI
-     * @param mapName
-     * @throws IOException
+     *
+     * @param mapName the map name
+     * @throws IOException the io exception
      */
     public void handleGameStarted(String mapName) throws IOException {
         // dummy map: soon with right maps
@@ -281,6 +327,8 @@ public class Server {
 
     /**
      * for map twister, send the locations of all 4 checkpoints
+     *
+     * @throws IOException the io exception
      */
     public void handleCheckpointsLocations() throws IOException {
         for (int i = 0; i < 4; i++) {
@@ -297,7 +345,9 @@ public class Server {
 
     /**
      * inform all players, which phase is on
-     * @param phase
+     *
+     * @param phase the phase
+     * @throws IOException the io exception
      */
     public void handleActivePhase(int phase) throws IOException {
         Protocol protocol = new Protocol("ActivePhase", new ActivePhaseBody(phase));
@@ -308,6 +358,9 @@ public class Server {
 
     /**
      * inform players who is the current player
+     *
+     * @param currentClientID the current client id
+     * @throws IOException the io exception
      */
     public void handleCurrentPlayer(int currentClientID) throws IOException {
         Protocol protocol = new Protocol("CurrentPlayer", new CurrentPlayerBody(currentClientID));
@@ -318,9 +371,11 @@ public class Server {
 
     /**
      * inform all clients who has chosen which start point
-     * @param clientID
-     * @param x
-     * @param y
+     *
+     * @param clientID the client id
+     * @param x        the x
+     * @param y        the y
+     * @throws IOException the io exception
      */
     public void handleStartingPointTaken(int clientID, int x, int y) throws IOException {
         Protocol protocol = new Protocol("StartingPointTaken", new StartingPointTakenBody(x, y, clientID));
@@ -331,6 +386,8 @@ public class Server {
 
     /**
      * distribute cards to each player privately
+     *
+     * @throws IOException the io exception
      */
     public void handleYourCards() throws IOException {
         HashMap<Integer, List<String>> cardsAllClients = Game.getInstance().gameHandleYourCards();
@@ -344,9 +401,10 @@ public class Server {
 
     /**
      * server handles new cards instead of damage cards for spamBlocker
-     * @param clientID
-     * @param newCards
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @param newCards the new cards
+     * @throws IOException the io exception
      */
     public void handleSpamBlocker(int clientID, List<String> newCards) throws IOException {
         Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
@@ -357,9 +415,10 @@ public class Server {
 
     /**
      * server gives three cards to the target client
-     * @param clientID
-     * @param newCards
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @param newCards the new cards
+     * @throws IOException the io exception
      */
     public void handleMemorySwap(int clientID, List<String> newCards) throws IOException {
         Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
@@ -370,9 +429,10 @@ public class Server {
 
     /**
      * for the situation that drawn cards deck hasn´t enough cards, redraw
-     * @param clientID
-     * @param newCards
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @param newCards the new cards
+     * @throws IOException the io exception
      */
     public void handleYourNewCards(int clientID, List<String> newCards) throws IOException {
         Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
@@ -383,7 +443,10 @@ public class Server {
 
     /**
      * inform others about how many card you have drawn
-     * @param yourID
+     *
+     * @param yourID        the your id
+     * @param numberOfCards the number of cards
+     * @throws IOException the io exception
      */
     public void handleNotYourCards(int yourID, int numberOfCards) throws IOException {
 
@@ -398,7 +461,9 @@ public class Server {
 
     /**
      * if undrawn deck has not enough cards, shuffle the discarded cards deck und draw the rest cards
-     * @param clientID
+     *
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void handleShuffleCoding(int clientID) throws IOException {
         Protocol protocol = new Protocol("ShuffleCoding", new ShuffleCodingBody(clientID));
@@ -409,10 +474,11 @@ public class Server {
 
     /**
      * inform all clients who has set/clear which register
-     * @param clientID
-     * @param registerNum
-     * @param isFilled
-     * @throws IOException
+     *
+     * @param clientID    the client id
+     * @param registerNum the register num
+     * @param isFilled    the is filled
+     * @throws IOException the io exception
      */
     public void handleCardSelected(int clientID, int registerNum, boolean isFilled) throws IOException {
         Protocol protocol = new Protocol("CardSelected", new CardSelectedBody(clientID, registerNum, isFilled));
@@ -423,7 +489,8 @@ public class Server {
 
     /**
      * as first clients finished programming, timer starts
-     * @throws IOException
+     *
+     * @throws IOException the io exception
      */
     public void handleTimerStarted() throws IOException {
         Protocol protocol = new Protocol("TimerStarted", null);
@@ -434,8 +501,9 @@ public class Server {
 
     /**
      * if some one did not finish when time is out, handle time ended
-     * @param clientsWhoNotFinished
-     * @throws IOException
+     *
+     * @param clientsWhoNotFinished the clients who not finished
+     * @throws IOException the io exception
      */
     public void handleTimerEnded(List<Integer> clientsWhoNotFinished) throws IOException {
         Protocol protocol = new Protocol("TimerEnded", new TimerEndedBody(clientsWhoNotFinished));
@@ -446,8 +514,9 @@ public class Server {
 
     /**
      * if some one did not finish in time, will get 5 random cards for register slots
-     * @param whoNotFinishedInTime
-     * @throws JsonProcessingException
+     *
+     * @param whoNotFinishedInTime the who not finished in time
+     * @throws IOException the io exception
      */
     public void handleCardsYouGotNow(List<Integer> whoNotFinishedInTime) throws IOException {
         for(int clientID : whoNotFinishedInTime){
@@ -472,6 +541,8 @@ public class Server {
 
     /**
      * inform about which cards are in current registers of all clients
+     *
+     * @throws IOException the io exception
      */
     public void handleCurrentCards() throws IOException {
         List<Register> list = new ArrayList<>();
@@ -498,8 +569,10 @@ public class Server {
 
     /**
      * inform others about which card was played by whom
-     * @param clientID
-     * @param cardName
+     *
+     * @param clientID the client id
+     * @param cardName the card name
+     * @throws IOException the io exception
      */
     public void handleCardPlayed(int clientID, String cardName) throws IOException {
         Protocol protocol = new Protocol("CardPlayed", new CardPlayedBody(clientID, cardName));
@@ -510,7 +583,9 @@ public class Server {
 
     /**
      * inform others about reboot client
-     * @param clientID
+     *
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void handleReboot(int clientID) throws IOException {
         Protocol protocol = new Protocol("Reboot", new RebootBody(clientID));
@@ -523,8 +598,9 @@ public class Server {
 
     /**
      * inform all clients game is finished
-     * @param clientID
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void handleGameFinished(int clientID) throws IOException {
         Protocol protocol = new Protocol("GameFinished", new GameFinishedBody(clientID));
@@ -536,10 +612,11 @@ public class Server {
 
     /**
      * inform all clients who has moved to where
-     * @param clientID
-     * @param toX
-     * @param toY
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @param toX      the to x
+     * @param toY      the to y
+     * @throws IOException the io exception
      */
     public void handleMovement(int clientID, int toX, int toY) throws IOException {
         Protocol protocol = new Protocol("Movement", new MovementBody(clientID, toX, toY));
@@ -551,9 +628,10 @@ public class Server {
 
     /**
      * inform all clients which player turns to which direction
-     * @param clientID
-     * @param turnDirection
-     * @throws IOException
+     *
+     * @param clientID      the client id
+     * @param turnDirection the turn direction
+     * @throws IOException the io exception
      */
     public void handlePlayerTurning(int clientID, String turnDirection) throws IOException {
         Protocol protocol = new Protocol("PlayerTurning", new PlayerTurningBody(clientID, turnDirection));
@@ -564,8 +642,10 @@ public class Server {
 
     /**
      * inform all clients who has drawn which damage cards
-     * @param clientID
-     * @throws IOException
+     *
+     * @param clientID         the client id
+     * @param drawnDamageCards the drawn damage cards
+     * @throws IOException the io exception
      */
     public void handleDrawDamage(int clientID, List<String> drawnDamageCards) throws IOException {
 
@@ -578,10 +658,11 @@ public class Server {
 
     /**
      * if damage card played, inform all clients which random card has be drawn
-     * @param register
-     * @param client
-     * @param cardName
-     * @throws IOException
+     *
+     * @param register the register
+     * @param client   the client
+     * @param cardName the card name
+     * @throws IOException the io exception
      */
     public void handleReplaceCard(int register, int client, String cardName) throws IOException {
         Protocol protocol = new Protocol("ReplaceCard", new ReplaceCardBody(register, cardName, client));
@@ -592,8 +673,9 @@ public class Server {
 
     /**
      * if connection loses, inform all clients
-     * @param clientID
-     * @throws IOException
+     *
+     * @param clientID the client id
+     * @throws IOException the io exception
      */
     public void handleConnectionUpdate(int clientID) throws IOException {
         Game.getInstance().removePlayer(clientID);
@@ -617,9 +699,11 @@ public class Server {
 
     /**
      * inform all clients who has got how many cubes
-     * @param client
-     * @param addNum
-     * @param source
+     *
+     * @param client the client
+     * @param addNum the add num
+     * @param source the source
+     * @throws IOException the io exception
      */
     public void handleEnergy(int client, int addNum, String source) throws IOException {
         Protocol protocol = new Protocol("Energy", new EnergyBody(client, addNum, source));
@@ -630,7 +714,9 @@ public class Server {
 
     /**
      * inform all players which map was selected
-     * @param mapName
+     *
+     * @param mapName the map name
+     * @throws IOException the io exception
      */
     public void handleMapSelected(String mapName) throws IOException {
         Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
@@ -641,6 +727,8 @@ public class Server {
 
     /**
      * after start point setted,
+     *
+     * @throws IOException the io exception
      */
     public void handleRefillShop() throws IOException {
         List<String> upgradeCardsString = new ArrayList<>();
@@ -657,9 +745,10 @@ public class Server {
 
     /**
      * inform all clients who bought which upgrade
-     * @param client
-     * @param boughtCard
-     * @throws IOException
+     *
+     * @param client     the client
+     * @param boughtCard the bought card
+     * @throws IOException the io exception
      */
     public void handleUpgradeBought(int client, String boughtCard) throws IOException {
         Protocol protocol = new Protocol("UpgradeBought", new UpgradeBoughtBody(client, boughtCard));

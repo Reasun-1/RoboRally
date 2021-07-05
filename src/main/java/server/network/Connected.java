@@ -2,14 +2,14 @@ package server.network;
 
 import org.apache.log4j.Logger;
 import protocol.ExecuteOrder;
-import server.game.Timer;
 
 import java.io.IOException;
 
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Connected.
+ *
+ * @author Can Ren
  */
 public class Connected implements Runnable{
 
@@ -19,15 +19,28 @@ public class Connected implements Runnable{
 
     private int client;
 
-    // flag for end or stop the connect check
+    /**
+     * The Flag connect.
+     */
+// flag for end or stop the connect check
     public boolean flagConnect;
 
-    // set every 15 second updates
+    /**
+     * The Time interval.
+     */
+// set every 15 second updates
     final long timeInterval = 15000;
+    /**
+     * The Count.
+     */
     int count = 0;
 
 
-
+    /**
+     * Instantiates a new Connected.
+     *
+     * @param client the client
+     */
     public Connected(int client) {
         this.client = client;
         flagConnect = false;
