@@ -98,14 +98,14 @@ public class WindowLauncher {
 
     public void launchUpgradeShop(Client client) throws IOException{
         Stage stage = new Stage();
-        stage.setTitle("Upgrade Shop");
+        stage.setTitle("Upgrade Shop for " + client.getClientID());
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/UpgradeShop.fxml"));
         Parent root = loader.load();
         UpgradeShopController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        stage.showAndWait();
+        stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
