@@ -7,7 +7,6 @@ import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
 import server.game.Direction;
-import server.game.Game;
 import server.game.Position;
 import server.game.Register;
 import server.network.Server;
@@ -21,9 +20,12 @@ import java.util.*;
 
 
 /**
- * @author can ren
+ * Our more refined AI: A dedicated client able to participate in the game by making logical Moves.
+ * The client plays the cards it gets in the order to get closer to the checkpoint, and trys to play
+ * Good Cards first and bad cards not at all (damage cards for example)
+ *
+ * @author Can Ren
  * @author Jonas Gottal
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class AITowardsCheckpoint implements Runnable{
 
@@ -59,8 +61,8 @@ public class AITowardsCheckpoint implements Runnable{
     // store the map name
     private String mapName = null;
     // store the available startPoints for the maps(death trap is different)
-    private HashSet<Position> avaibleStartsMaps = new HashSet<>();
-    private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
+    private HashSet<Position> availableStartsMaps = new HashSet<>();
+    private HashSet<Position> availableStartsMapTrap = new HashSet<>();
 
 
     private List<String> myCards = new ArrayList<>();
@@ -70,14 +72,26 @@ public class AITowardsCheckpoint implements Runnable{
     private int energyCount = 5;
     // store the positions of all checkpoints: key=checkpointNum, value=position
     private HashMap<Integer, Position> checkpointsPositions = new HashMap<>();
+    /**
+     * The Not available cards index.
+     */
     List<Integer> notAvailableCardsIndex = new ArrayList<>();
 
 
-
+    /**
+     * Sets active phase.
+     *
+     * @param activePhase the active phase
+     */
     public void setActivePhase(String activePhase) {
         this.activePhase = activePhase;
     }
 
+    /**
+     * Instantiates a new AI.
+     *
+     * @throws IOException the io exception
+     */
     // constructor for initializing KI
     public AITowardsCheckpoint() throws IOException {
 
@@ -127,7 +141,10 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * Execute an order from the server by checking the order code and calling the correct method
      *
-     * @throws IOException
+     * @param json the json
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     * @throws InterruptedException   the interrupted exception
      */
     public void executeOrder(String json) throws IOException, ClassNotFoundException, InterruptedException {
 
@@ -429,9 +446,9 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * send message to a certain person
      *
-     * @param to
-     * @param message
-     * @throws JsonProcessingException
+     * @param to      the to
+     * @param message the message
+     * @throws JsonProcessingException the json processing exception
      */
     public void sendPersonalMessage(int to, String message) throws JsonProcessingException {
         Protocol protocol = new Protocol("SendChat", new SendChatBody(message, to));
@@ -443,7 +460,8 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * Send message to the server, quit if logout order is given
      *
-     * @param message
+     * @param message the message
+     * @throws JsonProcessingException the json processing exception
      */
     public void sendMessage(String message) throws JsonProcessingException {
         // Check logout condition
@@ -474,6 +492,10 @@ public class AITowardsCheckpoint implements Runnable{
 
     /**
      * give the client name and robot figure to server
+     *
+     * @param clientName  the client name
+     * @param robotFigure the robot figure
+     * @throws JsonProcessingException the json processing exception
      */
     public void setPlayerValues(String clientName, int robotFigure) throws JsonProcessingException {
         Protocol protocol = new Protocol("PlayerValues", new PlayerValuesBody(clientName, robotFigure));
@@ -485,7 +507,7 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * client set status, update HashMap readyClients in client- and server- class
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void setReady() throws JsonProcessingException {
         readyClients.put(clientID, true);
@@ -498,7 +520,7 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * client set status unready, HashMap update readyClients in client- and server- class
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void setUnready() throws JsonProcessingException {
         readyClients.put(clientID, false);
@@ -509,12 +531,11 @@ public class AITowardsCheckpoint implements Runnable{
     }
 
 
-
     /**
      * invoked by client, who selects a map
      *
-     * @param mapName
-     * @throws JsonProcessingException
+     * @param mapName the map name
+     * @throws JsonProcessingException the json processing exception
      */
     public void handleMapSelected(String mapName) throws JsonProcessingException {
         Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
@@ -550,20 +571,23 @@ public class AITowardsCheckpoint implements Runnable{
         findCheckpoints();
 
         // inti available StartsPoints
-        avaibleStartsMaps.add(new Position(1,1));
-        avaibleStartsMaps.add(new Position(0,3));
-        avaibleStartsMaps.add(new Position(1,4));
-        avaibleStartsMaps.add(new Position(1,5));
-        avaibleStartsMaps.add(new Position(0,6));
-        avaibleStartsMaps.add(new Position(1,8));
-        avaibleStartsMapTrap.add(new Position(11,1));
-        avaibleStartsMapTrap.add(new Position(12,3));
-        avaibleStartsMapTrap.add(new Position(11,4));
-        avaibleStartsMapTrap.add(new Position(11,5));
-        avaibleStartsMapTrap.add(new Position(12,6));
-        avaibleStartsMapTrap.add(new Position(11,8));
+        availableStartsMaps.add(new Position(1,1));
+        availableStartsMaps.add(new Position(0,3));
+        availableStartsMaps.add(new Position(1,4));
+        availableStartsMaps.add(new Position(1,5));
+        availableStartsMaps.add(new Position(0,6));
+        availableStartsMaps.add(new Position(1,8));
+        availableStartsMapTrap.add(new Position(11,1));
+        availableStartsMapTrap.add(new Position(12,3));
+        availableStartsMapTrap.add(new Position(11,4));
+        availableStartsMapTrap.add(new Position(11,5));
+        availableStartsMapTrap.add(new Position(12,6));
+        availableStartsMapTrap.add(new Position(11,8));
     }
 
+    /**
+     * Rebuild map.
+     */
     public void rebuildMap() {
         //TODO: 3D-Boardelement-list convert to 2D-IntegerProperty-list
     }
@@ -571,11 +595,10 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * set start point to inform the server
      *
-     * @param x
-     * @param y
-     * @throws JsonProcessingException
+     * @param x the x
+     * @param y the y
+     * @throws IOException the io exception
      */
-
     public void setStartPoint(int x, int y) throws IOException {
         boolean isAvailable = checkStartPointAvailable(x, y);
         Protocol protocol = null;
@@ -585,12 +608,12 @@ public class AITowardsCheckpoint implements Runnable{
             int newX = 0;
             int newY = 0;
             if(mapName.equals("Death Trap")){
-                for(Position pos : avaibleStartsMapTrap){
+                for(Position pos : availableStartsMapTrap){
                     newX = pos.getX();
                     newY = pos.getY();
                 }
             }else{
-                for(Position po : avaibleStartsMaps){
+                for(Position po : availableStartsMaps){
                     newX = po.getX();
                     newY = po.getY();
                 }
@@ -604,43 +627,45 @@ public class AITowardsCheckpoint implements Runnable{
 
     /**
      * if the start position is taken, remove it from hashset
-     * @param x
-     * @param y
+     *
+     * @param x the x
+     * @param y the y
      */
     public void removeStartPointsInHashSet(int x, int y){
         HashSet<Position> toRemove = new HashSet<>();
         if(mapName.equals("Death Trap")){
-            for(Position p : avaibleStartsMapTrap){
+            for(Position p : availableStartsMapTrap){
                 if(p.getX() == x && p.getY() == y){
                     toRemove.add(p);
                 }
             }
-            avaibleStartsMapTrap.removeAll(toRemove);
+            availableStartsMapTrap.removeAll(toRemove);
         }else{
-            for(Position p : avaibleStartsMaps){
+            for(Position p : availableStartsMaps){
                 if(p.getX() == x && p.getY() == y){
                     toRemove.add(p);
                 }
             }
-            avaibleStartsMaps.removeAll(toRemove);
+            availableStartsMaps.removeAll(toRemove);
         }
     }
 
     /**
-     * check if the chosen start point is avaible
-     * @param x
-     * @param y
-     * @return
+     * check if the chosen start point is available
+     *
+     * @param x the x
+     * @param y the y
+     * @return boolean
      */
     public boolean checkStartPointAvailable(int x, int y){
         if(mapName.equals("Death Trap")){
-            for(Position p : avaibleStartsMapTrap){
+            for(Position p : availableStartsMapTrap){
                 if(p.getX() == x && p.getY() == y){
                     return true;
                 }
             }
         }else{
-            for(Position p : avaibleStartsMaps){
+            for(Position p : availableStartsMaps){
                 if(p.getX() == x && p.getY() == y){
                     return true;
                 }
@@ -653,9 +678,9 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * client set/clear register slot
      *
-     * @param cardName
-     * @param registerNum
-     * @throws JsonProcessingException
+     * @param cardName    the card name
+     * @param registerNum the register num
+     * @throws JsonProcessingException the json processing exception
      */
     public void setRegister(String cardName, int registerNum) throws JsonProcessingException {
 
@@ -679,7 +704,7 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * when one client finished selecting card for one register, tell is to server
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void selectFinish() throws JsonProcessingException {
         Protocol protocol = new Protocol("SelectionFinished", new SelectionFinishedBody(clientID));
@@ -691,7 +716,8 @@ public class AITowardsCheckpoint implements Runnable{
     /**
      * client plays one card in the current register
      *
-     * @param cardName
+     * @param cardName the card name
+     * @throws JsonProcessingException the json processing exception
      */
     public void playNextRegister(String cardName) throws JsonProcessingException {
         Protocol protocol = new Protocol("PlayCard", new PlayCardBody(cardName));
@@ -700,6 +726,12 @@ public class AITowardsCheckpoint implements Runnable{
         OUT.println(json);
     }
 
+    /**
+     * Handle reboot direction.
+     *
+     * @param direction the direction
+     * @throws JsonProcessingException the json processing exception
+     */
     public void handleRebootDirection(String direction) throws JsonProcessingException {
         Protocol protocol = new Protocol("RebootDirection", new RebootDirectionBody(direction));
         String json = Protocol.writeJson(protocol);
@@ -707,6 +739,11 @@ public class AITowardsCheckpoint implements Runnable{
         OUT.println(json);
     }
 
+    /**
+     * Select and set register finish.
+     *
+     * @throws JsonProcessingException the json processing exception
+     */
     public void selectAndSetRegisterFinish() throws JsonProcessingException {
 
         if(myCards.size() == 9){
@@ -823,6 +860,12 @@ public class AITowardsCheckpoint implements Runnable{
 
     //==============================UP=================================================
 
+    /**
+     * Fall up checkpoint top right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallUPCheckpointTopRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -884,6 +927,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall up checkpoint bottom right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallUPCheckpointBottomRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -945,6 +994,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall up checkpoint bottom left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallUPCheckpointBottomLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1006,6 +1061,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall up checkpoint top left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallUPCheckpointTopLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1069,6 +1130,12 @@ public class AITowardsCheckpoint implements Runnable{
 
     //==============================RIGHT========================================================
 
+    /**
+     * Fall right checkpoint top right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallRIGHTCheckpointTopRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1130,6 +1197,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall right checkpoint bottom right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallRIGHTCheckpointBottomRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1191,6 +1264,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall right checkpoint bottom left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallRIGHTCheckpointBottomLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1252,6 +1331,12 @@ public class AITowardsCheckpoint implements Runnable{
         }
     }
 
+    /**
+     * Fall right checkpoint top left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallRIGHTCheckpointTopLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1312,6 +1397,13 @@ public class AITowardsCheckpoint implements Runnable{
             }
         }
     }
+
+    /**
+     * Fall down checkpoint top right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
 //===================================DOWN=================================================
 public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingException {
     // set Register 1
@@ -1374,6 +1466,12 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
     }
 }
 
+    /**
+     * Fall down checkpoint bottom right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallDOWNCheckpointBottomRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1435,6 +1533,12 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
         }
     }
 
+    /**
+     * Fall down checkpoint bottom left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallDOWNCheckpointBottomLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1496,6 +1600,12 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
         }
     }
 
+    /**
+     * Fall down checkpoint top left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallDOWNCheckpointTopLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1558,7 +1668,13 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
     }
 //======================================LEFT==================================================
 
-public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingException {
+    /**
+     * Fall left checkpoint top right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
+    public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingException {
     // set Register 1
     for (int i = 0; i < 9; i++) {
         if(!notAvailableCardsIndex.contains(i)){
@@ -1619,6 +1735,12 @@ public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingExcept
     }
 }
 
+    /**
+     * Fall left checkpoint bottom right.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallLEFTCheckpointBottomRight(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1680,6 +1802,12 @@ public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingExcept
         }
     }
 
+    /**
+     * Fall left checkpoint bottom left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallLEFTCheckpointBottomLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1741,6 +1869,12 @@ public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingExcept
         }
     }
 
+    /**
+     * Fall left checkpoint top left.
+     *
+     * @param Register the register
+     * @throws JsonProcessingException the json processing exception
+     */
     public void fallLEFTCheckpointTopLeft(int Register) throws JsonProcessingException {
         // set Register 1
         for (int i = 0; i < 9; i++) {
@@ -1803,6 +1937,12 @@ public void fallLEFTCheckpointTopRight(int Register) throws JsonProcessingExcept
     }
 
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
     public static void main(String[] args) throws IOException {
         AITowardsCheckpoint ki = new AITowardsCheckpoint();
         Thread thread = new Thread(ki);
