@@ -1,7 +1,6 @@
 package server.registercards;
 
 import server.game.Game;
-import server.game.Position;
 import server.network.Server;
 
 import java.io.IOException;
@@ -9,14 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Virus.
+ *
+ * @author Can Ren
  */
 public class Virus extends RegisterCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount =18; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Virus.
+     */
     public Virus() {
         this.cardType = "DAMAGE";
         this.cardName = "Virus";
@@ -66,8 +78,9 @@ public class Virus extends RegisterCard{
 
     /**
      * check which clients are in the infection´s distance
-     * @param clientID
-     * @return
+     *
+     * @param clientID the client id
+     * @return list
      */
     public List<Integer> searchClientsInTheNear(int clientID){
         List<Integer> clientsWithDistance = new ArrayList<>();
