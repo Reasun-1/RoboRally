@@ -16,8 +16,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
-
 /**
  * @author rajna fani
  * @author chiara welz
@@ -34,11 +32,9 @@ public class UpgradeShopController {
     @FXML
     private Button finishButton;
     @FXML
-    private Button btnAdmin, btnSpam, btnLaser, btnMemory;
+    private ImageView upgradeCard1, upgradeCard2, upgradeCard3, upgradeCard4;
     @FXML
-    private ImageView adminPrivilege, spamBlocker, rearLaser, memorySwap;
-    @FXML
-    private Label adminKosten, spamKosten, rearKosten, memoryKosten;
+    private Label upgradeLabel1, upgradeLabel2, upgradeLabel3, upgradeLabel4;
     @FXML
     private Label energyNow, chosenUpgrade;
 
@@ -49,6 +45,13 @@ public class UpgradeShopController {
     Image spamUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeLaser.jpg").toExternalForm());
     Image memoryUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeMemory.jpg").toExternalForm());
 
+    //====================LabelCostBindings===================================
+    String adminLabel = "Cost: 3";
+    String laserLabel = "Cost: 2";
+    String spamLabel = "Cost: 3";
+    String memoryLabel = "Cost: 1";
+    String discardLabel = " ";
+
 
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
@@ -57,7 +60,6 @@ public class UpgradeShopController {
      * Method to be called from WindowLauncher to check the entered name.
      * @param
      */
-
     public void init(Client client) {
         this.client = client;
 
@@ -65,41 +67,73 @@ public class UpgradeShopController {
         mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
 
-        //set the labels 0
-        adminKosten.textProperty().set(String.valueOf(0));
-        rearKosten.textProperty().set(String.valueOf(0));
-        spamKosten.textProperty().set(String.valueOf(0));
-        memoryKosten.textProperty().set(String.valueOf(0));
-
         //binds count of energy cubes
         energyNow.textProperty().bindBidirectional(client.energyCountProperty());
 
-        //binds
+        //binds finish-Button with textfield
         finishButton.disableProperty().bind(chosenUpgrade.textProperty().isEmpty());
 
-        List<String> upgradeCards = client.availableUpgradesCards;
-        for (String cards : upgradeCards) {
-            if (upgradeCards.contains(cards = "AdminPrivilege")) {
-                adminKosten.textProperty().set((String.valueOf(+ 1)));
-            } else if (upgradeCards.contains(cards = "RealLaser")) {
-                rearKosten.textProperty().set((String.valueOf(+ 1)));
-            } else if (upgradeCards.contains(cards = "MemorySwap")) {
-                memoryKosten.textProperty().set((String.valueOf(+ 1)));
-            } else if (upgradeCards.contains(cards = "SpamBlocker")) {
-                spamKosten.textProperty().set((String.valueOf(+ 1)));
+        client.flagRefreshUpdateShopProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                for (int i = 0; i < client.availableUpgradesCards.size(); i++) {
+                    String cardName = client.availableUpgradesCards.get(i);
+
+                    Image upgradeImage = null;
+                    Label upgradeLabel = null;
+
+                    switch (cardName) {
+                        case "AdminPrivilege":
+                            upgradeImage = adminUpCard;
+                            upgradeLabel.setText(adminLabel);
+                            break;
+                        case "SpamBlocker":
+                            upgradeImage = spamUpCard;
+                            upgradeLabel.setText(spamLabel);
+                            break;
+                        case "RealLaser":
+                            upgradeImage = laserUpCard;
+                            upgradeLabel.setText(laserLabel);
+                            break;
+                        case "MemorySwap":
+                            upgradeImage = memoryUpCard;
+                            upgradeLabel.setText(memoryLabel);
+                            break;
+                    }
+
+                    switch (i + 1) {
+                        case 1:
+                            upgradeCard1.setImage(upgradeImage);
+                            upgradeLabel1 = upgradeLabel;
+                            break;
+                        case 2:
+                            upgradeCard2.setImage(upgradeImage);
+                            upgradeLabel2 = upgradeLabel;
+                            break;
+                        case 3:
+                            upgradeCard3.setImage(upgradeImage);
+                            upgradeLabel3 = upgradeLabel;
+                            break;
+                        case 4:
+                            upgradeCard4.setImage(upgradeImage);
+                            upgradeLabel4 = upgradeLabel;
+                            break;
+                    }
+                }
             }
-        }
+        });
+
     }
 
 
     /**
-     * Method set the text "AdminPrivilige" in the textfield by press the button of this upgradecard.
+     * Method set the text "AdminPrivilege" in the textfield by press the button of this upgradecard.
      * @param event
      * @throws JsonProcessingException
      */
     @FXML
-    private void adminAction(ActionEvent event) throws JsonProcessingException {
-        chosenUpgrade.setText("AdminPrivilege");
+    private void btnAction1(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade = upgradeLabel1;
     }
     /**
      * Method set the text "SpamBlocker" in the textfield by press the button of this upgradecard.
@@ -107,8 +141,8 @@ public class UpgradeShopController {
      * @throws JsonProcessingException
      */
     @FXML
-    private void spamAction(ActionEvent event) throws JsonProcessingException {
-        chosenUpgrade.setText("SpamBlocker");
+    private void btnAction2(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade = upgradeLabel2;
     }
     /**
      * Method set the text "RealLaser" in the textfield by press the button of this upgradecard.
@@ -116,8 +150,8 @@ public class UpgradeShopController {
      * @throws JsonProcessingException
      */
     @FXML
-    private void laserAction(ActionEvent event) throws JsonProcessingException {
-        chosenUpgrade.setText("RealLaser");
+    private void btnAction3(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade = upgradeLabel3;
     }
     /**
      * Method set the text "MemorySwap" in the textfield by press the button of this upgradecard.
@@ -125,8 +159,8 @@ public class UpgradeShopController {
      * @throws JsonProcessingException
      */
     @FXML
-    private void memoryAction(ActionEvent event) throws JsonProcessingException {
-        chosenUpgrade.setText("MemorySwap");
+    private void btnAction4(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade = upgradeLabel4;
     }
 
     /**

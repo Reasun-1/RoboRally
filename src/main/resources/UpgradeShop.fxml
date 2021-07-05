@@ -72,60 +72,60 @@
                   <AnchorPane prefHeight="190.0" prefWidth="30.0" />
                   <AnchorPane maxHeight="200.0" minHeight="190.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <Button fx:id="btnAdmin" ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#adminAction" prefHeight="160.0" prefWidth="120.0">
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction1" prefHeight="160.0" prefWidth="120.0">
                            <graphic>
-                              <ImageView fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="upgradeCard1" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label fx:id="adminKosten" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
+                        <Label fx:id="upgradeLabel1" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children></AnchorPane>
                   <AnchorPane prefHeight="192.0" prefWidth="20.0" />
                   <AnchorPane layoutX="30.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <Button fx:id="btnSpam" ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#spamAction" prefHeight="160.0" prefWidth="120.0">
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction2" prefHeight="160.0" prefWidth="120.0">
                            <graphic>
-                              <ImageView fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="upgradeCard2" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label fx:id="spamKosten" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
+                        <Label fx:id="upgradeLabel2" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="150.0" layoutY="10.0" prefHeight="192.0" prefWidth="20.0" />
                   <AnchorPane layoutX="170.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <Button fx:id="btnLaser" ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#laserAction" prefHeight="160.0" prefWidth="120.0">
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction3" prefHeight="160.0" prefWidth="120.0">
                            <graphic>
-                              <ImageView fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="upgradeCard3" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label fx:id="rearKosten" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
+                        <Label fx:id="upgradeLabel3" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="290.0" layoutY="10.0" prefHeight="192.0" prefWidth="20.0" />
                   <AnchorPane layoutX="310.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <Button fx:id="btnMemory" ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#memoryAction" prefHeight="160.0" prefWidth="120.0">
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction4" prefHeight="160.0" prefWidth="120.0">
                            <graphic>
-                              <ImageView fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="upgradeCard4" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/Cards/C-Discard.jpg" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label fx:id="memoryKosten" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
+                        <Label fx:id="upgradeLabel4" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children></HBox>
