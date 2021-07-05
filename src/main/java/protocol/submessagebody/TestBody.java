@@ -1,29 +1,40 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import protocol.Protocol;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Test body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TestBody {
+    /**
+     * The Fo.
+     */
     FeldObject fo;
 
+    /**
+     * Instantiates a new Test body.
+     */
     public TestBody() {
     }
 
+    /**
+     * Instantiates a new Test body.
+     *
+     * @param fo the fo
+     */
     public TestBody(FeldObject fo) {
         this.fo = fo;
     }
 
+    /**
+     * Gets fo.
+     *
+     * @return the fo
+     */
     public FeldObject getFo() {
         return fo;
     }

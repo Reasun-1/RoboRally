@@ -1,8 +1,32 @@
 package server.game;
 
+/**
+ * The enum Direction.
+ */
 public enum Direction {
-    UP, DOWN, LEFT, RIGHT;
+    /**
+     * Up direction.
+     */
+    UP,
+    /**
+     * Down direction.
+     */
+    DOWN,
+    /**
+     * Left direction.
+     */
+    LEFT,
+    /**
+     * Right direction.
+     */
+    RIGHT;
 
+    /**
+     * Convert string to direction direction.
+     *
+     * @param str the str
+     * @return the direction
+     */
     public static Direction convertStringToDirection(String str){
 
         Direction direction = null;
@@ -25,6 +49,12 @@ public enum Direction {
         return direction;
     }
 
+    /**
+     * Turn clock direction.
+     *
+     * @param curDir the cur dir
+     * @return the direction
+     */
     public static Direction turnClock(Direction curDir){
         Direction newDir = null;
         switch (curDir){
@@ -44,6 +74,12 @@ public enum Direction {
         return newDir;
     }
 
+    /**
+     * Turn counter clock direction.
+     *
+     * @param curDir the cur dir
+     * @return the direction
+     */
     public static Direction turnCounterClock(Direction curDir){
         Direction newDir = null;
         switch (curDir){

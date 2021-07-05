@@ -1,6 +1,5 @@
 package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.geometry.Orientation;
 import server.game.Direction;
 import server.game.Game;
 import server.network.Server;
@@ -22,9 +21,18 @@ public class Gear extends FeldObject{
     private String isOnBoard;
     private List<String> orientations;
 
+    /**
+     * Instantiates a new Gear.
+     */
     public Gear() {
     }
 
+    /**
+     * Instantiates a new Gear.
+     *
+     * @param isOnBoard    the is on board
+     * @param orientations the orientations
+     */
     public Gear(String isOnBoard, List<String> orientations) {
 
         this.isOnBoard = isOnBoard;

@@ -9,14 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Trojan.
+ *
+ * @author Can Ren
  */
 public class Trojan extends RegisterCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 12; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Trojan.
+     */
     public Trojan() {
         this.cardType = "DAMAGE";
         this.cardName = "Trojan";

@@ -5,16 +5,29 @@ import server.game.Game;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Admin privilege.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class AdminPrivilege extends UpgradeCard {
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL UPGRADE
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The Sub type.
+     */
     String subType; // detailed type of card
 
+    /**
+     * Instantiates a new Admin privilege.
+     */
     public AdminPrivilege() {
         this.cardType = "UPGRADE";
         this.cardName = "AdminPrivilege";

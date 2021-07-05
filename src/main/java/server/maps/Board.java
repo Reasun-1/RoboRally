@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 /**
  * @author Jonas Gottal
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * @author Can Ren
  */
 public class Board {
     private static final Logger logger = Logger.getLogger(Board.class.getName());

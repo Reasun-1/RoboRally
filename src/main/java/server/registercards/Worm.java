@@ -8,14 +8,27 @@ import java.io.IOException;
 import static server.game.Game.rebootPosition;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Worm.
+ *
+ * @author Can Ren
  */
 public class Worm extends RegisterCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 6; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Worm.
+     */
     public Worm() {
         this.cardType = "DAMAGE";
         this.cardName = "Worm";

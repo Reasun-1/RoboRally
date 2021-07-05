@@ -3,20 +3,34 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Play card body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayCardBody {
     private String card;
 
+    /**
+     * Instantiates a new Play card body.
+     */
     public PlayCardBody() {
     }
 
+    /**
+     * Instantiates a new Play card body.
+     *
+     * @param card the card
+     */
     public PlayCardBody(String card) {
         this.card = card;
     }
 
+    /**
+     * Gets card.
+     *
+     * @return the card
+     */
     public String getCard() {
         return card;
     }

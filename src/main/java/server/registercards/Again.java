@@ -7,16 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author can ren
+ * The type Again.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Again extends RegisterCard{
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 2; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Again.
+     */
     public Again() {
         this.cardType = "PROGRAMME";
         this.cardName = "Again";
@@ -60,7 +73,13 @@ public class Again extends RegisterCard{
         System.out.println("doFunction of card again");
     }
 
-    // only test
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
+// only test
     public static void main(String[] args) throws IOException {
         List<RegisterCard> test = new ArrayList<>();
         test.add(new Again());

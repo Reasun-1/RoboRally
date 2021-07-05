@@ -1,6 +1,5 @@
 package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.scene.robot.Robot;
 import server.game.Game;
 
 import java.io.IOException;
@@ -22,9 +21,18 @@ public class CheckPoint extends FeldObject{
     private String isOnBoard;
     private int count;
 
+    /**
+     * Instantiates a new Check point.
+     */
     public CheckPoint() {
     }
 
+    /**
+     * Instantiates a new Check point.
+     *
+     * @param isOnBoard the is on board
+     * @param count     the count
+     */
     public CheckPoint(String isOnBoard, int count) {
         //this.type = type;
         this.isOnBoard = isOnBoard;

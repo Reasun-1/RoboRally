@@ -3,26 +3,46 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Player turning body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerTurningBody {
     private int clientID;
     private String rotation;
 
+    /**
+     * Instantiates a new Player turning body.
+     */
     public PlayerTurningBody() {
     }
 
+    /**
+     * Instantiates a new Player turning body.
+     *
+     * @param clientID the client id
+     * @param rotation the rotation
+     */
     public PlayerTurningBody(int clientID, String rotation) {
         this.clientID = clientID;
         this.rotation = rotation;
     }
 
+    /**
+     * Gets client id.
+     *
+     * @return the client id
+     */
     public int getClientID() {
         return clientID;
     }
 
+    /**
+     * Gets rotation.
+     *
+     * @return the rotation
+     */
     public String getRotation() {
         return rotation;
     }

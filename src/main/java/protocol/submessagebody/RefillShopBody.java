@@ -5,20 +5,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Refill shop body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RefillShopBody {
     private List<String> cards;
 
+    /**
+     * Instantiates a new Refill shop body.
+     */
     public RefillShopBody() {
     }
 
+    /**
+     * Instantiates a new Refill shop body.
+     *
+     * @param cards the cards
+     */
     public RefillShopBody(List<String> cards) {
         this.cards = cards;
     }
 
+    /**
+     * Gets cards.
+     *
+     * @return the cards
+     */
     public List<String> getCards() {
         return cards;
     }

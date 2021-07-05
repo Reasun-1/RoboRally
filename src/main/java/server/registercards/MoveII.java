@@ -1,7 +1,6 @@
 package server.registercards;
 
 
-import javafx.geometry.Pos;
 import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
@@ -10,17 +9,29 @@ import server.network.Server;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Move II.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-
 public class MoveII extends RegisterCard{
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 3; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Move ii.
+     */
     public MoveII() {
 
         this.cardType = "PROGRAMME";

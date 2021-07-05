@@ -8,16 +8,29 @@ import server.network.Server;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Back up.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class BackUp extends RegisterCard{
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 1; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Back up.
+     */
     public BackUp() {
         this.cardType = "PROGRAMME";
         this.cardName = "BackUp";

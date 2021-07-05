@@ -1,7 +1,6 @@
 package server.feldobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
 
@@ -24,9 +23,18 @@ public class Antenna extends FeldObject {
     private String isOnBoard;
     private List<String> orientations;
 
+    /**
+     * Instantiates a new Antenna.
+     */
     public Antenna() {
     }
 
+    /**
+     * Instantiates a new Antenna.
+     *
+     * @param isOnBoard    the is on board
+     * @param orientations the orientations
+     */
     public Antenna(String isOnBoard, List<String> orientations) {
         //this.type = type;
         this.isOnBoard = isOnBoard;
@@ -49,11 +57,9 @@ public class Antenna extends FeldObject {
     }
 
 
-
     /**
      * Calculate distances.
      */
-
     public static void calculateDistances() {
 
         if(Game.registerPointer != Game.changePriorityRegPointer){
@@ -127,6 +133,13 @@ public class Antenna extends FeldObject {
     }
 
 
+    /**
+     * Swap player priority boolean.
+     *
+     * @param clientID_1 the client id 1
+     * @param clientID_2 the client id 2
+     * @return the boolean
+     */
     public static boolean swapPlayerPriority(Integer clientID_1, Integer clientID_2) {
         // get Position for Client ID
         // get Antenna Orientation
@@ -199,6 +212,13 @@ public class Antenna extends FeldObject {
     }
 
 
+    /**
+     * Distance between antenna and robot int.
+     *
+     * @param antenna the antenna
+     * @param robot   the robot
+     * @return the int
+     */
     public static int distanceBetweenAntennaAndRobot(Position antenna, Position robot) {
         int distance = Math.abs(antenna.getX() - robot.getX()) + Math.abs(antenna.getY() - robot.getY());
         return distance;

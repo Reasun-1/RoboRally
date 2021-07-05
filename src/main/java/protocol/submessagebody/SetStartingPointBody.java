@@ -3,26 +3,46 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Set starting point body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SetStartingPointBody {
     private int x;
     private int y;
 
+    /**
+     * Instantiates a new Set starting point body.
+     */
     public SetStartingPointBody() {
     }
 
+    /**
+     * Instantiates a new Set starting point body.
+     *
+     * @param x the x
+     * @param y the y
+     */
     public SetStartingPointBody(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Gets y.
+     *
+     * @return the y
+     */
     public int getY() {
         return y;
     }

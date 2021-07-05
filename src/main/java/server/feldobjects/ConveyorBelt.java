@@ -24,9 +24,19 @@ public class ConveyorBelt extends FeldObject {
     private int speed;
     private List<String> orientations;
 
+    /**
+     * Instantiates a new Conveyor belt.
+     */
     public ConveyorBelt() {
     }
 
+    /**
+     * Instantiates a new Conveyor belt.
+     *
+     * @param isOnBoard    the is on board
+     * @param speed        the speed
+     * @param orientations the orientations
+     */
     public ConveyorBelt(String isOnBoard, int speed, List<String> orientations) {
 
         this.isOnBoard = isOnBoard;
@@ -297,8 +307,9 @@ public class ConveyorBelt extends FeldObject {
 
     /**
      * for the tri-corner-belt turn
-     * @param clientNum
-     * @throws IOException
+     *
+     * @param clientNum the client num
+     * @throws IOException the io exception
      */
     public void turnClockwise(int clientNum) throws IOException {
         //set direction of this client -90
@@ -313,8 +324,9 @@ public class ConveyorBelt extends FeldObject {
 
     /**
      * for the tri-corner-belt turn
-     * @param clientNum
-     * @throws IOException
+     *
+     * @param clientNum the client num
+     * @throws IOException the io exception
      */
     public void turnCounterclockwise(int clientNum) throws IOException {
         //set direction of this client -90
@@ -329,7 +341,9 @@ public class ConveyorBelt extends FeldObject {
 
     /**
      * for the map twister
-     * @param checkpointNr
+     *
+     * @param checkpointNr the checkpoint nr
+     * @param belt         the belt
      */
     public void moveCheckpoints(int checkpointNr, ConveyorBelt belt){
         String dir = belt.getOrientations().get(0);

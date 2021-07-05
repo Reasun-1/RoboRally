@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Enumeration;
 
 
-
+/**
+ * The type Server thread.
+ */
 public class ServerThread implements Runnable {
 
     private static final Logger logger = Logger.getLogger(ServerThread.class.getName());
@@ -21,17 +22,26 @@ public class ServerThread implements Runnable {
     private final Socket SOCKET;
     private int clientID;
 
+    /**
+     * The Flag is ai.
+     */
     public boolean flagIsAI = false;
 
 
     /**
      * Constructor combines the client socket with the ServerThread socket
-     * @param socket
+     *
+     * @param socket the socket
      */
     public ServerThread(Socket socket) {
         SOCKET = socket;
     }
 
+    /**
+     * Gets socket.
+     *
+     * @return the socket
+     */
     public Socket getSocket() {
         return SOCKET;
     }
@@ -115,8 +125,9 @@ public class ServerThread implements Runnable {
     /**
      * send a message to all clients
      *
-     * @param message
-     * @throws IOException
+     * @param from    the from
+     * @param message the message
+     * @throws IOException the io exception
      */
     public void sendMessage(int from, String message) throws IOException {
         //optional, for server terminal print
@@ -136,8 +147,8 @@ public class ServerThread implements Runnable {
     /**
      * transmit an order from the server to the client
      *
-     * @param json
-     * @throws IOException
+     * @param json the json
+     * @throws IOException the io exception
      */
     public void makeOrder(String json) throws IOException {
         new PrintWriter(SOCKET.getOutputStream(), true).println(json);
@@ -146,7 +157,7 @@ public class ServerThread implements Runnable {
     /**
      * terminate the connection to the client
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public void closeConnect() throws IOException {
         //remove the socket from the set
@@ -161,6 +172,10 @@ public class ServerThread implements Runnable {
 
     /**
      * send a message only to one client
+     *
+     * @param toClient   the to client
+     * @param fromClient the from client
+     * @param message    the message
      */
     public void sendPrivateMessage(int toClient,int fromClient, String message) {
         Server.getServer().sendTo(toClient,fromClient, message);

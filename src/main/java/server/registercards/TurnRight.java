@@ -7,16 +7,29 @@ import server.network.Server;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Turn right.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class TurnRight extends RegisterCard{
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 3; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Turn right.
+     */
     public TurnRight() {
         this.cardType = "PROGRAMME";
         this.cardName = "TurnRight";

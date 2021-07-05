@@ -1,6 +1,5 @@
 package server.network;
 
-import ai.AILow;
 import client.model.Client;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,11 +8,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Main.
+ *
+ * @author Can Ren
  * @author Jonas Gottal
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class Main {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws InterruptedException the interrupted exception
+     * @throws IOException          the io exception
+     */
     public static void main(String[] args) throws InterruptedException, IOException {
 
         Thread t0 = new Thread(new Runnable() {

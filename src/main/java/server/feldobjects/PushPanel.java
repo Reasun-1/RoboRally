@@ -14,10 +14,8 @@ import java.util.List;
  * the register that corresponds to the number on them.
  *
  * @author Jonas Gottal
- * @author can ren
- * @create $(YEAR) -$(MONTH)-$(DAY)
+ * @author Can Ren
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PushPanel extends FeldObject {
 
@@ -26,9 +24,19 @@ public class PushPanel extends FeldObject {
     private List<String> orientations;
     private List<Integer> registers;
 
+    /**
+     * Instantiates a new Push panel.
+     */
     public PushPanel() {
     }
 
+    /**
+     * Instantiates a new Push panel.
+     *
+     * @param isOnBoard    the is on board
+     * @param orientations the orientations
+     * @param registers    the registers
+     */
     public PushPanel(String isOnBoard, List<String> orientations, List<Integer> registers) {
         //this.type = type;
         this.isOnBoard = isOnBoard;

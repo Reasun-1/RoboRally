@@ -8,8 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * (Remember to take a SPAM damage card for each laser that hits you.)
  *
  * @author Jonas Gottal
- * @author can ren
- * @create $(YEAR) -$(MONTH)-$(DAY)
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RobotLaser extends FeldObject {

@@ -29,12 +29,13 @@ import java.util.List;
 
 
 /**
- * @author can ren
- * @author rajna fani
+ * The controller for Chat Window.
+ *
+ * @author Can Ren
+ * @author Rajna Fani
  * @author Chiara Welz
  * @author Yuliia Shaparenko
  * @author Jonas Gottal
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class ChatController {
 
@@ -93,7 +94,10 @@ public class ChatController {
 
     private final WindowLauncher LAUNCHER = new WindowLauncher();
 
-    //====================DrawnCardsBindings===================================
+    /**
+     * The Card Images.
+     */
+//====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
     Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
     Image imageMove1 = new Image(getClass().getResource("/images/Cards/C-Move1.jpg").toExternalForm());
@@ -122,18 +126,25 @@ public class ChatController {
     @FXML
     private ComboBox<String> sendto;
 
+    /**
+     * The Temp card name.
+     */
     String tempCardName = ""; // for drag&drop
+    /**
+     * The Temp button num.
+     */
     int tempButtonNum; // for drag&drop
 
-    //============================MapBindings===========================================
+    /**
+     * The Board Images .
+     */
+//============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
     Image imageCheckpoint2 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint2.png").toExternalForm());
     Image ImageCheckpoint3 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint3.png").toExternalForm());
     Image ImageCheckpoint4 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint4.png").toExternalForm());
     Image ImageCheckpoint5 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint5.png").toExternalForm());
     Image ImageCheckpoint6 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint6.png").toExternalForm());
-
-
     Image BlueConveyorBelts = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts.png").toExternalForm());
     Image BlueConveyorBelts90 = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90.png").toExternalForm());
     Image BlueConveyorBelts90mirror = new Image(getClass().getResource("/images/ConveyorBelts/BlueConveyorBelts-90mirro.png").toExternalForm());
@@ -146,20 +157,16 @@ public class ChatController {
     Image GreenConveyorBeltsL = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-L.png").toExternalForm());
     Image GreenConveyorBeltsDmirror = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-D-mirrored.png").toExternalForm());
     Image GreenConveyorBelts90mirrored = new Image(getClass().getResource("/images/ConveyorBelts/GreenConveyorBelts-90mirrored.png").toExternalForm());
-
     Image EnergyOff = new Image(getClass().getResource("/images/Energy/energyOff.png").toExternalForm());
     Image EnergyOn = new Image(getClass().getResource("/images/Energy/energyOn.png").toExternalForm());
-
     Image GearTLeft = new Image(getClass().getResource("/images/Gear/Gear-Tleft.png").toExternalForm());
     Image GearTRight = new Image(getClass().getResource("/images/Gear/Gear-Tright.png").toExternalForm());
-
     Image BoardLasers1 = new Image(getClass().getResource("/images/Lasers/BoardLasers1.png").toExternalForm());
     Image BoardLasers2 = new Image(getClass().getResource("/images/Lasers/BoardLasers2.png").toExternalForm());
     Image BoardLasers3 = new Image(getClass().getResource("/images/Lasers/BoardLasers3.png").toExternalForm());
     Image Lasers1 = new Image(getClass().getResource("/images/Lasers/Lasers1.png").toExternalForm());
     Image Lasers2 = new Image(getClass().getResource("/images/Lasers/Lasers2.png").toExternalForm());
     Image Lasers3 = new Image(getClass().getResource("/images/Lasers/Lasers3.png").toExternalForm());
-
     Image PushPanel1 = new Image(getClass().getResource("/images/PushPanel/PushPanel-1.png").toExternalForm());
     Image PushPanel1_3_5 = new Image(getClass().getResource("/images/PushPanel/PushPanel-1-3-5.png").toExternalForm());
     Image PushPanel2 = new Image(getClass().getResource("/images/PushPanel/PushPanel-2.png").toExternalForm());
@@ -168,9 +175,9 @@ public class ChatController {
     Image PushPanel4 = new Image(getClass().getResource("/images/PushPanel/PushPanel-4.png").toExternalForm());
     Image PushPanel5 = new Image(getClass().getResource("/images/PushPanel/PushPanel-5.png").toExternalForm());
 
+
     Image Antenna = new Image(getClass().getResource("/images/Antenna.png").toExternalForm());
     Image Pits = new Image(getClass().getResource("/images/Pits.png").toExternalForm());
-
     Image HulkBot = new Image(getClass().getResource("/images/Robots/Hulk.png").toExternalForm());
     Image SpinBot = new Image(getClass().getResource("/images/Robots/Spinbot.png").toExternalForm());
     Image SquashBot = new Image(getClass().getResource("/images/Robots/Squashbot.png").toExternalForm());
@@ -178,19 +185,20 @@ public class ChatController {
     Image TwitchBot = new Image(getClass().getResource("/images/Robots/Twitch.png").toExternalForm());
     Image TwonkyBot = new Image(getClass().getResource("/images/Robots/Twonky.png").toExternalForm());
     Image DefaultBot = new Image(getClass().getResource("/images/Robots/defaultRobot.png").toExternalForm());
-
     Image Startpoint1 = new Image(getClass().getResource("/images/Startpoints/Start-1.png").toExternalForm());
     Image Startpoint2 = new Image(getClass().getResource("/images/Startpoints/Start-2.png").toExternalForm());
     Image Startpoint3 = new Image(getClass().getResource("/images/Startpoints/Start-3.png").toExternalForm());
     Image Startpoint4 = new Image(getClass().getResource("/images/Startpoints/Start-4.png").toExternalForm());
     Image Startpoint5 = new Image(getClass().getResource("/images/Startpoints/Start-5.png").toExternalForm());
     Image Startpoint6 = new Image(getClass().getResource("/images/Startpoints/Start-6.png").toExternalForm());
-
     Image Reboot = new Image(getClass().getResource("/images/Reboot.jpg").toExternalForm());
-
     Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
     Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
-
+    /**
+     * Init.
+     *
+     * @param client the client
+     */
     public void init(Client client) {
         this.client = client;
 
@@ -956,6 +964,8 @@ public class ChatController {
 
     /**
      * play upgrade Admin
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     public void activeAdmin() throws JsonProcessingException {
         System.out.println("activeAdmin Card ativated.");
@@ -968,6 +978,8 @@ public class ChatController {
 
     /**
      * play upgrade Blocker
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     public void activeBlocker() throws JsonProcessingException {
         System.out.println("activeBlocker Card ativated.");
@@ -990,10 +1002,12 @@ public class ChatController {
     }
 
     /**
-     * play upgrad Memory
+     * play upgrade Memory
+     *
+     * @throws IOException the io exception
      */
     public void activeMemory() throws IOException {
-        System.out.println("activeMemory Card ativated.");
+        System.out.println("activeMemory Card activated.");
         int curCount = client.myUpgradesCards.get("MemorySwap");
         client.myUpgradesCards.put("MemorySwap", curCount-1);
         //update showCard and count of Card
@@ -1005,6 +1019,11 @@ public class ChatController {
         LAUNCHER.launchMemorySwap(client);
     }
 
+    /**
+     * Clear drawn card image.
+     *
+     * @param cardButtoNum the card butto num
+     */
     public void clearDrawnCardImage(int cardButtoNum){
 
         switch (cardButtoNum){
@@ -1038,6 +1057,9 @@ public class ChatController {
         }
     }
 
+    /**
+     * Update registers.
+     */
     public void updateRegisters() {
         StringProperty[] myregister = client.getMYREGISTER();
         for (int i = 0; i < 5; i++) {
@@ -1105,6 +1127,9 @@ public class ChatController {
         }
     }
 
+    /**
+     * Sets round over.
+     */
     public void setRoundOver() {
         // reset drwanCards in client
         client.MYCARDSProperty().clear();
@@ -1236,8 +1261,8 @@ public class ChatController {
     /**
      * for each drawnButton function
      *
-     * @param regNum
-     * @param image
+     * @param regNum the reg num
+     * @param image  the image
      */
     public void setRegCard(int regNum, Image image) {
         switch (regNum) {
@@ -1262,8 +1287,8 @@ public class ChatController {
     /**
      * if remove the register, the image will show again in drawn cards
      *
-     * @param buttonNum
-     * @param backImage
+     * @param buttonNum the button num
+     * @param backImage the back image
      */
     public void setBackToDrawnCard(int buttonNum, Image backImage) {
         switch (buttonNum) {
@@ -1300,8 +1325,8 @@ public class ChatController {
     /**
      * find the removed back card image
      *
-     * @param backCardName
-     * @return
+     * @param backCardName the back card name
+     * @return image
      */
     public Image findBackImg(String backCardName) {
 
@@ -1351,7 +1376,12 @@ public class ChatController {
         return backImg;
     }
 
-    // clear each register and set image back to drawn cards
+    /**
+     * Clear register 1.
+     *
+     * @throws IOException the io exception
+     */
+// clear each register and set image back to drawn cards
     public void clearRegister1() throws IOException {
         Integer buttonNum = regButton.get(1);
         String backCardName = client.getMYREGISTER()[0].get();
@@ -1364,6 +1394,11 @@ public class ChatController {
         remove1.setDisable(true);
     }
 
+    /**
+     * Clear register 2.
+     *
+     * @throws IOException the io exception
+     */
     public void clearRegister2() throws IOException {
         Integer buttonNum = regButton.get(2);
         String backCardName = client.getMYREGISTER()[1].get();
@@ -1376,6 +1411,11 @@ public class ChatController {
         remove2.setDisable(true);
     }
 
+    /**
+     * Clear register 3.
+     *
+     * @throws IOException the io exception
+     */
     public void clearRegister3() throws IOException {
         Integer buttonNum = regButton.get(3);
         String backCardName = client.getMYREGISTER()[2].get();
@@ -1388,6 +1428,11 @@ public class ChatController {
         remove3.setDisable(true);
     }
 
+    /**
+     * Clear register 4.
+     *
+     * @throws IOException the io exception
+     */
     public void clearRegister4() throws IOException {
         Integer buttonNum = regButton.get(4);
         String backCardName = client.getMYREGISTER()[3].get();
@@ -1400,6 +1445,11 @@ public class ChatController {
         remove4.setDisable(true);
     }
 
+    /**
+     * Clear register 5.
+     *
+     * @throws IOException the io exception
+     */
     public void clearRegister5() throws IOException {
         Integer buttonNum = regButton.get(5);
         String backCardName = client.getMYREGISTER()[4].get();
@@ -1415,7 +1465,7 @@ public class ChatController {
     /**
      * set Map in GUI
      *
-     * @param map
+     * @param map the map
      */
     public void setMapInGUI(List<List<List<FeldObject>>> map) {
         System.out.println("flag setMap GUI");

@@ -3,15 +3,28 @@ package server.upgradecards;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Real laser.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class RealLaser extends UpgradeCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL UPGRADE
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The Sub type.
+     */
     String subType; // detailed type of card
 
+    /**
+     * Instantiates a new Real laser.
+     */
     public RealLaser() {
         this.cardType = "UPGRADE";
         this.cardName = "RealLaser";

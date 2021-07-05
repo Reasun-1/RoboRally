@@ -8,16 +8,29 @@ import server.network.Server;
 import java.io.IOException;
 
 /**
- * @author can ren
+ * The type Move I.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class MoveI extends RegisterCard{
 
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The constant cardCount.
+     */
     public static int cardCount = 5; // only as info for shuffle the cards
 
+    /**
+     * Instantiates a new Move i.
+     */
     public MoveI() {
         this.cardType = "PROGRAMME";
         this.cardName = "MoveI";

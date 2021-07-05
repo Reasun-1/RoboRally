@@ -16,11 +16,12 @@ import javafx.util.Duration;
 
 
 /**
- * @author chiara welz
+ * The controller for  Login.
+ *
+ * @author Chiara Welz
  * @author Rajna Fani
- * @author yuliia shaparenko
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * @author Yuliia Shaparenko
+ * @author Can Ren
  */
 public class LoginController {
 
@@ -37,11 +38,15 @@ public class LoginController {
     @FXML
     private Button iconHulk, iconSpinbot, iconSquashbot, iconTrundlebot, iconTwitch, iconTwonky;
 
+    /**
+     * The Media player.
+     */
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/loginwindowSound.mp3").toString()));
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
-     * @param client
+     *
+     * @param client the client
      */
     public void init(Client client) {
         this.client = client;

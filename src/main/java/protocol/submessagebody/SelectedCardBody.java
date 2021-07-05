@@ -3,26 +3,46 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Selected card body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SelectedCardBody {
     private String card;
     private int register;
 
+    /**
+     * Instantiates a new Selected card body.
+     */
     public SelectedCardBody() {
     }
 
+    /**
+     * Instantiates a new Selected card body.
+     *
+     * @param card     the card
+     * @param register the register
+     */
     public SelectedCardBody(String card, int register) {
         this.card = card;
         this.register = register;
     }
 
+    /**
+     * Gets card.
+     *
+     * @return the card
+     */
     public String getCard() {
         return card;
     }
 
+    /**
+     * Gets register.
+     *
+     * @return the register
+     */
     public int getRegister() {
         return register;
     }

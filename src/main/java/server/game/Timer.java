@@ -7,24 +7,36 @@ import server.network.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Timer.
+ *
+ * @author Can Ren
  */
 public class Timer implements Runnable {
 
     private static final Logger logger = Logger.getLogger(Timer.class.getName());
 
+    /**
+     * The constant timer.
+     */
     public final static Timer timer = new Timer();
 
-    // set every 1 second updates
+    /**
+     * The Time interval.
+     */
+// set every 1 second updates
     final long timeInterval = 1000;
+    /**
+     * The Count.
+     */
     int count = 0;
-    // flag for end or stop the timer
+    /**
+     * The constant flag.
+     */
+// flag for end or stop the timer
     public static boolean flag = true;
 
     @Override

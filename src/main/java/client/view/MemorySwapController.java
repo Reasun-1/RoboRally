@@ -12,12 +12,12 @@ import javafx.stage.Stage;
 
 
 /**
- * @author rajna fani
- * @author chiara welz
- * @author yuliia shaparenko
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The controller for  Memory swap.
+ *
+ * @author Rajna Fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  */
-
 public class MemorySwapController {
 
     private Client client;
@@ -76,7 +76,8 @@ public class MemorySwapController {
     private Label chooseCards;
 
 
-    //====================DrawnCardsBindings===================================
+
+//====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
     Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
     Image imageMove1 = new Image(getClass().getResource("/images/Cards/C-Move1.jpg").toExternalForm());
@@ -92,7 +93,11 @@ public class MemorySwapController {
     Image imageVirus = new Image(getClass().getResource("/images/Cards/DamageCards/D-Virus.jpg").toExternalForm());
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
-
+    /**
+     * Init.
+     *
+     * @param client the client
+     */
     public void init(Client client) {
 
         this.client = client;
@@ -190,6 +195,9 @@ public class MemorySwapController {
         });
     }
 
+    /**
+     * Click button 1.
+     */
     public void clickButton1() {
 
         card1Button.setDisable(true);
@@ -217,6 +225,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 2.
+     */
     public void clickButton2() {
 
         card2Button.setDisable(true);
@@ -244,6 +255,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 3.
+     */
     public void clickButton3() {
 
         card3Button.setDisable(true);
@@ -271,6 +285,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 4.
+     */
     public void clickButton4() {
 
         card4Button.setDisable(true);
@@ -298,6 +315,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 5.
+     */
     public void clickButton5() {
 
         card5Button.setDisable(true);
@@ -325,6 +345,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 6.
+     */
     public void clickButton6() {
 
         card6Button.setDisable(true);
@@ -352,6 +375,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 7.
+     */
     public void clickButton7() {
 
         card7Button.setDisable(true);
@@ -379,6 +405,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 8.
+     */
     public void clickButton8() {
 
         card8Button.setDisable(true);
@@ -406,6 +435,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 9.
+     */
     public void clickButton9() {
 
         card9Button.setDisable(true);
@@ -433,6 +465,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 10.
+     */
     public void clickButton10() {
 
         card10Button.setDisable(true);
@@ -460,6 +495,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 11.
+     */
     public void clickButton11() {
 
         card11Button.setDisable(true);
@@ -487,6 +525,9 @@ public class MemorySwapController {
         }
     }
 
+    /**
+     * Click button 12.
+     */
     public void clickButton12() {
 
         card12Button.setDisable(true);
@@ -515,10 +556,12 @@ public class MemorySwapController {
     }
 
 
-
-
-
-
+    /**
+     * Find card name string.
+     *
+     * @param url the url
+     * @return the string
+     */
     public String findCardName(String url) {
         String cardName = null;
 
