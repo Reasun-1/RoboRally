@@ -326,4 +326,37 @@ public class ConveyorBelt extends FeldObject {
         // transport the new direction to clients
         Server.getServer().handlePlayerTurning(clientNum, "counterclockwise");
     }
+
+    /**
+     * for the map twister
+     * @param checkpointNr
+     */
+    public void moveCheckpoints(int checkpointNr, ConveyorBelt belt){
+        String dir = belt.getOrientations().get(0);
+        int[] curLocation = Game.movingCheckpoints.get(checkpointNr);
+        int curX = curLocation[0];
+        int curY = curLocation[1];
+
+        int[] newLocation = new int[2];
+
+        switch (dir){
+            case "top":
+                newLocation[0] = curX;
+                newLocation[1] = curY-2;
+                break;
+            case "bottom":
+                newLocation[0] = curX;
+                newLocation[1] = curY +2;
+                break;
+            case "left":
+                newLocation[0] = curX-2;
+                newLocation[1] = curY;
+                break;
+            case "right":
+                newLocation[0] = curX+2;
+                newLocation[1] = curY;
+                break;
+        }
+        Game.movingCheckpoints.put(checkpointNr, newLocation);
+    }
 }

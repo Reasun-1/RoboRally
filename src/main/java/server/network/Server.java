@@ -1,6 +1,7 @@
 package server.network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.game.Game;
@@ -13,7 +14,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.Logger;
+
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
@@ -279,6 +280,22 @@ public class Server {
     }
 
     /**
+     * for map twister, send the locations of all 4 checkpoints
+     */
+    public void handleCheckpointsLocations() throws IOException {
+        for (int i = 0; i < 4; i++) {
+            int[] location = Game.movingCheckpoints.get(i + 1);
+            int x = location[0];
+            int y = location[1];
+
+            Protocol protocol = new Protocol("CheckpointMoved", new CheckpointMovedBody(i + 1, x, y));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            makeOrderToAllClients(json);
+        }
+    }
+
+    /**
      * inform all players, which phase is on
      * @param phase
      */
@@ -332,6 +349,19 @@ public class Server {
      * @throws IOException
      */
     public void handleSpamBlocker(int clientID, List<String> newCards) throws IOException {
+        Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server sends new cards for spam blocker.");
+        makeOrderToOneClient(clientID, json);
+    }
+
+    /**
+     * server gives three cards to the target client
+     * @param clientID
+     * @param newCards
+     * @throws IOException
+     */
+    public void handleMemorySwap(int clientID, List<String> newCards) throws IOException {
         Protocol protocol = new Protocol("YourCards", new YourCardsBody(newCards));
         String json = Protocol.writeJson(protocol);
         logger.info("server sends new cards for spam blocker.");

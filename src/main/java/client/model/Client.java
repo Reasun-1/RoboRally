@@ -7,6 +7,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.feldobjects.FeldObject;
@@ -17,7 +18,7 @@ import server.game.Register;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 /**
  * Client class is responsible for the connection to the server and for storing the properties connected with the GUI.
@@ -67,6 +68,10 @@ public class Client extends Application {
     public List<String> availableUpgradesCards = new ArrayList<>();
     // for the listner in Chat&Game: key=CardName value=count
     public HashMap<String, Integer> myUpgradesCards = new HashMap<>();
+    // storage for the cards in memorySwapWindow
+    public List<String> cards12ForMemory = new ArrayList<>();
+    // storage for moving checkpoints: key=checkpointNr. value=int[x,y]
+    public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
 
 
@@ -138,6 +143,10 @@ public class Client extends Application {
     public IntegerProperty flagMemory = new SimpleIntegerProperty(0);
     // flag update enable/disable the upgrades button Blocker in Chat&Game
     public IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
+    // flag update cards in MemorySwapWindow
+    public IntegerProperty flagCardsInMemorySwapWindow = new SimpleIntegerProperty(0);
+    // flag update moving checkpoint
+    public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
 
 
 
@@ -282,6 +291,11 @@ public class Client extends Application {
 
     public IntegerProperty flagBlockerProperty() { return flagBlocker; }
 
+    public IntegerProperty flagCardsInMemorySwapWindowProperty() { return flagCardsInMemorySwapWindow; }
+
+    public IntegerProperty flagMovingCheckpointsProperty() { return flagMovingCheckpoints;}
+
+
 
 
 
@@ -393,7 +407,6 @@ public class Client extends Application {
         Platform.setImplicitExit(false);
         // start the login process
         LAUNCHER.launchLogin(this);
-
     }
 
     /**
@@ -628,6 +641,19 @@ public class Client extends Application {
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
+                            if(MYCARDS.size() == 9){
+
+                                for(String cardHad : MYCARDS.get()){
+                                    cards12ForMemory.add(cardHad);
+                                }
+
+                                for(String newCard : cardsInHand){
+                                    cards12ForMemory.add(newCard);
+                                }
+
+                                flagCardsInMemorySwapWindow.set(flagCardsInMemorySwapWindow.get()+1);
+                            }
+
                             for (String card : cardsInHand) {
                                 MYCARDS.add(card);
                             }
@@ -808,6 +834,8 @@ public class Client extends Application {
                         case "RefillShop":
                             RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
                             List<String> upCards = refillShopBody.getCards();
+                            // clear last round cards in list of availableUpgradesCards
+                            availableUpgradesCards.clear();
                             for(String upCard : upCards){
                                 availableUpgradesCards.add(upCard);
                             }
@@ -820,7 +848,17 @@ public class Client extends Application {
                             if(upCardBought != null){
                                 availableUpgradesCards.remove(upCardBought);
                             }
-
+                            break;
+                        case "CheckpointMoved":
+                            CheckpointMovedBody checkpointMovedBody = Protocol.readJsonCheckpointMoved(json);
+                            int checkpointNr = checkpointMovedBody.getCheckpointID();
+                            int locX = checkpointMovedBody.getX();
+                            int locY = checkpointMovedBody.getY();
+                            int[] location = new int[2];
+                            location[0] = locX;
+                            location[1] = locY;
+                            movingCheckpoints.put(checkpointNr, location);
+                            flagMovingCheckpoints.set(flagMovingCheckpoints.get()+1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -1162,6 +1200,23 @@ public class Client extends Application {
             // update my upgrade cards in Chat&Game
             int curCount = myUpgradesCards.get(upCardName);
             myUpgradesCards.put(upCardName, curCount+1);
+
+            // buy max.3 cards each type
+            if(myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3){
+                if(myUpgradesCards.get("AdminPrivilege") > 0){
+                    myUpgradesCards.put("AdminPrivilege", myUpgradesCards.get("AdminPrivilege")-1);
+                }else if(myUpgradesCards.get("RealLaser") > 0){
+                    myUpgradesCards.put("RealLaser", myUpgradesCards.get("RealLaser")-1);
+                }
+            }else if(myUpgradesCards.get("MemorySwap") + myUpgradesCards.get("SpamBlocker") > 3){
+                if(myUpgradesCards.get("SpamBlocker") > 0){
+                    myUpgradesCards.put("SpamBlocker", myUpgradesCards.get("SpamBlocker")-1);
+                }else if(myUpgradesCards.get("MemorySwap") > 0){
+                    myUpgradesCards.put("MemorySwap", myUpgradesCards.get("MemorySwap")-1);
+                }
+            }
+
+
             flagMyUpgrades.set(flagMyUpgrades.get()+1);
         }
     }

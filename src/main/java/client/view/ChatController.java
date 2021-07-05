@@ -57,6 +57,8 @@ public class ChatController {
     @FXML
     private GridPane gridPaneStartPoint;
     @FXML
+    private GridPane gridPaneCheckpoint;
+    @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
 
     @FXML
@@ -906,6 +908,47 @@ public class ChatController {
                     UpgradeBlocker.setDisable(false);
                 }else{
                     UpgradeBlocker.setDisable(true);
+                }
+            }
+        });
+
+        client.flagMovingCheckpointsProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                // reset robot gridpane
+                gridPaneCheckpoint.getChildren().clear();
+
+                for(int checkPoint : client.movingCheckpoints.keySet()){
+                    int[] loc = client.movingCheckpoints.get(checkPoint);
+                    int curX = loc[0];
+                    int curY = loc[1];
+
+                    switch (checkPoint){
+                        case 1:
+                            ImageView check1 = new ImageView(imageCheckpoint1);
+                            check1.setFitHeight(43);
+                            check1.setFitWidth(43);
+                            gridPaneCheckpoint.add(check1, curX, curY);
+                            break;
+                        case 2:
+                            ImageView check2 = new ImageView(imageCheckpoint2);
+                            check2.setFitHeight(43);
+                            check2.setFitWidth(43);
+                            gridPaneCheckpoint.add(check2, curX, curY);
+                            break;
+                        case 3:
+                            ImageView check3 = new ImageView(ImageCheckpoint3);
+                            check3.setFitHeight(43);
+                            check3.setFitWidth(43);
+                            gridPaneCheckpoint.add(check3, curX, curY);
+                            break;
+                        case 4:
+                            ImageView check4 = new ImageView(ImageCheckpoint4);
+                            check4.setFitHeight(43);
+                            check4.setFitWidth(43);
+                            gridPaneCheckpoint.add(check4, curX, curY);
+                            break;
+                    }
                 }
             }
         });

@@ -1,6 +1,11 @@
 package server.upgradecards;
 
+import server.game.Game;
+import server.network.Server;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author can ren
@@ -34,6 +39,8 @@ public class MemorySwap extends UpgradeCard{
     @Override
     public void doCardFunction(int clientID) throws IOException {
         System.out.println("DO UPGRADE MEMORY FUNCTION");
+        List<String> threeCards = Game.getInstance().drawThreeCards();
+        Server.getServer().handleMemorySwap(clientID, threeCards);
     }
 
 }

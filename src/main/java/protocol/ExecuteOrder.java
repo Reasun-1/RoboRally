@@ -1,5 +1,6 @@
 package protocol;
 
+import org.apache.log4j.Logger;
 import protocol.submessagebody.*;
 import server.game.Direction;
 import server.game.Game;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -337,23 +338,29 @@ public class ExecuteOrder {
                 BuyUpgradeBody buyUpgradeBody = Protocol.readJsonBuyUpgrade(json);
                 String boughtCardString = buyUpgradeBody.getCard();
 
+                if(boughtCardString != null){// when really bought a upgrade card
 
-                //update info in Game
-                int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
-                Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
+                    //update info in Game
+                    //int curCount = Game.upgradesCardsAllClients.get(clientID).get(boughtCardString);
+                    //Game.upgradesCardsAllClients.get(clientID).put(boughtCardString, (curCount + 1));
+                    if(boughtCardString.equals("RealLaser")){
+                        Game.realLaserAllClients.put(clientID, true);
+                    }
 
-                //inform all the clients this info
-                Server.getServer().handleUpgradeBought(clientID, boughtCardString);
+                    //inform all the clients this info
+                    Server.getServer().handleUpgradeBought(clientID, boughtCardString);
 
-                //check if all clients finished buying
-                Game.buyUpgradeCardsFinished.add(clientID);
-                if (Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()) {
-                    Server.getServer().handleActivePhase(2);
-                    activePhase = 2;
-                    Server.getServer().handleYourCards();
-                } else {// else inform next player to buy upgrade card
-                    int curClient = Game.priorityEachTurn.get(0);
-                    Server.getServer().handleCurrentPlayer(curClient);
+                    //check if all clients finished buying
+                    Game.buyUpgradeCardsFinished.add(clientID);
+                    if (Game.buyUpgradeCardsFinished.size() == Game.clientIDs.size()) {
+                        Server.getServer().handleActivePhase(2);
+                        activePhase = 2;
+                        Server.getServer().handleYourCards();
+                    } else {// else inform next player to buy upgrade card
+                        int curClient = Game.priorityEachTurn.get(0);
+                        Server.getServer().handleCurrentPlayer(curClient);
+                    }
+
                 }
                 break;
         }
@@ -457,6 +464,12 @@ public class ExecuteOrder {
             logger.info("number enough, to play");
 
             Server.getServer().handleGameStarted(Game.mapName);
+
+            // for map twister, send checkpoints locations additionally
+            if(Game.mapName.equals("Twister")){
+                Server.getServer().handleCheckpointsLocations();
+            }
+
             Server.getServer().handleActivePhase(0);
 
             // find the first client, who first logged in
