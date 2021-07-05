@@ -5,20 +5,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Select map body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SelectMapBody {
     private List<String> availableMaps;
 
+    /**
+     * Instantiates a new Select map body.
+     */
     public SelectMapBody() {
     }
 
+    /**
+     * Instantiates a new Select map body.
+     *
+     * @param availableMaps the available maps
+     */
     public SelectMapBody(List<String> availableMaps) {
         this.availableMaps = availableMaps;
     }
 
+    /**
+     * Gets available maps.
+     *
+     * @return the available maps
+     */
     public List<String> getAvailableMaps() {
         return availableMaps;
     }

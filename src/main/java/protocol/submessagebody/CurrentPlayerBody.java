@@ -3,20 +3,34 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Current player body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrentPlayerBody {
     private int clientID;
 
+    /**
+     * Instantiates a new Current player body.
+     */
     public CurrentPlayerBody() {
     }
 
+    /**
+     * Instantiates a new Current player body.
+     *
+     * @param clientID the client id
+     */
     public CurrentPlayerBody(int clientID) {
         this.clientID = clientID;
     }
 
+    /**
+     * Gets client id.
+     *
+     * @return the client id
+     */
     public int getClientID() {
         return clientID;
     }

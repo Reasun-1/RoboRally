@@ -2,19 +2,16 @@ package protocol;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import protocol.submessagebody.*;
 import server.feldobjects.*;
 
-
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Filter;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Protocol.
+ *
+ * @author Can Ren
  */
 public class Protocol {
 
@@ -23,22 +20,48 @@ public class Protocol {
     private Object messageBody;
 
 
+    /**
+     * Instantiates a new Protocol.
+     */
     public Protocol() {
     }
 
+    /**
+     * Instantiates a new Protocol.
+     *
+     * @param messageType the message type
+     * @param messageBody the message body
+     */
     public Protocol(String messageType, Object messageBody) {
         this.messageType = messageType;
         this.messageBody = messageBody;
     }
 
+    /**
+     * Gets message type.
+     *
+     * @return the message type
+     */
     public String getMessageType() {
         return messageType;
     }
 
+    /**
+     * Gets message body.
+     *
+     * @return the message body
+     */
     public Object getMessageBody() {
         return messageBody;
     }
 
+    /**
+     * Write json string.
+     *
+     * @param protokoll the protokoll
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
     public static String writeJson(Protocol protokoll) throws JsonProcessingException {
 
         ObjectMapper obejectMapper = new ObjectMapper();
@@ -60,6 +83,13 @@ public class Protocol {
 
     */
 
+    /**
+     * Read json message type string.
+     *
+     * @param json the json
+     * @return the string
+     * @throws IOException the io exception
+     */
     public static String readJsonMessageType(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -68,6 +98,14 @@ public class Protocol {
         return protocol.getMessageType();
     }
 
+    /**
+     * Read json send chat body send chat body.
+     *
+     * @param json the json
+     * @return the send chat body
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public static SendChatBody readJsonSendChatBody(String json) throws IOException, ClassNotFoundException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -81,6 +119,14 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json received chat body received chat body.
+     *
+     * @param json the json
+     * @return the received chat body
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public static ReceivedChatBody readJsonReceivedChatBody(String json) throws IOException, ClassNotFoundException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -94,6 +140,14 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json error body error body.
+     *
+     * @param json the json
+     * @return the error body
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public static ErrorBody readJsonErrorBody(String json) throws IOException, ClassNotFoundException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -107,6 +161,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json hello client body hello client body.
+     *
+     * @param json the json
+     * @return the hello client body
+     * @throws IOException the io exception
+     */
     public static HelloClientBody readJsonHelloClientBody(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -120,6 +181,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json hello server body hello server body.
+     *
+     * @param json the json
+     * @return the hello server body
+     * @throws IOException the io exception
+     */
     public static HelloServerBody readJsonHelloServerBody(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -134,6 +202,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json welcome body welcome body.
+     *
+     * @param json the json
+     * @return the welcome body
+     * @throws IOException the io exception
+     */
     public static WelcomeBody readJsonWelcomeBody(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -148,6 +223,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json player values player values body.
+     *
+     * @param json the json
+     * @return the player values body
+     * @throws IOException the io exception
+     */
     public static PlayerValuesBody readJsonPlayerValues(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -162,6 +244,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json player added player added body.
+     *
+     * @param json the json
+     * @return the player added body
+     * @throws IOException the io exception
+     */
     public static PlayerAddedBody readJsonPlayerAdded(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -176,6 +265,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json set status set status body.
+     *
+     * @param json the json
+     * @return the set status body
+     * @throws IOException the io exception
+     */
     public static SetStatusBody readJsonSetStatus(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -189,6 +285,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json player status player status body.
+     *
+     * @param json the json
+     * @return the player status body
+     * @throws IOException the io exception
+     */
     public static PlayerStatusBody readJsonPlayerStatus(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -202,6 +305,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json map selected map selected body.
+     *
+     * @param json the json
+     * @return the map selected body
+     * @throws IOException the io exception
+     */
     public static MapSelectedBody readJsonMapSelected(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -215,6 +325,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json select map select map body.
+     *
+     * @param json the json
+     * @return the select map body
+     * @throws IOException the io exception
+     */
     public static SelectMapBody readJsonSelectMap(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -228,6 +345,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json game started game started body.
+     *
+     * @param json the json
+     * @return the game started body
+     * @throws IOException the io exception
+     */
     public static GameStartedBody readJsonGameStarted(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -244,6 +368,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json active phase active phase body.
+     *
+     * @param json the json
+     * @return the active phase body
+     * @throws IOException the io exception
+     */
     public static ActivePhaseBody readJsonActivePhase(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -257,6 +388,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json current player current player body.
+     *
+     * @param json the json
+     * @return the current player body
+     * @throws IOException the io exception
+     */
     public static CurrentPlayerBody readJsonCurrentPlayer(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -270,6 +408,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json set starting point set starting point body.
+     *
+     * @param json the json
+     * @return the set starting point body
+     * @throws IOException the io exception
+     */
     public static SetStartingPointBody readJsonSetStartingPoint(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -283,6 +428,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json starting point taken starting point taken body.
+     *
+     * @param json the json
+     * @return the starting point taken body
+     * @throws IOException the io exception
+     */
     public static StartingPointTakenBody readJsonStartingPointTaken(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -296,6 +448,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json your cards your cards body.
+     *
+     * @param json the json
+     * @return the your cards body
+     * @throws IOException the io exception
+     */
     public static YourCardsBody readJsonYourCards(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -310,6 +469,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json not your cards not your cards body.
+     *
+     * @param json the json
+     * @return the not your cards body
+     * @throws IOException the io exception
+     */
     public static NotYourCardsBody readJsonNotYourCards(String json) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -324,6 +490,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json shuffle coding shuffle coding body.
+     *
+     * @param json the json
+     * @return the shuffle coding body
+     * @throws IOException the io exception
+     */
     public static ShuffleCodingBody readJsonShuffleCoding(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -337,6 +510,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json selected card selected card body.
+     *
+     * @param json the json
+     * @return the selected card body
+     * @throws IOException the io exception
+     */
     public static SelectedCardBody readJsonSelectedCard(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -350,6 +530,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json card selected card selected body.
+     *
+     * @param json the json
+     * @return the card selected body
+     * @throws IOException the io exception
+     */
     public static CardSelectedBody readJsonCardSelected(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -363,6 +550,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json selection finished selection finished body.
+     *
+     * @param json the json
+     * @return the selection finished body
+     * @throws IOException the io exception
+     */
     public static SelectionFinishedBody readJsonSelectionFinished(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -376,6 +570,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json timer ended timer ended body.
+     *
+     * @param json the json
+     * @return the timer ended body
+     * @throws IOException the io exception
+     */
     public static TimerEndedBody readJsonTimerEnded(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -389,6 +590,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json cards you got now cards you got now body.
+     *
+     * @param json the json
+     * @return the cards you got now body
+     * @throws IOException the io exception
+     */
     public static CardsYouGotNowBody readJsonCardsYouGotNow(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -402,6 +610,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json current cards current cards body.
+     *
+     * @param json the json
+     * @return the current cards body
+     * @throws IOException the io exception
+     */
     public static CurrentCardsBody readJsonCurrentCards(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -415,6 +630,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json play card play card body.
+     *
+     * @param json the json
+     * @return the play card body
+     * @throws IOException the io exception
+     */
     public static PlayCardBody readJsonPlayCard(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -428,6 +650,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json card played card played body.
+     *
+     * @param json the json
+     * @return the card played body
+     * @throws IOException the io exception
+     */
     public static CardPlayedBody readJsonCardPlayed(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -441,6 +670,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json reboot reboot body.
+     *
+     * @param json the json
+     * @return the reboot body
+     * @throws IOException the io exception
+     */
     public static RebootBody readJsonReboot(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -454,6 +690,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json reboot direction reboot direction body.
+     *
+     * @param json the json
+     * @return the reboot direction body
+     * @throws IOException the io exception
+     */
     public static RebootDirectionBody readJsonRebootDirection(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -467,6 +710,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json game finished game finished body.
+     *
+     * @param json the json
+     * @return the game finished body
+     * @throws IOException the io exception
+     */
     public static GameFinishedBody readJsonGameFinished(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -480,6 +730,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json movement movement body.
+     *
+     * @param json the json
+     * @return the movement body
+     * @throws IOException the io exception
+     */
     public static MovementBody readJsonMovement(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -493,6 +750,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json player turning player turning body.
+     *
+     * @param json the json
+     * @return the player turning body
+     * @throws IOException the io exception
+     */
     public static PlayerTurningBody readJsonPlayerTurning(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -506,6 +770,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json draw damage draw damage body.
+     *
+     * @param json the json
+     * @return the draw damage body
+     * @throws IOException the io exception
+     */
     public static DrawDamageBody readJsonDrawDamage(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -519,6 +790,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json replace card replace card body.
+     *
+     * @param json the json
+     * @return the replace card body
+     * @throws IOException the io exception
+     */
     public static ReplaceCardBody readJsonReplaceCard(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -532,6 +810,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json connection update connection update body.
+     *
+     * @param json the json
+     * @return the connection update body
+     * @throws IOException the io exception
+     */
     public static ConnectionUpdateBody readJsonConnectionUpdate(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -545,6 +830,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json energy energy body.
+     *
+     * @param json the json
+     * @return the energy body
+     * @throws IOException the io exception
+     */
     public static EnergyBody readJsonEnergy(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -558,6 +850,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json refill shop refill shop body.
+     *
+     * @param json the json
+     * @return the refill shop body
+     * @throws IOException the io exception
+     */
     public static RefillShopBody readJsonRefillShop(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -571,6 +870,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json buy upgrade buy upgrade body.
+     *
+     * @param json the json
+     * @return the buy upgrade body
+     * @throws IOException the io exception
+     */
     public static BuyUpgradeBody readJsonBuyUpgrade(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -584,6 +890,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json upgrade bought upgrade bought body.
+     *
+     * @param json the json
+     * @return the upgrade bought body
+     * @throws IOException the io exception
+     */
     public static UpgradeBoughtBody readJsonUpgradeBought(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -597,6 +910,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json checkpoint moved checkpoint moved body.
+     *
+     * @param json the json
+     * @return the checkpoint moved body
+     * @throws IOException the io exception
+     */
     public static CheckpointMovedBody readJsonCheckpointMoved(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -610,6 +930,13 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    /**
+     * Read json test test body.
+     *
+     * @param json the json
+     * @return the test body
+     * @throws IOException the io exception
+     */
     public static TestBody readJsonTest(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 

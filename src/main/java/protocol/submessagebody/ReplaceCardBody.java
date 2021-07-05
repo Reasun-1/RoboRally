@@ -3,8 +3,9 @@ package protocol.submessagebody;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Replace card body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReplaceCardBody {
@@ -12,23 +13,48 @@ public class ReplaceCardBody {
     private String newCard;
     private int clientID;
 
+    /**
+     * Instantiates a new Replace card body.
+     */
     public ReplaceCardBody() {
     }
 
+    /**
+     * Instantiates a new Replace card body.
+     *
+     * @param register the register
+     * @param newCard  the new card
+     * @param clientID the client id
+     */
     public ReplaceCardBody(int register, String newCard, int clientID) {
         this.register = register;
         this.newCard = newCard;
         this.clientID = clientID;
     }
 
+    /**
+     * Gets register.
+     *
+     * @return the register
+     */
     public int getRegister() {
         return register;
     }
 
+    /**
+     * Gets new card.
+     *
+     * @return the new card
+     */
     public String getNewCard() {
         return newCard;
     }
 
+    /**
+     * Gets client id.
+     *
+     * @return the client id
+     */
     public int getClientID() {
         return clientID;
     }

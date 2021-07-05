@@ -6,21 +6,38 @@ import server.game.Register;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Current cards body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrentCardsBody {
 
+    /**
+     * The Current registers all clients.
+     */
     List<Register> currentRegistersAllClients;
 
+    /**
+     * Instantiates a new Current cards body.
+     */
     public CurrentCardsBody() {
     }
 
+    /**
+     * Instantiates a new Current cards body.
+     *
+     * @param currentRegistersAllClients the current registers all clients
+     */
     public CurrentCardsBody(List<Register> currentRegistersAllClients) {
         this.currentRegistersAllClients = currentRegistersAllClients;
     }
 
+    /**
+     * Gets current registers all clients.
+     *
+     * @return the current registers all clients
+     */
     public List<Register> getCurrentRegistersAllClients() {
         return currentRegistersAllClients;
     }

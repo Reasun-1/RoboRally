@@ -5,7 +5,6 @@ import protocol.submessagebody.*;
 import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
-import server.game.Timer;
 import server.network.AliveCheck;
 import server.network.Connected;
 import server.network.Server;
@@ -13,28 +12,47 @@ import server.registercards.*;
 import server.upgradecards.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 
 
 /**
  * this class is specially for decoding json message and execute the order in json
  *
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * @author Can Ren
  */
 public class ExecuteOrder {
 
     private static final Logger logger = Logger.getLogger(ExecuteOrder.class.getName());
+    /**
+     * The constant connectList.
+     */
     public static HashMap<Integer, Connected> connectList = new HashMap<>();
+    /**
+     * The constant aliveCheckList.
+     */
     public static HashMap<Integer, AliveCheck> aliveCheckList = new HashMap<>();
+    /**
+     * The constant clientIDOfAI.
+     */
     public static int clientIDOfAI = 0;
+    /**
+     * The constant activePhase.
+     */
     public static int activePhase = 0;
+    /**
+     * The constant allplayersRebooted.
+     */
     public static boolean allplayersRebooted = false;
 
 
+    /**
+     * Execute order.
+     *
+     * @param clientID the client id
+     * @param json     the json
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public static void executeOrder(int clientID, String json) throws IOException, ClassNotFoundException {
 
         String messageType = Protocol.readJsonMessageType(json);
@@ -366,6 +384,12 @@ public class ExecuteOrder {
         }
     }
 
+    /**
+     * Convert string update to object upgrade card.
+     *
+     * @param cardName the card name
+     * @return the upgrade card
+     */
     public static UpgradeCard convertStringUpdateToObject(String cardName) {
         UpgradeCard card = null;
 
@@ -391,8 +415,8 @@ public class ExecuteOrder {
     /**
      * convert String cardName to object card
      *
-     * @param cardName
-     * @return
+     * @param cardName the card name
+     * @return register card
      */
     public static RegisterCard convertCardToObject(String cardName) {
         RegisterCard card = null;
@@ -449,7 +473,7 @@ public class ExecuteOrder {
     /**
      * // if there are more than 2 clients and all clients are ready and map is selected, start the game
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public static void checkAndStartGame() throws IOException {
         int numReadyClients = 0;

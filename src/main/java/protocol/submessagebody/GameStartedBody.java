@@ -1,18 +1,14 @@
 package protocol.submessagebody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import protocol.Protocol;
 import server.feldobjects.FeldObject;
-import server.feldobjects.Pit;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The type Game started body.
+ *
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameStartedBody {
@@ -20,13 +16,26 @@ public class GameStartedBody {
     //@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS)
     private List<List<List<FeldObject>>> gameMap;
 
+    /**
+     * Instantiates a new Game started body.
+     */
     public GameStartedBody() {
     }
 
+    /**
+     * Instantiates a new Game started body.
+     *
+     * @param gameMap the game map
+     */
     public GameStartedBody(List<List<List<FeldObject>>> gameMap) {
         this.gameMap = gameMap;
     }
 
+    /**
+     * Gets game map.
+     *
+     * @return the game map
+     */
     public List<List<List<FeldObject>>> getGameMap() {
         return gameMap;
     }
