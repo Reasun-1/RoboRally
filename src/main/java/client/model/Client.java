@@ -837,23 +837,27 @@ public class Client extends Application {
                                     INFORMATION.set("Begin programming!");
 
                                 }else if(GAMEPHASE.get().equals("Upgradephase")){
+                                    //===launch upgrade shop window====
+                                    LAUNCHER.launchUpgradeShop(client);
+
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
-                                    //===launch upgrade shop window====
-                                    //LAUNCHER.launchUpgradeShop(client);
-                                    System.out.println("current upgradeShop: "+availableUpgradesCards);
+
+                                    //System.out.println(availableUpgradesCards);
+
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
 
                                     //===only for test, will be deleted later=====
-                                    if(availableUpgradesCards.contains("MemorySwap")){
-                                        handleBuyUpgrade("MemorySwap");
-                                    }else if(availableUpgradesCards.contains("AdminPrivilege")){
+                                    /*
+                                    if(availableUpgradesCards.contains("AdminPrivilege")){
                                         handleBuyUpgrade("AdminPrivilege");
+                                    }else if(availableUpgradesCards.contains("MemorySwap")){
+                                        handleBuyUpgrade("MemorySwap");
                                     }else if(availableUpgradesCards.contains("RealLaser")){
                                         handleBuyUpgrade("RealLaser");
                                     }else if(availableUpgradesCards.contains("SpamBlocker")){
                                         handleBuyUpgrade("SpamBlocker");
-                                    }
+                                    }*/
                                 }
 
                             } else {
@@ -1465,6 +1469,17 @@ public class Client extends Application {
             // update my upgrade cards in Chat&Game
             int curCount = myUpgradesCards.get(upCardName);
             myUpgradesCards.put(upCardName, curCount+1);
+
+            // update my energy cubes
+            if(upCardName.equals("AdminPrivilege")){
+                energyCount.set((Integer.valueOf(energyCount.get())-3) + "");
+            }else if(upCardName.equals("RealLaser")){
+                energyCount.set((Integer.valueOf(energyCount.get())-2) + "");
+            }else if(upCardName.equals("MemorySwap")){
+                energyCount.set((Integer.valueOf(energyCount.get())-1) + "");
+            }else if(upCardName.equals("SpamBlocker")){
+                energyCount.set((Integer.valueOf(energyCount.get())-3) + "");
+            }
 
             // buy max.3 cards each type
             if(myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3){

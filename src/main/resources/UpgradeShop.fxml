@@ -38,82 +38,120 @@
                   <Font name="Optima Bold Italic" size="33.0" />
                </font>
             </Text>
-            <HBox prefHeight="87.0" prefWidth="600.0">
+            <AnchorPane minHeight="25.0" prefHeight="25.0" prefWidth="603.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="99.0" fitWidth="147.0">
-                     <image>
-                        <Image url="@images/upgradeRobot.gif" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="100.0" prefWidth="55.0" />
+                  <VBox prefHeight="100.0" prefWidth="450.0">
                      <children>
-                        <Text fill="#9e9797" layoutX="22.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your current energy:">
-                           <font>
-                              <Font name="Kohinoor Devanagari Regular" size="26.0" />
-                           </font>
-                           <effect>
-                              <InnerShadow color="#eae1e1" />
-                           </effect>
-                        </Text>
+                        <HBox prefHeight="38.0" prefWidth="465.0">
+                           <children>
+                              <AnchorPane prefHeight="38.0" prefWidth="106.0" />
+                              <Text fill="#9e9797" strokeType="OUTSIDE" strokeWidth="0.0" text="Your current energy:" wrappingWidth="243.0">
+                                 <font>
+                                    <Font name="Kohinoor Devanagari Regular" size="26.0" />
+                                 </font>
+                                 <effect>
+                                    <InnerShadow color="#eae1e1" />
+                                 </effect>
+                              </Text>
+                              <Label fx:id="energyNow" alignment="CENTER" prefHeight="38.0" prefWidth="75.0" text="5" textFill="WHITE">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="energyNow" layoutX="7.0" layoutY="23.0" prefHeight="44.0" prefWidth="84.0" textFill="WHITE">
-                           <font>
-                              <Font size="26.0" />
-                           </font></Label>
-                     </children>
-                  </AnchorPane>
+                  </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="191.0" prefWidth="576.0">
+            <AnchorPane layoutX="10.0" layoutY="54.0" minHeight="5.0" prefHeight="5.0" prefWidth="603.0" />
+            <HBox prefHeight="191.0" prefWidth="603.0">
                <children>
-                  <AnchorPane prefHeight="192.0" prefWidth="19.0" />
-                  <AnchorPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" prefWidth="138.0">
+                  <AnchorPane prefHeight="190.0" prefWidth="30.0" />
+                  <AnchorPane maxHeight="200.0" minHeight="190.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <ImageView fx:id="adminPrivilege" fitHeight="163.0" fitWidth="131.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Cards/UpgradeCards/UpGradeAdmin.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="adminKosten" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="118.0" textFill="WHITE" />
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction1" prefHeight="160.0" prefWidth="120.0">
+                           <graphic>
+                              <ImageView fx:id="upgradeCard1" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/C-Discard.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="upgradeLabel1" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children></AnchorPane>
-                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                  <AnchorPane prefHeight="192.0" prefWidth="20.0" />
+                  <AnchorPane layoutX="30.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <ImageView fx:id="spamBlocker" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
-                           <image>
-                              <Image url="@images/Cards/UpgradeCards/UpGradeBlocker.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="spamKosten" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="118.0" textFill="WHITE" />
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction2" prefHeight="160.0" prefWidth="120.0">
+                           <graphic>
+                              <ImageView fx:id="upgradeCard2" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/C-Discard.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="upgradeLabel2" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                  <AnchorPane layoutX="150.0" layoutY="10.0" prefHeight="192.0" prefWidth="20.0" />
+                  <AnchorPane layoutX="170.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <ImageView fx:id="rearLaser" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
-                           <image>
-                              <Image url="@images/Cards/UpgradeCards/UpGradeLaser.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="rearKosten" alignment="CENTER" layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" textFill="WHITE" />
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction3" prefHeight="160.0" prefWidth="120.0">
+                           <graphic>
+                              <ImageView fx:id="upgradeCard3" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/C-Discard.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="upgradeLabel3" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="192.0" prefWidth="138.0">
+                  <AnchorPane layoutX="290.0" layoutY="10.0" prefHeight="192.0" prefWidth="20.0" />
+                  <AnchorPane layoutX="310.0" layoutY="10.0" maxHeight="200.0" minHeight="170.0" prefHeight="190.0" prefWidth="120.0">
                      <children>
-                        <ImageView fx:id="memorySwap" fitHeight="163.0" fitWidth="124.0" layoutX="7.0">
-                           <image>
-                              <Image url="@images/Cards/UpgradeCards/UpGradeMemory.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="memoryKosten" alignment="CENTER" layoutX="7.0" layoutY="163.0" prefHeight="27.0" prefWidth="124.0" textFill="WHITE" />
-                     </children></AnchorPane>
+                        <Button ellipsisString="" minHeight="160.0" minWidth="120.0" mnemonicParsing="false" onAction="#btnAction4" prefHeight="160.0" prefWidth="120.0">
+                           <graphic>
+                              <ImageView fx:id="upgradeCard4" fitHeight="163.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/C-Discard.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="upgradeLabel4" alignment="CENTER" layoutX="11.0" layoutY="163.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
                </children></HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane prefHeight="35.0" prefWidth="90.0" />
+                  <Text fill="#9e9797" strokeType="OUTSIDE" strokeWidth="0.0" text="Your chosen card:" textAlignment="CENTER" wrappingWidth="233.327880859375">
+                     <font>
+                        <Font name="Kohinoor Devanagari Regular" size="26.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow color="#eae1e1" />
+                     </effect>
+                  </Text>
+                  <Label fx:id="chosenUpgrade" prefHeight="38.0" prefWidth="250.0" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <HBox prefHeight="60.0" prefWidth="600.0">
                <children>
-                  <AnchorPane prefHeight="59.0" prefWidth="218.0">
+                  <AnchorPane prefHeight="38.0" prefWidth="205.0">
                      <children>
-                        <Button fx:id="noSelection" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="102.0" text="No selection">
+                        <Button fx:id="noSelection" layoutX="105.0" layoutY="17.0" mnemonicParsing="false" onAction="#noSelectionAction" prefHeight="12.0" prefWidth="102.0" text="No selection">
                            <effect>
                               <InnerShadow choke="0.25" color="#463f3f" height="36.18" radius="23.66" width="60.46" />
                            </effect>
@@ -123,7 +161,7 @@
                      <children>
                         <AnchorPane layoutX="105.0" prefHeight="60.0" prefWidth="287.0">
                            <children>
-                              <Button fx:id="finishButton" layoutX="65.0" layoutY="17.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" text="Finish" textFill="#2c2a2a">
+                              <Button fx:id="finishButton" layoutX="64.0" layoutY="14.0" mnemonicParsing="false" onAction="#finishAction" prefHeight="27.0" prefWidth="102.0" text="Finish" textFill="#2c2a2a">
                                  <effect>
                                     <InnerShadow choke="0.25" color="#403a3a" height="56.67" radius="28.7825" width="60.46" />
                                  </effect></Button>
@@ -135,5 +173,13 @@
             </HBox>
          </children>
       </VBox>
+      <AnchorPane layoutY="-20.0" prefHeight="101.0" prefWidth="132.0">
+         <children>
+            <ImageView fitHeight="99.0" fitWidth="147.0">
+               <image>
+                  <Image url="@images/upgradeRobot.gif" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
    </children>
 </AnchorPane>
