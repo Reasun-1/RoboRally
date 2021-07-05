@@ -38,6 +38,7 @@ public class UpgradeShopController {
     @FXML
     private Label energyNow, chosenUpgrade;
 
+
     //====================CardsBindings===================================
     Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
     Image adminUpCard = new Image(getClass().getResource("/images/Cards/UpgradeCards/UpGradeAdmin.jpg").toExternalForm());
@@ -55,6 +56,7 @@ public class UpgradeShopController {
 
     //adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
+
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
@@ -127,7 +129,7 @@ public class UpgradeShopController {
 
 
     /**
-     * Method set the text "AdminPrivilege" in the textfield by press the button of this upgradecard.
+     * Methods set the text in the textfield by press the button of each upgradecard.
      * @param event
      * @throws JsonProcessingException
      */
@@ -135,29 +137,17 @@ public class UpgradeShopController {
     private void btnAction1(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade = upgradeLabel1;
     }
-    /**
-     * Method set the text "SpamBlocker" in the textfield by press the button of this upgradecard.
-     * @param event
-     * @throws JsonProcessingException
-     */
+
     @FXML
     private void btnAction2(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade = upgradeLabel2;
     }
-    /**
-     * Method set the text "RealLaser" in the textfield by press the button of this upgradecard.
-     * @param event
-     * @throws JsonProcessingException
-     */
+
     @FXML
     private void btnAction3(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade = upgradeLabel3;
     }
-    /**
-     * Method set the text "MemorySwap" in the textfield by press the button of this upgradecard.
-     * @param event
-     * @throws JsonProcessingException
-     */
+
     @FXML
     private void btnAction4(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade = upgradeLabel4;
@@ -190,6 +180,5 @@ public class UpgradeShopController {
         //client.s
         stage.close();
     }
-
 
 }
