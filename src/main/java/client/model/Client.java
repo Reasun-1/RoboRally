@@ -43,6 +43,7 @@ public class Client extends Application {
     public int registerPointer = 0;
     // client list with all clientIDs
     private List<Integer> clientsList;
+
     // map: key = clientID, value = robotfigure;
     public HashMap<Integer, Integer> robotFigureAllClients = new HashMap<>();
     // map : key = clientID, value = name;
@@ -57,19 +58,25 @@ public class Client extends Application {
     private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
+
     // store the map name
     public String mapName = null;
     // store the available startPoints for the maps(death trap is different)
-    private HashSet<Position> avaibleStartsMaps = new HashSet<>();
-    private HashSet<Position> avaibleStartsMapTrap = new HashSet<>();
+    private HashSet<Position> availableStartsMaps = new HashSet<>();
+    private HashSet<Position> availableStartsMapTrap = new HashSet<>();
+
     // key=robotNum, value=robotName
     public HashMap<Integer, String> robotNumAndNames = new HashMap<>();
+
     // for the listner in update shop
     public List<String> availableUpgradesCards = new ArrayList<>();
+
     // for the listner in Chat&Game: key=CardName value=count
     public HashMap<String, Integer> myUpgradesCards = new HashMap<>();
+
     // storage for the cards in memorySwapWindow
     public List<String> cards12ForMemory = new ArrayList<>();
+
     // storage for moving checkpoints: key=checkpointNr. value=int[x,y]
     public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
@@ -89,14 +96,17 @@ public class Client extends Application {
     private final StringProperty PLAYERSINSERVER = new SimpleStringProperty();
     // players who are ready to play
     private final StringProperty PLAYERSWHOAREREADY = new SimpleStringProperty();
+
     // show the info about game phase
     public final StringProperty GAMEPHASE = new SimpleStringProperty();
     // who is in the first place of ready list, is allowed to select a map
     private final BooleanProperty CANSELECTMAP = new SimpleBooleanProperty(false);
     // player who is in turn
     private final BooleanProperty ISCURRENTPLAYER = new SimpleBooleanProperty(false);
+
     // player who can set start point, binds with selectStartPoint button in GUI
     public final BooleanProperty CANSETSTARTPOINT = new SimpleBooleanProperty(false);
+
     // binds with drawnCards in GUI
     public final ListProperty<String> MYCARDS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // binds myRegister slots in GUI
@@ -109,7 +119,7 @@ public class Client extends Application {
     private final BooleanProperty CANPLAYNEXTREGISTER = new SimpleBooleanProperty(false);
     // binding current positions of all clients
     private final HashMap<Integer, IntegerProperty[]> CURRENTPOSITIONS = new HashMap<>();
-    // flag property for listner to know that round is over
+    // flag property for listener to know that round is over
     private IntegerProperty flagRoundOver = new SimpleIntegerProperty(0);
     // flag property for map-updating
     private IntegerProperty flagMapUpdate = new SimpleIntegerProperty(0);
@@ -135,179 +145,418 @@ public class Client extends Application {
     private StringProperty timerScreen = new SimpleStringProperty();
     // bind flag in window upgrade shop
     private IntegerProperty flagRefreshUpdateSop = new SimpleIntegerProperty(0);
+
     // bind flag in Chat&Game for my upgrade cards
     public IntegerProperty flagMyUpgrades = new SimpleIntegerProperty(0);
+
     // flag update enable/disable the upgrades button Admin in Chat&Game
     public IntegerProperty flagAdmin = new SimpleIntegerProperty(0);
+
     // flag update enable/disable the upgrades button Memory in Chat&Game
     public IntegerProperty flagMemory = new SimpleIntegerProperty(0);
+
     // flag update enable/disable the upgrades button Blocker in Chat&Game
     public IntegerProperty flagBlocker = new SimpleIntegerProperty(0);
+
     // flag update cards in MemorySwapWindow
     public IntegerProperty flagCardsInMemorySwapWindow = new SimpleIntegerProperty(0);
+
     // flag update moving checkpoint
     public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
 
-
-
     // Getters
+
+    /**
+     * Gets socket.
+     *
+     * @return the socket
+     */
     public Socket getSocket() {
         return socket;
     }
 
+    /**
+     * Gets Input.
+     *
+     * @return the in
+     */
     public BufferedReader getIn() {
         return IN;
     }
 
+    /**
+     * Gets Output.
+     *
+     * @return the out
+     */
     public PrintWriter getOut() {
         return OUT;
     }
 
+    /**
+     * Gets ClientID.
+     *
+     * @return the client id
+     */
     public int getClientID() {
         return clientID;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets chat history.
+     *
+     * @return the chat history
+     */
     public StringProperty getChatHistory() {
         return CHATHISTORY;
     }
 
+    /**
+     * Playersinserver property string property.
+     *
+     * @return the string property
+     */
     public StringProperty PLAYERSINSERVERProperty() {
         return PLAYERSINSERVER;
     }
 
+    /**
+     * Playerswhoareready property string property.
+     *
+     * @return the string property
+     */
     public StringProperty PLAYERSWHOAREREADYProperty() {
         return PLAYERSWHOAREREADY;
     }
 
+    /**
+     * Gets clientidasstringproperty.
+     *
+     * @return the clientidasstringproperty
+     */
     public StringProperty getCLIENTIDASSTRINGPROPERTY() {
         return CLIENTIDASSTRINGPROPERTY;
     }
 
+    /**
+     * Gets robot figure all clients.
+     *
+     * @return the robot figure all clients
+     */
     public HashMap<Integer, Integer> getRobotFigureAllClients() {
         return robotFigureAllClients;
     }
 
+    /**
+     * Gets client names.
+     *
+     * @return the client names
+     */
     public HashMap<Integer, String> getClientNames() {
         return clientNames;
     }
 
+    /**
+     * Canselectmap property boolean property.
+     *
+     * @return the boolean property
+     */
     public BooleanProperty CANSELECTMAPProperty() {
         return CANSELECTMAP;
     }
 
+    /**
+     * Information property string property.
+     *
+     * @return the string property
+     */
     public StringProperty INFORMATIONProperty() {
         return INFORMATION;
     }
 
+    /**
+     * Iscurrentplayer property boolean property.
+     *
+     * @return the boolean property
+     */
     public BooleanProperty ISCURRENTPLAYERProperty() {
         return ISCURRENTPLAYER;
     }
 
+    /**
+     * Gamephase property string property.
+     *
+     * @return the string property
+     */
     public StringProperty GAMEPHASEProperty() {
         return GAMEPHASE;
     }
 
+    /**
+     * Cansetstartpoint property boolean property.
+     *
+     * @return the boolean property
+     */
     public BooleanProperty CANSETSTARTPOINTProperty() {
         return CANSETSTARTPOINT;
     }
 
+    /**
+     * Mycards property list property.
+     *
+     * @return the list property
+     */
     public ListProperty<String> MYCARDSProperty() {
         return MYCARDS;
     }
 
+    /**
+     * Get myregister string property [ ].
+     *
+     * @return the string property [ ]
+     */
     public StringProperty[] getMYREGISTER() {
         return MYREGISTER;
     }
 
+    /**
+     * Canclickfinish property boolean property.
+     *
+     * @return the boolean property
+     */
     public BooleanProperty CANCLICKFINISHProperty() {
         return CANCLICKFINISH;
     }
 
+    /**
+     * Canplaynextregister property boolean property.
+     *
+     * @return the boolean property
+     */
     public BooleanProperty CANPLAYNEXTREGISTERProperty() {
         return CANPLAYNEXTREGISTER;
     }
 
+    /**
+     * Flag round over property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagRoundOverProperty() {
         return flagRoundOver;
     }
 
+    /**
+     * Flag map update property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagMapUpdateProperty() {
         return flagMapUpdate;
     }
 
+    /**
+     * Gets map in gui.
+     *
+     * @return the map in gui
+     */
     public List<List<List<FeldObject>>> getMapInGUI() {
         return mapInGUI;
     }
 
+    /**
+     * Flag my figure property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagMyFigureProperty() {
         return flagMyFigure;
     }
 
+    /**
+     * Flag positions property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagPositionsProperty() {
         return flagPositions;
     }
 
+    /**
+     * Flag directions property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagDirectionsProperty() {
         return flagDirections;
     }
 
+    /**
+     * Gets current positions.
+     *
+     * @return the current positions
+     */
     public HashMap<Integer, int[]> getCurrentPositions() {
         return currentPositions;
     }
 
+    /**
+     * Gets current directions.
+     *
+     * @return the current directions
+     */
     public HashMap<Integer, Direction> getCurrentDirections() {
         return currentDirections;
     }
 
+    /**
+     * Flag clear registers property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagClearRegistersProperty() { return flagClearRegisters; }
 
+    /**
+     * Flag time out property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
 
+    /**
+     * Flag replace register property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagReplaceRegisterProperty() { return flagReplaceRegister; }
 
+    /**
+     * Energy count property string property.
+     *
+     * @return the string property
+     */
     public StringProperty energyCountProperty() { return energyCount; }
 
+    /**
+     * Maps property list property.
+     *
+     * @return the list property
+     */
     public ListProperty<String> MAPSProperty() { return MAPS; }
 
+    /**
+     * Gets maps.
+     *
+     * @return the maps
+     */
     public ObservableList<String> getMAPS() { return MAPS.get(); }
 
+    /**
+     * Robotsnamesforchat property list property.
+     *
+     * @return the list property
+     */
     public ListProperty<String> ROBOTSNAMESFORCHATProperty() { return ROBOTSNAMESFORCHAT; }
 
+    /**
+     * Gets robotsnamesforchat.
+     *
+     * @return the robotsnamesforchat
+     */
     public ObservableList<String> getROBOTSNAMESFORCHAT() { return ROBOTSNAMESFORCHAT.get(); }
 
+    /**
+     * Timer screen property string property.
+     *
+     * @return the string property
+     */
     public StringProperty timerScreenProperty() { return timerScreen; }
 
+    /**
+     * Flag refresh update shop property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagRefreshUpdateShopProperty() { return flagRefreshUpdateSop; }
 
+    /**
+     * Flag my upgrades property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
 
+    /**
+     * Flag admin property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagAdminProperty() { return flagAdmin; }
 
+    /**
+     * Flag memory property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagMemoryProperty() { return flagMemory; }
 
+    /**
+     * Flag blocker property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagBlockerProperty() { return flagBlocker; }
 
+    /**
+     * Flag cards in memory swap window property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagCardsInMemorySwapWindowProperty() { return flagCardsInMemorySwapWindow; }
 
+    /**
+     * Flag moving checkpoints property integer property.
+     *
+     * @return the integer property
+     */
     public IntegerProperty flagMovingCheckpointsProperty() { return flagMovingCheckpoints;}
 
 
-
-
-
-    // Setters
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+// Setters
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets robot figure all clients.
+     *
+     * @param clientID the client id
+     * @param figure   the figure
+     */
     public void setRobotFigureAllClients(Integer clientID, Integer figure) {
         robotFigureAllClients.put(clientID, figure);
     }
 
+    /**
+     * Sets client names.
+     *
+     * @param clientID the client id
+     * @param name     the name
+     */
     public void setClientNames(Integer clientID, String name) {
         clientNames.put(clientID, name);
     }
@@ -315,7 +564,7 @@ public class Client extends Application {
     /**
      * Constructor establishes the TCP-Connection and initializes the remaining variables
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public Client() throws IOException {
 
@@ -412,7 +661,8 @@ public class Client extends Application {
     /**
      * Execute an order from the server by checking the order code and calling the correct method
      *
-     * @throws IOException
+     * @param json the json
+     * @throws IOException the io exception
      */
     public void executeOrder(String json) throws IOException {
 
@@ -871,9 +1121,9 @@ public class Client extends Application {
     /**
      * send message to a certain person
      *
-     * @param to
-     * @param message
-     * @throws JsonProcessingException
+     * @param to      the to
+     * @param message the message
+     * @throws JsonProcessingException the json processing exception
      */
     public void sendPersonalMessage(int to, String message) throws JsonProcessingException {
         Protocol protocol = new Protocol("SendChat", new SendChatBody(message, to));
@@ -885,7 +1135,8 @@ public class Client extends Application {
     /**
      * Send message to the server, quit if logout order is given
      *
-     * @param message
+     * @param message the message
+     * @throws JsonProcessingException the json processing exception
      */
     public void sendMessage(String message) throws JsonProcessingException {
         // Check logout condition
@@ -917,6 +1168,10 @@ public class Client extends Application {
 
     /**
      * give the client name and robot figure to server
+     *
+     * @param clientName  the client name
+     * @param robotFigure the robot figure
+     * @throws JsonProcessingException the json processing exception
      */
     public void setPlayerValues(String clientName, int robotFigure) throws JsonProcessingException {
         Protocol protocol = new Protocol("PlayerValues", new PlayerValuesBody(clientName, robotFigure));
@@ -928,7 +1183,7 @@ public class Client extends Application {
     /**
      * client set status, update HashMap readyClients in client- and server- class
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void setReady() throws JsonProcessingException {
         readyClients.put(clientID, true);
@@ -941,7 +1196,7 @@ public class Client extends Application {
     /**
      * client set status unready, HashMap update readyClients in client- and server- class
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void setUnready() throws JsonProcessingException {
         readyClients.put(clientID, false);
@@ -969,8 +1224,8 @@ public class Client extends Application {
     /**
      * invoked by client, who selects a map
      *
-     * @param mapName
-     * @throws JsonProcessingException
+     * @param mapName the map name
+     * @throws JsonProcessingException the json processing exception
      */
     public void handleMapSelected(String mapName) throws JsonProcessingException {
         Protocol protocol = new Protocol("MapSelected", new MapSelectedBody(mapName));
@@ -1009,18 +1264,18 @@ public class Client extends Application {
         timerScreen.set("OFF");
 
         // inti available StartsPoints
-        avaibleStartsMaps.add(new Position(1,1));
-        avaibleStartsMaps.add(new Position(0,3));
-        avaibleStartsMaps.add(new Position(1,4));
-        avaibleStartsMaps.add(new Position(1,5));
-        avaibleStartsMaps.add(new Position(0,6));
-        avaibleStartsMaps.add(new Position(1,8));
-        avaibleStartsMapTrap.add(new Position(11,1));
-        avaibleStartsMapTrap.add(new Position(12,3));
-        avaibleStartsMapTrap.add(new Position(11,4));
-        avaibleStartsMapTrap.add(new Position(11,5));
-        avaibleStartsMapTrap.add(new Position(12,6));
-        avaibleStartsMapTrap.add(new Position(11,8));
+        availableStartsMaps.add(new Position(1,1));
+        availableStartsMaps.add(new Position(0,3));
+        availableStartsMaps.add(new Position(1,4));
+        availableStartsMaps.add(new Position(1,5));
+        availableStartsMaps.add(new Position(0,6));
+        availableStartsMaps.add(new Position(1,8));
+        availableStartsMapTrap.add(new Position(11,1));
+        availableStartsMapTrap.add(new Position(12,3));
+        availableStartsMapTrap.add(new Position(11,4));
+        availableStartsMapTrap.add(new Position(11,5));
+        availableStartsMapTrap.add(new Position(12,6));
+        availableStartsMapTrap.add(new Position(11,8));
 
         // init my upgrade card
         myUpgradesCards.put("AdminPrivilege", 0);
@@ -1032,9 +1287,9 @@ public class Client extends Application {
     /**
      * set start point to inform the server
      *
-     * @param x
-     * @param y
-     * @throws JsonProcessingException
+     * @param x the x
+     * @param y the y
+     * @throws IOException the io exception
      */
     public void setStartPoint(int x, int y) throws IOException {
         boolean isAvailable = checkStartPointAvailable(x, y);
@@ -1055,43 +1310,45 @@ public class Client extends Application {
 
     /**
      * if the start position is taken, remove it from hashset
-     * @param x
-     * @param y
+     *
+     * @param x the x
+     * @param y the y
      */
     public void removeStartPointsInHashSet(int x, int y){
         HashSet<Position> toRemove = new HashSet<>();
         if(mapName.equals("Death Trap")){
-            for(Position p : avaibleStartsMapTrap){
+            for(Position p : availableStartsMapTrap){
                 if(p.getX() == x && p.getY() == y){
                     toRemove.add(p);
                 }
             }
-            avaibleStartsMapTrap.removeAll(toRemove);
+            availableStartsMapTrap.removeAll(toRemove);
         }else{
-            for(Position p : avaibleStartsMaps){
+            for(Position p : availableStartsMaps){
                 if(p.getX() == x && p.getY() == y){
                     toRemove.add(p);
                 }
             }
-            avaibleStartsMaps.removeAll(toRemove);
+            availableStartsMaps.removeAll(toRemove);
         }
     }
 
     /**
-     * check if the chosen start point is avaible
-     * @param x
-     * @param y
-     * @return
+     * check if the chosen start point is available
+     *
+     * @param x the x
+     * @param y the y
+     * @return boolean
      */
     public boolean checkStartPointAvailable(int x, int y){
         if(mapName.equals("Death Trap")){
-            for(Position p : avaibleStartsMapTrap){
+            for(Position p : availableStartsMapTrap){
                 if(p.getX() == x && p.getY() == y){
                     return true;
                 }
             }
         }else{
-            for(Position p : avaibleStartsMaps){
+            for(Position p : availableStartsMaps){
                 if(p.getX() == x && p.getY() == y){
                     return true;
                 }
@@ -1103,9 +1360,9 @@ public class Client extends Application {
     /**
      * client set/clear register slot
      *
-     * @param cardName
-     * @param registerNum
-     * @throws JsonProcessingException
+     * @param cardName    the card name
+     * @param registerNum the register num
+     * @throws IOException the io exception
      */
     public void setRegister(String cardName, int registerNum) throws IOException {
         if (cardName != null) {
@@ -1135,7 +1392,7 @@ public class Client extends Application {
     /**
      * when one client finished selecting card for one register, tell is to server
      *
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the json processing exception
      */
     public void selectFinish() throws JsonProcessingException {
         Protocol protocol = new Protocol("SelectionFinished", new SelectionFinishedBody(clientID));
@@ -1149,7 +1406,8 @@ public class Client extends Application {
     /**
      * client plays one card in the current register
      *
-     * @param cardName
+     * @param cardName the card name
+     * @throws JsonProcessingException the json processing exception
      */
     public void playNextRegister(String cardName) throws JsonProcessingException {
         Protocol protocol = new Protocol("PlayCard", new PlayCardBody(cardName));
@@ -1161,8 +1419,9 @@ public class Client extends Application {
 
     /**
      * client plays upgrade card
-     * @param cardName
-     * @throws JsonProcessingException
+     *
+     * @param cardName the card name
+     * @throws JsonProcessingException the json processing exception
      */
     public void playUpgrade(String cardName) throws JsonProcessingException {
         Protocol protocol = new Protocol("PlayCard", new PlayCardBody(cardName));
@@ -1171,6 +1430,12 @@ public class Client extends Application {
         OUT.println(json);
     }
 
+    /**
+     * Handle reboot direction.
+     *
+     * @param direction the direction
+     * @throws JsonProcessingException the json processing exception
+     */
     public void handleRebootDirection(String direction) throws JsonProcessingException {
         Protocol protocol = new Protocol("RebootDirection", new RebootDirectionBody(direction));
         String json = Protocol.writeJson(protocol);
@@ -1180,8 +1445,9 @@ public class Client extends Application {
 
     /**
      * client buys upgrade card
-     * @param upCardName
-     * @throws JsonProcessingException
+     *
+     * @param upCardName the up card name
+     * @throws JsonProcessingException the json processing exception
      */
     public void handleBuyUpgrade(String upCardName) throws JsonProcessingException {
         if(upCardName == null){
