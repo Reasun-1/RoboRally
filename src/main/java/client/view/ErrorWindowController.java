@@ -4,22 +4,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.CheckBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-
-
-
 /**
+ * The controller for Error window .
+ *
  * @author Rajna Fani
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-
 public class ErrorWindowController {
 
     @FXML
@@ -27,13 +22,16 @@ public class ErrorWindowController {
     @FXML
     private Button okButton;
 
+    /**
+     * The Media player.
+     */
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/errorWindow.mp3").toString()));
 
 
     /**
      * Method to be called from WindowLauncher to set the error that happens.
      *
-     * @param msg
+     * @param msg the msg
      */
     public void init(String msg) {
         errorField.setText(msg);

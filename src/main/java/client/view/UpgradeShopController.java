@@ -2,28 +2,21 @@ package client.view;
 
 
 import client.model.Client;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
-
 /**
- * @author rajna fani
- * @author chiara welz
- * @author yuliia shaparenko
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The controller for Upgrade shop.
+ *
+ * @author Rajna Fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  */
-
 public class UpgradeShopController {
 
     private Client client;
@@ -39,14 +32,17 @@ public class UpgradeShopController {
     @FXML
     private Label energyNow;
 
-    //adding sound effects when the window gets opened
+    /**
+     * The Media player.
+     */
+//adding sound effects when the window gets opened
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/upgradeSound.mp3").toString()));
 
     /**
      * Method to be called from WindowLauncher to check the entered name.
-     * @param
+     *
+     * @param client the client
      */
-
     public void init(Client client) {
         this.client = client;
         mediaPlayer.play();
