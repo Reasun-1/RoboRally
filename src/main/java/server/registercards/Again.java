@@ -80,6 +80,7 @@ public class Again extends RegisterCard{
      * @throws IOException the io exception
      */
 // only test
+    /*
     public static void main(String[] args) throws IOException {
         List<RegisterCard> test = new ArrayList<>();
         test.add(new Again());
@@ -87,4 +88,5 @@ public class Again extends RegisterCard{
         Again again = (Again)test.get(0);
         again.doCardFunction(2);
     }
+     */
 }
