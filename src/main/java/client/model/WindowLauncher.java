@@ -85,7 +85,8 @@ public class WindowLauncher {
         ErrorWindowController ctrl = loader.getController();
         ctrl.init(message);
         stage.setScene(new Scene(root, 600, 400));
-        stage.showAndWait();
+        //stage.showAndWait();
+        stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
@@ -104,7 +105,8 @@ public class WindowLauncher {
         GameOverController controller = loader.getController();
         controller.init(winner);
         stage.setScene(new Scene(root, 600, 400));
-        stage.showAndWait();
+        //stage.showAndWait();
+        stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
@@ -144,7 +146,8 @@ public class WindowLauncher {
         MemorySwapController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        stage.showAndWait();
+        //stage.showAndWait();
+        stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
