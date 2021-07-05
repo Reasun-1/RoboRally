@@ -10,15 +10,28 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * @author can ren
+ * The type Spam blocker.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class SpamBlocker extends UpgradeCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL UPGRADE
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The Sub type.
+     */
     String subType; // detailed type of card
 
+    /**
+     * Instantiates a new Spam blocker.
+     */
     public SpamBlocker() {
         this.cardType = "UPGRADE";
         this.cardName = "SpamBlocker";

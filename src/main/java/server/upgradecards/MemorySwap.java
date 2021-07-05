@@ -4,19 +4,31 @@ import server.game.Game;
 import server.network.Server;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author can ren
+ * The type Memory swap.
+ *
+ * @author Can Ren
  * @author Megzon Mehmedali
- * @create $(YEAR)-$(MONTH)-$(DAY)
  */
 public class MemorySwap extends UpgradeCard{
+    /**
+     * The Card type.
+     */
     String cardType; // PROGRAMME DAMAGE SPECIAL UPGRADE
+    /**
+     * The Card name.
+     */
     String cardName; // detailed name of each card
+    /**
+     * The Sub type.
+     */
     String subType; // detailed type of card
 
+    /**
+     * Instantiates a new Memory swap.
+     */
     public MemorySwap() {
         this.cardType = "UPGRADE";
         this.cardName = "MemorySwap";
