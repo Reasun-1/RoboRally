@@ -18,6 +18,11 @@ public class Empty extends FeldObject{
     public Empty() {
     }
 
+    /**
+     * Instantiates a new Empty.
+     *
+     * @param isOnBoard the is on board
+     */
     public Empty(String isOnBoard) {
         //this.type = type;
         this.isOnBoard = isOnBoard;

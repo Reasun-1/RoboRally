@@ -1,6 +1,5 @@
 package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.game.Direction;
 
 import java.util.List;
 
@@ -9,6 +8,7 @@ import java.util.List;
  * robot and board lasers cannot shoot through walls.
  *
  * @author Jonas Gottal
+ * @author Can Ren
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wall extends FeldObject{
@@ -17,9 +17,18 @@ public class Wall extends FeldObject{
     private String isOnBoard;
     private List<String> orientations;
 
+    /**
+     * Instantiates a new Wall.
+     */
     public Wall() {
     }
 
+    /**
+     * Instantiates a new Wall.
+     *
+     * @param isOnBoard    the is on board
+     * @param orientations the orientations
+     */
     public Wall( String isOnBoard, List<String> orientations) {
         //this.type = type;
         this.isOnBoard = isOnBoard;

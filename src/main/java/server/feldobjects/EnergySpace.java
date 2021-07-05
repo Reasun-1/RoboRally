@@ -20,9 +20,18 @@ public class EnergySpace extends FeldObject{
     private String isOnBoard;
     private int count;
 
+    /**
+     * Instantiates a new Energy space.
+     */
     public EnergySpace() {
     }
 
+    /**
+     * Instantiates a new Energy space.
+     *
+     * @param isOnBoard the is on board
+     * @param count     the count
+     */
     public EnergySpace(String isOnBoard, int count) {
         //this.type = type;
         this.isOnBoard = isOnBoard;

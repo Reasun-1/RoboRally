@@ -3,7 +3,6 @@ package server.feldobjects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import server.game.Game;
 import server.network.Server;
-import server.registercards.Spam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.List;
  * @author Jonas Gottal
  * @author Can Ren
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Laser extends FeldObject{
 
@@ -27,9 +25,19 @@ public class Laser extends FeldObject{
     private List<String> orientations;
     private int count;
 
+    /**
+     * Instantiates a new Laser.
+     */
     public Laser() {
     }
 
+    /**
+     * Instantiates a new Laser.
+     *
+     * @param isOnBoard    the is on board
+     * @param orientations the orientations
+     * @param count        the count
+     */
     public Laser(String isOnBoard, List<String> orientations, int count) {
 
         this.isOnBoard = isOnBoard;
@@ -67,8 +75,9 @@ public class Laser extends FeldObject{
 
     /**
      * draw one damage card from damage card piles
-     * @param clientID
-     * @return
+     *
+     * @param clientID the client id
+     * @return string
      */
     public static String drawOneDamageCard(int clientID){
         String damageCardName = "";
