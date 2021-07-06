@@ -32,9 +32,9 @@ public class UpgradeShopController {
     @FXML
     private Button finishButton;
     @FXML
-    private ImageView upgradeCard1, upgradeCard2, upgradeCard3, upgradeCard4;
+    private ImageView upgradeCard1, upgradeCard2, upgradeCard3, upgradeCard4, upgradeCard5, upgradeCard6;
     @FXML
-    private Label upgradeLabel1, upgradeLabel2, upgradeLabel3, upgradeLabel4;
+    private Label upgradeLabel1, upgradeLabel2, upgradeLabel3, upgradeLabel4, upgradeLabel5, upgradeLabel6;
     @FXML
     private Label energyNow, chosenUpgrade;
 
@@ -51,7 +51,6 @@ public class UpgradeShopController {
     String laserLabel = "Cost: 2";
     String spamLabel = "Cost: 3";
     String memoryLabel = "Cost: 1";
-    String discardLabel = " ";
 
 
     //adding sound effects when the window gets opened
@@ -77,6 +76,7 @@ public class UpgradeShopController {
         //binds finish-Button with textfield
         finishButton.disableProperty().bind(chosenUpgrade.textProperty().isEmpty());
 
+
         client.flagRefreshUpdateShopProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -94,22 +94,18 @@ public class UpgradeShopController {
                     switch (cardName) {
                         case "AdminPrivilege":
                             upgradeImage = adminUpCard;
-                            //upgradeLabel.setText(adminLabel);
                             label = adminLabel;
                             break;
                         case "SpamBlocker":
                             upgradeImage = spamUpCard;
-                            //upgradeLabel.setText(spamLabel);
                             label = spamLabel;
                             break;
                         case "RealLaser":
                             upgradeImage = laserUpCard;
-                            //upgradeLabel.setText(laserLabel);
                             label = laserLabel;
                             break;
                         case "MemorySwap":
                             upgradeImage = memoryUpCard;
-                            //upgradeLabel.setText(memoryLabel);
                             label = memoryLabel;
                             break;
                     }
@@ -117,23 +113,27 @@ public class UpgradeShopController {
                     switch (i + 1) {
                         case 1:
                             upgradeCard1.setImage(upgradeImage);
-                            //upgradeLabel1 = upgradeLabel;
                             upgradeLabel1.setText(label);
                             break;
                         case 2:
                             upgradeCard2.setImage(upgradeImage);
-                            //upgradeLabel2 = upgradeLabel;
                             upgradeLabel2.setText(label);
                             break;
                         case 3:
                             upgradeCard3.setImage(upgradeImage);
-                            //upgradeLabel3 = upgradeLabel;
                             upgradeLabel3.setText(label);
                             break;
                         case 4:
                             upgradeCard4.setImage(upgradeImage);
-                            //upgradeLabel4 = upgradeLabel;
                             upgradeLabel4.setText(label);
+                            break;
+                        case 5:
+                            upgradeCard5.setImage(upgradeImage);
+                            upgradeLabel5.setText(label);
+                            break;
+                        case 6:
+                            upgradeCard6.setImage(upgradeImage);
+                            upgradeLabel6.setText(label);
                             break;
                     }
                 }
@@ -151,7 +151,6 @@ public class UpgradeShopController {
     @FXML
     private void btnAction1(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade.setText("");
-        //chosenUpgrade = upgradeLabel1;
         chosenUpgrade.setText(client.availableUpgradesCards.get(0));
     }
 
@@ -161,21 +160,15 @@ public class UpgradeShopController {
 
         if (client.availableUpgradesCards.size() > 1) {
             chosenUpgrade.setText(client.availableUpgradesCards.get(1));
-            //chosenUpgrade = upgradeLabel2;
         }
     }
-    /**
-     * Method set the text "RealLaser" in the textfield by press the button of this upgradecard.
-     * @param event
-     * @throws JsonProcessingException
-     */
+
     @FXML
     private void btnAction3(ActionEvent event) throws JsonProcessingException {
         chosenUpgrade.setText("");
 
         if (client.availableUpgradesCards.size() > 2) {
             chosenUpgrade.setText(client.availableUpgradesCards.get(2));
-            //chosenUpgrade = upgradeLabel3;
         }
     }
 
@@ -185,7 +178,24 @@ public class UpgradeShopController {
 
         if (client.availableUpgradesCards.size() > 3) {
             chosenUpgrade.setText(client.availableUpgradesCards.get(3));
-            //chosenUpgrade = upgradeLabel4;
+        }
+    }
+
+    @FXML
+    private void btnAction5(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("");
+
+        if (client.availableUpgradesCards.size() > 4) {
+            chosenUpgrade.setText(client.availableUpgradesCards.get(4));
+        }
+    }
+
+    @FXML
+    private void btnAction6(ActionEvent event) throws JsonProcessingException {
+        chosenUpgrade.setText("");
+
+        if (client.availableUpgradesCards.size() > 5) {
+            chosenUpgrade.setText(client.availableUpgradesCards.get(5));
         }
     }
 
