@@ -1931,7 +1931,29 @@ public class ChatController {
             case "Death Trap":
                 break;
             case "Twister":
-                //TODO add Lasers - tbd
+
+                ImageView laserHoriTwister1 = new ImageView(Lasers1);
+                laserHoriTwister1.setFitHeight(43);
+                laserHoriTwister1.setFitWidth(43);
+                gridPaneBoard.add(laserHoriTwister1,7,0);
+
+                ImageView laserHoriTwister2 = new ImageView(Lasers1);
+                laserHoriTwister2.setFitHeight(43);
+                laserHoriTwister2.setFitWidth(43);
+                gridPaneBoard.add(laserHoriTwister2,8,9);
+
+                ImageView laserVertiTwister3 = new ImageView(Lasers1);
+                laserVertiTwister3.setFitHeight(43);
+                laserVertiTwister3.setFitWidth(43);
+                laserVertiTwister3.setRotate(laserVertiTwister3.getRotate()+90);
+                gridPaneBoard.add(laserVertiTwister3,3,5);
+
+                ImageView laserVertiTwister4 = new ImageView(Lasers1);
+                laserVertiTwister4.setFitHeight(43);
+                laserVertiTwister4.setFitWidth(43);
+                laserVertiTwister4.setRotate(laserVertiTwister4.getRotate()+90);
+                gridPaneBoard.add(laserVertiTwister4,12,4);
+
                 break;
             case "Extra Crispy":
 
