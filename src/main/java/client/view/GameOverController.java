@@ -12,6 +12,7 @@ import javafx.util.Duration;
  *
  * @author Yuliia Shaparenko
  * @author Rajna Fani
+ * @author Chiara Welz
  */
 public class GameOverController {
     @FXML
@@ -32,6 +33,7 @@ public class GameOverController {
         mediaPlayer.play();
         mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
+        winnerText.setEditable(false);
         winnerText.setText(""+winner);
     }
 
