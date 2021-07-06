@@ -81,8 +81,6 @@ public class UpgradeShopController {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-                System.out.println("**********TEST UPGRADESHOP: ******** " + client.availableUpgradesCards);
-
                 for (int i = 0; i < client.availableUpgradesCards.size(); i++) {
 
                     String cardName = client.availableUpgradesCards.get(i);

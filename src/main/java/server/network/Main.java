@@ -1,5 +1,6 @@
 package server.network;
 
+import ai.AILow;
 import client.model.Client;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -21,6 +22,7 @@ public class Main {
      * @throws InterruptedException the interrupted exception
      * @throws IOException          the io exception
      */
+    /*
     public static void main(String[] args) throws InterruptedException, IOException {
 
         Thread t0 = new Thread(new Runnable() {
@@ -50,13 +52,13 @@ public class Main {
 
         Thread.sleep(5000);
 
-/*
+
         //optional: play with AI
         AILow ki = new AILow();
         Thread thread = new Thread(ki);
         thread.start();
 
- */
+
 
 
         Platform.runLater(new Runnable() {
@@ -73,4 +75,7 @@ public class Main {
 
 
     }
+
+     */
+
 }

@@ -732,7 +732,7 @@ public class Server {
      */
     public void handleRefillShop() throws IOException {
         List<String> upgradeCardsString = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < Game.clientIDs.size(); i++) {
             UpgradeCard upgradeCard = Game.upgradeShop.pop();
             String upCardName = upgradeCard.getCardName();
             upgradeCardsString.add(upCardName);

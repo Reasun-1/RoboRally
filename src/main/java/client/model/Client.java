@@ -956,6 +956,9 @@ public class Client extends Application {
                             for (int i = 0; i < 5; i++) {
                                 MYREGISTER[i].set(cards.get(i));
                             }
+                            if(MYREGISTER[0].equals("Again")){
+                                MYREGISTER[0].set("PowerUp");
+                            }
                             flagTimeOut.set(flagTimeOut.get()+1);
                             break;
                         case "CurrentCards":

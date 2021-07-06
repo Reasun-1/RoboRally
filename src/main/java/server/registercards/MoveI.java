@@ -66,7 +66,7 @@ public class MoveI extends RegisterCard{
             case RIGHT:
                 for (int i = x; i < Math.min(x+2,13); i++) {
                     String wallOri = Game.getInstance().checkWall(i, y);
-                    if (i > x && wallOri.equals("left")){
+                    if (i > x && (wallOri.equals("left")|| Game.board.get(i).get(y).get(0).getClass().getSimpleName().equals("Antenna"))){
                         newPosition.setX(i-1);
                         break;
                     }else if(wallOri.equals("right")){
@@ -90,7 +90,7 @@ public class MoveI extends RegisterCard{
                     if (wallOri.equals("left")){
                         newPosition.setX(i);
                         break;
-                    }else if(i < x && wallOri.equals("right")){
+                    }else if(i < x && (wallOri.equals("right") || Game.board.get(i).get(y).get(0).getClass().getSimpleName().equals("Antenna"))){
                         newPosition.setX(i+1);
                         break;
                     }else{
@@ -109,7 +109,7 @@ public class MoveI extends RegisterCard{
                     if(wallOri.equals("top")){
                         newPosition.setY(i);
                         break;
-                    }else if(i < y && wallOri.equals("bottom")){
+                    }else if(i < y && (wallOri.equals("bottom")|| Game.board.get(x).get(i).get(0).getClass().getSimpleName().equals("Antenna"))){
                         newPosition.setY(i+1);
                         break;
                     }else{
@@ -125,7 +125,7 @@ public class MoveI extends RegisterCard{
             case DOWN:
                 for (int i = y; i < Math.min(y+2, 10); i++) {
                     String wallOri = Game.getInstance().checkWall(x, i);
-                    if(i > y && wallOri.equals("top")){
+                    if(i > y && (wallOri.equals("top") || Game.board.get(x).get(i).get(0).getClass().getSimpleName().equals("Antenna"))){
                         newPosition.setY(i-1);
                         break;
                     }else if(wallOri.equals("bottom")){
