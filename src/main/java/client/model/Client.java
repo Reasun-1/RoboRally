@@ -841,19 +841,22 @@ public class Client extends Application {
                             String phaseString = "";
                             if (phase == 0) {
                                 phaseString = "Aufbauphase";
+                                GAMEPHASE.set(phaseString);
                             } else if (phase == 1) {
                                 phaseString = "Upgradephase";
+                                GAMEPHASE.set(phaseString);
                             } else if (phase == 2) {
                                 phaseString = "Programmierphase";
+                                GAMEPHASE.set(phaseString);
                                 //active admin button in Chat&Game
                                 flagAdmin.set(flagAdmin.get() + 1);
                             } else {
                                 phaseString = "Aktivierungsphase";
+                                GAMEPHASE.set(phaseString);
                                 timerScreen.set("OFF");
                             }
-                            GAMEPHASE.set(phaseString);
+                            //GAMEPHASE.set(phaseString);
                             //update enable/disable status for buttons upgradeCards in Chat&Game
-                            flagAdmin.set(flagAdmin.get() + 1);
                             flagBlocker.set(flagBlocker.get() + 1);
                             flagMemory.set(flagMemory.get() + 1);
                             break;
