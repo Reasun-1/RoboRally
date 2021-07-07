@@ -86,7 +86,6 @@ public class UpgradeShopController {
                     String cardName = client.availableUpgradesCards.get(i);
 
                     Image upgradeImage = null;
-                    //Label upgradeLabel = null;
                     String label = null;
 
                     switch (cardName) {
