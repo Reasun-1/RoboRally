@@ -81,8 +81,6 @@ public class Client extends Application {
     public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
 
-
-
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
@@ -423,112 +421,144 @@ public class Client extends Application {
      *
      * @return the integer property
      */
-    public IntegerProperty flagClearRegistersProperty() { return flagClearRegisters; }
+    public IntegerProperty flagClearRegistersProperty() {
+        return flagClearRegisters;
+    }
 
     /**
      * Flag time out property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagTimeOutProperty() { return flagTimeOut; }
+    public IntegerProperty flagTimeOutProperty() {
+        return flagTimeOut;
+    }
 
     /**
      * Flag replace register property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagReplaceRegisterProperty() { return flagReplaceRegister; }
+    public IntegerProperty flagReplaceRegisterProperty() {
+        return flagReplaceRegister;
+    }
 
     /**
      * Energy count property string property.
      *
      * @return the string property
      */
-    public StringProperty energyCountProperty() { return energyCount; }
+    public StringProperty energyCountProperty() {
+        return energyCount;
+    }
 
     /**
      * Maps property list property.
      *
      * @return the list property
      */
-    public ListProperty<String> MAPSProperty() { return MAPS; }
+    public ListProperty<String> MAPSProperty() {
+        return MAPS;
+    }
 
     /**
      * Gets maps.
      *
      * @return the maps
      */
-    public ObservableList<String> getMAPS() { return MAPS.get(); }
+    public ObservableList<String> getMAPS() {
+        return MAPS.get();
+    }
 
     /**
      * Robotsnamesforchat property list property.
      *
      * @return the list property
      */
-    public ListProperty<String> ROBOTSNAMESFORCHATProperty() { return ROBOTSNAMESFORCHAT; }
+    public ListProperty<String> ROBOTSNAMESFORCHATProperty() {
+        return ROBOTSNAMESFORCHAT;
+    }
 
     /**
      * Gets robotsnamesforchat.
      *
      * @return the robotsnamesforchat
      */
-    public ObservableList<String> getROBOTSNAMESFORCHAT() { return ROBOTSNAMESFORCHAT.get(); }
+    public ObservableList<String> getROBOTSNAMESFORCHAT() {
+        return ROBOTSNAMESFORCHAT.get();
+    }
 
     /**
      * Timer screen property string property.
      *
      * @return the string property
      */
-    public StringProperty timerScreenProperty() { return timerScreen; }
+    public StringProperty timerScreenProperty() {
+        return timerScreen;
+    }
 
     /**
      * Flag refresh update shop property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagRefreshUpdateShopProperty() { return flagRefreshUpdateSop; }
+    public IntegerProperty flagRefreshUpdateShopProperty() {
+        return flagRefreshUpdateSop;
+    }
 
     /**
      * Flag my upgrades property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagMyUpgradesProperty() { return flagMyUpgrades; }
+    public IntegerProperty flagMyUpgradesProperty() {
+        return flagMyUpgrades;
+    }
 
     /**
      * Flag admin property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagAdminProperty() { return flagAdmin; }
+    public IntegerProperty flagAdminProperty() {
+        return flagAdmin;
+    }
 
     /**
      * Flag memory property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagMemoryProperty() { return flagMemory; }
+    public IntegerProperty flagMemoryProperty() {
+        return flagMemory;
+    }
 
     /**
      * Flag blocker property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagBlockerProperty() { return flagBlocker; }
+    public IntegerProperty flagBlockerProperty() {
+        return flagBlocker;
+    }
 
     /**
      * Flag cards in memory swap window property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagCardsInMemorySwapWindowProperty() { return flagCardsInMemorySwapWindow; }
+    public IntegerProperty flagCardsInMemorySwapWindowProperty() {
+        return flagCardsInMemorySwapWindow;
+    }
 
     /**
      * Flag moving checkpoints property integer property.
      *
      * @return the integer property
      */
-    public IntegerProperty flagMovingCheckpointsProperty() { return flagMovingCheckpoints;}
+    public IntegerProperty flagMovingCheckpointsProperty() {
+        return flagMovingCheckpoints;
+    }
 
 
     /**
@@ -591,12 +621,12 @@ public class Client extends Application {
         PLAYERSWHOAREREADY.set("");
 
         // init nums and names of all the robots
-        robotNumAndNames.put(1,"Hulk");
-        robotNumAndNames.put(2,"Spinbot");
-        robotNumAndNames.put(3,"Squashbot");
-        robotNumAndNames.put(4,"Trundlebot");
-        robotNumAndNames.put(5,"Twitch");
-        robotNumAndNames.put(6,"Twonky");
+        robotNumAndNames.put(1, "Hulk");
+        robotNumAndNames.put(2, "Spinbot");
+        robotNumAndNames.put(3, "Squashbot");
+        robotNumAndNames.put(4, "Trundlebot");
+        robotNumAndNames.put(5, "Twitch");
+        robotNumAndNames.put(6, "Twonky");
 
 
         // init MYREGISTER[]
@@ -614,7 +644,7 @@ public class Client extends Application {
     /**
      * Stops the application on the client side
      */
-    public void stop(){
+    public void stop() {
         System.out.println("Application stop");
     }
 
@@ -637,8 +667,15 @@ public class Client extends Application {
                     json = IN.readLine();
                     //if(!line.isEmpty()) { // NullPointerException
                     if (json != null) {
-                        executeOrder(json);
-                        logger.info("json from server: " + json + Thread.currentThread().getName());
+                        if (Protocol.readJsonMessageType(json).equals("Alive")) {
+                            String alive = Protocol.writeJson(new Protocol("Alive", null));
+                            OUT.println(alive);
+                            logger.info("json from server: " + json + Thread.currentThread().getName());
+                            logger.info("==========client " + clientID + " sent alive checked back.===========");
+                        } else {
+                            executeOrder(json);
+                            logger.info("json from server: " + json + Thread.currentThread().getName());
+                        }
                     }
                 }
                 //Platform.exit();
@@ -686,10 +723,10 @@ public class Client extends Application {
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
                             boolean priv = receivedChatBody.isPrivate();
-                            if(priv){
+                            if (priv) {
                                 CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [private]: " + message + "\n");
 
-                            }else{
+                            } else {
                                 CHATHISTORY.set(CHATHISTORY.get() + fromClient + " [public]: " + message + "\n");
                             }
                             break;
@@ -722,11 +759,13 @@ public class Client extends Application {
                             INFORMATION.set("Are you ready to start?");
                             GAMEPHASE.set("Welcomephase");
                             break;
-                        case "Alive":
+                        /*case "Alive":
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
                             OUT.println(alive);
-                            logger.info("==========client " + clientID +" sent alive checked back.===========");
+                            logger.info("==========client " + clientID + " sent alive checked back.===========");
                             break;
+
+                         */
                         case "PlayerAdded":
                             logger.info(json + Thread.currentThread().getName());
                             PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
@@ -772,10 +811,10 @@ public class Client extends Application {
                             SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
                             List<String> availableMaps = selectMapBody.getAvailableMaps();
 
-                            for(String map : availableMaps){
+                            for (String map : availableMaps) {
                                 MAPS.add(map);
                             }
-                            System.out.println("in client "+MAPS);
+                            System.out.println("in client " + MAPS);
 
                             INFORMATION.set("");
                             INFORMATION.set("Select a map from: " + availableMaps);
@@ -809,14 +848,14 @@ public class Client extends Application {
                             } else {
                                 phaseString = "Aktivierungsphase";
                                 //active admin button in Chat&Game
-                                flagAdmin.set(flagAdmin.get()+1);
+                                flagAdmin.set(flagAdmin.get() + 1);
                                 timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
                             //update enable/disable status for buttons upgradeCards in Chat&Game
-                            flagAdmin.set(flagAdmin.get()+1);
-                            flagBlocker.set(flagBlocker.get()+1);
-                            flagMemory.set(flagMemory.get()+1);
+                            flagAdmin.set(flagAdmin.get() + 1);
+                            flagBlocker.set(flagBlocker.get() + 1);
+                            flagMemory.set(flagMemory.get() + 1);
                             break;
                         case "CurrentPlayer":
                             CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
@@ -832,11 +871,11 @@ public class Client extends Application {
                                     INFORMATION.set("You are in turn to play next register card.");
                                     CANPLAYNEXTREGISTER.set(true);
 
-                                }else if(GAMEPHASE.get().equals("Programmierphase")){
+                                } else if (GAMEPHASE.get().equals("Programmierphase")) {
                                     INFORMATION.set("");
                                     INFORMATION.set("Begin programming!");
 
-                                }else if(GAMEPHASE.get().equals("Upgradephase")){
+                                } else if (GAMEPHASE.get().equals("Upgradephase")) {
                                     //===launch upgrade shop window====
                                     LAUNCHER.launchUpgradeShop(client);
 
@@ -845,7 +884,7 @@ public class Client extends Application {
 
                                     //System.out.println(availableUpgradesCards);
 
-                                    flagRefreshUpdateSop.set(flagRefreshUpdateSop.get()+1);
+                                    flagRefreshUpdateSop.set(flagRefreshUpdateSop.get() + 1);
 
                                     //===only for test, will be deleted later=====
                                     /*
@@ -894,30 +933,30 @@ public class Client extends Application {
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
-                            if(MYCARDS.size() == 9){
+                            if (MYCARDS.size() == 9) {
 
-                                for(String cardHad : MYCARDS.get()){
+                                for (String cardHad : MYCARDS.get()) {
                                     cards12ForMemory.add(cardHad);
                                 }
 
-                                for(String newCard : cardsInHand){
+                                for (String newCard : cardsInHand) {
                                     cards12ForMemory.add(newCard);
                                 }
 
-                                flagCardsInMemorySwapWindow.set(flagCardsInMemorySwapWindow.get()+1);
+                                flagCardsInMemorySwapWindow.set(flagCardsInMemorySwapWindow.get() + 1);
                             }
 
                             for (String card : cardsInHand) {
                                 MYCARDS.add(card);
                             }
-                            System.out.println("print mycards in client: "+MYCARDS);
+                            System.out.println("print mycards in client: " + MYCARDS);
 
                             INFORMATION.set("");
                             INFORMATION.set("Begin programming!");
 
                             // activate buttons in Chat&Game
-                            flagMemory.set(flagMemory.get()+1);
-                            flagBlocker.set(flagBlocker.get()+1);
+                            flagMemory.set(flagMemory.get() + 1);
+                            flagBlocker.set(flagBlocker.get() + 1);
 
                             break;
                         case "NotYourCards":
@@ -956,10 +995,10 @@ public class Client extends Application {
                             for (int i = 0; i < 5; i++) {
                                 MYREGISTER[i].set(cards.get(i));
                             }
-                            if(MYREGISTER[0].equals("Again")){
+                            if (MYREGISTER[0].equals("Again")) {
                                 MYREGISTER[0].set("PowerUp");
                             }
-                            flagTimeOut.set(flagTimeOut.get()+1);
+                            flagTimeOut.set(flagTimeOut.get() + 1);
                             break;
                         case "CurrentCards":
                             CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
@@ -983,7 +1022,7 @@ public class Client extends Application {
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
                                 // clear register cards in GUI
-                                flagClearRegisters.set(flagClearRegisters.getValue()+1);
+                                flagClearRegisters.set(flagClearRegisters.getValue() + 1);
                                 INFORMATION.set("");
                                 INFORMATION.set("You are rebooted, wait for next round.");
                                 //handleRebootDirection("right");
@@ -996,7 +1035,7 @@ public class Client extends Application {
                             INFORMATION.set("");
                             INFORMATION.set("Game finished! The winner is: " + winner);
                             LAUNCHER.launchGameFinished(winner);
-                            for(int clnNr : WindowLauncher.chatWindowStage.keySet()){
+                            for (int clnNr : WindowLauncher.chatWindowStage.keySet()) {
                                 WindowLauncher.chatWindowStage.get(clnNr).close();
                             }
                             break;
@@ -1039,12 +1078,12 @@ public class Client extends Application {
                             int replacedCardClient = replaceCardBody.getClientID();
                             int replacedRegister = replaceCardBody.getRegister();
                             String replacedCardName = replaceCardBody.getNewCard();
-                            if(replacedCardClient == clientID){
+                            if (replacedCardClient == clientID) {
                                 MYREGISTER[replacedRegister].set(replacedCardName);
-                                flagReplaceRegister.set(flagReplaceRegister.getValue()+1);
-                                if(registerPointer == 0){
+                                flagReplaceRegister.set(flagReplaceRegister.getValue() + 1);
+                                if (registerPointer == 0) {
                                     registerPointer = 4;
-                                }else{
+                                } else {
                                     registerPointer--;
                                 }
 
@@ -1059,7 +1098,7 @@ public class Client extends Application {
                             // update GUI info for client in server
                             clientNames.remove(removedClient);
                             PLAYERSINSERVER.set("");
-                            for(int clientNum : clientNames.keySet()){
+                            for (int clientNum : clientNames.keySet()) {
                                 PLAYERSINSERVER.set(PLAYERSINSERVER.get() + clientNum + "\n");
                             }
 
@@ -1074,7 +1113,7 @@ public class Client extends Application {
                             // update GUI info for client who are ready
                             readyClients.remove(removedClient);
                             PLAYERSWHOAREREADY.set("");
-                            for(int clN : readyClients.keySet()){
+                            for (int clN : readyClients.keySet()) {
                                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clN + "\n");
                             }
 
@@ -1083,8 +1122,8 @@ public class Client extends Application {
                             EnergyBody energyBody = Protocol.readJsonEnergy(json);
                             int energyClient = energyBody.getClientID();
                             int addCubes = energyBody.getCount();
-                            if(energyClient == clientID){
-                                energyCount.set((Integer.valueOf(energyCount.getValue()) + addCubes)+"");
+                            if (energyClient == clientID) {
+                                energyCount.set((Integer.valueOf(energyCount.getValue()) + addCubes) + "");
                             }
                             break;
                         case "RefillShop":
@@ -1092,7 +1131,7 @@ public class Client extends Application {
                             List<String> upCards = refillShopBody.getCards();
                             // clear last round cards in list of availableUpgradesCards
                             availableUpgradesCards.clear();
-                            for(String upCard : upCards){
+                            for (String upCard : upCards) {
                                 availableUpgradesCards.add(upCard);
                             }
                             break;
@@ -1101,7 +1140,7 @@ public class Client extends Application {
                             int clientWhoBought = upgradeBoughtBody.getClientID();
                             String upCardBought = upgradeBoughtBody.getCard();
 
-                            if(upCardBought != null){
+                            if (upCardBought != null) {
                                 availableUpgradesCards.remove(upCardBought);
                             }
                             break;
@@ -1114,7 +1153,7 @@ public class Client extends Application {
                             location[0] = locX;
                             location[1] = locY;
                             movingCheckpoints.put(checkpointNr, location);
-                            flagMovingCheckpoints.set(flagMovingCheckpoints.get()+1);
+                            flagMovingCheckpoints.set(flagMovingCheckpoints.get() + 1);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -1165,11 +1204,11 @@ public class Client extends Application {
 
         } else {
          */
-            // Send message to server
-            Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
-            String json = Protocol.writeJson(protocol);
-            logger.info(json);
-            OUT.println(json);
+        // Send message to server
+        Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
         //}
     }
 
@@ -1260,9 +1299,9 @@ public class Client extends Application {
             currentPositions.put(client, currentPo);
 
             // init curren directions
-            if(mapName.equals("Death Trap")){
+            if (mapName.equals("Death Trap")) {
                 currentDirections.put(client, Direction.LEFT);
-            }else{
+            } else {
                 currentDirections.put(client, Direction.RIGHT);
             }
         }
@@ -1271,18 +1310,18 @@ public class Client extends Application {
         timerScreen.set("OFF");
 
         // inti available StartsPoints
-        availableStartsMaps.add(new Position(1,1));
-        availableStartsMaps.add(new Position(0,3));
-        availableStartsMaps.add(new Position(1,4));
-        availableStartsMaps.add(new Position(1,5));
-        availableStartsMaps.add(new Position(0,6));
-        availableStartsMaps.add(new Position(1,8));
-        availableStartsMapTrap.add(new Position(11,1));
-        availableStartsMapTrap.add(new Position(12,3));
-        availableStartsMapTrap.add(new Position(11,4));
-        availableStartsMapTrap.add(new Position(11,5));
-        availableStartsMapTrap.add(new Position(12,6));
-        availableStartsMapTrap.add(new Position(11,8));
+        availableStartsMaps.add(new Position(1, 1));
+        availableStartsMaps.add(new Position(0, 3));
+        availableStartsMaps.add(new Position(1, 4));
+        availableStartsMaps.add(new Position(1, 5));
+        availableStartsMaps.add(new Position(0, 6));
+        availableStartsMaps.add(new Position(1, 8));
+        availableStartsMapTrap.add(new Position(11, 1));
+        availableStartsMapTrap.add(new Position(12, 3));
+        availableStartsMapTrap.add(new Position(11, 4));
+        availableStartsMapTrap.add(new Position(11, 5));
+        availableStartsMapTrap.add(new Position(12, 6));
+        availableStartsMapTrap.add(new Position(11, 8));
 
         // init my upgrade card
         myUpgradesCards.put("AdminPrivilege", 0);
@@ -1300,7 +1339,7 @@ public class Client extends Application {
      */
     public void setStartPoint(int x, int y) throws IOException {
         boolean isAvailable = checkStartPointAvailable(x, y);
-        if(isAvailable){
+        if (isAvailable) {
             Protocol protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
@@ -1309,7 +1348,7 @@ public class Client extends Application {
             CANSETSTARTPOINT.set(false);
             ISCURRENTPLAYER.set(false);
             INFORMATION.set("");
-        }else{
+        } else {
             LAUNCHER.launchError("Start point is not available, choose another one.");
         }
     }
@@ -1321,18 +1360,18 @@ public class Client extends Application {
      * @param x the x
      * @param y the y
      */
-    public void removeStartPointsInHashSet(int x, int y){
+    public void removeStartPointsInHashSet(int x, int y) {
         HashSet<Position> toRemove = new HashSet<>();
-        if(mapName.equals("Death Trap")){
-            for(Position p : availableStartsMapTrap){
-                if(p.getX() == x && p.getY() == y){
+        if (mapName.equals("Death Trap")) {
+            for (Position p : availableStartsMapTrap) {
+                if (p.getX() == x && p.getY() == y) {
                     toRemove.add(p);
                 }
             }
             availableStartsMapTrap.removeAll(toRemove);
-        }else{
-            for(Position p : availableStartsMaps){
-                if(p.getX() == x && p.getY() == y){
+        } else {
+            for (Position p : availableStartsMaps) {
+                if (p.getX() == x && p.getY() == y) {
                     toRemove.add(p);
                 }
             }
@@ -1347,16 +1386,16 @@ public class Client extends Application {
      * @param y the y
      * @return boolean
      */
-    public boolean checkStartPointAvailable(int x, int y){
-        if(mapName.equals("Death Trap")){
-            for(Position p : availableStartsMapTrap){
-                if(p.getX() == x && p.getY() == y){
+    public boolean checkStartPointAvailable(int x, int y) {
+        if (mapName.equals("Death Trap")) {
+            for (Position p : availableStartsMapTrap) {
+                if (p.getX() == x && p.getY() == y) {
                     return true;
                 }
             }
-        }else{
-            for(Position p : availableStartsMaps){
-                if(p.getX() == x && p.getY() == y){
+        } else {
+            for (Position p : availableStartsMaps) {
+                if (p.getX() == x && p.getY() == y) {
                     return true;
                 }
             }
@@ -1373,7 +1412,7 @@ public class Client extends Application {
      */
     public void setRegister(String cardName, int registerNum) throws IOException {
         if (cardName != null) {
-            if(registerNum == 1 && cardName.equals("Again")){
+            if (registerNum == 1 && cardName.equals("Again")) {
                 LAUNCHER.launchError("Card Again can not be set in the first Register. Choose another card.");
             }
         }
@@ -1457,13 +1496,13 @@ public class Client extends Application {
      * @throws JsonProcessingException the json processing exception
      */
     public void handleBuyUpgrade(String upCardName) throws JsonProcessingException {
-        if(upCardName == null){
+        if (upCardName == null) {
             Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(false, null));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
             OUT.println(json);
 
-        }else{
+        } else {
             Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(true, upCardName));
             String json = Protocol.writeJson(protocol);
             logger.info(json);
@@ -1471,36 +1510,36 @@ public class Client extends Application {
 
             // update my upgrade cards in Chat&Game
             int curCount = myUpgradesCards.get(upCardName);
-            myUpgradesCards.put(upCardName, curCount+1);
+            myUpgradesCards.put(upCardName, curCount + 1);
 
             // update my energy cubes
-            if(upCardName.equals("AdminPrivilege")){
-                energyCount.set((Integer.valueOf(energyCount.get())-3) + "");
-            }else if(upCardName.equals("RealLaser")){
-                energyCount.set((Integer.valueOf(energyCount.get())-2) + "");
-            }else if(upCardName.equals("MemorySwap")){
-                energyCount.set((Integer.valueOf(energyCount.get())-1) + "");
-            }else if(upCardName.equals("SpamBlocker")){
-                energyCount.set((Integer.valueOf(energyCount.get())-3) + "");
+            if (upCardName.equals("AdminPrivilege")) {
+                energyCount.set((Integer.valueOf(energyCount.get()) - 3) + "");
+            } else if (upCardName.equals("RealLaser")) {
+                energyCount.set((Integer.valueOf(energyCount.get()) - 2) + "");
+            } else if (upCardName.equals("MemorySwap")) {
+                energyCount.set((Integer.valueOf(energyCount.get()) - 1) + "");
+            } else if (upCardName.equals("SpamBlocker")) {
+                energyCount.set((Integer.valueOf(energyCount.get()) - 3) + "");
             }
 
             // buy max.3 cards each type
-            if(myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3){
-                if(myUpgradesCards.get("AdminPrivilege") > 0){
-                    myUpgradesCards.put("AdminPrivilege", myUpgradesCards.get("AdminPrivilege")-1);
-                }else if(myUpgradesCards.get("RealLaser") > 0){
-                    myUpgradesCards.put("RealLaser", myUpgradesCards.get("RealLaser")-1);
+            if (myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3) {
+                if (myUpgradesCards.get("AdminPrivilege") > 0) {
+                    myUpgradesCards.put("AdminPrivilege", myUpgradesCards.get("AdminPrivilege") - 1);
+                } else if (myUpgradesCards.get("RealLaser") > 0) {
+                    myUpgradesCards.put("RealLaser", myUpgradesCards.get("RealLaser") - 1);
                 }
-            }else if(myUpgradesCards.get("MemorySwap") + myUpgradesCards.get("SpamBlocker") > 3){
-                if(myUpgradesCards.get("SpamBlocker") > 0){
-                    myUpgradesCards.put("SpamBlocker", myUpgradesCards.get("SpamBlocker")-1);
-                }else if(myUpgradesCards.get("MemorySwap") > 0){
-                    myUpgradesCards.put("MemorySwap", myUpgradesCards.get("MemorySwap")-1);
+            } else if (myUpgradesCards.get("MemorySwap") + myUpgradesCards.get("SpamBlocker") > 3) {
+                if (myUpgradesCards.get("SpamBlocker") > 0) {
+                    myUpgradesCards.put("SpamBlocker", myUpgradesCards.get("SpamBlocker") - 1);
+                } else if (myUpgradesCards.get("MemorySwap") > 0) {
+                    myUpgradesCards.put("MemorySwap", myUpgradesCards.get("MemorySwap") - 1);
                 }
             }
 
 
-            flagMyUpgrades.set(flagMyUpgrades.get()+1);
+            flagMyUpgrades.set(flagMyUpgrades.get() + 1);
         }
     }
 }

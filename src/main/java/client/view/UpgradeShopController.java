@@ -32,6 +32,8 @@ public class UpgradeShopController {
     @FXML
     private Button finishButton;
     @FXML
+    private Button upgradeButton1,upgradeButton2,upgradeButton3,upgradeButton4,upgradeButton5,upgradeButton6;
+    @FXML
     private ImageView upgradeCard1, upgradeCard2, upgradeCard3, upgradeCard4, upgradeCard5, upgradeCard6;
     @FXML
     private Label upgradeLabel1, upgradeLabel2, upgradeLabel3, upgradeLabel4, upgradeLabel5, upgradeLabel6;
@@ -134,6 +136,27 @@ public class UpgradeShopController {
                             break;
                     }
                 }
+
+                for (int i = client.availableUpgradesCards.size(); i < 6; i++) {
+                    switch (i + 1) {
+                        case 3:
+                            upgradeButton3.setOpacity(0.0);
+                            upgradeCard3.setOpacity(0.0);
+                            break;
+                        case 4:
+                            upgradeButton4.setOpacity(0.0);
+                            upgradeCard4.setOpacity(0.0);
+                            break;
+                        case 5:
+                            upgradeButton5.setOpacity(0.0);
+                            upgradeCard5.setOpacity(0.0);
+                            break;
+                        case 6:
+                            upgradeButton6.setOpacity(0.0);
+                            upgradeCard6.setOpacity(0.0);
+                            break;
+                    }
+                }
             }
         });
 
@@ -142,6 +165,7 @@ public class UpgradeShopController {
 
     /**
      * Methods set the text in the textfield by press the button of each upgradecard.
+     *
      * @param event
      * @throws JsonProcessingException
      */
