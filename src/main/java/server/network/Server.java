@@ -756,4 +756,18 @@ public class Server {
         logger.info("server informs who bought which upgrade.");
         makeOrderToAllClients(json);
     }
+
+    /**
+     * inform all clients who chose which register for AdminPrivilage
+     *
+     * @param client
+     * @param regNr
+     * @throws IOException
+     */
+    public void handleRegisterChosen(int client, int regNr) throws IOException {
+        Protocol protocol = new Protocol("RegisterChosen", new RegisterChosenBody(client, regNr));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs who chose which reg. for AdminPrivilage");
+        makeOrderToAllClients(json);
+    }
 }

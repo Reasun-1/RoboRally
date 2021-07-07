@@ -3,6 +3,8 @@ package server.upgradecards;
 import server.game.Game;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Admin privilege.
@@ -53,5 +55,23 @@ public class AdminPrivilege extends UpgradeCard {
         // set at which register the priority should be changed.
         Game.changePriorityRegPointer = Game.registerPointer;
         Game.changedPriorityList.add(clientID);
+    }
+
+    public void doAdminPrivilege(int client, int regNr){
+        System.out.println("DO UPGRADE ADMIN FUNCTION");
+        // set at which register the priority should be changed.
+        Game.changePriorityRegPointer = regNr-1;
+        //Game.changedPriorityList.add(client);
+
+        if(Game.hashMapPriority.get(Game.changePriorityRegPointer) != null){
+            List<Integer> curList = Game.hashMapPriority.get(Game.changePriorityRegPointer);
+            curList.add(client);
+            Game.hashMapPriority.put(Game.changePriorityRegPointer, curList);
+        }else{
+            List<Integer> newList = new ArrayList<>();
+            newList.add(client);
+            Game.hashMapPriority.put(Game.changePriorityRegPointer, newList);
+        }
+
     }
 }

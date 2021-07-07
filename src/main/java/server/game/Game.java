@@ -26,7 +26,7 @@ public class Game {
     int energyBank; // total common energy cubes for the game
 
 
-//==========================================================================
+    //==========================================================================
     public static HashMap<Integer, List<RegisterCard>> undrawnCards = new HashMap<>(); // key = clientID, value = decks of undrawn cards of all players
 
     public static HashMap<Integer, List<RegisterCard>> discardedCards = new HashMap<>(); // decks of discarded cards of all players
@@ -69,6 +69,8 @@ public class Game {
     public static HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
     // checking who has UpgradeCard RealLaser: key=clientID value=true for has RealLaser
     public static HashMap<Integer, Boolean> realLaserAllClients = new HashMap<>();
+    // for changed priority: key=regNr.(0-5) value=List<int> int=clientID
+    public static HashMap<Integer,List<Integer>> hashMapPriority = new HashMap<>();
 
     /**
      * constructor Game:
@@ -506,7 +508,20 @@ public class Game {
      * @throws IOException the io exception
      */
     public void playUpgradeCard(int clientID, UpgradeCard card) throws IOException {
+
         card.doCardFunction(clientID);
+    }
+
+    /**
+     * do the AdminPrivilege function
+     *
+     * @param clientNr
+     * @param regNr
+     * @param card
+     */
+    public void playAdminPriv(int clientNr, int regNr, UpgradeCard card) {
+        AdminPrivilege aP = (AdminPrivilege) card;
+        aP.doAdminPrivilege(clientNr, regNr);
     }
 
     /**
@@ -666,8 +681,8 @@ public class Game {
             activeBoardElements();
             robotShoot();
             System.out.println("active players: " + activePlayersList);
-            checkAndSetPriority();
             registerPointer++;
+            checkAndSetPriority();
             return true;
         } else {
             return false;
@@ -705,13 +720,13 @@ public class Game {
             }
         }
 
-        if(mapName.equals("Twister")){
-            for(int checkpoint : movingCheckpoints.keySet()){
+        if (mapName.equals("Twister")) {
+            for (int checkpoint : movingCheckpoints.keySet()) {
                 int[] location = movingCheckpoints.get(checkpoint);
                 int curX = location[0];
                 int curY = location[1];
                 FeldObject feldObject = board.get(curX).get(curY).get(0);
-                ConveyorBelt belt = (ConveyorBelt)feldObject;
+                ConveyorBelt belt = (ConveyorBelt) feldObject;
                 belt.moveCheckpoints(checkpoint, belt);
             }
             Server.getServer().handleCheckpointsLocations();
@@ -751,7 +766,8 @@ public class Game {
             selectionFinishList.clear();
 
             // reset changedRegPointer to -1 for next round
-            changePriorityRegPointer = -1;
+            //changePriorityRegPointer = -1;
+            hashMapPriority.clear();
 
             System.out.println("priority list: " + priorityEachTurn);
             return true;
@@ -915,7 +931,7 @@ public class Game {
      *
      * @return the list
      */
-    public List<String> drawThreeCards(){
+    public List<String> drawThreeCards() {
         List<String> threeCards = new ArrayList<>();
         threeCards.add("MoveII");
         threeCards.add("PowerUp");
@@ -928,7 +944,7 @@ public class Game {
      *
      * @return the stack
      */
-    public Stack<RegisterCard> drawTempDeck(){
+    public Stack<RegisterCard> drawTempDeck() {
         Stack<RegisterCard> tempDeck = new Stack<>();
         tempDeck.push(new TurnRight());
         tempDeck.push(new MoveI());
@@ -959,7 +975,7 @@ public class Game {
                         checkHit(botX, i);
                     }
                     // for the realLaser robot, shoot also to behind
-                    if(realLaserAllClients.get(bot) == true){
+                    if (realLaserAllClients.get(bot) == true) {
                         for (int i = botY + 1; i < 10; i++) {
                             checkHit(botX, i);
                         }
@@ -970,7 +986,7 @@ public class Game {
                         checkHit(botX, i);
                     }
                     // for the realLaser robot, shoot also to behind
-                    if(realLaserAllClients.get(bot) == true){
+                    if (realLaserAllClients.get(bot) == true) {
                         for (int i = 0; i < botY; i++) {
                             checkHit(botX, i);
                         }
@@ -981,7 +997,7 @@ public class Game {
                         checkHit(i, botY);
                     }
                     // for the realLaser robot, shoot also to behind
-                    if(realLaserAllClients.get(bot) == true){
+                    if (realLaserAllClients.get(bot) == true) {
                         for (int i = 0; i < botX; i++) {
                             checkHit(i, botY);
                         }
@@ -992,7 +1008,7 @@ public class Game {
                         checkHit(i, botY);
                     }
                     // for the realLaser robot, shoot also to behind
-                    if(realLaserAllClients.get(bot) == true){
+                    if (realLaserAllClients.get(bot) == true) {
                         for (int i = 0; i < botX; i++) {
                             checkHit(i, botY);
                         }

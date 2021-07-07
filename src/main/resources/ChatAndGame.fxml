@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -871,6 +872,11 @@
                                                             </Label>
                                                          </children>
                                                       </HBox>
+                                                      <TextField fx:id="RegNrForAdmin" promptText="RegNr.">
+                                                         <opaqueInsets>
+                                                            <Insets left="20.0" />
+                                                         </opaqueInsets>
+                                                      </TextField>
                                                    </children>
                                                 </VBox>
                                                 <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="10.0" />

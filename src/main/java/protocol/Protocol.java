@@ -930,6 +930,32 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static ChooseRegisterBody readJsonChooseRegister(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        ChooseRegisterBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<ChooseRegisterBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
+    public static RegisterChosenBody readJsonRegisterChosen(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        RegisterChosenBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<RegisterChosenBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     /**
      * Read json test test body.
      *

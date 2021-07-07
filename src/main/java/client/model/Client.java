@@ -845,10 +845,10 @@ public class Client extends Application {
                                 phaseString = "Upgradephase";
                             } else if (phase == 2) {
                                 phaseString = "Programmierphase";
-                            } else {
-                                phaseString = "Aktivierungsphase";
                                 //active admin button in Chat&Game
                                 flagAdmin.set(flagAdmin.get() + 1);
+                            } else {
+                                phaseString = "Aktivierungsphase";
                                 timerScreen.set("OFF");
                             }
                             GAMEPHASE.set(phaseString);
@@ -1154,6 +1154,13 @@ public class Client extends Application {
                             location[1] = locY;
                             movingCheckpoints.put(checkpointNr, location);
                             flagMovingCheckpoints.set(flagMovingCheckpoints.get() + 1);
+                            break;
+                        case "RegisterChosen":
+                            RegisterChosenBody registerChosenBody = Protocol.readJsonRegisterChosen(json);
+                            int chosenClient = registerChosenBody.getClientID();
+                            int chosenBodyRegister = registerChosenBody.getRegister();
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + chosenClient + " have played AdminPrivilege for Register " + chosenBodyRegister);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -1541,5 +1548,17 @@ public class Client extends Application {
 
             flagMyUpgrades.set(flagMyUpgrades.get() + 1);
         }
+    }
+
+    /**
+     * choose register for playing adminPrivilage
+     *
+     * @param registerNummer
+     */
+    public void handleChooseRegister(int registerNummer) throws JsonProcessingException {
+        Protocol protocol = new Protocol("ChooseRegister", new ChooseRegisterBody(registerNummer));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
     }
 }

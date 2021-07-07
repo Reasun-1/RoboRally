@@ -343,6 +343,24 @@ public class ExecuteOrder {
                 }
 
                 break;
+            case "ChooseRegister":
+                System.out.println("************AdminPrivilege played!!*********");
+
+                ChooseRegisterBody chooseRegisterBody = Protocol.readJsonChooseRegister(json);
+                int chosenRegNr = chooseRegisterBody.getRegister();
+
+                // inform others who chose which register por adminPrivilage
+                Server.getServer().handleRegisterChosen(clientID, chosenRegNr);
+
+                // update Game info of upgrade cards
+                int countCard = Game.upgradesCardsAllClients.get(clientID).get("AdminPrivilege");
+                Game.upgradesCardsAllClients.get(clientID).put("AdminPrivilege", countCard-1);
+
+                // do the function of upgrade card
+                UpgradeCard upgradeCard = convertStringUpdateToObject("AdminPrivilege");
+                Game.getInstance().playAdminPriv(clientID, chosenRegNr, upgradeCard);
+                //Game.getInstance().playUpgradeCard(clientID, upgradeCard);
+                break;
             case "RebootDirection":
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
                 String reDirection = rebootDirectionBody.getDirection();
