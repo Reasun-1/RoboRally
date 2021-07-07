@@ -59,10 +59,14 @@ public class AILow implements Runnable{
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
     private String mapName = null;
+    // for the listner in update shop
+    public List<String> availableUpgradesCards = new ArrayList<>();
     // store the available startPoints for the maps(death trap is different)
     private HashSet<Position> availableStartsMaps = new HashSet<>();
     private HashSet<Position> availableStartsMapTrap = new HashSet<>();
 
+    // storage for moving checkpoints: key=checkpointNr. value=int[x,y]
+    public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
     private List<String> myCards = new ArrayList<>();
     private  String[] myRegisters = new String[5];
@@ -413,7 +417,6 @@ public class AILow implements Runnable{
                                 }else{
                                     registerPointer--;
                                 }
-
                             }
                             break;
                         case "ConnectionUpdate":
@@ -431,6 +434,33 @@ public class AILow implements Runnable{
                             if(energyClient == clientID){
                                 energyCount = energyCount + addCubes;
                             }
+                            break;
+                        case "RefillShop":
+                            RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
+                            List<String> upCards = refillShopBody.getCards();
+                            availableUpgradesCards.clear();
+                            for (String upCard : upCards) {
+                                availableUpgradesCards.add(upCard);
+                            }
+                            break;
+                        case "UpgradeBought":
+                            UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
+                            int clientWhoBought = upgradeBoughtBody.getClientID();
+                            String upCardBought = upgradeBoughtBody.getCard();
+
+                            if (upCardBought != null) {
+                                availableUpgradesCards.remove(upCardBought);
+                            }
+                            break;
+                        case "CheckpointMoved":
+                            CheckpointMovedBody checkpointMovedBody = Protocol.readJsonCheckpointMoved(json);
+                            int checkpointNr = checkpointMovedBody.getCheckpointID();
+                            int locX = checkpointMovedBody.getX();
+                            int locY = checkpointMovedBody.getY();
+                            int[] location = new int[2];
+                            location[0] = locX;
+                            location[1] = locY;
+                            movingCheckpoints.put(checkpointNr, location);
                             break;
                     }
     }
