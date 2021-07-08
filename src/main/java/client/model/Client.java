@@ -814,11 +814,12 @@ public class Client extends Application {
                             for (String map : availableMaps) {
                                 MAPS.add(map);
                             }
-                            System.out.println("in client " + MAPS);
+                            logger.info("in client " + MAPS);
 
+                            CANSELECTMAP.set(true);
                             INFORMATION.set("");
                             INFORMATION.set("Select a map from: " + availableMaps);
-                            CANSELECTMAP.set(true);
+
                             break;
                         case "MapSelected":
                             MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);

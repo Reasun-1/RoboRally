@@ -94,6 +94,11 @@ public class ExecuteOrder {
                         }
                     }
 
+                    if(Game.mapName != null){// if map has set before logged in, client count must be adjusted once again
+                        Server.getServer().handleMapSelected(Game.mapName);
+                        Game.getInstance().initGame();
+                    }
+
                 }
                 break;
             case "Alive":
@@ -213,6 +218,7 @@ public class ExecuteOrder {
                     Server.getServer().handleRefillShop();
                     // set priority for this turn
                     Game.getInstance().checkAndSetPriority();
+                    logger.info("after setting startPoint, priority list: " + Game.priorityEachTurn);
                     // set player in turn
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
@@ -505,6 +511,7 @@ public class ExecuteOrder {
         logger.info("number of ready clients: " + numReadyClients);
         if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size() && Game.hasMap == true) {
             logger.info("number enough, to play");
+            logger.info("clientIds: " + Game.clientIDs);
 
             Server.getServer().handleGameStarted(Game.mapName);
 
