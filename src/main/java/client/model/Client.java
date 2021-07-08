@@ -165,7 +165,10 @@ public class Client extends Application {
     // flag update moving checkpoint
     public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
 
+    //media for different buttons
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/setReady.mp3").toString()));
+    MediaPlayer mediaPlayer2 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/notReady_oops.mp3").toString()));
+
 
 
     // Getters
@@ -1256,6 +1259,9 @@ public class Client extends Application {
     public void setUnready() throws JsonProcessingException {
         readyClients.put(clientID, false);
         Protocol protocol = new Protocol("SetStatus", new SetStatusBody(false));
+        mediaPlayer2.setVolume(0.15);
+        mediaPlayer2.play();
+        mediaPlayer2.seek(Duration.ZERO);
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
