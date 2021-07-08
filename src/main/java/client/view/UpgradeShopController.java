@@ -2,6 +2,7 @@ package client.view;
 
 
 import client.model.Client;
+import client.model.WindowLauncher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 /**
  * @author rajna fani
@@ -39,6 +42,8 @@ public class UpgradeShopController {
     private Label upgradeLabel1, upgradeLabel2, upgradeLabel3, upgradeLabel4, upgradeLabel5, upgradeLabel6;
     @FXML
     private Label energyNow, chosenUpgrade;
+
+    private final WindowLauncher LAUNCHER = new WindowLauncher();
 
 
     //====================CardsBindings===================================
@@ -229,10 +234,35 @@ public class UpgradeShopController {
      * @throws JsonProcessingException
      */
     @FXML
-    private void finishAction(ActionEvent event) throws JsonProcessingException {
+    private void finishAction(ActionEvent event) throws IOException {
         Stage stage = (Stage) finishButton.getScene().getWindow();
-        client.handleBuyUpgrade(chosenUpgrade.getText());
-        stage.close();
+
+        String chosenCardName = chosenUpgrade.getText();
+        int cardCost = 0;
+        switch (chosenCardName){
+            case "AdminPrivilege":
+                cardCost = 3;
+                break;
+            case "SpamBlocker":
+                cardCost = 3;
+                break;
+            case "RealLaser":
+                cardCost = 2;
+                break;
+            case "MemorySwap":
+                cardCost = 1;
+                break;
+        }
+
+        int curEnergy = Integer.valueOf(client.energyCount.get());
+
+        if(curEnergy-cardCost >= 0){
+            client.handleBuyUpgrade(chosenUpgrade.getText());
+            stage.close();
+        }else{
+            LAUNCHER.launchError("You haven´t enough energy to buy this card, choose again.");
+        }
+
     }
 
     /**

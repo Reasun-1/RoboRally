@@ -134,7 +134,7 @@ public class Client extends Application {
     // flag for replace card
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
     // count of energy cubes
-    private StringProperty energyCount = new SimpleStringProperty("5");
+    public StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind list to sendTo comboBox in ChatController
