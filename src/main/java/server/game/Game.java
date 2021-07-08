@@ -71,6 +71,8 @@ public class Game {
     public static HashMap<Integer, Boolean> realLaserAllClients = new HashMap<>();
     // for changed priority: key=regNr.(0-5) value=List<int> int=clientID
     public static HashMap<Integer,List<Integer>> hashMapPriority = new HashMap<>();
+    // flag for game over
+    public static boolean isGameOver = false;
 
     /**
      * constructor Game:
@@ -789,8 +791,9 @@ public class Game {
         for (int client : clientIDs) {
             // soon size() to number of checkpoints
             if (arrivedCheckpoints.get(client).size() == checkPointTotal) {
-                System.out.println("print how many checkpoints: " + checkPointTotal);
+                logger.info("print how many checkpoints: " + checkPointTotal);
                 Server.getServer().handleGameFinished(client);
+                isGameOver = true;
                 return true;
             }
         }

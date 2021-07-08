@@ -316,8 +316,10 @@ public class ExecuteOrder {
 
                                 logger.info("ExecuteOrder: round is over!");
 
-                                Server.getServer().handleActivePhase(1);
-                                activePhase = 1;
+                                if(Game.isGameOver == false){
+                                    Server.getServer().handleActivePhase(1);
+                                    activePhase = 1;
+                                }
 
                                 // send available upgrade cards info to client
                                 Server.getServer().handleRefillShop();

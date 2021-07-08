@@ -855,7 +855,7 @@ public class Client extends Application {
                                 GAMEPHASE.set(phaseString);
                                 timerScreen.set("OFF");
                             }
-                            //GAMEPHASE.set(phaseString);
+
                             //update enable/disable status for buttons upgradeCards in Chat&Game
                             flagBlocker.set(flagBlocker.get() + 1);
                             flagMemory.set(flagMemory.get() + 1);
