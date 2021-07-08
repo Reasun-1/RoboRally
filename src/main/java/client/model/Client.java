@@ -168,6 +168,7 @@ public class Client extends Application {
     //media for different buttons
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/setReady.mp3").toString()));
     MediaPlayer mediaPlayer2 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/notReady_oops.mp3").toString()));
+    MediaPlayer mediaPlayer3 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/messageSentt.mp3").toString()));
 
 
 
@@ -729,6 +730,9 @@ public class Client extends Application {
                         case "ReceivedChat":
                             logger.info("received chat printed");
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
+                            mediaPlayer3.setVolume(0.15);
+                            mediaPlayer3.play();
+                            mediaPlayer3.seek(Duration.ZERO);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
                             boolean priv = receivedChatBody.isPrivate();
