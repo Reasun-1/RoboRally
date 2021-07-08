@@ -19,7 +19,7 @@
             <Image url="@sad_robot.gif" />
          </image>
       </ImageView>
-      <CheckBox layoutX="216.0" layoutY="331.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="169.0" text="I am a robot." textAlignment="CENTER" textFill="#f5e7e7">
+      <CheckBox fx:id="checkBox" layoutX="216.0" layoutY="331.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="169.0" text="I am a robot." textAlignment="CENTER" textFill="#f5e7e7">
          <effect>
             <Glow />
          </effect>
