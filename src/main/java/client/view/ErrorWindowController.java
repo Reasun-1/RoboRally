@@ -1,5 +1,6 @@
 package client.view;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +9,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.control.CheckBox;
+
+
+import javax.swing.*;
 
 
 /**
@@ -15,8 +20,11 @@ import javafx.util.Duration;
  *
  * @author Rajna Fani
  */
-public class ErrorWindowController {
 
+
+public class ErrorWindowController {
+    @FXML
+    private CheckBox checkBox;
     @FXML
     private Label errorField; // label provides the change of the error message based on the type of error classified on the Client class
     @FXML
@@ -26,6 +34,7 @@ public class ErrorWindowController {
      * The Media player.
      */
     MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/errorWindow.mp3").toString()));
+
 
 
     /**
@@ -49,8 +58,9 @@ public class ErrorWindowController {
      */
     @FXML
     private void okButtonClicked(ActionEvent event) {
-        //robotIndeed.setSelected(true); //if the "I am a robot" CheckBox is checked then you can press the OK Button
-        Stage stage = (Stage) okButton.getScene().getWindow();
-        stage.close();
+        if(checkBox.isSelected()) { //if the "I am a robot" CheckBox is checked then you can press the OK Button
+            Stage stage = (Stage) okButton.getScene().getWindow();
+            stage.close();
+        }
     }
 }
