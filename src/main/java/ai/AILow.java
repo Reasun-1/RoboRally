@@ -25,8 +25,9 @@ import java.util.*;
  *
  * @author Can Ren
  * @author Jonas Gottal
+ * @author Rajna Fani
  */
-public class AILow implements Runnable{
+public class AILow implements Runnable {
 
     private static final Logger logger = Logger.getLogger(AILow.class.getName());
     // Socket for the TCP connection
@@ -69,7 +70,7 @@ public class AILow implements Runnable{
     public HashMap<Integer, int[]> movingCheckpoints = new HashMap<>();
 
     private List<String> myCards = new ArrayList<>();
-    private  String[] myRegisters = new String[5];
+    private String[] myRegisters = new String[5];
     private String activePhase = null;
     private int numRobot = 1;
     private int energyCount = 12;
@@ -149,320 +150,319 @@ public class AILow implements Runnable{
         String messageType = Protocol.readJsonMessageType(json);
 
 
-                    switch (messageType) {
-                        case "Quit": // terminate the connection
-                            socket.close();
-                            break;
-                        case "ReceivedChat":
-                            logger.info("received chat printed");
-                            ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
-                            String message = receivedChatBody.getMessage();
-                            int fromClient = receivedChatBody.getFrom();
-                            if(fromClient != clientID){
-                                sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
-                            }
-                            break;
-                        case "Error":
-                            logger.info("error printed");
-                            String errorMessage = Protocol.readJsonErrorBody(json).getError();
-                            if (errorMessage.equals("Version wrong! disconnected.")) {
-                                socket.close();
-                            }
-                            if (errorMessage.equals("This figure exists already, choose again.")) {
-                                numRobot++;
-                                setPlayerValues("AI", numRobot);
-                            }
-                            break;
-                        case "HelloClient":
-                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", true, "Version 1.0"));
-                            String js = Protocol.writeJson(protocol);
-                            logger.info("protocol from Server: \n" + js);
-                            OUT.println(js);
-                            break;
-                        case "Welcome":
-                            logger.info(json + Thread.currentThread().getName());
-                            int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
-                            clientID = clientIDfromServer;
-                            System.out.println("check server robot list " + Server.clientIDUndRobots.size());
-                            System.out.println("check server has robot "+Server.clientIDUndRobots.containsValue(1));
-                            // set a available robot to AI
-                            setPlayerValues("AI", numRobot);
-                            break;
-                        case "Alive":
-                            String alive = Protocol.writeJson(new Protocol("Alive", null));
-                            OUT.println(alive);
-                            break;
-                        case "PlayerAdded":
-                            logger.info(json + Thread.currentThread().getName());
-                            PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
-                            int clientIDAdded = playerAddedBody.getClientID();
-                            int figureAdded = playerAddedBody.getFigure();
-                            String nameAdded = playerAddedBody.getName();
+        switch (messageType) {
+            case "Quit": // terminate the connection
+                socket.close();
+                break;
+            case "ReceivedChat":
+                logger.info("received chat printed");
+                ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
+                String message = receivedChatBody.getMessage();
+                int fromClient = receivedChatBody.getFrom();
+                if (fromClient != clientID) {
+                    sendPersonalMessage(fromClient, "I am an AI, can not talk yet.");
+                }
+                break;
+            case "Error":
+                logger.info("error printed");
+                String errorMessage = Protocol.readJsonErrorBody(json).getError();
+                if (errorMessage.equals("Version wrong! disconnected.")) {
+                    socket.close();
+                }
+                if (errorMessage.equals("This figure exists already, choose again.")) {
+                    numRobot++;
+                    setPlayerValues("AI", numRobot);
+                }
+                break;
+            case "HelloClient":
+                Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", true, "Version 1.0"));
+                String js = Protocol.writeJson(protocol);
+                logger.info("protocol from Server: \n" + js);
+                OUT.println(js);
+                break;
+            case "Welcome":
+                logger.info(json + Thread.currentThread().getName());
+                int clientIDfromServer = Protocol.readJsonWelcomeBody(json).getClientID();
+                clientID = clientIDfromServer;
+                System.out.println("check server robot list " + Server.clientIDUndRobots.size());
+                System.out.println("check server has robot " + Server.clientIDUndRobots.containsValue(1));
+                // set a available robot to AI
+                setPlayerValues("AI", numRobot);
+                break;
+            case "Alive":
+                String alive = Protocol.writeJson(new Protocol("Alive", null));
+                OUT.println(alive);
+                break;
+            case "PlayerAdded":
+                logger.info(json + Thread.currentThread().getName());
+                PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
+                int clientIDAdded = playerAddedBody.getClientID();
+                int figureAdded = playerAddedBody.getFigure();
+                String nameAdded = playerAddedBody.getName();
 
-                            // not add infos twice
-                            if (!clientNames.containsKey(clientIDAdded)) {
+                // not add infos twice
+                if (!clientNames.containsKey(clientIDAdded)) {
 
-                                logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
-                                // update clientsFigure list and clients list
-                                robotFigureAllClients.put(clientIDAdded, figureAdded);
-                                clientNames.put(clientIDAdded, nameAdded);
+                    logger.info(clientNames.get(clientIDAdded) + ": " + robotFigureAllClients.get(clientIDAdded));
+                    // update clientsFigure list and clients list
+                    robotFigureAllClients.put(clientIDAdded, figureAdded);
+                    clientNames.put(clientIDAdded, nameAdded);
 
-                                // if the added player is self, then launch the chatAndGame window
-                                if (clientIDAdded == clientID) {
-                                    name = nameAdded;
-                                    setReady();
-                                }
-                            }
-                            break;
-                        case "PlayerStatus":
-                            logger.info(json);
-                            PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
-                            int readyClientID = playerStatusBody.getClientID();
-                            boolean isReady = playerStatusBody.isReady();
-                            readyClients.put(readyClientID, isReady);
-                            break;
-                        case "SelectMap":
-                            logger.info(json);
-                            SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
-                            List<String> availableMaps = selectMapBody.getAvailableMaps();
-                            handleMapSelected("Dizzy Highway");
-                            break;
-                        case "MapSelected":
-                            MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
-                            String mapString = mapSelectedBody.getMap();
-                            mapName = mapString;
-                            break;
-                        case "GameStarted":
-                            GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
-                            List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
-                            mapInGUI = gameMap;
-                            // update flag for MapUpdate, so that viewController can listen
-                            System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                            System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
-                            initGameForClients();
-                            break;
-                        case "ActivePhase":
-                            ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
-                            int phase = activePhaseBody.getPhase();
-                            String phaseString = "";
-                            // TODO translate to English?
-                            if (phase == 0) {
-                                phaseString = "Aufbauphase";
-                            } else if (phase == 1) {
-                                phaseString = "Upgradephase";
-                            } else if (phase == 2) {
-                                phaseString = "Programmierphase";
-                            } else {
-                                phaseString = "Aktivierungsphase";
-                            }
-                            setActivePhase(phaseString);
-                            break;
-                        case "CurrentPlayer":
-                            CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
-                            int currentID = currentPlayerBody.getClientID();
-                            if (currentID == clientID) {
-                                if (activePhase.equals("Aufbauphase")) {
-                                    if(mapName.equals("Death Trap")){
-                                        setStartPoint(11, 8);
-                                    }else{
-                                        setStartPoint(1,8);
-                                    }
-
-                                } else if (activePhase.equals("Aktivierungsphase")) {
-                                    String cardName = myRegisters[registerPointer];
-                                    playNextRegister(cardName);
-                                    registerPointer++;
-                                    System.out.println("registerpointer " + registerPointer);
-                                    // if round over, reset register pointer to 0 for next round
-                                    if (registerPointer == 5) {
-                                        myCards.clear();
-                                        for (int i = 0; i < 5; i++) {
-                                            myRegisters[i] = "";
-                                        }
-                                        System.out.println("round over");
-                                        registerPointer = 0;
-                                    }
-                                }
-
-                            } else {
-
-                            }
-                            break;
-                        case "StartingPointTaken":
-                            StartingPointTakenBody startingPointTakenBody = Protocol.readJsonStartingPointTaken(json);
-                            int clientWhoSetPoint = startingPointTakenBody.getClientID();
-                            int clientX = startingPointTakenBody.getX();
-                            int clientY = startingPointTakenBody.getY();
-
-                            removeStartPointsInHashSet(clientX, clientY);
-
-                            // store the start position
-                            startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
-                            startPositionsAllClients.get(clientWhoSetPoint)[1] = clientX;
-                            // set current position
-                            currentPositions.get(clientWhoSetPoint)[0] = clientX;
-                            currentPositions.get(clientWhoSetPoint)[1] = clientY;
-
-                            logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
-                            break;
-                        case "YourCards":
-                            logger.info("clients your cards");
-                            YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
-                            List<String> cardsInHand = yourCardsBody.getCardsInHand();
-                            // storage the cards in myCards list
-                            for (String card : cardsInHand) {
-                                myCards.add(card);
-                            }
-                            selectAndSetRegisterFinish();
-                            break;
-                        case "NotYourCards":
-                            NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
-                            int client = notYourCardsBody.getClientID();
-                            int cardCount = notYourCardsBody.getCardsInHand();
-                            logger.info(client + "have got " + cardCount + " cards");
-                            break;
-                        case "ShuffleCoding":
-                            ShuffleCodingBody shuffleCodingBody = Protocol.readJsonShuffleCoding(json);
-                            int clientShuffle = shuffleCodingBody.getClientID();
-                            logger.info(clientShuffle + " is shuffling");
-                            break;
-                        case "CardSelected":
-                            CardSelectedBody cardSelectedBody = Protocol.readJsonCardSelected(json);
-                            int clientSelectedCard = cardSelectedBody.getClientID();
-                            int registerSelected = cardSelectedBody.getRegister();
-                            boolean filled = cardSelectedBody.isFilled();
-                            // optional soon: in GUI verbinden
-                            logger.info(clientSelectedCard + " has for register " + registerSelected + filled);
-                            break;
-                        case "TimerStarted":
-                            logger.info("timer is on");
-                            break;
-                        case "TimerEnded":
-                            TimerEndedBody timerEndedBody = Protocol.readJsonTimerEnded(json);
-                            List<Integer> clientIDs = timerEndedBody.getClientIDs();
-                            logger.info(clientIDs + " did not finish.");
-                            break;
-                        case "CardsYouGotNow":
-                            CardsYouGotNowBody cardsYouGotNowBody = Protocol.readJsonCardsYouGotNow(json);
-                            List<String> cards = cardsYouGotNowBody.getCards();
-                            for (int i = 0; i < 5; i++) {
-                                myRegisters[i]=cards.get(i);
-                            }
-                            break;
-                        case "CurrentCards":
-                            CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
-                            List<Register> currentRegistersAllClients = currentCardsBody.getCurrentRegistersAllClients();
-                            for (Register rg : currentRegistersAllClients) {
-                                logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
-                            }
-                            break;
-                        case "CardPlayed":
-                            CardPlayedBody cardPlayedBody = Protocol.readJsonCardPlayed(json);
-                            int clientWhoPlayed = cardPlayedBody.getClientID();
-                            String cardNamePlayed = cardPlayedBody.getCard();
-                            logger.info("client " + clientWhoPlayed + " has played " + cardNamePlayed);
-                            break;
-                        case "Reboot":
-                            RebootBody rebootBody = Protocol.readJsonReboot(json);
-                            int clientReboot = rebootBody.getClientID();
-
-                            // clear all my registers if I reboot
-                            if (clientReboot == clientID) {
-                                myCards.clear();
-                                for (int i = 0; i < 5; i++) {
-                                    myRegisters[i] = "";
-                                }
-                                registerPointer = 0;
-                            }
-                            logger.info("client reboot to start point");
-                            break;
-                        case "GameFinished":
-                            GameFinishedBody gameFinishedBody = Protocol.readJsonGameFinished(json);
-                            int winner = gameFinishedBody.getClientID();
-                            break;
-                        case "Movement":
-                            MovementBody movementBody = Protocol.readJsonMovement(json);
-                            int movedClient = movementBody.getClientID();
-                            int toX = movementBody.getX();
-                            int toY = movementBody.getY();
-                            currentPositions.get(movedClient)[0] = toX;
-                            currentPositions.get(movedClient)[1] = toY;
-                            break;
-                        case "PlayerTurning":
-                            PlayerTurningBody playerTurningBody = Protocol.readJsonPlayerTurning(json);
-                            int turnedClient = playerTurningBody.getClientID();
-                            String turnDirection = playerTurningBody.getRotation();
-
-                            // update client direction in client class
-                            Direction curDir = currentDirections.get(turnedClient);
-                            Direction newDir = null;
-                            if (turnDirection.equals("clockwise")) {
-                                newDir = Direction.turnClock(curDir);
-                            } else if (turnDirection.equals("counterclockwise")) {
-                                newDir = Direction.turnCounterClock(curDir);
-                            }
-
-                            // tell GUI-Listener about the update
-                            currentDirections.put(turnedClient, newDir);
-                            break;
-                        case "ReplaceCard":
-                            ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
-                            int replacedCardClient = replaceCardBody.getClientID();
-                            int replacedRegister = replaceCardBody.getRegister();
-                            String replacedCardName = replaceCardBody.getNewCard();
-                            if(replacedCardClient == clientID){
-                                myRegisters[replacedRegister]=replacedCardName;
-                                if(registerPointer == 0){
-                                    registerPointer = 4;
-                                }else{
-                                    registerPointer--;
-                                }
-                            }
-                            break;
-                        case "ConnectionUpdate":
-                            ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
-                            int removedClient = connectionUpdateBody.getClientID();
-                            currentPositions.remove(removedClient);
-
-                            clientNames.remove(removedClient);
-                            readyClients.remove(removedClient);
-                            break;
-                        case "Energy":
-                            EnergyBody energyBody = Protocol.readJsonEnergy(json);
-                            int energyClient = energyBody.getClientID();
-                            int addCubes = energyBody.getCount();
-                            if(energyClient == clientID){
-                                energyCount = energyCount + addCubes;
-                            }
-                            break;
-                        case "RefillShop":
-                            RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
-                            List<String> upCards = refillShopBody.getCards();
-                            availableUpgradesCards.clear();
-                            for (String upCard : upCards) {
-                                availableUpgradesCards.add(upCard);
-                            }
-                            break;
-                        case "UpgradeBought":
-                            UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
-                            int clientWhoBought = upgradeBoughtBody.getClientID();
-                            String upCardBought = upgradeBoughtBody.getCard();
-
-                            if (upCardBought != null) {
-                                availableUpgradesCards.remove(upCardBought);
-                            }
-                            break;
-                        case "CheckpointMoved":
-                            CheckpointMovedBody checkpointMovedBody = Protocol.readJsonCheckpointMoved(json);
-                            int checkpointNr = checkpointMovedBody.getCheckpointID();
-                            int locX = checkpointMovedBody.getX();
-                            int locY = checkpointMovedBody.getY();
-                            int[] location = new int[2];
-                            location[0] = locX;
-                            location[1] = locY;
-                            movingCheckpoints.put(checkpointNr, location);
-                            break;
+                    // if the added player is self, then launch the chatAndGame window
+                    if (clientIDAdded == clientID) {
+                        name = nameAdded;
+                        setReady();
                     }
+                }
+                break;
+            case "PlayerStatus":
+                logger.info(json);
+                PlayerStatusBody playerStatusBody = Protocol.readJsonPlayerStatus(json);
+                int readyClientID = playerStatusBody.getClientID();
+                boolean isReady = playerStatusBody.isReady();
+                readyClients.put(readyClientID, isReady);
+                break;
+            case "SelectMap":
+                logger.info(json);
+                SelectMapBody selectMapBody = Protocol.readJsonSelectMap(json);
+                List<String> availableMaps = selectMapBody.getAvailableMaps();
+                handleMapSelected("Dizzy Highway");
+                break;
+            case "MapSelected":
+                MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
+                String mapString = mapSelectedBody.getMap();
+                mapName = mapString;
+                break;
+            case "GameStarted":
+                GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
+                List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                mapInGUI = gameMap;
+                // update flag for MapUpdate, so that viewController can listen
+                logger.info("map size " + gameMap.size() + " : " + gameMap.get(0).size());
+                logger.info((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
+                initGameForClients();
+                break;
+            case "ActivePhase":
+                ActivePhaseBody activePhaseBody = Protocol.readJsonActivePhase(json);
+                int phase = activePhaseBody.getPhase();
+                String phaseString = "";
+                // TODO translate to English?
+                if (phase == 0) {
+                    phaseString = "Aufbauphase";
+                } else if (phase == 1) {
+                    phaseString = "Upgradephase";
+                } else if (phase == 2) {
+                    phaseString = "Programmierphase";
+                } else {
+                    phaseString = "Aktivierungsphase";
+                }
+                setActivePhase(phaseString);
+                break;
+            case "CurrentPlayer":
+                CurrentPlayerBody currentPlayerBody = Protocol.readJsonCurrentPlayer(json);
+                int currentID = currentPlayerBody.getClientID();
+                if (currentID == clientID) {
+                    if (activePhase.equals("Aufbauphase")) {
+                        if (mapName.equals("Death Trap")) {
+                            setStartPoint(11, 8);
+                        } else {
+                            setStartPoint(1, 8);
+                        }
+
+                    } else if (activePhase.equals("Aktivierungsphase")) {
+                        String cardName = myRegisters[registerPointer];
+                        playNextRegister(cardName);
+                        registerPointer++;
+                        logger.info("registerpointer " + registerPointer);
+                        // if round over, reset register pointer to 0 for next round
+                        if (registerPointer == 5) {
+                            myCards.clear();
+                            for (int i = 0; i < 5; i++) {
+                                myRegisters[i] = "";
+                            }
+                            logger.info("round over");
+                            registerPointer = 0;
+                        }
+                    } else if (activePhase.equals("Upgradephase")) {
+                        handleBuyUpgrade();
+                    }
+
+                } else {
+
+                }
+                break;
+            case "StartingPointTaken":
+                StartingPointTakenBody startingPointTakenBody = Protocol.readJsonStartingPointTaken(json);
+                int clientWhoSetPoint = startingPointTakenBody.getClientID();
+                int clientX = startingPointTakenBody.getX();
+                int clientY = startingPointTakenBody.getY();
+
+                removeStartPointsInHashSet(clientX, clientY);
+
+                // store the start position
+                startPositionsAllClients.get(clientWhoSetPoint)[0] = clientX;
+                startPositionsAllClients.get(clientWhoSetPoint)[1] = clientX;
+                // set current position
+                currentPositions.get(clientWhoSetPoint)[0] = clientX;
+                currentPositions.get(clientWhoSetPoint)[1] = clientY;
+
+                logger.info("" + currentPositions.get(clientWhoSetPoint)[0]);
+                break;
+            case "YourCards":
+                logger.info("clients your cards");
+                YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
+                List<String> cardsInHand = yourCardsBody.getCardsInHand();
+                // storage the cards in myCards list
+                for (String card : cardsInHand) {
+                    myCards.add(card);
+                }
+                selectAndSetRegisterFinish();
+                break;
+            case "NotYourCards":
+                NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
+                int client = notYourCardsBody.getClientID();
+                int cardCount = notYourCardsBody.getCardsInHand();
+                logger.info(client + "have got " + cardCount + " cards");
+                break;
+            case "ShuffleCoding":
+                ShuffleCodingBody shuffleCodingBody = Protocol.readJsonShuffleCoding(json);
+                int clientShuffle = shuffleCodingBody.getClientID();
+                logger.info(clientShuffle + " is shuffling");
+                break;
+            case "CardSelected":
+                CardSelectedBody cardSelectedBody = Protocol.readJsonCardSelected(json);
+                int clientSelectedCard = cardSelectedBody.getClientID();
+                int registerSelected = cardSelectedBody.getRegister();
+                boolean filled = cardSelectedBody.isFilled();
+                logger.info(clientSelectedCard + " has for register " + registerSelected + filled);
+                break;
+            case "TimerStarted":
+                logger.info("timer is on");
+                break;
+            case "TimerEnded":
+                TimerEndedBody timerEndedBody = Protocol.readJsonTimerEnded(json);
+                List<Integer> clientIDs = timerEndedBody.getClientIDs();
+                logger.info(clientIDs + " did not finish.");
+                break;
+            case "CardsYouGotNow":
+                CardsYouGotNowBody cardsYouGotNowBody = Protocol.readJsonCardsYouGotNow(json);
+                List<String> cards = cardsYouGotNowBody.getCards();
+                for (int i = 0; i < 5; i++) {
+                    myRegisters[i] = cards.get(i);
+                }
+                break;
+            case "CurrentCards":
+                CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
+                List<Register> currentRegistersAllClients = currentCardsBody.getCurrentRegistersAllClients();
+                for (Register rg : currentRegistersAllClients) {
+                    logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
+                }
+                break;
+            case "CardPlayed":
+                CardPlayedBody cardPlayedBody = Protocol.readJsonCardPlayed(json);
+                int clientWhoPlayed = cardPlayedBody.getClientID();
+                String cardNamePlayed = cardPlayedBody.getCard();
+                logger.info("client " + clientWhoPlayed + " has played " + cardNamePlayed);
+                break;
+            case "Reboot":
+                RebootBody rebootBody = Protocol.readJsonReboot(json);
+                int clientReboot = rebootBody.getClientID();
+
+                // clear all my registers if I reboot
+                if (clientReboot == clientID) {
+                    myCards.clear();
+                    for (int i = 0; i < 5; i++) {
+                        myRegisters[i] = "";
+                    }
+                    registerPointer = 0;
+                }
+                logger.info("client reboot to start point");
+                break;
+            case "GameFinished":
+                GameFinishedBody gameFinishedBody = Protocol.readJsonGameFinished(json);
+                int winner = gameFinishedBody.getClientID();
+                logger.info("Game is finished, winner is: " + winner + ".");
+                break;
+            case "Movement":
+                MovementBody movementBody = Protocol.readJsonMovement(json);
+                int movedClient = movementBody.getClientID();
+                int toX = movementBody.getX();
+                int toY = movementBody.getY();
+                currentPositions.get(movedClient)[0] = toX;
+                currentPositions.get(movedClient)[1] = toY;
+                break;
+            case "PlayerTurning":
+                PlayerTurningBody playerTurningBody = Protocol.readJsonPlayerTurning(json);
+                int turnedClient = playerTurningBody.getClientID();
+                String turnDirection = playerTurningBody.getRotation();
+
+                // update client direction in client class
+                Direction curDir = currentDirections.get(turnedClient);
+                Direction newDir = null;
+                if (turnDirection.equals("clockwise")) {
+                    newDir = Direction.turnClock(curDir);
+                } else if (turnDirection.equals("counterclockwise")) {
+                    newDir = Direction.turnCounterClock(curDir);
+                }
+                currentDirections.put(turnedClient, newDir);
+                break;
+            case "ReplaceCard":
+                ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
+                int replacedCardClient = replaceCardBody.getClientID();
+                int replacedRegister = replaceCardBody.getRegister();
+                String replacedCardName = replaceCardBody.getNewCard();
+                if (replacedCardClient == clientID) {
+                    myRegisters[replacedRegister] = replacedCardName;
+                    if (registerPointer == 0) {
+                        registerPointer = 4;
+                    } else {
+                        registerPointer--;
+                    }
+                }
+                break;
+            case "ConnectionUpdate":
+                ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
+                int removedClient = connectionUpdateBody.getClientID();
+                currentPositions.remove(removedClient);
+
+                clientNames.remove(removedClient);
+                readyClients.remove(removedClient);
+                break;
+            case "Energy":
+                EnergyBody energyBody = Protocol.readJsonEnergy(json);
+                int energyClient = energyBody.getClientID();
+                int addCubes = energyBody.getCount();
+                if (energyClient == clientID) {
+                    energyCount = energyCount + addCubes;
+                }
+                break;
+            case "RefillShop":
+                RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
+                List<String> upCards = refillShopBody.getCards();
+                availableUpgradesCards.clear();
+                for (String upCard : upCards) {
+                    availableUpgradesCards.add(upCard);
+                }
+                break;
+            case "UpgradeBought":
+                UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
+                int clientWhoBought = upgradeBoughtBody.getClientID();
+                String upCardBought = upgradeBoughtBody.getCard();
+                if (upCardBought != null) {
+                    availableUpgradesCards.remove(upCardBought);
+                }
+                break;
+            case "CheckpointMoved":
+                CheckpointMovedBody checkpointMovedBody = Protocol.readJsonCheckpointMoved(json);
+                int checkpointNr = checkpointMovedBody.getCheckpointID();
+                int locX = checkpointMovedBody.getX();
+                int locY = checkpointMovedBody.getY();
+                int[] location = new int[2];
+                location[0] = locX;
+                location[1] = locY;
+                movingCheckpoints.put(checkpointNr, location);
+                break;
+        }
     }
 
 
@@ -584,26 +584,26 @@ public class AILow implements Runnable{
             currentPositions.put(client, currentPo);
 
             // init curren directions
-            if(mapName.equals("Death Trap")){
+            if (mapName.equals("Death Trap")) {
                 currentDirections.put(client, Direction.LEFT);
-            }else{
+            } else {
                 currentDirections.put(client, Direction.RIGHT);
             }
         }
 
         // inti available StartsPoints
-        availableStartsMaps.add(new Position(1,1));
-        availableStartsMaps.add(new Position(0,3));
-        availableStartsMaps.add(new Position(1,4));
-        availableStartsMaps.add(new Position(1,5));
-        availableStartsMaps.add(new Position(0,6));
-        availableStartsMaps.add(new Position(1,8));
-        availableStartsMapTrap.add(new Position(11,1));
-        availableStartsMapTrap.add(new Position(12,3));
-        availableStartsMapTrap.add(new Position(11,4));
-        availableStartsMapTrap.add(new Position(11,5));
-        availableStartsMapTrap.add(new Position(12,6));
-        availableStartsMapTrap.add(new Position(11,8));
+        availableStartsMaps.add(new Position(1, 1));
+        availableStartsMaps.add(new Position(0, 3));
+        availableStartsMaps.add(new Position(1, 4));
+        availableStartsMaps.add(new Position(1, 5));
+        availableStartsMaps.add(new Position(0, 6));
+        availableStartsMaps.add(new Position(1, 8));
+        availableStartsMapTrap.add(new Position(11, 1));
+        availableStartsMapTrap.add(new Position(12, 3));
+        availableStartsMapTrap.add(new Position(11, 4));
+        availableStartsMapTrap.add(new Position(11, 5));
+        availableStartsMapTrap.add(new Position(12, 6));
+        availableStartsMapTrap.add(new Position(11, 8));
     }
 
     /**
@@ -623,18 +623,18 @@ public class AILow implements Runnable{
     public void setStartPoint(int x, int y) throws IOException {
         boolean isAvailable = checkStartPointAvailable(x, y);
         Protocol protocol = null;
-        if(isAvailable){
+        if (isAvailable) {
             protocol = new Protocol("SetStartingPoint", new SetStartingPointBody(x, y));
-        }else{
+        } else {
             int newX = 0;
             int newY = 0;
-            if(mapName.equals("Death Trap")){
-                for(Position pos : availableStartsMapTrap){
+            if (mapName.equals("Death Trap")) {
+                for (Position pos : availableStartsMapTrap) {
                     newX = pos.getX();
                     newY = pos.getY();
                 }
-            }else{
-                for(Position po : availableStartsMaps){
+            } else {
+                for (Position po : availableStartsMaps) {
                     newX = po.getX();
                     newY = po.getY();
                 }
@@ -652,18 +652,18 @@ public class AILow implements Runnable{
      * @param x the x
      * @param y the y
      */
-    public void removeStartPointsInHashSet(int x, int y){
+    public void removeStartPointsInHashSet(int x, int y) {
         HashSet<Position> toRemove = new HashSet<>();
-        if(mapName.equals("Death Trap")){
-            for(Position p : availableStartsMapTrap){
-                if(p.getX() == x && p.getY() == y){
+        if (mapName.equals("Death Trap")) {
+            for (Position p : availableStartsMapTrap) {
+                if (p.getX() == x && p.getY() == y) {
                     toRemove.add(p);
                 }
             }
             availableStartsMapTrap.removeAll(toRemove);
-        }else{
-            for(Position p : availableStartsMaps){
-                if(p.getX() == x && p.getY() == y){
+        } else {
+            for (Position p : availableStartsMaps) {
+                if (p.getX() == x && p.getY() == y) {
                     toRemove.add(p);
                 }
             }
@@ -678,16 +678,16 @@ public class AILow implements Runnable{
      * @param y the y
      * @return boolean
      */
-    public boolean checkStartPointAvailable(int x, int y){
-        if(mapName.equals("Death Trap")){
-            for(Position p : availableStartsMapTrap){
-                if(p.getX() == x && p.getY() == y){
+    public boolean checkStartPointAvailable(int x, int y) {
+        if (mapName.equals("Death Trap")) {
+            for (Position p : availableStartsMapTrap) {
+                if (p.getX() == x && p.getY() == y) {
                     return true;
                 }
             }
-        }else{
-            for(Position p : availableStartsMaps){
-                if(p.getX() == x && p.getY() == y){
+        } else {
+            for (Position p : availableStartsMaps) {
+                if (p.getX() == x && p.getY() == y) {
                     return true;
                 }
             }
@@ -708,14 +708,14 @@ public class AILow implements Runnable{
         if (cardName != null) {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(cardName, registerNum));
             String json = Protocol.writeJson(protocol);
-            myRegisters[registerNum - 1]=cardName;
+            myRegisters[registerNum - 1] = cardName;
             logger.info(json);
             OUT.println(json);
 
         } else {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(null, registerNum));
             String json = Protocol.writeJson(protocol);
-            myRegisters[registerNum - 1]="";
+            myRegisters[registerNum - 1] = "";
             logger.info(json);
             OUT.println(json);
         }
@@ -767,18 +767,32 @@ public class AILow implements Runnable{
      */
     public void selectAndSetRegisterFinish() throws JsonProcessingException {
 
-        if(myCards.size() == 9){
+        if (myCards.size() == 9) {
             // random first 5 cards for registers
             for (int i = 0; i < 5; i++) {
                 // first register card can not be Again
-                if(i == 0 && myCards.get(0).equals("Again")){
+                if (i == 0 && myCards.get(0).equals("Again")) {
                     setRegister(myCards.get(6), 1);
-                }else{
-                    setRegister(myCards.get(i), i+1);
+                } else {
+                    setRegister(myCards.get(i), i + 1);
                 }
             }
             selectFinish();
         }
+    }
+
+    /**
+     * ai buys no upgrade card
+     *
+     * @throws JsonProcessingException the json processing exception
+     */
+    public void handleBuyUpgrade() throws JsonProcessingException {
+
+        Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(false, null));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+
     }
 
     /**
