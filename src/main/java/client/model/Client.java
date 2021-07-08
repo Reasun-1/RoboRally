@@ -6,7 +6,10 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
@@ -161,6 +164,9 @@ public class Client extends Application {
 
     // flag update moving checkpoint
     public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
+
+    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/setReady.mp3").toString()));
+
 
     // Getters
 
@@ -1234,6 +1240,9 @@ public class Client extends Application {
     public void setReady() throws JsonProcessingException {
         readyClients.put(clientID, true);
         Protocol protocol = new Protocol("SetStatus", new SetStatusBody(true));
+        mediaPlayer.setVolume(0.15);
+        mediaPlayer.play();
+        mediaPlayer.seek(Duration.ZERO);
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
