@@ -6,7 +6,10 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
@@ -161,6 +164,13 @@ public class Client extends Application {
 
     // flag update moving checkpoint
     public IntegerProperty flagMovingCheckpoints = new SimpleIntegerProperty(0);
+
+    //media for different buttons
+    MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/soundEffects/setReady.mp3").toString()));
+    MediaPlayer mediaPlayer2 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/notReady_oops.mp3").toString()));
+    MediaPlayer mediaPlayer3 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/messageSent.mp3").toString()));
+
+
 
     // Getters
 
@@ -720,6 +730,9 @@ public class Client extends Application {
                         case "ReceivedChat":
                             logger.info("received chat printed");
                             ReceivedChatBody receivedChatBody = Protocol.readJsonReceivedChatBody(json);
+                            mediaPlayer3.setVolume(0.30);
+                            mediaPlayer3.play();
+                            mediaPlayer3.seek(Duration.ZERO);
                             String message = receivedChatBody.getMessage();
                             int fromClient = receivedChatBody.getFrom();
                             boolean priv = receivedChatBody.isPrivate();
@@ -1245,6 +1258,9 @@ public class Client extends Application {
     public void setReady() throws JsonProcessingException {
         readyClients.put(clientID, true);
         Protocol protocol = new Protocol("SetStatus", new SetStatusBody(true));
+        mediaPlayer.setVolume(0.15);
+        mediaPlayer.play();
+        mediaPlayer.seek(Duration.ZERO);
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
@@ -1258,6 +1274,9 @@ public class Client extends Application {
     public void setUnready() throws JsonProcessingException {
         readyClients.put(clientID, false);
         Protocol protocol = new Protocol("SetStatus", new SetStatusBody(false));
+        mediaPlayer2.setVolume(0.15);
+        mediaPlayer2.play();
+        mediaPlayer2.seek(Duration.ZERO);
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
