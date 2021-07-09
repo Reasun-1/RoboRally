@@ -19,8 +19,8 @@ import javafx.util.Duration;
  * The controller for  Login.
  *
  * @author Chiara Welz
- * @author Rajna Fani
  * @author Yuliia Shaparenko
+ * @author Rajna Fani
  * @author Can Ren
  */
 public class LoginController {
@@ -58,7 +58,7 @@ public class LoginController {
 
         startButton.disableProperty().bind(robotFigure.textProperty().isEmpty().or(name.textProperty().isEmpty()));
 
-        //Chose the robot NR. per button
+        //Choose the robot NR. per button
         iconHulk.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -149,9 +149,6 @@ public class LoginController {
      */
     private void loginButton(ActionEvent event) throws JsonProcessingException {
         Stage stage = (Stage) startButton.getScene().getWindow();
-        //client.checkName(name.getText());
-        //client.setName(name.getText());
-        //client.setRobotFigureAllClients(client.getClientID(), Integer.valueOf(robotFigure.getText()));
         client.setPlayerValues(name.getText(), Integer.valueOf(robotFigure.getText()));
         stage.close();
     }

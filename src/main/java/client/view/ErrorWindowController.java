@@ -19,6 +19,8 @@ import javax.swing.*;
  * The controller for Error window .
  *
  * @author Rajna Fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  */
 
 

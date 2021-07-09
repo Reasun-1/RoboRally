@@ -54,7 +54,7 @@ public class MemorySwapController {
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
     /**
-     * Init.
+     * Method to be called by WindowLauncher when the MemorySwap Card is played
      *
      * @param client the client
      */
@@ -62,6 +62,7 @@ public class MemorySwapController {
 
         this.client = client;
 
+        // bind flagCardsInMemorySwapWindow to set the drawn cards
         client.flagCardsInMemorySwapWindowProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -156,6 +157,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 1.
      */
     public void clickButton1() {
@@ -186,6 +188,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 2.
      */
     public void clickButton2() {
@@ -216,6 +219,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 3.
      */
     public void clickButton3() {
@@ -246,6 +250,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 4.
      */
     public void clickButton4() {
@@ -276,6 +281,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 5.
      */
     public void clickButton5() {
@@ -306,6 +312,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 6.
      */
     public void clickButton6() {
@@ -336,6 +343,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 7.
      */
     public void clickButton7() {
@@ -366,6 +374,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 8.
      */
     public void clickButton8() {
@@ -396,6 +405,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 9.
      */
     public void clickButton9() {
@@ -426,6 +436,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 10.
      */
     public void clickButton10() {
@@ -456,6 +467,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 11.
      */
     public void clickButton11() {
@@ -486,6 +498,7 @@ public class MemorySwapController {
     }
 
     /**
+     * Method to choose the card that the player doesn't want to keep
      * Click button 12.
      */
     public void clickButton12() {
