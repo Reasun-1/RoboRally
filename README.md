@@ -11,7 +11,7 @@ First, please clone or download the project to your local machine. Then, in orde
 Note that for every additional Player, you have to start another Client Instance.
 
 ### Gameplay
-Start by Clicking on an Icon representing the Robot you want to choose and enter your Name.
+Start by Clicking on an Icon representing the Robot you want to choose and enter your Name. If you can't click on the Icon, the Robot is already taken.
 
 ![](src/main/resources/images/Readme/login.png)
 
@@ -56,8 +56,19 @@ By clicking on the gears on the start board, you can set your start position - h
 ![](src/main/resources/images/Readme/position.png)
 
 <br /> 
+If you can afford it, you can buy some upgrade in the Upgrade Shop:
 
-Now you can see your hand cards! Drag the Cards to the desired register and let it drop. But choose wisely ...
+![](src/main/resources/images/Readme/shop.png)
+
+<br />  
+
+If you choose Admin Privilege, don't forget to set the Register you want to get Priority!
+
+![](src/main/resources/images/Readme/upgrade.png)
+
+<br />  
+
+And now you can see your hand cards! Drag the Cards to the desired register and let it drop. But choose wisely ...
 
 ![](src/main/resources/images/Readme/drag.png)
 
