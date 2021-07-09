@@ -5,8 +5,9 @@ import java.io.IOException;
 /**
  * The type Real laser.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class RealLaser extends UpgradeCard{
     /**

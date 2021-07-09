@@ -2,6 +2,9 @@ package server.game;
 
 /**
  * The enum Direction.
+ * @author Jonas Gottal
+ * @author Can Ren
+ * @author Megzon Mehmedali
  */
 public enum Direction {
     /**

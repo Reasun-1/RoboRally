@@ -9,8 +9,9 @@ import java.io.IOException;
 /**
  * The type U turn.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class UTurn extends RegisterCard{
 

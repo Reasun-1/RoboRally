@@ -10,7 +10,9 @@ import java.util.List;
 /**
  * The type Virus.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 public class Virus extends RegisterCard{
     /**

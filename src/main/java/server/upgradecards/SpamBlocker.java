@@ -12,8 +12,9 @@ import java.util.Stack;
 /**
  * The type Spam blocker.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class SpamBlocker extends UpgradeCard{
     /**

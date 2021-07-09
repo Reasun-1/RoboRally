@@ -9,6 +9,8 @@ import java.io.IOException;
  * The type Run client.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class RunClient {
     /**

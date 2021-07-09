@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 public class Board {
     private static final Logger logger = Logger.getLogger(Board.class.getName());

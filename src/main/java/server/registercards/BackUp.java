@@ -10,8 +10,9 @@ import java.io.IOException;
 /**
  * The type Back up.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class BackUp extends RegisterCard{
 

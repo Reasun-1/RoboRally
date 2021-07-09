@@ -5,7 +5,9 @@ import java.io.IOException;
 /**
  * The type Blank card.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 public class BlankCard extends RegisterCard{
 

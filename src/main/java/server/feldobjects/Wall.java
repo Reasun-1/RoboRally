@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wall extends FeldObject{

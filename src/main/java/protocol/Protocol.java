@@ -12,6 +12,8 @@ import java.io.IOException;
  * The type Protocol.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Protocol {
 
