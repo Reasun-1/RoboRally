@@ -681,7 +681,7 @@ public class Client extends Application {
                 while (!socket.isClosed()) {
                     // Client socket waits for the input from the server
                     json = IN.readLine();
-                    //if(!line.isEmpty()) { // NullPointerException
+
                     if (json != null) {
                         if (Protocol.readJsonMessageType(json).equals("Alive")) {
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
@@ -694,11 +694,11 @@ public class Client extends Application {
                         }
                     }
                 }
-                //Platform.exit();
+
             } catch (IOException e) {
                 try {
                     socket.close();
-                    //Platform.exit();
+
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -757,7 +757,7 @@ public class Client extends Application {
                                 socket.close();
                             }
                             if (errorMessage.equals("This figure exists already, choose again.")) {
-                                //reLoggin();
+                                //reloggin
                                 LAUNCHER.launchLogin(client);
                             }
                             break;
@@ -778,12 +778,6 @@ public class Client extends Application {
                             INFORMATION.set("Are you ready to start?");
                             GAMEPHASE.set("Welcomephase");
                             break;
-                        /*case "Alive":
-                            String alive = Protocol.writeJson(new Protocol("Alive", null));
-                            OUT.println(alive);
-                            logger.info("==========client " + clientID + " sent alive checked back.===========");
-                            break;
-                         */
                         case "PlayerAdded":
                             logger.info(json + Thread.currentThread().getName());
                             PlayerAddedBody playerAddedBody = Protocol.readJsonPlayerAdded(json);
@@ -805,7 +799,7 @@ public class Client extends Application {
                                     logger.info("flag launchen window");
                                     name = nameAdded;
 
-                                    //goToChatGame();
+                                    // launch game
                                     LAUNCHER.launchChat(client);
                                     // update flag for listener
                                     flagMyFigure.set(flagMyFigure.getValue() + 1);
@@ -898,7 +892,7 @@ public class Client extends Application {
                                     INFORMATION.set("Begin programming!");
 
                                 } else if (GAMEPHASE.get().equals("Upgradephase")) {
-                                    //===launch upgrade shop window====
+                                    // launch upgrade shop
                                     LAUNCHER.launchUpgradeShop(client);
 
                                     INFORMATION.set("");
@@ -937,7 +931,6 @@ public class Client extends Application {
                         case "YourCards":
                             logger.info("clients your cards");
                             // GUI-Listner binds to flagRoundOver to reset GUI for new round
-                            //flagRoundOver.set(flagRoundOver.getValue() + 1);
                             YourCardsBody yourCardsBody = Protocol.readJsonYourCards(json);
                             List<String> cardsInHand = yourCardsBody.getCardsInHand();
 
@@ -1033,7 +1026,6 @@ public class Client extends Application {
                                 flagClearRegisters.set(flagClearRegisters.getValue() + 1);
                                 INFORMATION.set("");
                                 INFORMATION.set("You are rebooted, wait for next round.");
-                                //handleRebootDirection("right");
                             }
                             logger.info("client reboot to start point");
                             break;
@@ -1206,7 +1198,6 @@ public class Client extends Application {
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
-        //}
     }
 
     /**
@@ -1265,7 +1256,6 @@ public class Client extends Application {
                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
                 // reset boolean canSelectMap to all false
                 CANSELECTMAP.set(false);
-                //INFORMATION.set("");
             }
         }
     }

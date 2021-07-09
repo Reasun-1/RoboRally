@@ -1143,10 +1143,10 @@ public class ChatController {
     }
 
 
-    @FXML
+
     /** send method makes the message get sent from message
      * field to messages History(ScrollPane)**/
-
+    @FXML
     private void send() throws JsonProcessingException {
         ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
         if (sendto.getValue() == null) { // if no message destination, then it´s a public message
@@ -1187,28 +1187,32 @@ public class ChatController {
         });
     }
 
-    @FXML
+
     // Method for the "ready" Button
+    @FXML
     private void setReady() throws JsonProcessingException {
         client.setReady();
     }
 
-    @FXML
+
     // Method for the "not ready" Button
+    @FXML
     private void setUnready() throws JsonProcessingException {
         client.setUnready();
     }
 
-    @FXML
+
     //Method for the "Select Map" Button
+    @FXML
     private void selectMapEvent() throws JsonProcessingException {
         String mapSelected = mapList.getValue();
         client.handleMapSelected(mapSelected);
     }
 
 
-    @FXML
+
     // Method for the "Finish" Button
+    @FXML
     private void finishEvent() throws JsonProcessingException {
         client.selectFinish();
         remove1.setDisable(true);
@@ -1218,8 +1222,9 @@ public class ChatController {
         remove5.setDisable(true);
     }
 
-    @FXML
+
     // Method to play the next card for the "Next Register" Button
+    @FXML
     private void playNextRegistserEvent() throws JsonProcessingException {
         // get current register card
         String cardName = client.getMYREGISTER()[client.registerPointer].get();
