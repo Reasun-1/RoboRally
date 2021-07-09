@@ -8,9 +8,9 @@ import java.util.List;
 
 /**
  * The type Again.
- *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class Again extends RegisterCard{
 

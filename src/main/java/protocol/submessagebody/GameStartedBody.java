@@ -9,6 +9,8 @@ import java.util.List;
  * The type Game started body.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameStartedBody {

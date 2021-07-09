@@ -14,6 +14,9 @@ import java.net.Socket;
 
 /**
  * The type Server thread.
+ * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class ServerThread implements Runnable {
 

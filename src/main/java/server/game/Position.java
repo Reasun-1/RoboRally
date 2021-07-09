@@ -2,6 +2,9 @@ package server.game;
 
 /**
  * The type Position.
+ * @author Jonas Gottal
+ * @author Can Ren
+ * @author Megzon Mehmedali
  */
 public class Position {
     private int x;

@@ -15,6 +15,7 @@ import java.util.TreeMap;
  *
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Antenna extends FeldObject {

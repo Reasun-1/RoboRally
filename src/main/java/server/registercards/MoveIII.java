@@ -10,8 +10,9 @@ import java.io.IOException;
 /**
  * The type Move III.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class MoveIII extends RegisterCard{
 

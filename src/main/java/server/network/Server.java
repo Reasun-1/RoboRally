@@ -17,6 +17,9 @@ import java.util.*;
 
 /**
  * The type Server.
+ * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());

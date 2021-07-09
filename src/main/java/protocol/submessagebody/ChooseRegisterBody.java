@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChooseRegisterBody {

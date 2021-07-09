@@ -10,6 +10,8 @@ import java.io.IOException;
  * The type Alive check.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class AliveCheck implements Runnable {
 

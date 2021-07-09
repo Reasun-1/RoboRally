@@ -9,8 +9,9 @@ import java.util.List;
 /**
  * The type Memory swap.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class MemorySwap extends UpgradeCard{
     /**

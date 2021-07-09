@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * The FeldObject Empty: PlaceHolder without any Function
  *
  * @author Jonas Gottal
+ * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Empty extends FeldObject{

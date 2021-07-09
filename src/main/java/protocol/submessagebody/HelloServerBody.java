@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The type Hello server body.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HelloServerBody {

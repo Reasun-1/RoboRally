@@ -1,3 +1,11 @@
+
+# Requirements: Please read carefully!
+In order to run the Game without problems, you'll need to install Java to run the .JAR File
+Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
+
+java -jar clevere-cousins.jar
+
+
 # Welcome to RoboRally!
 This is our University project for the board game RoboRally.
 
@@ -111,9 +119,3 @@ Whenever you are confused or don't know what's going on, have a look at the top:
 ![](src/main/resources/images/Readme/help.png)
 
 Have fun!
-
-#### Requirements: Please read carefully!
-In order to run the Game without problems, you'll need to install Java to run the .JAR File
-Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
-
-java -jar clevere-cousins.jar

@@ -17,6 +17,9 @@ import java.util.*;
 
 /**
  * The type Game.
+ * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Game {
 

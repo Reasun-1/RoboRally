@@ -8,8 +8,9 @@ import java.io.IOException;
 /**
  * The type Power up.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class PowerUp extends RegisterCard{
     /**

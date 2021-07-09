@@ -9,8 +9,9 @@ import java.io.IOException;
 /**
  * The type Turn left.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class TurnLeft extends RegisterCard{
 

@@ -87,7 +87,7 @@ public class WindowLauncher {
         stage.setScene(new Scene(root, 600, 400));
         //stage.showAndWait();
         stage.show();
-        stage.setOnCloseRequest((event) -> Platform.exit());
+        //stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
     /**
@@ -127,7 +127,7 @@ public class WindowLauncher {
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
-        stage.setOnCloseRequest((event) -> Platform.exit());
+        //stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
 
@@ -148,7 +148,7 @@ public class WindowLauncher {
         stage.setScene(new Scene(root, 600, 400));
         //stage.showAndWait();
         stage.show();
-        stage.setOnCloseRequest((event) -> Platform.exit());
+        //stage.setOnCloseRequest((event) -> Platform.exit());
 
     }
 

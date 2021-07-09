@@ -9,6 +9,7 @@ import java.io.IOException;
  *
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pit extends FeldObject{

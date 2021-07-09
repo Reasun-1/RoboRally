@@ -19,6 +19,8 @@ import java.util.HashMap;
  * this class is specially for decoding json message and execute the order in json
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class ExecuteOrder {
 

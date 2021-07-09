@@ -14,6 +14,8 @@ import java.util.List;
  * The type Timer.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Timer implements Runnable {
 

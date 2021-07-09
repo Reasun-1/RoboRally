@@ -11,8 +11,9 @@ import java.io.IOException;
 /**
  * The type Move II.
  *
- * @author Can Ren
  * @author Megzon Mehmedali
+ * @author Can Ren
+ * @author Jonas Gottal
  */
 public class MoveII extends RegisterCard{
 

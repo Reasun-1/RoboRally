@@ -8,7 +8,9 @@ import java.io.IOException;
 /**
  * The type Spam.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 public class Spam extends RegisterCard{
 
