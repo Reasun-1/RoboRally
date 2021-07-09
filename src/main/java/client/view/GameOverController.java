@@ -25,7 +25,7 @@ public class GameOverController {
 
 
     /**
-     * Init.
+     * Method to be called by WindowLauncher to open the "Game Over" Window as soon as the game ends
      *
      * @param winner the winner
      */

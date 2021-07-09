@@ -20,10 +20,11 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 /**
- * @author rajna fani
- * @author chiara welz
- * @author yuliia shaparenko
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * The controller class for Upgrade Shop
+ *
+ * @author Chiara Welz
+ * @author Rajna Fani
+ * @author Yuliia Shaparenko
  */
 
 public class UpgradeShopController {
@@ -65,14 +66,15 @@ public class UpgradeShopController {
 
 
     /**
-     * Method to be called from WindowLauncher to check the entered name.
+     * Method to be called from WindowLauncher for the Upgrade Phase
      *
-     * @param
+     * @param client
      */
     public void init(Client client) {
 
         this.client = client;
 
+        //a sound effect will be played when the upgradeShop window gets opened
         mediaPlayer.play();
         mediaPlayer.setVolume(0.15);
         mediaPlayer.seek(Duration.ZERO);
@@ -83,8 +85,9 @@ public class UpgradeShopController {
         //binds finish-Button with textfield
         finishButton.disableProperty().bind(chosenUpgrade.textProperty().isEmpty());
 
-
+        // bind flagRefreshUpdateShop to set the Upgrade Cards
         client.flagRefreshUpdateShopProperty().addListener(new ChangeListener<Number>() {
+
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 

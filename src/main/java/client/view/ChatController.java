@@ -44,21 +44,13 @@ public class ChatController {
     @FXML
     private TextArea outOfRoundCards1; //registers the written messages on TextField
     @FXML
-    private TextArea playersInServer;
-    @FXML
-    private TextArea playersWhoReady;
+    private TextArea playersInServer, playersWhoReady;
     @FXML
     private TextArea information; // bind INFORMATION StringProperty in Client
     @FXML
     private TextArea currentPhase;
     @FXML
-    private GridPane gridPaneBoard;
-    @FXML
-    private GridPane gridPaneRobot;
-    @FXML
-    private GridPane gridPaneStartPoint;
-    @FXML
-    private GridPane gridPaneCheckpoint;
+    private GridPane gridPaneBoard,gridPaneRobot, gridPaneStartPoint, gridPaneCheckpoint;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
     @FXML
@@ -68,7 +60,6 @@ public class ChatController {
     private Button sendButton; //send from messageField a typed message to message history
     @FXML
     private Button selectMap; // bind the BooleanProperty canSelectMap in Client
-
     @FXML
     private Button setRegister01; // invoke methode setRegisterEvent()
     @FXML
@@ -84,22 +75,31 @@ public class ChatController {
     @FXML
     private ImageView myFigure;
     @FXML
-    private Label energyCube;
+    private Label energyCube, timer, LabelAdmin, LabelLaser, LabelBlocker, LabelMemory;
+
+    @FXML
+    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
+    @FXML
+    private ImageView Register1, Register2, Register3, Register4, Register5;
+    @FXML
+    private ImageView LHulk, LSpinbot, LSquashbot, LTrundlebot, LTwitch, LTwonky;
+    @FXML
+    private ComboBox<String> mapList, sendto;
 
     private HashMap<Integer, Integer> regButton = new HashMap<>();//key=Register, value=button
 
-    @FXML
-    private Label timer;
-
-    @FXML
-    private Label LabelAdmin, LabelLaser, LabelBlocker, LabelMemory;
 
     private final WindowLauncher LAUNCHER = new WindowLauncher();
 
-    /**
-     * The Card Images.
-     */
-//====================DrawnCardsBindings===================================
+    //The Temp card name for drag&drop
+    String tempCardName = "";
+
+    //The Temp button number for drag&drop
+    int tempButtonNum;
+
+
+
+    //====================DrawnCardsBindings===================================
     Image imageAgain = new Image(getClass().getResource("/images/Cards/C-Again.jpg").toExternalForm());
     Image imageDiscard = new Image(getClass().getResource("/images/Cards/C-Discard.jpg").toExternalForm());
     Image imageMove1 = new Image(getClass().getResource("/images/Cards/C-Move1.jpg").toExternalForm());
@@ -115,31 +115,6 @@ public class ChatController {
     Image imageVirus = new Image(getClass().getResource("/images/Cards/DamageCards/D-Virus.jpg").toExternalForm());
     Image imageWorm = new Image(getClass().getResource("/images/Cards/DamageCards/D-Worm.jpg").toExternalForm());
 
-    @FXML
-    private ImageView DrawnCard0, DrawnCard1, DrawnCard2, DrawnCard3, DrawnCard4, DrawnCard5, DrawnCard6, DrawnCard7, DrawnCard8;
-    @FXML
-    private ImageView Register1, Register2, Register3, Register4, Register5;
-    @FXML
-    private ImageView LHulk, LSpinbot, LSquashbot, LTrundlebot, LTwitch, LTwonky;
-
-    @FXML
-    private ComboBox<String> mapList;
-
-    @FXML
-    private ComboBox<String> sendto;
-
-    /**
-     * The Temp card name.
-     */
-    String tempCardName = ""; // for drag&drop
-    /**
-     * The Temp button num.
-     */
-    int tempButtonNum; // for drag&drop
-
-    /**
-     * The Board Images .
-     */
 //============================MapBindings===========================================
     Image imageCheckpoint1 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint1.png").toExternalForm());
     Image imageCheckpoint2 = new Image(getClass().getResource("/images/Checkpoints/Checkpoint2.png").toExternalForm());
@@ -188,14 +163,10 @@ public class ChatController {
     Image TwonkyBot = new Image(getClass().getResource("/images/Robots/Twonky.png").toExternalForm());
     Image DefaultBot = new Image(getClass().getResource("/images/Robots/defaultRobot.png").toExternalForm());
     Image Startpoint1 = new Image(getClass().getResource("/images/Startpoints/Start-1.png").toExternalForm());
-    Image Startpoint2 = new Image(getClass().getResource("/images/Startpoints/Start-2.png").toExternalForm());
-    Image Startpoint3 = new Image(getClass().getResource("/images/Startpoints/Start-3.png").toExternalForm());
-    Image Startpoint4 = new Image(getClass().getResource("/images/Startpoints/Start-4.png").toExternalForm());
-    Image Startpoint5 = new Image(getClass().getResource("/images/Startpoints/Start-5.png").toExternalForm());
-    Image Startpoint6 = new Image(getClass().getResource("/images/Startpoints/Start-6.png").toExternalForm());
     Image Reboot = new Image(getClass().getResource("/images/Reboot.jpg").toExternalForm());
     Image WallNormal = new Image(getClass().getResource("/images/Wall/Walls.png").toExternalForm());
     Image WallEdge = new Image(getClass().getResource("/images/Wall/Walls-Edge.png").toExternalForm());
+
     /**
      * Init.
      *
@@ -263,7 +234,7 @@ public class ChatController {
             }
         });
 
-        // bind robotsNames Properylist in Client with comboBox
+        // bind robotsNames Propertylist in Client with comboBox
         client.ROBOTSNAMESFORCHATProperty().addListener(new ListChangeListener<String>() {
             @Override
             public void onChanged(Change<? extends String> change) {
@@ -560,6 +531,7 @@ public class ChatController {
             }
         });
 
+        // bind flagClearRegister to clear register cards
         client.flagClearRegistersProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -831,8 +803,7 @@ public class ChatController {
             }
         });
 
-
-
+        //bind CANSETSTARTPOINT to set the roboter in the game field
         client.CANSETSTARTPOINTProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -857,6 +828,7 @@ public class ChatController {
             }
         });
 
+        //bind flagMyUpgrades to set the chosen UpgradeCards from the client
         client.flagMyUpgradesProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -886,6 +858,7 @@ public class ChatController {
         UpgradeBlocker.setDisable(true);
         UpgradeLaser.setOpacity(0.50);
 
+        //bind flagAdmin for the AdminPrivilege Upgrade Card
         client.flagAdminProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -897,6 +870,7 @@ public class ChatController {
             }
         });
 
+        //bind flagMemory for the MemorySwap Upgrade Card
         client.flagMemoryProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -911,6 +885,7 @@ public class ChatController {
             }
         });
 
+        //bind flagBlocker for the SpamBlocker Upgrade Card
         client.flagBlockerProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -922,6 +897,7 @@ public class ChatController {
             }
         });
 
+        //bind flagMovingCheckpoints for the moving Checkpoints on the Twister Map
         client.flagMovingCheckpointsProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -1168,7 +1144,9 @@ public class ChatController {
 
 
     @FXML
-    //send method makes the message get sent from message field to messages History(ScrollPane)
+    /** send method makes the message get sent from message
+     * field to messages History(ScrollPane)**/
+
     private void send() throws JsonProcessingException {
         ObservableList<String> robotsnamesforchat = client.getROBOTSNAMESFORCHAT();
         if (sendto.getValue() == null) { // if no message destination, then it´s a public message
@@ -1210,16 +1188,19 @@ public class ChatController {
     }
 
     @FXML
+    // Method for the "ready" Button
     private void setReady() throws JsonProcessingException {
         client.setReady();
     }
 
     @FXML
+    // Method for the "not ready" Button
     private void setUnready() throws JsonProcessingException {
         client.setUnready();
     }
 
     @FXML
+    //Method for the "Select Map" Button
     private void selectMapEvent() throws JsonProcessingException {
         String mapSelected = mapList.getValue();
         client.handleMapSelected(mapSelected);
@@ -1227,6 +1208,7 @@ public class ChatController {
 
 
     @FXML
+    // Method for the "Finish" Button
     private void finishEvent() throws JsonProcessingException {
         client.selectFinish();
         remove1.setDisable(true);
@@ -1237,6 +1219,7 @@ public class ChatController {
     }
 
     @FXML
+    // Method to play the next card for the "Next Register" Button
     private void playNextRegistserEvent() throws JsonProcessingException {
         // get current register card
         String cardName = client.getMYREGISTER()[client.registerPointer].get();

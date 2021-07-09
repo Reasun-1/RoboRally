@@ -13,6 +13,10 @@ import java.util.HashMap;
 
 /**
  * The Window launcher.
+ *
+ * @author Rajna Fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  */
 public class WindowLauncher {
 

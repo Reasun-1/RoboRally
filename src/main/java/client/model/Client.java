@@ -26,6 +26,11 @@ import java.util.*;
 /**
  * Client class is responsible for the connection to the server and for storing the properties connected with the GUI.
  * It also holds the main method which starts the Application.
+ *
+ * @author Can Ren
+ * @author Chiara Welz
+ * @author Rajna Fani
+ * @author Yuliia Shaparenko
  */
 public class Client extends Application {
 
@@ -610,6 +615,7 @@ public class Client extends Application {
 
         // Always connect to localhost and fixed port
         socket = new Socket("127.0.0.1", 5200);
+
         // test server
         //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
 
@@ -777,7 +783,6 @@ public class Client extends Application {
                             OUT.println(alive);
                             logger.info("==========client " + clientID + " sent alive checked back.===========");
                             break;
-
                          */
                         case "PlayerAdded":
                             logger.info(json + Thread.currentThread().getName());
@@ -899,21 +904,7 @@ public class Client extends Application {
                                     INFORMATION.set("");
                                     INFORMATION.set("Now you can purchase upgrade cards!");
 
-                                    //System.out.println(availableUpgradesCards);
-
                                     flagRefreshUpdateSop.set(flagRefreshUpdateSop.get() + 1);
-
-                                    //===only for test, will be deleted later=====
-                                    /*
-                                    if(availableUpgradesCards.contains("AdminPrivilege")){
-                                        handleBuyUpgrade("AdminPrivilege");
-                                    }else if(availableUpgradesCards.contains("MemorySwap")){
-                                        handleBuyUpgrade("MemorySwap");
-                                    }else if(availableUpgradesCards.contains("RealLaser")){
-                                        handleBuyUpgrade("RealLaser");
-                                    }else if(availableUpgradesCards.contains("SpamBlocker")){
-                                        handleBuyUpgrade("SpamBlocker");
-                                    }*/
                                 }
 
                             } else {
@@ -1209,25 +1200,7 @@ public class Client extends Application {
      * @throws JsonProcessingException the json processing exception
      */
     public void sendMessage(String message) throws JsonProcessingException {
-        // Check logout condition
-        /*if (message.equals("bye")) {
-            Protocol protocol = new Protocol("Quit", null);
-            String json = Protocol.writeJson(protocol);
-            logger.info(json);
-            OUT.println(json);
-            // stop the connection
-            try {
-                if (socket != null) {
-                    socket.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // Confirm logout (currently via terminal)
-            System.out.println("You left the room.");
 
-        } else {
-         */
         // Send message to server
         Protocol protocol = new Protocol("SendChat", new SendChatBody(message, -1));
         String json = Protocol.writeJson(protocol);
