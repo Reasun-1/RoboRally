@@ -51,18 +51,18 @@ The first Robot to enter the game, can choose the map - Dizzy Highway is a great
 
 <br />  
 
-By clicking on the gears on the start board, you can set your start position - hit setStartPoint to finalize it
+By clicking on the gears on the start board, you can set your start position.
 
 ![](src/main/resources/images/Readme/position.png)
 
 <br /> 
-If you can afford it, you can buy some upgrade in the Upgrade Shop:
+If you can afford it, you can buy some upgrades in the Upgrade Shop:
 
 ![](src/main/resources/images/Readme/shop.png)
 
 <br />  
 
-If you choose Admin Privilege, don't forget to set the Register you want to get Priority!
+If you choose Admin Privilege, don't forget to set the Register you want to get Priority in!
 
 ![](src/main/resources/images/Readme/upgrade.png)
 
@@ -74,13 +74,13 @@ And now you can see your hand cards! Drag the Cards to the desired register and 
 
 <br />  
 
-Now fill the whole register with cards
+Fill the whole register with cards...
 
 ![](src/main/resources/images/Readme/drop.png)
 
 <br />  
 
-and after that, just hit the finish button
+and after that, just hit the finish button.
 
 ![](src/main/resources/images/Readme/finish.png)
 
