@@ -61,6 +61,8 @@ public class ChatController {
     private GridPane gridPaneCheckpoint;
     @FXML
     private TextField messageField; //bind the typed message with message history scroll pane
+    @FXML
+    private TextField RegNrForAdmin; // to get the register Nr. for playing card AdminPrivilage
 
     @FXML
     private Button sendButton; //send from messageField a typed message to message history
@@ -887,7 +889,7 @@ public class ChatController {
         client.flagAdminProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.GAMEPHASE.get().equals("Aktivierungsphase") && client.myUpgradesCards.get("AdminPrivilege") != 0){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("AdminPrivilege") != 0){
                     UpgradeAdmin.setDisable(false);
                 }else{
                     UpgradeAdmin.setDisable(true);
@@ -968,12 +970,20 @@ public class ChatController {
      * @throws JsonProcessingException the json processing exception
      */
     public void activeAdmin() throws JsonProcessingException {
-        System.out.println("activeAdmin Card ativated.");
-        //update showCard and count of Card
-        UpgradeAdmin.setDisable(true);
-        client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
+        if(RegNrForAdmin.getText().equals("1") || RegNrForAdmin.getText().equals("2") || RegNrForAdmin.getText().equals("3") || RegNrForAdmin.getText().equals("4") || RegNrForAdmin.getText().equals("5")){
 
-        client.playUpgrade("AdminPrivilege");
+            System.out.println("activeAdmin Card ativated.");
+            //update showCard and count of Card
+            UpgradeAdmin.setDisable(true);
+            client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
+
+            //client.playUpgrade("AdminPrivilege");
+            client.handleChooseRegister(Integer.valueOf(RegNrForAdmin.getText()));
+
+            RegNrForAdmin.clear();
+
+        }
+
     }
 
     /**

@@ -7,7 +7,9 @@ import java.io.IOException;
 /**
  * The type Upgrade card.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public abstract class UpgradeCard {

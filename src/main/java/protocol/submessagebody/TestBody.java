@@ -7,6 +7,8 @@ import server.feldobjects.FeldObject;
  * The type Test body.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TestBody {

@@ -17,6 +17,9 @@ import java.util.*;
 
 /**
  * The type Server.
+ * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
@@ -754,6 +757,20 @@ public class Server {
         Protocol protocol = new Protocol("UpgradeBought", new UpgradeBoughtBody(client, boughtCard));
         String json = Protocol.writeJson(protocol);
         logger.info("server informs who bought which upgrade.");
+        makeOrderToAllClients(json);
+    }
+
+    /**
+     * inform all clients who chose which register for AdminPrivilage
+     *
+     * @param client
+     * @param regNr
+     * @throws IOException
+     */
+    public void handleRegisterChosen(int client, int regNr) throws IOException {
+        Protocol protocol = new Protocol("RegisterChosen", new RegisterChosenBody(client, regNr));
+        String json = Protocol.writeJson(protocol);
+        logger.info("server informs who chose which reg. for AdminPrivilage");
         makeOrderToAllClients(json);
     }
 }

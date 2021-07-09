@@ -7,11 +7,12 @@ It was a hard day on the planet. Widget manufacturing computer RSL973, or “Rus
 But wait — what was this? From deep in the back of Russel’s “mind,” his strategic subroutines suggested an alternative ploy: Russel had a slim chance of reaching the repair site this turn if he could get one of his opponents to push him. In a race, robots usually push each other as an offensive maneuver; a robot knocked off course might accidentally fall into a pit. By putting his robot in position to benefit from a push just might keep Russel in the race and earn him the respect of his peer control computers. Russel [downloaded](http://media.wizards.com/2017/rules/roborally_rules.pdf) the instructions into his racing robot. He was back in the race!
 
 ### Start the game
-First, please clone or download the project to your local machine. Then, in order to start the game, make sure you have a running server and then start the Client.
+First, please download the project or .JAR files to your local machine. Then, in order to start the game, make sure you have a running server (.JAR File in Folder 'Server') and then start the Client (.JAR File in Folder 'Client').
 Note that for every additional Player, you have to start another Client Instance.
 
+
 ### Gameplay
-Start by Clicking on an Icon representing the Robot you want to choose and enter your Name.
+Start by Clicking on an Icon representing the Robot you want to choose and enter your Name. If you can't click on the Icon, the Robot is already taken.
 
 ![](src/main/resources/images/Readme/login.png)
 
@@ -51,25 +52,36 @@ The first Robot to enter the game, can choose the map - Dizzy Highway is a great
 
 <br />  
 
-By clicking on the gears on the start board, you can set your start position - hit setStartPoint to finalize it
+By clicking on the gears on the start board, you can set your start position.
 
 ![](src/main/resources/images/Readme/position.png)
 
 <br /> 
+If you can afford it, you can buy some upgrades in the Upgrade Shop:
 
-Now you can see your hand cards! Drag the Cards to the desired register and let it drop. But choose wisely ...
+![](src/main/resources/images/Readme/shop.png)
+
+<br />  
+
+If you choose Admin Privilege, don't forget to set the Register you want to get Priority in!
+
+![](src/main/resources/images/Readme/upgrade.png)
+
+<br />  
+
+And now you can see your hand cards! Drag the Cards to the desired register and let it drop. But choose wisely ...
 
 ![](src/main/resources/images/Readme/drag.png)
 
 <br />  
 
-Now fill the whole register with cards
+Fill the whole register with cards...
 
 ![](src/main/resources/images/Readme/drop.png)
 
 <br />  
 
-and after that, just hit the finish button
+and after that, just hit the finish button.
 
 ![](src/main/resources/images/Readme/finish.png)
 
@@ -100,6 +112,8 @@ Whenever you are confused or don't know what's going on, have a look at the top:
 
 Have fun!
 
-
-#### Requirements
+#### Requirements: Please read carefully!
 In order to run the Game without problems, you'll need to install Java to run the .JAR File
+Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
+
+java -jar clevere-cousins.jar

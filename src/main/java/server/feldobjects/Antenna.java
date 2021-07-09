@@ -15,6 +15,7 @@ import java.util.TreeMap;
  *
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Antenna extends FeldObject {
@@ -62,7 +63,8 @@ public class Antenna extends FeldObject {
      */
     public static void calculateDistances() {
 
-        if(Game.registerPointer != Game.changePriorityRegPointer){
+        //if(Game.registerPointer != Game.changePriorityRegPointer){
+        if(!Game.hashMapPriority.containsKey(Game.registerPointer)){
 
             // To determine who is closest to the priority antenna, start at the antenna and count the number of spaces to each robot.
             // Count by row, then by column. (Betrag Differenz xPos und yPos )
@@ -98,6 +100,8 @@ public class Antenna extends FeldObject {
 
             System.out.println("ANTENNA print regpointer: " + Game.registerPointer);
 
+            List<Integer> changedList = Game.hashMapPriority.get(Game.registerPointer);
+
             List<Integer> allclients = new ArrayList<>();
             for(int clt : Game.clientIDs){
                 allclients.add(clt);
@@ -108,7 +112,7 @@ public class Antenna extends FeldObject {
             notActiveClients.removeAll(Game.activePlayersList);
 
             List<Integer> activeAndPriorityClients = new ArrayList<>();
-            for(int clt : Game.changedPriorityList){// deep copy from changedPriority
+            for(int clt : changedList){// deep copy from changedPriority
                 activeAndPriorityClients.add(clt);
             }
             activeAndPriorityClients.removeAll(notActiveClients);

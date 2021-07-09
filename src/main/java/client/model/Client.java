@@ -134,7 +134,7 @@ public class Client extends Application {
     // flag for replace card
     private IntegerProperty flagReplaceRegister = new SimpleIntegerProperty(0);
     // count of energy cubes
-    private StringProperty energyCount = new SimpleStringProperty("5");
+    public StringProperty energyCount = new SimpleStringProperty("5");
     // bind list to comboBox in ChatController
     private final ListProperty<String> MAPS = new SimpleListProperty<>(FXCollections.observableArrayList());
     // bind list to sendTo comboBox in ChatController
@@ -814,11 +814,12 @@ public class Client extends Application {
                             for (String map : availableMaps) {
                                 MAPS.add(map);
                             }
-                            System.out.println("in client " + MAPS);
+                            logger.info("in client " + MAPS);
 
+                            CANSELECTMAP.set(true);
                             INFORMATION.set("");
                             INFORMATION.set("Select a map from: " + availableMaps);
-                            CANSELECTMAP.set(true);
+
                             break;
                         case "MapSelected":
                             MapSelectedBody mapSelectedBody = Protocol.readJsonMapSelected(json);
@@ -841,19 +842,22 @@ public class Client extends Application {
                             String phaseString = "";
                             if (phase == 0) {
                                 phaseString = "Aufbauphase";
+                                GAMEPHASE.set(phaseString);
                             } else if (phase == 1) {
                                 phaseString = "Upgradephase";
+                                GAMEPHASE.set(phaseString);
                             } else if (phase == 2) {
                                 phaseString = "Programmierphase";
-                            } else {
-                                phaseString = "Aktivierungsphase";
+                                GAMEPHASE.set(phaseString);
                                 //active admin button in Chat&Game
                                 flagAdmin.set(flagAdmin.get() + 1);
+                            } else {
+                                phaseString = "Aktivierungsphase";
+                                GAMEPHASE.set(phaseString);
                                 timerScreen.set("OFF");
                             }
-                            GAMEPHASE.set(phaseString);
+
                             //update enable/disable status for buttons upgradeCards in Chat&Game
-                            flagAdmin.set(flagAdmin.get() + 1);
                             flagBlocker.set(flagBlocker.get() + 1);
                             flagMemory.set(flagMemory.get() + 1);
                             break;
@@ -1154,6 +1158,13 @@ public class Client extends Application {
                             location[1] = locY;
                             movingCheckpoints.put(checkpointNr, location);
                             flagMovingCheckpoints.set(flagMovingCheckpoints.get() + 1);
+                            break;
+                        case "RegisterChosen":
+                            RegisterChosenBody registerChosenBody = Protocol.readJsonRegisterChosen(json);
+                            int chosenClient = registerChosenBody.getClientID();
+                            int chosenBodyRegister = registerChosenBody.getRegister();
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + chosenClient + " have played AdminPrivilege for Register " + chosenBodyRegister);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -1541,5 +1552,17 @@ public class Client extends Application {
 
             flagMyUpgrades.set(flagMyUpgrades.get() + 1);
         }
+    }
+
+    /**
+     * choose register for playing adminPrivilage
+     *
+     * @param registerNummer
+     */
+    public void handleChooseRegister(int registerNummer) throws JsonProcessingException {
+        Protocol protocol = new Protocol("ChooseRegister", new ChooseRegisterBody(registerNummer));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
     }
 }

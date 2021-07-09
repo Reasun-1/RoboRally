@@ -8,6 +8,8 @@ import java.util.List;
  * The type Draw damage body.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DrawDamageBody {

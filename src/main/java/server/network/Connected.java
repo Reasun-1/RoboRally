@@ -10,6 +10,8 @@ import java.io.IOException;
  * The type Connected.
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class Connected implements Runnable{
 

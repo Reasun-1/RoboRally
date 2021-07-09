@@ -10,7 +10,9 @@ import static server.game.Game.rebootPosition;
 /**
  * The type Worm.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 public class Worm extends RegisterCard{
     /**

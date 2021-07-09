@@ -13,6 +13,7 @@ import java.util.HashSet;
  *
  * @author Jonas Gottal
  * @author Can Ren
+ * @author Megzon Mehmedali
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckPoint extends FeldObject{

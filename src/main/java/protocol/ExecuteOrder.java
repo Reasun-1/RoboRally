@@ -19,6 +19,8 @@ import java.util.HashMap;
  * this class is specially for decoding json message and execute the order in json
  *
  * @author Can Ren
+ * @author Jonas Gottal
+ * @author Megzon Mehmedali
  */
 public class ExecuteOrder {
 
@@ -92,6 +94,11 @@ public class ExecuteOrder {
                             Boolean isReadyEach = Server.clientIDUndReady.get(clientIDEach);
                             Server.getServer().handlePlayerStatusToOne(clientID, clientIDEach, isReadyEach);
                         }
+                    }
+
+                    if(Game.mapName != null){// if map has set before logged in, client count must be adjusted once again
+                        Server.getServer().handleMapSelected(Game.mapName);
+                        Game.getInstance().initGame();
                     }
 
                 }
@@ -213,6 +220,7 @@ public class ExecuteOrder {
                     Server.getServer().handleRefillShop();
                     // set priority for this turn
                     Game.getInstance().checkAndSetPriority();
+                    logger.info("after setting startPoint, priority list: " + Game.priorityEachTurn);
                     // set player in turn
                     int curClient = Game.priorityEachTurn.get(0);
                     Server.getServer().handleCurrentPlayer(curClient);
@@ -316,8 +324,10 @@ public class ExecuteOrder {
 
                                 logger.info("ExecuteOrder: round is over!");
 
-                                Server.getServer().handleActivePhase(1);
-                                activePhase = 1;
+                                if(Game.isGameOver == false){
+                                    Server.getServer().handleActivePhase(1);
+                                    activePhase = 1;
+                                }
 
                                 // send available upgrade cards info to client
                                 Server.getServer().handleRefillShop();
@@ -342,6 +352,24 @@ public class ExecuteOrder {
                     }
                 }
 
+                break;
+            case "ChooseRegister":
+                System.out.println("************AdminPrivilege played!!*********");
+
+                ChooseRegisterBody chooseRegisterBody = Protocol.readJsonChooseRegister(json);
+                int chosenRegNr = chooseRegisterBody.getRegister();
+
+                // inform others who chose which register por adminPrivilage
+                Server.getServer().handleRegisterChosen(clientID, chosenRegNr);
+
+                // update Game info of upgrade cards
+                int countCard = Game.upgradesCardsAllClients.get(clientID).get("AdminPrivilege");
+                Game.upgradesCardsAllClients.get(clientID).put("AdminPrivilege", countCard-1);
+
+                // do the function of upgrade card
+                UpgradeCard upgradeCard = convertStringUpdateToObject("AdminPrivilege");
+                Game.getInstance().playAdminPriv(clientID, chosenRegNr, upgradeCard);
+                //Game.getInstance().playUpgradeCard(clientID, upgradeCard);
                 break;
             case "RebootDirection":
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
@@ -485,6 +513,7 @@ public class ExecuteOrder {
         logger.info("number of ready clients: " + numReadyClients);
         if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size() && Game.hasMap == true) {
             logger.info("number enough, to play");
+            logger.info("clientIds: " + Game.clientIDs);
 
             Server.getServer().handleGameStarted(Game.mapName);
 

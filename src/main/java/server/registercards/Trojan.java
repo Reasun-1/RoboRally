@@ -11,7 +11,9 @@ import java.util.List;
 /**
  * The type Trojan.
  *
+ * @author Megzon Mehmedali
  * @author Can Ren
+ * @author Jonas Gottal
  */
 public class Trojan extends RegisterCard{
     /**
