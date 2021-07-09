@@ -10,6 +10,9 @@ But wait — what was this? From deep in the back of Russel’s “mind,” his 
 First, please clone or download the project to your local machine. Then, in order to start the game, make sure you have a running server and then start the Client.
 Note that for every additional Player, you have to start another Client Instance.
 
+For .jar datei:
+java -jar clevere-cousins.jar
+
 ### Gameplay
 Start by Clicking on an Icon representing the Robot you want to choose and enter your Name. If you can't click on the Icon, the Robot is already taken.
 
