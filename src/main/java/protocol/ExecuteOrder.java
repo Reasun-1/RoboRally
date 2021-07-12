@@ -101,10 +101,6 @@ public class ExecuteOrder {
                         Game.getInstance().initGame();
                     }
 
-                    if(Game.mapName != null){
-                        Server.getServer().handleMapSelected(Game.mapName);
-                    }
-
                 }
                 break;
             case "Alive":
