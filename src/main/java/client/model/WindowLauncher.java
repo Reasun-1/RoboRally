@@ -56,6 +56,7 @@ public class WindowLauncher {
         ChatController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 1250, 750));
+        stage.setMaximized(true);
         stage.show();
         chatWindowStage.put(client.getClientID(), stage);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
