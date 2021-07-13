@@ -1,6 +1,8 @@
 package client.model;
 import client.view.*;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,7 +58,9 @@ public class WindowLauncher {
         ChatController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 1250, 750));
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
+        stage.setResizable(false);
+
         stage.show();
         chatWindowStage.put(client.getClientID(), stage);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -86,6 +90,7 @@ public class WindowLauncher {
         ErrorWindowController ctrl = loader.getController();
         ctrl.init(message);
         stage.setScene(new Scene(root, 600, 400));
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -104,6 +109,7 @@ public class WindowLauncher {
         GameOverController controller = loader.getController();
         controller.init(winner);
         stage.setScene(new Scene(root, 600, 400));
+        stage.setResizable(false);
         stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
@@ -124,6 +130,7 @@ public class WindowLauncher {
         UpgradeShopController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
+        stage.setResizable(false);
         stage.show();
         //stage.setOnCloseRequest((event) -> Platform.exit());
 
@@ -144,6 +151,7 @@ public class WindowLauncher {
         MemorySwapController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -155,7 +163,8 @@ public class WindowLauncher {
         Parent root = loader.load();
         SocketLoginController controller = loader.getController();
         controller.init(client);
-        stage.setScene(new Scene(root, 600, 400));
+        stage.setScene(new Scene(root, 400, 400));
+        stage.setResizable(false);
         stage.showAndWait();
     }
 
