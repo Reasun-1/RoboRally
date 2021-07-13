@@ -45,6 +45,10 @@ public class ExecuteOrder {
      * The constant allplayersRebooted.
      */
     public static boolean allplayersRebooted = false;
+    /**
+     * Check whether game is on
+     */
+    public static boolean isGameOn = false;
 
 
     /**
@@ -514,6 +518,8 @@ public class ExecuteOrder {
         if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size() && Game.hasMap == true) {
             logger.info("number enough, to play");
             logger.info("clientIds: " + Game.clientIDs);
+
+            isGameOn = true;
 
             Server.getServer().handleGameStarted(Game.mapName);
 

@@ -61,6 +61,10 @@ public class ServerThread implements Runnable {
             logger.info("protocol to client: \n" + js);
             out.println(js);
 
+            if(ExecuteOrder.isGameOn == true){
+                out.println(Protocol.writeJson(new Protocol("GameOn", new ErrorBody("gameIsOn"))));
+            }
+
             //check the protocol version
             boolean versionProofed = false;
 

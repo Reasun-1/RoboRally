@@ -85,7 +85,7 @@
                                           <HBox prefHeight="33.0" prefWidth="275.0">
                                              <children>
                                                 <AnchorPane layoutX="145.0" layoutY="10.0" prefHeight="33.0" prefWidth="14.0" />
-                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="120.0" text="I´m Ready!">
+                                                <Button fx:id="readyButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setReady" prefHeight="25.0" prefWidth="120.0" text="I´m Ready!">
                                                    <effect>
                                                       <Lighting diffuseConstant="1.21" specularConstant="0.85" specularExponent="19.52" surfaceScale="3.57">
                                                          <bumpInput>
@@ -97,7 +97,7 @@
                                                       </Lighting>
                                                    </effect></Button>
                                                 <AnchorPane prefHeight="33.0" prefWidth="10.0" />
-                                                <Button mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!">
+                                                <Button fx:id="notReadyButton" mnemonicParsing="false" onAction="#setUnready" prefHeight="25.0" prefWidth="120.0" text="Not Ready!">
                                                    <effect>
                                                       <Lighting diffuseConstant="1.24" specularConstant="0.49" specularExponent="24.76" surfaceScale="3.05">
                                                          <bumpInput>
