@@ -738,6 +738,7 @@ public class Client extends Application {
             LAUNCHER.launchLogin(this);
         }else{
             LAUNCHER.launchError("One Game is running, please wait for next turn.");
+            socket.close();
         }
     }
 
