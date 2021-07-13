@@ -37,7 +37,6 @@ public class WindowLauncher {
         LoginController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.showAndWait();
         stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
     }
@@ -57,14 +56,12 @@ public class WindowLauncher {
         ChatController ctrl = loader.getController();
         ctrl.init(client);
         stage.setScene(new Scene(root, 1250, 750));
+        stage.setMaximized(true);
         stage.show();
         chatWindowStage.put(client.getClientID(), stage);
-        //stage.setOnCloseRequest((event) -> Platform.exit());
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
-                //Platform.exit();
-                //System.exit(0);
                 try {
                     client.getSocket().close();
                 } catch (IOException e) {
@@ -89,9 +86,7 @@ public class WindowLauncher {
         ErrorWindowController ctrl = loader.getController();
         ctrl.init(message);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.showAndWait();
         stage.show();
-        //stage.setOnCloseRequest((event) -> Platform.exit());
     }
 
     /**
@@ -109,7 +104,6 @@ public class WindowLauncher {
         GameOverController controller = loader.getController();
         controller.init(winner);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.showAndWait();
         stage.show();
         stage.setOnCloseRequest((event) -> Platform.exit());
 
@@ -150,10 +144,19 @@ public class WindowLauncher {
         MemorySwapController controller = loader.getController();
         controller.init(client);
         stage.setScene(new Scene(root, 600, 400));
-        //stage.showAndWait();
         stage.show();
-        //stage.setOnCloseRequest((event) -> Platform.exit());
+    }
 
+    public void launchSocket(Client client) throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("socket settings for client: "  + client.getClientID());
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/SocketLogin.fxml"));
+        Parent root = loader.load();
+        SocketLoginController controller = loader.getController();
+        controller.init(client);
+        stage.setScene(new Scene(root, 600, 400));
+        stage.showAndWait();
     }
 
 }

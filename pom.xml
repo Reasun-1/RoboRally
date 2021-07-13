@@ -101,7 +101,11 @@
                     <mainClass>com.sep.App</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
+
+
+
     </build>
 
     

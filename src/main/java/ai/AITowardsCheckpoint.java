@@ -60,6 +60,8 @@ public class AITowardsCheckpoint implements Runnable{
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
     private String mapName = null;
+    // for the listner in update shop
+    public List<String> availableUpgradesCards = new ArrayList<>();
     // store the available startPoints for the maps(death trap is different)
     private HashSet<Position> availableStartsMaps = new HashSet<>();
     private HashSet<Position> availableStartsMapTrap = new HashSet<>();
@@ -285,6 +287,8 @@ public class AITowardsCheckpoint implements Runnable{
                             System.out.println("round over");
                             registerPointer = 0;
                         }
+                    } else if (activePhase.equals("Upgradephase")) {
+                        handleBuyUpgrade();
                     }
 
                 } else {
@@ -437,6 +441,22 @@ public class AITowardsCheckpoint implements Runnable{
                 int addCubes = energyBody.getCount();
                 if(energyClient == clientID){
                     energyCount = energyCount + addCubes;
+                }
+                break;
+            case "RefillShop":
+                RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
+                List<String> upCards = refillShopBody.getCards();
+                availableUpgradesCards.clear();
+                for (String upCard : upCards) {
+                    availableUpgradesCards.add(upCard);
+                }
+                break;
+            case "UpgradeBought":
+                UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
+                int clientWhoBought = upgradeBoughtBody.getClientID();
+                String upCardBought = upgradeBoughtBody.getCard();
+                if (upCardBought != null) {
+                    availableUpgradesCards.remove(upCardBought);
                 }
                 break;
         }
@@ -737,6 +757,20 @@ public class AITowardsCheckpoint implements Runnable{
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
+    }
+
+    /**
+     * ai buys no upgrade card
+     *
+     * @throws JsonProcessingException the json processing exception
+     */
+    public void handleBuyUpgrade() throws JsonProcessingException {
+
+        Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(false, null));
+        String json = Protocol.writeJson(protocol);
+        logger.info(json);
+        OUT.println(json);
+
     }
 
     /**
