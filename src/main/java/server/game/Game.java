@@ -619,6 +619,38 @@ public class Game {
         setRebootDirectonToNord(clientID);
         directionsAllClients.put(clientID, Direction.UP);
 
+        // if another robot already in reboot place on main board
+        if(board.get(position.getX()).get(position.getY()).size() > 1){
+            for(int cltID : clientIDs){
+                int x = playerPositions.get(cltID).getX();
+                int y = playerPositions.get(cltID).getY();
+                if(x == position.getX() && y == position.getY() && cltID != clientID){
+
+                    RestartPoint sp = (RestartPoint)board.get(x).get(y).get(1);
+                    String dir = sp.getOrientations().get(0);
+
+                    switch (dir){
+                        case "top":
+                            playerPositions.put(cltID, new Position(x, y-1));
+                            Server.getServer().handleMovement(cltID, x, y-1);
+                            break;
+                        case "bottom":
+                            playerPositions.put(cltID, new Position(x, y+1));
+                            Server.getServer().handleMovement(cltID, x, y+1);
+                            break;
+                        case "left":
+                            playerPositions.put(cltID, new Position(x-1, y));
+                            Server.getServer().handleMovement(cltID, x-1, y);
+                            break;
+                        case "right":
+                            playerPositions.put(cltID, new Position(x+1, y));
+                            Server.getServer().handleMovement(cltID, x+1, y);
+                            break;
+                    }
+                }
+            }
+        }
+
 
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
