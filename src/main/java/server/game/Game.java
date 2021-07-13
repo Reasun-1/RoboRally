@@ -672,10 +672,24 @@ public class Game {
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
 
+            //update for upgrade cards
+            buyUpgradeCardsFinished.clear();
+
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
-            Server.getServer().handleActivePhase(2);
-            ExecuteOrder.activePhase = 2;
+            Server.getServer().handleActivePhase(1);
+            ExecuteOrder.activePhase = 1;
+
+            // send available upgrade cards info to client
+            Server.getServer().handleRefillShop();
+            // set priority for this turn
+            Game.getInstance().checkAndSetPriority();
+            // set player in turn
+            int curClient = priorityEachTurn.get(0);
+            Server.getServer().handleCurrentPlayer(curClient);
+            logger.info("game reboot priority list before: " + priorityEachTurn);
+            priorityEachTurn.remove(0);
+            logger.info("game reboot priority list after: " + priorityEachTurn);
         }
 
     }
