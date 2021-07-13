@@ -155,7 +155,7 @@ public class WindowLauncher {
         Parent root = loader.load();
         SocketLoginController controller = loader.getController();
         controller.init(client);
-        stage.setScene(new Scene(root, 600, 400));
+        stage.setScene(new Scene(root, 400, 400));
         stage.showAndWait();
     }
 
