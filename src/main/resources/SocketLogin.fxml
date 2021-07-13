@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.SocketLoginController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.view.SocketLoginController">
    <children>
-      <TextField fx:id="ip" layoutX="132.0" layoutY="97.0" text="127.0.0.1" />
-      <TextField fx:id="port" layoutX="132.0" layoutY="200.0" text="5200" />
-      <Button layoutX="132.0" layoutY="278.0" mnemonicParsing="false" onAction="#clickOK" text="Button" />
+      <ImageView fitHeight="400.0" fitWidth="400.0">
+         <image>
+            <Image url="@IA-bg.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="ip" layoutX="169.0" layoutY="187.0" text="127.0.0.1">
+         <effect>
+            <InnerShadow choke="0.29" color="#262525d4" height="45.29" radius="22.9025" width="48.32" />
+         </effect></TextField>
+      <TextField fx:id="port" layoutX="169.0" layoutY="241.0" text="5200">
+         <effect>
+            <InnerShadow choke="0.29" color="#514d4d" height="48.32" radius="22.9025" width="45.29" />
+         </effect></TextField>
+      <Button fx:id="ok" layoutX="127.0" layoutY="293.0" mnemonicParsing="false" onAction="#clickOK" prefHeight="24.0" prefWidth="67.0" text="Done">
+         <effect>
+            <InnerShadow choke="0.23" height="33.14" radius="14.5525" width="27.07" />
+         </effect></Button>
+      <AnchorPane layoutX="24.0" layoutY="67.0" prefHeight="110.0" prefWidth="124.0">
+         <children>
+            <ImageView fitHeight="89.0" fitWidth="127.0" layoutX="-1.0" layoutY="8.0">
+               <image>
+                  <Image url="@robot.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="136.0" layoutY="53.0" text="SOCKET CLIENT" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="19.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="0.35096153846153844" endY="0.39903846153846156" startX="0.3557692307692307" startY="0.5865384615384615">
+               <stops>
+                  <Stop color="#d7d1d1d9" />
+                  <Stop color="#725a5ad9" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="24.0" layoutY="187.0" prefHeight="27.0" prefWidth="111.0" text="IP ADDRESS">
+         <font>
+            <Font size="19.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="0.35096153846153844" endY="0.39903846153846156" startX="0.3557692307692307" startY="0.4759615384615384">
+               <stops>
+                  <Stop color="#d7d1d1d9" />
+                  <Stop color="#725a5ad9" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="24.0" layoutY="242.0" text="PORT NUMBER">
+         <font>
+            <Font size="19.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="0.35096153846153844" endY="0.39903846153846156" startX="0.3557692307692307" startY="0.4759615384615384">
+               <stops>
+                  <Stop color="#d7d1d1d9" />
+                  <Stop color="#725a5ad9" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
    </children>
 </AnchorPane>

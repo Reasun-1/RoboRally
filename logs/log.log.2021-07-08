@@ -1,0 +1,15 @@
+2021-07-09 00:07:11  [ Thread-0:server.network.ServerThread:58 ] - [ INFO ]  protocol to client: 
+{"messageType":"HelloClient","messageBody":{"protocol":"Version 1.0"}}
+2021-07-09 00:07:13  [ Thread-0:server.network.ServerThread:99 ] - [ INFO ]  welcome info printed
+2021-07-09 00:07:16  [ Thread-0:server.network.ServerThread:109 ] - [ INFO ]  excuteOrder by server {"messageType":"PlayerValues","messageBody":{"name":"jfh","figure":5}}
+2021-07-09 00:07:16  [ Thread-0:protocol.ExecuteOrder:66 ] - [ INFO ]  check player figures
+2021-07-09 00:07:16  [ Thread-0:protocol.ExecuteOrder:74 ] - [ INFO ]  addPlayer
+2021-07-09 00:07:16  [ Thread-0:server.network.Server:243 ] - [ INFO ]  server added player
+2021-07-09 00:07:22  [ Thread-0:server.network.ServerThread:109 ] - [ INFO ]  excuteOrder by server {"messageType":"SendChat","messageBody":{"message":"hm","to":-1}}
+2021-07-09 00:07:22  [ Thread-0:protocol.ExecuteOrder:157 ] - [ INFO ]  message arrived server
+2021-07-09 00:07:22  [ Thread-0:protocol.ExecuteOrder:186 ] - [ INFO ]  send message to all
+2021-07-09 00:07:22  [ Thread-0:server.network.ServerThread:137 ] - [ INFO ]  {"messageType":"ReceivedChat","messageBody":{"message":"hm","from":33,"isPrivate":false}}
+2021-07-09 00:07:31  [ Thread-0:server.network.ServerThread:109 ] - [ INFO ]  excuteOrder by server {"messageType":"SendChat","messageBody":{"message":"hello","to":-1}}
+2021-07-09 00:07:31  [ Thread-0:protocol.ExecuteOrder:157 ] - [ INFO ]  message arrived server
+2021-07-09 00:07:31  [ Thread-0:protocol.ExecuteOrder:186 ] - [ INFO ]  send message to all
+2021-07-09 00:07:31  [ Thread-0:server.network.ServerThread:137 ] - [ INFO ]  {"messageType":"ReceivedChat","messageBody":{"message":"hello","from":33,"isPrivate":false}}
