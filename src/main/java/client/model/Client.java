@@ -36,7 +36,7 @@ public class Client extends Application {
 
     private static final Logger logger = Logger.getLogger(Client.class.getName());
     // Socket for the TCP connection
-    private volatile Socket socket;
+    public volatile Socket socket;
     // Writer for outgoing messages
     private final PrintWriter OUT;
     // Reader for incoming messages
@@ -613,8 +613,10 @@ public class Client extends Application {
      */
     public Client() throws IOException {
 
+        LAUNCHER.launchSocket(this);
+
         // Always connect to localhost and fixed port
-        socket = new Socket("127.0.0.1", 5200);
+        //socket = new Socket("127.0.0.1", 5200);
 
         // test server
         //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
