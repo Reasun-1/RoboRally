@@ -10,8 +10,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * @author can ren
- * @create $(YEAR)-$(MONTH)-$(DAY)
+ * @author Rajna Fani
+ * @author Chiara Welz
+ * @author Yuliia Shaparenko
  */
 public class SocketLoginController {
 
