@@ -45,6 +45,10 @@ public class ExecuteOrder {
      * The constant allplayersRebooted.
      */
     public static boolean allplayersRebooted = false;
+    /**
+     * Check whether game is on
+     */
+    public static boolean isGameOn = false;
 
 
     /**
@@ -305,14 +309,16 @@ public class ExecuteOrder {
                     RegisterCard card = convertCardToObject(cardName);
                     Game.getInstance().playCard(clientID, card);
 
-                    // if damage card played, must be replaced and play again
-                    if ((card.getCardType().equals("PROGRAMME") || card.getCardName().equals("Worm")) && !Game.priorityEachTurn.isEmpty()) {
-                        Game.priorityEachTurn.remove(0);
-                    }
+
 
                     // if not all players rebooted, check turn over, otherwise break
                     if (!allplayersRebooted && activePhase != 2) {
 
+                        // if damage card played, must be replaced and play again
+                        if ((card.getCardType().equals("PROGRAMME") || card.getCardName().equals("Worm")) && !Game.priorityEachTurn.isEmpty()) {
+                            Game.priorityEachTurn.remove(0);
+                            logger.info("not damage card played " + Game.priorityEachTurn);
+                        }
 
                         // check turnOver
                         boolean isTurnOver = Game.getInstance().checkTurnOver();
@@ -514,6 +520,8 @@ public class ExecuteOrder {
         if (numReadyClients > 1 && numReadyClients == Server.clientIDUndNames.size() && Game.hasMap == true) {
             logger.info("number enough, to play");
             logger.info("clientIds: " + Game.clientIDs);
+
+            isGameOn = true;
 
             Server.getServer().handleGameStarted(Game.mapName);
 

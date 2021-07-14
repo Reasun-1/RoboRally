@@ -77,6 +77,7 @@ public class Game {
     // flag for game over
     public static boolean isGameOver = false;
 
+
     /**
      * constructor Game:
      *
@@ -618,6 +619,38 @@ public class Game {
         setRebootDirectonToNord(clientID);
         directionsAllClients.put(clientID, Direction.UP);
 
+        // if another robot already in reboot place on main board
+        if(board.get(position.getX()).get(position.getY()).size() > 1){
+            for(int cltID : clientIDs){
+                int x = playerPositions.get(cltID).getX();
+                int y = playerPositions.get(cltID).getY();
+                if(x == position.getX() && y == position.getY() && cltID != clientID){
+
+                    RestartPoint sp = (RestartPoint)board.get(x).get(y).get(1);
+                    String dir = sp.getOrientations().get(0);
+
+                    switch (dir){
+                        case "top":
+                            playerPositions.put(cltID, new Position(x, y-1));
+                            Server.getServer().handleMovement(cltID, x, y-1);
+                            break;
+                        case "bottom":
+                            playerPositions.put(cltID, new Position(x, y+1));
+                            Server.getServer().handleMovement(cltID, x, y+1);
+                            break;
+                        case "left":
+                            playerPositions.put(cltID, new Position(x-1, y));
+                            Server.getServer().handleMovement(cltID, x-1, y);
+                            break;
+                        case "right":
+                            playerPositions.put(cltID, new Position(x+1, y));
+                            Server.getServer().handleMovement(cltID, x+1, y);
+                            break;
+                    }
+                }
+            }
+        }
+
 
         // if all players rebooted, start a new round
         if (activePlayersList.size() == 0) {
@@ -639,10 +672,24 @@ public class Game {
             // reset selection finish list to null for the next round selection
             selectionFinishList.clear();
 
+            //update for upgrade cards
+            buyUpgradeCardsFinished.clear();
+
             Server.getServer().handleYourCards();
             // inform all players: programming phase begins
-            Server.getServer().handleActivePhase(2);
-            ExecuteOrder.activePhase = 2;
+            Server.getServer().handleActivePhase(1);
+            ExecuteOrder.activePhase = 1;
+
+            // send available upgrade cards info to client
+            Server.getServer().handleRefillShop();
+            // set priority for this turn
+            Game.getInstance().checkAndSetPriority();
+            // set player in turn
+            int curClient = priorityEachTurn.get(0);
+            Server.getServer().handleCurrentPlayer(curClient);
+            logger.info("game reboot priority list before: " + priorityEachTurn);
+            priorityEachTurn.remove(0);
+            logger.info("game reboot priority list after: " + priorityEachTurn);
         }
 
     }

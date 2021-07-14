@@ -97,6 +97,10 @@ public class ChatController {
     //The Temp button number for drag&drop
     int tempButtonNum;
 
+    //Button for read and not ready
+    @FXML
+    private Button readyButton, notReadyButton;
+
 
 
     //====================DrawnCardsBindings===================================
@@ -935,6 +939,16 @@ public class ChatController {
                             gridPaneCheckpoint.add(check4, curX, curY);
                             break;
                     }
+                }
+            }
+        });
+
+        client.gameOnProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(client.gameOn.get() == true){
+                    readyButton.setDisable(true);
+                    notReadyButton.setDisable(true);
                 }
             }
         });
