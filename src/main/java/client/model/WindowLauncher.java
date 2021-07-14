@@ -155,7 +155,7 @@ public class WindowLauncher {
 
     public void launchSocket(Client client) throws IOException{
         Stage stage = new Stage();
-        stage.setTitle("socket settings for client: "  + client.getClientID());
+        stage.setTitle("socket setting");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/SocketLogin.fxml"));
         Parent root = loader.load();
