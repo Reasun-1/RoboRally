@@ -381,7 +381,24 @@ public class ExecuteOrder {
                 RebootDirectionBody rebootDirectionBody = Protocol.readJsonRebootDirection(json);
                 String reDirection = rebootDirectionBody.getDirection();
                 Direction direction = Direction.convertStringToDirection(reDirection);
+
                 Game.directionsAllClients.put(clientID, direction);
+                // inform all players about the reboot direction
+                switch (reDirection){
+                    case "up":
+                        break;
+                    case "down":
+                        Server.getServer().handlePlayerTurning(clientID, "clockwise");
+                        Server.getServer().handlePlayerTurning(clientID, "clockwise");
+                        break;
+                    case "left":
+                        Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+                        break;
+                    case "right":
+                        Server.getServer().handlePlayerTurning(clientID, "clockwise");
+                        break;
+                }
+
                 logger.info("executeOder reboot direction");
                 break;
 

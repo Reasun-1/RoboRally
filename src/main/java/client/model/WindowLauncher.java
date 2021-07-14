@@ -166,4 +166,18 @@ public class WindowLauncher {
         stage.showAndWait();
     }
 
+    public void launchSelectDirection(Client client) throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Select direction for " + client.getClientID());
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/SelectRebootDirection.fxml"));
+        Parent root = loader.load();
+        selectDirectionControllr controller = loader.getController();
+        controller.init(client);
+        stage.setScene(new Scene(root, 600, 400));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+
 }

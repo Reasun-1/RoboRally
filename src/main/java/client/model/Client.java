@@ -21,7 +21,7 @@ import server.game.Register;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-//import java.util.logging.Logger;
+
 
 /**
  * Client class is responsible for the connection to the server and for storing the properties connected with the GUI.
@@ -994,9 +994,9 @@ public class Client extends Application {
                             break;
                         case "NotYourCards":
                             NotYourCardsBody notYourCardsBody = Protocol.readJsonNotYourCards(json);
-                            int client = notYourCardsBody.getClientID();
+                            int clientCards = notYourCardsBody.getClientID();
                             int cardCount = notYourCardsBody.getCardsInHand();
-                            logger.info(client + "have got " + cardCount + " cards");
+                            logger.info(clientCards + "have got " + cardCount + " cards");
                             break;
                         case "ShuffleCoding":
                             ShuffleCodingBody shuffleCodingBody = Protocol.readJsonShuffleCoding(json);
@@ -1058,6 +1058,7 @@ public class Client extends Application {
                                 flagClearRegisters.set(flagClearRegisters.getValue() + 1);
                                 INFORMATION.set("");
                                 INFORMATION.set("You are rebooted, wait for next round.");
+                                LAUNCHER.launchSelectDirection(client);
                             }
                             logger.info("client reboot to start point");
                             break;

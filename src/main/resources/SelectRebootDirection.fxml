@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.selectDirectionControllr">
+   <children>
+      <Button fx:id="up" layoutX="276.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickUp" text="UP" />
+      <Button fx:id="left" layoutX="101.0" layoutY="200.0" mnemonicParsing="false" onAction="#clickLeft" text="LEFT" />
+      <Button fx:id="right" layoutX="438.0" layoutY="200.0" mnemonicParsing="false" onAction="#clickRight" text="RIGHT" />
+      <Button fx:id="down" layoutX="257.0" layoutY="290.0" mnemonicParsing="false" onAction="#clickDown" text="DOWN" />
+      <Label layoutX="144.0" layoutY="72.0" text="CHOOSE YOUR REBOOT DIRECTION" />
+   </children>
+</AnchorPane>
