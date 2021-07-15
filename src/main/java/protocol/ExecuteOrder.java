@@ -252,7 +252,7 @@ public class ExecuteOrder {
                 SelectionFinishedBody selectionFinishedBody = Protocol.readJsonSelectionFinished(json);
                 int clientFinished = selectionFinishedBody.getClientID();
                 Game.selectionFinishList.add(clientFinished);
-                System.out.println("executeOrder: selectionFinished : " + Game.selectionFinishList);
+                logger.info("executeOrder: selectionFinished : " + Game.selectionFinishList);
 
                 // if only one client(not AI) finished programming, timer starts
                 if (Game.selectionFinishList.size() == 1 && clientFinished != clientIDOfAI) {

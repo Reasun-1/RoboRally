@@ -53,13 +53,18 @@ public class Timer implements Runnable {
                 e.printStackTrace();
             }
             // till 30 seconds, timer will stop
-            if(count == 30){flag =false;}
+            if(count == 30){
+                flag =false;
+            }
         }
         // after timer stops, invoke other methods
         System.out.println("Timer: timer ended");
 
         // if time runs 30 seconds out, check who did not finish
         if(count == 30){
+            // reset count
+            count = 0;
+            flag = true;
             // make a temp list to calculate who did not finish programming
             List<Integer> whoNotFinishProgramming = new ArrayList<>();
             whoNotFinishProgramming.addAll(Game.clientIDs);
@@ -103,6 +108,8 @@ public class Timer implements Runnable {
                     e.printStackTrace();
                 }
 
+                // set priority for this turn
+                Game.priorityEachTurn.clear();
                 // set priority for this turn
                 Game.getInstance().checkAndSetPriority();
 

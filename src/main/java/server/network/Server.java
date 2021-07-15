@@ -5,6 +5,7 @@ import protocol.Protocol;
 import protocol.submessagebody.*;
 import server.game.Game;
 import server.game.Register;
+import server.registercards.PowerUp;
 import server.registercards.RegisterCard;
 import server.upgradecards.UpgradeCard;
 
@@ -529,6 +530,12 @@ public class Server {
             for (int i = 0; i < 5; i++) {
                arrCardsGot[i] = cardsGot.get(i);
             }
+            // for the exception 1.Reg not Again
+            if(arrCardsGot[0].getCardName().equals("Again")){
+                PowerUp powerUp = new PowerUp();
+                arrCardsGot[0] = powerUp;
+            }
+
             Game.registersAllClients.put(clientID, arrCardsGot);
             // convert card list to cardName as string list for json
             List<String> cardStrings = new ArrayList<>();

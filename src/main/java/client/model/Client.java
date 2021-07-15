@@ -1027,9 +1027,12 @@ public class Client extends Application {
                             List<String> cards = cardsYouGotNowBody.getCards();
                             for (int i = 0; i < 5; i++) {
                                 MYREGISTER[i].set(cards.get(i));
+                                logger.info(MYREGISTER[i].get());
                             }
-                            if (MYREGISTER[0].equals("Again")) {
+                            if (MYREGISTER[0].get().equals("Again")) {
+                                logger.info("1.Reg before "+MYREGISTER[0].get());
                                 MYREGISTER[0].set("PowerUp");
+                                logger.info("2.Reg before "+MYREGISTER[0].get());
                             }
                             flagTimeOut.set(flagTimeOut.get() + 1);
                             break;
