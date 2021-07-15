@@ -1,17 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.selectDirectionControllr">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.selectDirectionControllr">
    <children>
-      <Button fx:id="up" layoutX="276.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickUp" text="UP" />
-      <Button fx:id="left" layoutX="101.0" layoutY="200.0" mnemonicParsing="false" onAction="#clickLeft" text="LEFT" />
-      <Button fx:id="right" layoutX="438.0" layoutY="200.0" mnemonicParsing="false" onAction="#clickRight" text="RIGHT" />
-      <Button fx:id="down" layoutX="257.0" layoutY="290.0" mnemonicParsing="false" onAction="#clickDown" text="DOWN" />
-      <Label layoutX="144.0" layoutY="72.0" text="CHOOSE YOUR REBOOT DIRECTION" />
+      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true">
+         <image>
+            <Image url="@IA-bg.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="420.0" layoutY="100.0" prefHeight="118.0" prefWidth="124.0">
+         <children>
+            <ImageView fitHeight="104.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@robot.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <AnchorPane prefHeight="45.0" prefWidth="600.0" />
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="600.0" text="CHOOSE YOUR REBOOT DIRECTION" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="19.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.35096153846153844" endY="0.39903846153846156" startX="0.3557692307692307" startY="0.5865384615384615">
+                     <stops>
+                        <Stop color="#d7d1d1d9" />
+                        <Stop color="#725a5ad9" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <AnchorPane prefHeight="30.0" prefWidth="600.0" />
+            <HBox prefHeight="246.0" prefWidth="600.0">
+               <children>
+                  <AnchorPane prefHeight="266.0" prefWidth="140.0" />
+                  <BorderPane prefHeight="246.0" prefWidth="270.0">
+                     <top>
+                        <Button fx:id="up" ellipsisString="" mnemonicParsing="false" onAction="#clickUp" prefHeight="75.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/IconDirection/up.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <effect>
+                              <Lighting diffuseConstant="1.6" specularConstant="0.07" specularExponent="16.64" surfaceScale="3.09">
+                                 <bumpInput>
+                                    <Shadow blurType="TWO_PASS_BOX" height="40.07" radius="19.535" width="40.07">
+                                       <color>
+                                          <Color red="0.031578946858644485" green="0.031578946858644485" blue="0.031578946858644485" />
+                                       </color>
+                                    </Shadow>
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="34.91">
+                                       <color>
+                                          <Color red="0.8007797002792358" green="0.8249058127403259" blue="0.8315789699554443" />
+                                       </color>
+                                    </Light.Distant>
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Button>
+                     </top>
+                     <left>
+                        <Button fx:id="left" ellipsisString="" mnemonicParsing="false" onAction="#clickLeft" prefHeight="75.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/IconDirection/left.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <effect>
+                              <Lighting diffuseConstant="1.6" specularConstant="0.07" specularExponent="16.64" surfaceScale="3.09">
+                                 <bumpInput>
+                                    <Shadow blurType="TWO_PASS_BOX" height="40.07" radius="19.535" width="40.07">
+                                       <color>
+                                          <Color red="0.031578946858644485" green="0.031578946858644485" blue="0.031578946858644485" />
+                                       </color>
+                                    </Shadow>
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="34.91">
+                                       <color>
+                                          <Color red="0.8007797002792358" green="0.8249058127403259" blue="0.8315789699554443" />
+                                       </color>
+                                    </Light.Distant>
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Button>
+                     </left>
+                     <right>
+                        <Button fx:id="right" ellipsisString="" mnemonicParsing="false" onAction="#clickRight" prefHeight="75.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/IconDirection/right.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <effect>
+                              <Lighting diffuseConstant="1.6" specularConstant="0.07" specularExponent="16.64" surfaceScale="3.09">
+                                 <bumpInput>
+                                    <Shadow blurType="TWO_PASS_BOX" height="40.07" radius="19.535" width="40.07">
+                                       <color>
+                                          <Color red="0.031578946858644485" green="0.031578946858644485" blue="0.031578946858644485" />
+                                       </color>
+                                    </Shadow>
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="34.91">
+                                       <color>
+                                          <Color red="0.8007797002792358" green="0.8249058127403259" blue="0.8315789699554443" />
+                                       </color>
+                                    </Light.Distant>
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Button>
+                     </right>
+                     <bottom>
+                        <Button fx:id="down" ellipsisString="" mnemonicParsing="false" onAction="#clickDown" prefHeight="75.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/IconDirection/down.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <effect>
+                              <Lighting diffuseConstant="1.6" specularConstant="0.07" specularExponent="16.64" surfaceScale="3.09">
+                                 <bumpInput>
+                                    <Shadow blurType="TWO_PASS_BOX" height="40.07" radius="19.535" width="40.07">
+                                       <color>
+                                          <Color red="0.031578946858644485" green="0.031578946858644485" blue="0.031578946858644485" />
+                                       </color>
+                                    </Shadow>
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="34.91">
+                                       <color>
+                                          <Color red="0.8007797002792358" green="0.8249058127403259" blue="0.8315789699554443" />
+                                       </color>
+                                    </Light.Distant>
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Button>
+                     </bottom>
+                  </BorderPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
