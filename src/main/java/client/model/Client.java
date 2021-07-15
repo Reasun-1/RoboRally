@@ -92,7 +92,6 @@ public class Client extends Application {
     public boolean isGameOn = false;
 
 
-
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
     private final StringProperty CLIENTIDASSTRINGPROPERTY = new SimpleStringProperty();
@@ -183,12 +182,12 @@ public class Client extends Application {
     MediaPlayer mediaPlayer3 = new MediaPlayer(new Media(getClass().getResource("/soundEffects/messageSent.mp3").toString()));
 
 
-
     // Getters
 
 
     /**
      * Get gameOn
+     *
      * @return
      */
     public BooleanProperty gameOnProperty() {
@@ -629,45 +628,45 @@ public class Client extends Application {
      */
     public Client() throws IOException {
 
-            LAUNCHER.launchSocket(this);
+        LAUNCHER.launchSocket(this);
 
 
-            // Always connect to localhost and fixed port
-            //socket = new Socket("127.0.0.1", 5200);
+        // Always connect to localhost and fixed port
+        //socket = new Socket("127.0.0.1", 5200);
 
-            // test server
-            //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
+        // test server
+        //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
 
-            // Create writer to send messages to server via the TCP-socket
-            OUT = new PrintWriter(socket.getOutputStream(), true);
+        // Create writer to send messages to server via the TCP-socket
+        OUT = new PrintWriter(socket.getOutputStream(), true);
 
-            // Create reader to receive messages from server via the TCP-socket
-            IN = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        // Create reader to receive messages from server via the TCP-socket
+        IN = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            // Start with an empty name, will be set during Login
-            name = "";
-            clientNames.clear();
-            robotFigureAllClients.clear();
-            readyClients.clear();
+        // Start with an empty name, will be set during Login
+        name = "";
+        clientNames.clear();
+        robotFigureAllClients.clear();
+        readyClients.clear();
 
-            CHATHISTORY.set("");
-            INFORMATION.set("");
-            PLAYERSINSERVER.set("");
-            PLAYERSWHOAREREADY.set("");
+        CHATHISTORY.set("");
+        INFORMATION.set("");
+        PLAYERSINSERVER.set("");
+        PLAYERSWHOAREREADY.set("");
 
-            // init nums and names of all the robots
-            robotNumAndNames.put(1, "Hulk");
-            robotNumAndNames.put(2, "Spinbot");
-            robotNumAndNames.put(3, "Squashbot");
-            robotNumAndNames.put(4, "Trundlebot");
-            robotNumAndNames.put(5, "Twitch");
-            robotNumAndNames.put(6, "Twonky");
+        // init nums and names of all the robots
+        robotNumAndNames.put(1, "Hulk");
+        robotNumAndNames.put(2, "Spinbot");
+        robotNumAndNames.put(3, "Squashbot");
+        robotNumAndNames.put(4, "Trundlebot");
+        robotNumAndNames.put(5, "Twitch");
+        robotNumAndNames.put(6, "Twonky");
 
 
-            // init MYREGISTER[]
-            for (int i = 0; i < 5; i++) {
-                MYREGISTER[i] = new SimpleStringProperty("");
-            }
+        // init MYREGISTER[]
+        for (int i = 0; i < 5; i++) {
+            MYREGISTER[i] = new SimpleStringProperty("");
+        }
 
     }
 
@@ -708,10 +707,10 @@ public class Client extends Application {
                             OUT.println(alive);
                             logger.info("json from server: " + json + Thread.currentThread().getName());
                             logger.info("==========client " + clientID + " sent alive checked back.===========");
-                        } else if(Protocol.readJsonMessageType(json).equals("GameOn")){
+                        } else if (Protocol.readJsonMessageType(json).equals("GameOn")) {
                             logger.info("game on from server thread : " + json);
                             isGameOn = true;
-                        }else {
+                        } else {
                             executeOrder(json);
                             logger.info("json from server: " + json + Thread.currentThread().getName());
                         }
@@ -734,9 +733,9 @@ public class Client extends Application {
         Platform.setImplicitExit(false);
         // start the login process
         logger.info("gameOn check in client : " + isGameOn);
-        if(isGameOn == false){
+        if (isGameOn == false) {
             LAUNCHER.launchLogin(this);
-        }else{
+        } else {
             LAUNCHER.launchError("One Game is running, please wait for next turn.");
             socket.close();
         }
@@ -1030,9 +1029,9 @@ public class Client extends Application {
                                 logger.info(MYREGISTER[i].get());
                             }
                             if (MYREGISTER[0].get().equals("Again")) {
-                                logger.info("1.Reg before "+MYREGISTER[0].get());
+                                logger.info("1.Reg before " + MYREGISTER[0].get());
                                 MYREGISTER[0].set("PowerUp");
-                                logger.info("2.Reg before "+MYREGISTER[0].get());
+                                logger.info("2.Reg before " + MYREGISTER[0].get());
                             }
                             flagTimeOut.set(flagTimeOut.get() + 1);
                             break;

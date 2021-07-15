@@ -75,6 +75,9 @@ public class AILow implements Runnable {
     private int numRobot = 1;
     private int energyCount = 12;
 
+    // check for game already running
+    public boolean isGameOn = false;
+
     /**
      * Sets active phase.
      *
@@ -120,8 +123,15 @@ public class AILow implements Runnable {
                 json = IN.readLine();
                 //if(!line.isEmpty()) { // NullPointerException
                 if (json != null) {
-                    executeOrder(json);
-                    logger.info("json from server: " + json + Thread.currentThread().getName());
+
+                    if(Protocol.readJsonMessageType(json).equals("GameOn")){
+                        logger.info("game on from server thread : " + json);
+                        isGameOn = true;
+                        socket.close();
+                    }else{
+                        executeOrder(json);
+                        logger.info("json from server: " + json + Thread.currentThread().getName());
+                    }
                 }
             }
             Platform.exit();
@@ -178,7 +188,9 @@ public class AILow implements Runnable {
                 Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", true, "Version 1.0"));
                 String js = Protocol.writeJson(protocol);
                 logger.info("protocol from Server: \n" + js);
-                OUT.println(js);
+                if(!isGameOn){
+                    OUT.println(js);
+                }
                 break;
             case "Welcome":
                 logger.info(json + Thread.currentThread().getName());

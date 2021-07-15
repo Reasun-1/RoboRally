@@ -57,13 +57,15 @@ public class ServerThread implements Runnable {
             // Create writer for messages to the client
             PrintWriter out = new PrintWriter(SOCKET.getOutputStream(), true);
 
+            if(ExecuteOrder.isGameOn == true){
+                out.println(Protocol.writeJson(new Protocol("GameOn", new ErrorBody("gameIsOn"))));
+            }
+
+
             String js = Protocol.writeJson(new Protocol("HelloClient", new HelloClientBody("Version 1.0")));
             logger.info("protocol to client: \n" + js);
             out.println(js);
 
-            if(ExecuteOrder.isGameOn == true){
-                out.println(Protocol.writeJson(new Protocol("GameOn", new ErrorBody("gameIsOn"))));
-            }
 
             //check the protocol version
             boolean versionProofed = false;
