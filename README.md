@@ -1,3 +1,30 @@
+# Zusätzliche Dokumentation für die finale Abgabe
+
+Auf unserer [Wiki page](/%2E%2E/wikis/home) findet ihr die folgenden relevanten Informationen:
+
+- [Protokoll aller Tutorentreffen](/%2E%2E/wikis/Tutorentreffen)
+- [Präsentation des Projekts](/%2E%2E/wikis/Präsentation-des-Projekts)
+- [Konzept der Künstlichen Intelligenz](/%2E%2E/wikis/Künstliche%20Intelligenz%20in%20Robo%20Rally)
+- [UML Diagramm](/%2E%2E/wikis/UML_Stand-Juli)
+- [JavaDocs](../Abgabe/JavaDocs)
+- [Source Code](../Abgabe/src)
+...
+
+
+Und vieles Mehr!
+
+
+
+#### Requirements: Please read carefully!
+In order to run the Game without problems, you'll need to install Java to run the .JAR File
+Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
+
+java -jar clevere-cousins.jar
+
+
+
+
+
 # Welcome to RoboRally!
 This is our University project for the board game RoboRally.
 
@@ -112,26 +139,3 @@ Whenever you are confused or don't know what's going on, have a look at the top:
 
 Have fun!
 
-#### Requirements: Please read carefully!
-In order to run the Game without problems, you'll need to install Java to run the .JAR File
-Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
-
-java -jar clevere-cousins.jar
-
-# Zusätzliche Dokumentation für die finale Abgabe
-
-Auf unserer [Wiki page](/%2E%2E/wikis/home) findet ihr die folgenden relevanten Informationen:
-
-- [Protokoll aller Tutorentreffen](/%2E%2E/wikis/Tutorentreffen)
-- [Präsentation des Projekts](/%2E%2E/wikis/Präsentation-des-Projekts)
-- [Konzept der Künstlichen Intelligenz](/%2E%2E/wikis/Künstliche%20Intelligenz%20in%20Robo%20Rally)
-- [UML Diagramm](/%2E%2E/wikis/Tutorentreffen)
-- [JavaDocs](../Abgabe/JavaDocs)
-- [Source Code](../Abgabe/src)
-
-
-...
-
-
-
-Und vieles Mehr!
