@@ -117,3 +117,6 @@ In order to run the Game without problems, you'll need to install Java to run th
 Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
 
 java -jar clevere-cousins.jar
+
+
+[Wiki page](/%2E%2E/wikis/home)
