@@ -118,5 +118,15 @@ Also in order for the Log Files to be created, please start the .JAR File in the
 
 java -jar clevere-cousins.jar
 
+# Zusätzliche Dokumentation für die finale Abgabe
 
-[Wiki page](/%2E%2E/wikis/home)
+Auf unserer [Wiki page](/%2E%2E/wikis/home) findet ihr die folgenden relevanten Informationen:
+
+- [Protokoll aller Tutorentreffen](/%2E%2E/wikis/home/Tutorentreffen)
+- [Präsentation des Projekts](/%2E%2E/wikis/home/Präsentation%20des%20Projekts)
+- [Konzept der Künstlichen Intelligenz](/%2E%2E/wikis/home/Künstliche%20Intelligenz%20in%20Robo%20Rally)
+- [UML Diagramm](/%2E%2E/wikis/home/Tutorentreffen)
+- [JavaDocs](/%2E%2E/wikis/home/Tutorentreffen)
+...
+
+Und vieles Mehr!
