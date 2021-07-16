@@ -406,6 +406,9 @@ public class Game {
     public void stopTimer() {
         Timer.flag = false;
         logger.info("game stops timer");
+        // reset timer
+        Timer.count = 0;
+        Timer.flag = true;
     }
 
     /**

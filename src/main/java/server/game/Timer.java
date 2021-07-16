@@ -34,7 +34,7 @@ public class Timer implements Runnable {
     /**
      * The Count.
      */
-    int count = 0;
+    public static int count = 0;
     /**
      * The constant flag.
      */

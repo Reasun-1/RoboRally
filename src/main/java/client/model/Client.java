@@ -628,11 +628,11 @@ public class Client extends Application {
      */
     public Client() throws IOException {
 
-        LAUNCHER.launchSocket(this);
+        //LAUNCHER.launchSocket(this);
 
 
         // Always connect to localhost and fixed port
-        //socket = new Socket("127.0.0.1", 5200);
+        socket = new Socket("127.0.0.1", 5200);
 
         // test server
         //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
