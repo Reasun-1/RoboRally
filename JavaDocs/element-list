@@ -1,0 +1,12 @@
+ai
+client.model
+client.view
+client.viewmodel
+protocol
+protocol.submessagebody
+server.feldobjects
+server.game
+server.maps
+server.network
+server.registercards
+server.upgradecards
