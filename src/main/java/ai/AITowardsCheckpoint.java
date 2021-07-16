@@ -935,7 +935,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1002,7 +1006,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1069,7 +1077,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("PowerUp")){
@@ -1136,7 +1148,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1205,7 +1221,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1272,7 +1292,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("UTurn")){
@@ -1339,7 +1363,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("PowerUp")){
@@ -1414,7 +1442,11 @@ public class AITowardsCheckpoint implements Runnable{
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")) {
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("TurnLeft")) {
@@ -1482,7 +1514,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                 notAvailableCardsIndex.add(i);
                 break;
             }else if(myCards.get(i).equals("Again")) {
-                setRegister(myCards.get(i), Register);
+                if(i == 0){
+                    setRegister("PowerUp", Register);
+                }else{
+                    setRegister(myCards.get(i), Register);
+                }
                 notAvailableCardsIndex.add(i);
                 break;
             }else if(myCards.get(i).equals("TurnLeft")) {
@@ -1541,7 +1577,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1608,7 +1648,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("UTurn")){
@@ -1683,7 +1727,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")) {
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("TurnRight")) {
@@ -1751,7 +1799,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                 notAvailableCardsIndex.add(i);
                 break;
             }else if(myCards.get(i).equals("Again")) {
-                setRegister(myCards.get(i), Register);
+                if(i == 0){
+                    setRegister("PowerUp", Register);
+                }else{
+                    setRegister(myCards.get(i), Register);
+                }
                 notAvailableCardsIndex.add(i);
                 break;
             }else if(myCards.get(i).equals("TurnRight")) {
@@ -1810,7 +1862,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
@@ -1877,7 +1933,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("UTurn")){
@@ -1944,7 +2004,11 @@ public void fallDOWNCheckpointTopRight(int Register) throws JsonProcessingExcept
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("Again")){
-                    setRegister(myCards.get(i), Register);
+                    if(i == 0){
+                        setRegister("PowerUp", Register);
+                    }else{
+                        setRegister(myCards.get(i), Register);
+                    }
                     notAvailableCardsIndex.add(i);
                     break;
                 }else if(myCards.get(i).equals("BackUp")){
