@@ -393,7 +393,6 @@ public class ChatController {
                             imgV6.setFitWidth(43);
                             imgV6.setRotate(imgV6.getRotate() + rotateGrad);
                             gridPaneRobot.add(imgV6, curX, curY);
-                            myFigure.setImage(TwonkyBot);
                             break;
                     }
                 }
