@@ -99,19 +99,19 @@ public class UpgradeShopController {
                     String label = null;
 
                     switch (cardName) {
-                        case "AdminPrivilege":
+                        case "ADMIN PRIVILEGE":
                             upgradeImage = adminUpCard;
                             label = adminLabel;
                             break;
-                        case "SpamBlocker":
+                        case "SPAM BLOCKER":
                             upgradeImage = spamUpCard;
                             label = spamLabel;
                             break;
-                        case "RealLaser":
+                        case "REAR LASER":
                             upgradeImage = laserUpCard;
                             label = laserLabel;
                             break;
-                        case "MemorySwap":
+                        case "MEMORY SWAP":
                             upgradeImage = memoryUpCard;
                             label = memoryLabel;
                             break;
@@ -242,16 +242,16 @@ public class UpgradeShopController {
         String chosenCardName = chosenUpgrade.getText();
         int cardCost = 0;
         switch (chosenCardName){
-            case "AdminPrivilege":
+            case "ADMIN PRIVILEGE":
                 cardCost = 3;
                 break;
-            case "SpamBlocker":
+            case "SPAM BLOCKER":
                 cardCost = 3;
                 break;
-            case "RealLaser":
+            case "REAR LASER":
                 cardCost = 2;
                 break;
-            case "MemorySwap":
+            case "MEMORY SWAP":
                 cardCost = 1;
                 break;
         }

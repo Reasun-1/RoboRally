@@ -91,6 +91,9 @@ public class Client extends Application {
     // check for game already running
     public boolean isGameOn = false;
 
+    // protocol version for login
+    public String versionProtocol = "";
+
 
     //=================================Properties================================
     // clientID als StringProperty to bind with Controller
@@ -628,11 +631,11 @@ public class Client extends Application {
      */
     public Client() throws IOException {
 
-        //LAUNCHER.launchSocket(this);
+        LAUNCHER.launchSocket(this);
 
 
         // Always connect to localhost and fixed port
-        socket = new Socket("127.0.0.1", 5200);
+        //socket = new Socket("127.0.0.1", 5200);
 
         // test server
         //socket = new Socket("sep21.dbs.ifi.lmu.de", 52018);
@@ -705,14 +708,14 @@ public class Client extends Application {
                         if (Protocol.readJsonMessageType(json).equals("Alive")) {
                             String alive = Protocol.writeJson(new Protocol("Alive", null));
                             OUT.println(alive);
-                            logger.info("json from server: " + json + Thread.currentThread().getName());
-                            logger.info("==========client " + clientID + " sent alive checked back.===========");
                         } else if (Protocol.readJsonMessageType(json).equals("GameOn")) {
                             logger.info("game on from server thread : " + json);
                             isGameOn = true;
                         } else {
                             executeOrder(json);
-                            logger.info("json from server: " + json + Thread.currentThread().getName());
+                            if(!Protocol.readJsonMessageType(json).equals("Alive")){
+                                logger.info("json from server: " + json + Thread.currentThread().getName());
+                            }
                         }
                     }
                 }
@@ -792,7 +795,7 @@ public class Client extends Application {
                             }
                             break;
                         case "HelloClient":
-                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, "Version 1.0"));
+                            Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", false, versionProtocol));
                             String js = Protocol.writeJson(protocol);
                             logger.info("protocol from Server: \n" + js);
                             OUT.println(js);
@@ -815,6 +818,7 @@ public class Client extends Application {
                             int figureAdded = playerAddedBody.getFigure();
                             String nameAdded = playerAddedBody.getName();
 
+
                             // not add infos twice
                             if (!clientNames.containsKey(clientIDAdded)) {
 
@@ -835,10 +839,15 @@ public class Client extends Application {
                                     flagMyFigure.set(flagMyFigure.getValue() + 1);
                                 }
 
-                                String robotNameAdded = robotNumAndNames.get(figureAdded);
-                                ROBOTSNAMESFORCHAT.add(robotNameAdded);
-                                System.out.println(ROBOTSNAMESFORCHAT);
+                                if(figureAdded > 0){
+                                    String robotNameAdded = robotNumAndNames.get(figureAdded);
+                                    ROBOTSNAMESFORCHAT.add(robotNameAdded);
+                                    System.out.println(ROBOTSNAMESFORCHAT);
+                                }
+
                             }
+
+
                             break;
                         case "PlayerStatus":
                             logger.info(json);
@@ -1024,7 +1033,8 @@ public class Client extends Application {
                         case "CardsYouGotNow":
                             CardsYouGotNowBody cardsYouGotNowBody = Protocol.readJsonCardsYouGotNow(json);
                             List<String> cards = cardsYouGotNowBody.getCards();
-                            for (int i = 0; i < 5; i++) {
+                            int countCards = cards.size();
+                            for (int i = 5-countCards; i < 5; i++) {
                                 MYREGISTER[i].set(cards.get(i));
                                 logger.info(MYREGISTER[i].get());
                             }
@@ -1038,9 +1048,11 @@ public class Client extends Application {
                         case "CurrentCards":
                             CurrentCardsBody currentCardsBody = Protocol.readJsonCurrentCards(json);
                             List<Register> currentRegistersAllClients = currentCardsBody.getCurrentRegistersAllClients();
-                            for (Register rg : currentRegistersAllClients) {
+                            /*for (Register rg : currentRegistersAllClients) {
                                 logger.info(rg.getClientID() + " has for current register: " + rg.getCardName());
                             }
+
+                             */
                             break;
                         case "CardPlayed":
                             CardPlayedBody cardPlayedBody = Protocol.readJsonCardPlayed(json);
@@ -1113,6 +1125,9 @@ public class Client extends Application {
                             int replacedCardClient = replaceCardBody.getClientID();
                             int replacedRegister = replaceCardBody.getRegister();
                             String replacedCardName = replaceCardBody.getNewCard();
+                            INFORMATION.set("");
+                            INFORMATION.set("client " + replacedCardClient + "REPLACECARS" + replacedCardName);
+                            /*
                             if (replacedCardClient == clientID) {
                                 MYREGISTER[replacedRegister].set(replacedCardName);
                                 flagReplaceRegister.set(flagReplaceRegister.getValue() + 1);
@@ -1123,6 +1138,8 @@ public class Client extends Application {
                                 }
 
                             }
+
+                             */
                             break;
                         case "ConnectionUpdate":
                             ConnectionUpdateBody connectionUpdateBody = Protocol.readJsonConnectionUpdate(json);
@@ -1170,6 +1187,14 @@ public class Client extends Application {
                                 availableUpgradesCards.add(upCard);
                             }
                             break;
+                        case "ExchangeShop":
+                            RefillShopBody exchangeShopBody = Protocol.readJsonRefillShop(json);
+                            List<String> upgradesCards = exchangeShopBody.getCards();
+                            availableUpgradesCards.clear();
+                            for (String upCard : upgradesCards) {
+                                availableUpgradesCards.add(upCard);
+                            }
+                            break;
                         case "UpgradeBought":
                             UpgradeBoughtBody upgradeBoughtBody = Protocol.readJsonUpgradeBought(json);
                             int clientWhoBought = upgradeBoughtBody.getClientID();
@@ -1195,7 +1220,7 @@ public class Client extends Application {
                             int chosenClient = registerChosenBody.getClientID();
                             int chosenBodyRegister = registerChosenBody.getRegister();
                             INFORMATION.set("");
-                            INFORMATION.set("client " + chosenClient + " have played AdminPrivilege for Register " + chosenBodyRegister);
+                            INFORMATION.set("client " + chosenClient + " have played ADMIN PRIVILEGE for Register " + chosenBodyRegister);
                             break;
                     }
                 } catch (IOException | ClassNotFoundException e) {
@@ -1352,10 +1377,10 @@ public class Client extends Application {
         availableStartsMapTrap.add(new Position(11, 8));
 
         // init my upgrade card
-        myUpgradesCards.put("AdminPrivilege", 0);
-        myUpgradesCards.put("RealLaser", 0);
-        myUpgradesCards.put("MemorySwap", 0);
-        myUpgradesCards.put("SpamBlocker", 0);
+        myUpgradesCards.put("ADMIN PRIVILEGE", 0);
+        myUpgradesCards.put("REAR LASER", 0);
+        myUpgradesCards.put("MEMORY SWAP", 0);
+        myUpgradesCards.put("SPAM BLOCKER", 0);
     }
 
     /**
@@ -1541,28 +1566,28 @@ public class Client extends Application {
             myUpgradesCards.put(upCardName, curCount + 1);
 
             // update my energy cubes
-            if (upCardName.equals("AdminPrivilege")) {
+            if (upCardName.equals("ADMIN PRIVILEGE")) {
                 energyCount.set((Integer.valueOf(energyCount.get()) - 3) + "");
-            } else if (upCardName.equals("RealLaser")) {
+            } else if (upCardName.equals("REAR LASER")) {
                 energyCount.set((Integer.valueOf(energyCount.get()) - 2) + "");
-            } else if (upCardName.equals("MemorySwap")) {
+            } else if (upCardName.equals("MEMORY SWAP")) {
                 energyCount.set((Integer.valueOf(energyCount.get()) - 1) + "");
-            } else if (upCardName.equals("SpamBlocker")) {
+            } else if (upCardName.equals("SPAM BLOCKER")) {
                 energyCount.set((Integer.valueOf(energyCount.get()) - 3) + "");
             }
 
             // buy max.3 cards each type
-            if (myUpgradesCards.get("AdminPrivilege") + myUpgradesCards.get("RealLaser") > 3) {
-                if (myUpgradesCards.get("AdminPrivilege") > 0) {
-                    myUpgradesCards.put("AdminPrivilege", myUpgradesCards.get("AdminPrivilege") - 1);
-                } else if (myUpgradesCards.get("RealLaser") > 0) {
-                    myUpgradesCards.put("RealLaser", myUpgradesCards.get("RealLaser") - 1);
+            if (myUpgradesCards.get("ADMIN PRIVILEGE") + myUpgradesCards.get("REAR LASER") > 3) {
+                if (myUpgradesCards.get("ADMIN PRIVILEGE") > 0) {
+                    myUpgradesCards.put("ADMIN PRIVILEGE", myUpgradesCards.get("ADMIN PRIVILEGE") - 1);
+                } else if (myUpgradesCards.get("REAR LASER") > 0) {
+                    myUpgradesCards.put("REAR LASER", myUpgradesCards.get("REAR LASER") - 1);
                 }
-            } else if (myUpgradesCards.get("MemorySwap") + myUpgradesCards.get("SpamBlocker") > 3) {
-                if (myUpgradesCards.get("SpamBlocker") > 0) {
-                    myUpgradesCards.put("SpamBlocker", myUpgradesCards.get("SpamBlocker") - 1);
-                } else if (myUpgradesCards.get("MemorySwap") > 0) {
-                    myUpgradesCards.put("MemorySwap", myUpgradesCards.get("MemorySwap") - 1);
+            } else if (myUpgradesCards.get("MEMORY SWAP") + myUpgradesCards.get("SPAM BLOCKER") > 3) {
+                if (myUpgradesCards.get("SPAM BLOCKER") > 0) {
+                    myUpgradesCards.put("SPAM BLOCKER", myUpgradesCards.get("SPAM BLOCKER") - 1);
+                } else if (myUpgradesCards.get("MEMORY SWAP") > 0) {
+                    myUpgradesCards.put("MEMORY SWAP", myUpgradesCards.get("MEMORY SWAP") - 1);
                 }
             }
 

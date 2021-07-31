@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"ai"},{"l":"All Packages","u":"allpackages-index.html"},{"l":"client.model"},{"l":"client.view"},{"l":"client.viewmodel"},{"l":"protocol"},{"l":"protocol.submessagebody"},{"l":"server.feldobjects"},{"l":"server.game"},{"l":"server.maps"},{"l":"server.network"},{"l":"server.registercards"},{"l":"server.upgradecards"}];updateSearchResults();

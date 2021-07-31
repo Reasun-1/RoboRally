@@ -838,17 +838,17 @@ public class ChatController {
                 for(String upCard : client.myUpgradesCards.keySet()){
 
                     switch (upCard){
-                        case "AdminPrivilege":
-                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("AdminPrivilege")));
+                        case "ADMIN PRIVILEGE":
+                            LabelAdmin.textProperty().set(""+(client.myUpgradesCards.get("ADMIN PRIVILEGE")));
                             break;
-                        case "RealLaser":
-                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("RealLaser")));
+                        case "REAR LASER":
+                            LabelLaser.textProperty().set(""+(client.myUpgradesCards.get("REAR LASER")));
                             break;
-                        case "SpamBlocker":
-                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SpamBlocker")));
+                        case "SPAM BLOCKER":
+                            LabelBlocker.textProperty().set(""+(client.myUpgradesCards.get("SPAM BLOCKER")));
                             break;
-                        case "MemorySwap":
-                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MemorySwap")));
+                        case "MEMORY SWAP":
+                            LabelMemory.textProperty().set(""+(client.myUpgradesCards.get("MEMORY SWAP")));
                             break;
                     }
 
@@ -861,11 +861,11 @@ public class ChatController {
         UpgradeBlocker.setDisable(true);
         UpgradeLaser.setOpacity(0.50);
 
-        //bind flagAdmin for the AdminPrivilege Upgrade Card
+        //bind flagAdmin for the ADMIN PRIVILEGE Upgrade Card
         client.flagAdminProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("AdminPrivilege") != 0){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("ADMIN PRIVILEGE") != 0){
                     UpgradeAdmin.setDisable(false);
                 }else{
                     UpgradeAdmin.setDisable(true);
@@ -877,22 +877,22 @@ public class ChatController {
         client.flagMemoryProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.GAMEPHASE.get().equals("Programmierphase") && (client.myUpgradesCards.get("MemorySwap") != 0)){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && (client.myUpgradesCards.get("MEMORY SWAP") != 0)){
                     UpgradeMemory.setDisable(false);
                 }else{
                     UpgradeMemory.setDisable(true);
                 }
-                if(client.myUpgradesCards.get("RealLaser") != 0){
+                if(client.myUpgradesCards.get("REAR LASER") != 0){
                     UpgradeLaser.setOpacity(1.0);
                 }
             }
         });
 
-        //bind flagBlocker for the SpamBlocker Upgrade Card
+        //bind flagBlocker for the SPAM BLOCKER Upgrade Card
         client.flagBlockerProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("SpamBlocker") != 0){
+                if(client.GAMEPHASE.get().equals("Programmierphase") && client.myUpgradesCards.get("SPAM BLOCKER") != 0){
                     UpgradeBlocker.setDisable(false);
                 }else{
                     UpgradeBlocker.setDisable(true);
@@ -966,7 +966,7 @@ public class ChatController {
             UpgradeAdmin.setDisable(true);
             client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
 
-            //client.playUpgrade("AdminPrivilege");
+            //client.playUpgrade("ADMIN PRIVILEGE");
             client.handleChooseRegister(Integer.valueOf(RegNrForAdmin.getText()));
 
             RegNrForAdmin.clear();
@@ -982,13 +982,13 @@ public class ChatController {
      */
     public void activeBlocker() throws JsonProcessingException {
         System.out.println("activeBlocker Card ativated.");
-        int curCount = client.myUpgradesCards.get("SpamBlocker");
-        client.myUpgradesCards.put("SpamBlocker", curCount-1);
+        int curCount = client.myUpgradesCards.get("SPAM BLOCKER");
+        client.myUpgradesCards.put("SPAM BLOCKER", curCount-1);
         //update showCard and count of Card
         client.flagBlocker.set(client.flagBlocker.get()+1);
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
 
-        client.playUpgrade("SpamBlocker");
+        client.playUpgrade("SPAM BLOCKER");
         //remove all the damage cards in hand
         List<String> tempToRemove = new ArrayList<>();
         for(String card : client.MYCARDS.get()){
@@ -1007,13 +1007,13 @@ public class ChatController {
      */
     public void activeMemory() throws IOException {
         System.out.println("activeMemory Card activated.");
-        int curCount = client.myUpgradesCards.get("MemorySwap");
-        client.myUpgradesCards.put("MemorySwap", curCount-1);
+        int curCount = client.myUpgradesCards.get("MEMORY SWAP");
+        client.myUpgradesCards.put("MEMORY SWAP", curCount-1);
         //update showCard and count of Card
         client.flagMemory.set(client.flagMemory.get()+1);
         client.flagMyUpgrades.set(client.flagMyUpgrades.get()+1);
 
-        client.playUpgrade("MemorySwap");
+        client.playUpgrade("MEMORY SWAP");
 
         LAUNCHER.launchMemorySwap(client);
     }
@@ -1626,7 +1626,7 @@ public class ChatController {
 
                                     if (obj.getOrientations().get(0).equals("top")) {
 
-                                        if (obj.getOrientations().size() == 1) {
+                                        if (obj.getOrientations().size() == 2 && obj.getOrientations().get(1).equals("bottom")) {
                                             gridPaneBoard.add(beltBlueImg, i, j);
                                         }
 
@@ -1667,7 +1667,7 @@ public class ChatController {
 
                                     } else if (obj.getOrientations().get(0).equals("right")) {
 
-                                        if (obj.getOrientations().size() == 1) {
+                                        if (obj.getOrientations().size() == 2 && obj.getOrientations().get(1).equals("left")) {
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 90);
                                             gridPaneBoard.add(beltBlueImg, i, j);
                                         }
@@ -1706,7 +1706,7 @@ public class ChatController {
 
                                     } else if (obj.getOrientations().get(0).equals("bottom")) {
 
-                                        if (obj.getOrientations().size() == 1) {
+                                        if (obj.getOrientations().size() == 2 && obj.getOrientations().get(1).equals("top")) {
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 180);
                                             gridPaneBoard.add(beltBlueImg, i, j);
                                         }
@@ -1744,7 +1744,7 @@ public class ChatController {
                                         }
 
                                     } else if (obj.getOrientations().get(0).equals("left")) {
-                                        if (obj.getOrientations().size() == 1) {
+                                        if (obj.getOrientations().size() == 2 && obj.getOrientations().get(1).equals("right")) {
                                             beltBlueImg.setRotate(beltBlueImg.getRotate() + 270);
                                             gridPaneBoard.add(beltBlueImg, i, j);
                                         }
