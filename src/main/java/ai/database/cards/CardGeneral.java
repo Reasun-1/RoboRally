@@ -1,5 +1,7 @@
 package ai.database.cards;
 
+import server.game.Direction;
+
 import java.io.IOException;
 
 /**
@@ -19,5 +21,7 @@ public abstract class CardGeneral {
         return cardName;
     }
 
-    public void doCardFunction(int clientID) throws IOException {}
+    public int doCardFunction(int x, int y, Direction curDirection) {
+        return 0;
+    }
 }

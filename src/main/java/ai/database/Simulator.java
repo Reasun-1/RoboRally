@@ -1,8 +1,10 @@
 package ai.database;
 
 import ai.AIWithDatabase;
+import ai.database.cards.*;
+import ai.database.fieldelements.FeldObject;
 import org.apache.log4j.Logger;
-import server.feldobjects.FeldObject;
+import server.game.Direction;
 import server.game.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +19,23 @@ public class Simulator {
 
     private final static Simulator simulator = new Simulator();
 
+    public static AIWithDatabase aiWithDatabase;
+
     public static List<String> cardsInHand = new ArrayList<>();
 
-    public static List<List<List<FeldObject>>> board = new ArrayList<>();
+    public static List<List<List<ai.database.fieldelements.FeldObject>>> board = new ArrayList<>();
 
     public static Position curPosition = new Position();
 
-    public static String curDirection;
+    public static Direction curDirection;
 
-    public static Position newPosition = new Position();
+    public static Position lastPosition = new Position();
 
     public static String newDirection;
 
     public static int curMinDistanceToCheckpoint;
 
-    public static List<String> curBest5Cards;
+    public static List<String> curBest5Cards = new ArrayList<>();
 
     public static Position checkpointPosition;
 
@@ -67,11 +71,19 @@ public class Simulator {
     }
 
     public List<String> findBest5Cards(List<String> originalCards, AIWithDatabase aiDatabase) {
+
+        aiWithDatabase = aiDatabase;
+
+        curPosition = new Position(aiDatabase.currentPositions.get(aiDatabase.clientID)[0],aiDatabase.currentPositions.get(aiDatabase.clientID)[1]);
+        curDirection = aiDatabase.currentDirections.get(aiDatabase.clientID);
+
         // deep copy
         List<String> all9Cards = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             all9Cards.add(aiDatabase.myCards.get(i));
         }
+
+        logger.info("all9Cards at the beginning: " + all9Cards);
 
         List<String> temp5Cards = new ArrayList<>();
 
@@ -79,19 +91,49 @@ public class Simulator {
             if (all9Cards.contains("TurnLeft")) {
                 temp5Cards.add("TurnLeft");
                 all9Cards.remove("TurnLeft");
-            } else if (all9Cards.contains("MoveII")) {
+            }
+
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("MoveII")) {
                 temp5Cards.add("MoveII");
                 all9Cards.remove("MoveII");
-            } else if (all9Cards.contains("MoveI")) {
+            }
+
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("MoveI")) {
                 temp5Cards.add("MoveI");
                 all9Cards.remove("MoveI");
-            } else if (all9Cards.contains("TurnRight")) {
+            }
+
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("TurnRight")) {
                 temp5Cards.add("TurnRight");
                 all9Cards.remove("TurnRight");
-            } else if (all9Cards.contains("MoveIII")) {
+            }
+
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("MoveIII")) {
                 temp5Cards.add("MoveIII");
                 all9Cards.remove("MoveIII");
-            } else if (all9Cards.contains("BackUp")) {
+            }
+
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("BackUp")) {
                 temp5Cards.add("BackUp");
                 all9Cards.remove("BackUp");
             } else if (all9Cards.contains("UTurn")) {
@@ -114,6 +156,8 @@ public class Simulator {
             }
         }
 
+        logger.info("temp5Cards before comparing: " + temp5Cards);
+
         compareCards(temp5Cards);
 
         return curBest5Cards;
@@ -121,25 +165,53 @@ public class Simulator {
 
     public void compareCards(List<String> temp5Cards) {
 
-        List<String> bestCards = new ArrayList<>();
         curMinDistanceToCheckpoint = Integer.MAX_VALUE;
 
         int startDistance = simulateMoves(temp5Cards);
 
         curMinDistanceToCheckpoint = startDistance;
-        curBest5Cards = temp5Cards;
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = i + 1; j < 4; j++) {
+        // deep copy!!
+        for (int i = 0; i < 5; i++) {
+            curBest5Cards.add(temp5Cards.get(i));
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+
+                logger.info("swap i j : " + i + " " + j);
 
                 swap2Cards(temp5Cards, i, j);
 
+                logger.info("swaped temp5cards: " + temp5Cards);
+
                 int curDistanceToCheckpoint = simulateMoves(temp5Cards);
+
+                if(curDistanceToCheckpoint == 0){
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(temp5Cards.get(k));
+                    }
+
+                    curMinDistanceToCheckpoint = 0;
+                    logger.info("to checkpoint 0 distance!!");
+                    break;
+                }
 
                 if (curDistanceToCheckpoint < curMinDistanceToCheckpoint) {
                     curMinDistanceToCheckpoint = curDistanceToCheckpoint;
-                    curBest5Cards = temp5Cards;
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(temp5Cards.get(k));
+                    }
+
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
                 }
+
+                logger.info("check cur best cards: " +  curBest5Cards);
             }
         }
     }
@@ -152,6 +224,115 @@ public class Simulator {
 
     public int simulateMoves(List<String> fiveCards) {
 
-        return 0;
+        int resultDistance = Integer.MAX_VALUE;
+
+        List<CardGeneral> cards = new ArrayList<>();
+
+        for(String cardName : fiveCards){
+            cards.add(convertStringToCards(cardName));
+        }
+
+        for (int i = 0; i < cards.size(); i++) {
+
+            CardGeneral card = cards.get(i);
+
+            if(!card.getCardName().equals("Again")){
+                resultDistance = card.doCardFunction(curPosition.getX(), curPosition.getY(), curDirection);
+            }else{
+                resultDistance = cards.get(i-1).doCardFunction(curPosition.getX(), curPosition.getY(), curDirection);
+            }
+
+            if(resultDistance == 100){
+
+                curPosition = new Position(aiWithDatabase.currentPositions.get(aiWithDatabase.clientID)[0],aiWithDatabase.currentPositions.get(aiWithDatabase.clientID)[1]);
+                curDirection = aiWithDatabase.currentDirections.get(aiWithDatabase.clientID);
+
+                break;
+            }else if(resultDistance == 0){
+                break;
+            }
+        }
+
+        logger.info("simulate temp score: " + resultDistance);
+
+        return resultDistance;
+    }
+
+    public CardGeneral convertStringToCards(String cardName){
+        CardGeneral card = null;
+
+        switch (cardName){
+            case "Again":
+                card = new Again();
+                break;
+            case "BackUp":
+                card = new BackUp();
+            break;
+            case "BlankCard":
+                card = new BlankCard();
+            break;
+            case "MoveI":
+                card = new MoveI();
+            break;
+            case "MoveII":
+                card = new MoveII();
+            break;
+            case "MoveIII":
+                card = new MoveIII();
+            break;
+            case "PowerUp":
+                card = new PowerUp();
+            break;
+            case "Spam":
+                card = new Spam();
+            break;
+            case "Trojan":
+                card = new Trojan();
+            break;
+            case "TurnLeft":
+                card = new TurnLeft();
+            break;
+            case "TurnRight":
+                card = new TurnRight();
+            break;
+            case "UTurn":
+                card = new UTurn();
+            break;
+            case "Virus":
+                card = new Virus();
+            break;
+            case "Worm":
+                card = new Worm();
+            break;
+        }
+        return card;
+    }
+
+    public String checkWall(int row, int column) {
+
+        String wallOrientation = "";
+        List<FeldObject> feldObjects = board.get(row).get(column);
+        for (FeldObject obj : feldObjects) {
+            if (obj.getClass().getSimpleName().equals("Wall")) {
+                wallOrientation = obj.getOrientations().get(0);
+            }
+        }
+        return wallOrientation;
+    }
+
+    public int doBoardFunction(){
+        int result = Integer.MAX_VALUE;
+
+        int x = curPosition.getX();
+        int y = curPosition.getY();
+        Direction dir = curDirection;
+
+        List<FeldObject> feldObjects = Simulator.board.get(x).get(y);
+        for (FeldObject obj : feldObjects) {
+            if (!obj.getClass().getSimpleName().equals("Pit")) {
+                result = obj.doBoardFunction(x, y, dir, obj);
+            }
+        }
+        return result;
     }
 }

@@ -1,5 +1,7 @@
 package ai.database.cards;
 
+import ai.database.Simulator;
+import server.game.Direction;
 import server.game.Game;
 import server.network.Server;
 import server.registercards.RegisterCard;
@@ -27,10 +29,7 @@ public class PowerUp extends CardGeneral {
     }
 
     @Override
-    public void doCardFunction(int clientID) throws IOException {
-        //update energy cubes in Game
-        Game.energyCubes.put(clientID, Game.energyCubes.get(clientID)+1);
-        // send inform via server to all clients
-        Server.getServer().handleEnergy(clientID, 1,"PowerUpCard");
+    public int doCardFunction(int x, int y, Direction currentDirection){
+        return Math.abs(Simulator.checkpointPosition.getX()-x) + Math.abs(Simulator.checkpointPosition.getY()-y);
     }
 }

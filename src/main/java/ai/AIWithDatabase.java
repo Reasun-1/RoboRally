@@ -1,8 +1,7 @@
 package ai;
 
 import ai.database.Simulator;
-import client.model.Client;
-import client.model.WindowLauncher;
+import ai.database.fieldelements.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,7 +9,6 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
-import server.feldobjects.FeldObject;
 import server.game.Direction;
 import server.game.Position;
 import server.game.Register;
@@ -41,7 +39,7 @@ public class AIWithDatabase extends Application {
     // Name can be chosen in the login process
     private String name;
     // unique client ID given from server, key between Game, Server, Client and GUI!!
-    private int clientID;
+    public int clientID;
     // to remember which register war the last one
     public int registerPointer = 0;
     // client list with all clientIDs
@@ -55,9 +53,9 @@ public class AIWithDatabase extends Application {
     // storage of my start positions for all clients: key=clientID, value = [x,y]
     private final HashMap<Integer, int[]> startPositionsAllClients = new HashMap<>();
     // current positions of all clients
-    private final HashMap<Integer, int[]> currentPositions = new HashMap<>();
+    public final HashMap<Integer, int[]> currentPositions = new HashMap<>();
     // current directions of all clients
-    private final HashMap<Integer, Direction> currentDirections = new HashMap<>();
+    public final HashMap<Integer, Direction> currentDirections = new HashMap<>();
     // 3D-map for GUI
     private List<List<List<FeldObject>>> mapInGUI = new ArrayList<>();
     // store the map name
@@ -254,9 +252,11 @@ public class AIWithDatabase extends Application {
                 break;
             case "GameStarted":
                 GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
-                List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                List<List<List<server.feldobjects.FeldObject>>> gameMap = gameStartedBody.getGameMap();
 
-                Simulator.getInstance().board = gameMap;
+                Simulator.board = changeFeldObjectMapToAIMap(gameMap);
+                logger.info("new board deep copy: " + Simulator.board);
+
                 Simulator.getInstance().findCheckpoint();
                 Simulator.getInstance().findPit();
 
@@ -415,6 +415,10 @@ public class AIWithDatabase extends Application {
                 int toY = movementBody.getY();
                 currentPositions.get(movedClient)[0] = toX;
                 currentPositions.get(movedClient)[1] = toY;
+
+                if(movedClient == clientID){
+                    Simulator.curPosition = new Position(toX, toY);
+                }
                 break;
             case "PlayerTurning":
                 PlayerTurningBody playerTurningBody = Protocol.readJsonPlayerTurning(json);
@@ -430,6 +434,10 @@ public class AIWithDatabase extends Application {
                     newDir = Direction.turnCounterClock(curDir);
                 }
                 currentDirections.put(turnedClient, newDir);
+
+                if(turnedClient == clientID){
+                    Simulator.curDirection = newDir;
+                }
                 break;
             case "ReplaceCard":
                 ReplaceCardBody replaceCardBody = Protocol.readJsonReplaceCard(json);
@@ -795,7 +803,7 @@ public class AIWithDatabase extends Application {
 
         if (myCards.size() == 9) {
             // random first 5 cards for registers
-            for (int i = 0; i < 5; i++) {
+            /*for (int i = 0; i < 5; i++) {
                 // first register card can not be Again
                 if (i == 0 && myCards.get(0).equals("Again")) {
                     setRegister(myCards.get(6), 1);
@@ -804,14 +812,16 @@ public class AIWithDatabase extends Application {
                 }
             }
 
-            /*
-            List<String> best5Cards = Simulator.getInstance().findBest5Cards(myCards, this);
-            for (int i = 0; i < 5; i++) {
-                setRegister(myCards.get(i), i + 1);
-            }
              */
 
 
+            List<String> best5Cards = Simulator.getInstance().findBest5Cards(myCards, this);
+
+            for (int i = 0; i < 5; i++) {
+                setRegister(best5Cards.get(i), i + 1);
+            }
+
+            logger.info("AI best 5 cards are : " + best5Cards);
             selectFinish();
         }
     }
@@ -828,6 +838,76 @@ public class AIWithDatabase extends Application {
         logger.info(json);
         OUT.println(json);
 
+    }
+
+    public List<List<List<ai.database.fieldelements.FeldObject>>> changeFeldObjectMapToAIMap(List<List<List<server.feldobjects.FeldObject>>> oriMap){
+
+        List<List<List<ai.database.fieldelements.FeldObject>>> aiBoard = new ArrayList<>();
+
+        int rowSize = oriMap.size();
+        int columnSize = oriMap.get(0).size();
+
+        for (int i = 0; i < rowSize; i++) {
+
+            List<List<ai.database.fieldelements.FeldObject>> newcolumns = new ArrayList<>();
+
+            for (int j = 0; j < columnSize; j++) {
+
+                List<ai.database.fieldelements.FeldObject> newObjs = new ArrayList<>();
+
+                List<server.feldobjects.FeldObject> feldObjects = oriMap.get(i).get(j);
+                for(server.feldobjects.FeldObject object : feldObjects){
+
+                    ai.database.fieldelements.FeldObject newObj = null;
+
+                    switch (object.getClass().getSimpleName()){
+                        case "Antenna":
+                            newObj = new Antenna(object.getIsOnBoard(), object.getOrientations());
+                            break;
+                        case "CheckPoint":
+                            newObj = new CheckPoint(object.getIsOnBoard(), object.getCount());
+                            break;
+                        case "ConveyorBelt":
+                            newObj = new ConveyorBelt(object.getIsOnBoard(), object.getSpeed(), object.getOrientations());
+                            break;
+                        case "Empty":
+                            newObj = new Empty(object.getIsOnBoard());
+                            break;
+                        case "EnergySpace":
+                            newObj = new EnergySpace(object.getIsOnBoard(), object.getCount());
+                            break;
+                        case "Gear":
+                            newObj = new Gear(object.getIsOnBoard(), object.getOrientations());
+                            break;
+                        case "Laser":
+                            newObj = new Laser(object.getIsOnBoard(), object.getOrientations(), object.getCount());
+                            break;
+                        case "Pit":
+                            newObj = new Pit(object.getIsOnBoard());
+                            break;
+                        case "PushPanel":
+                            newObj = new PushPanel(object.getIsOnBoard(), object.getOrientations(), object.getRegisters());
+                            break;
+                        case "RestartPoint":
+                            newObj = new RestartPoint(object.getIsOnBoard(), object.getOrientations());
+                            break;
+                        case "StartPoint":
+                            newObj = new StartPoint(object.getIsOnBoard());
+                            break;
+                        case "Wall":
+                            newObj = new Wall(object.getIsOnBoard(), object.getOrientations());
+                            break;
+                    }
+                    newObjs.add(newObj);
+                }
+
+                newcolumns.add(newObjs);
+            }
+
+            aiBoard.add(newcolumns);
+        }
+
+        return aiBoard;
     }
 
 }

@@ -1,11 +1,8 @@
 package ai.database.fieldelements;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.feldobjects.FeldObject;
-
 import java.io.IOException;
 
-public class Pit extends ElementGeneral {
+public class Pit extends FeldObject {
 
     private String isOnBoard;
 
@@ -24,8 +21,5 @@ public class Pit extends ElementGeneral {
         return isOnBoard;
     }
 
-    @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) throws IOException {
-        //Game.getInstance().reboot(clientID, new Position(Game.rebootPosition.getX(), Game.rebootPosition.getY()));
-    }
+
 }

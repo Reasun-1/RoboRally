@@ -1,10 +1,11 @@
 package ai.database.fieldelements;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.feldobjects.FeldObject;
+
+import ai.database.Simulator;
+import server.game.Direction;
 
 import java.util.List;
 
-public class Wall extends ElementGeneral {
+public class Wall extends FeldObject {
 
     private String isOnBoard;
     private List<String> orientations;
@@ -29,7 +30,7 @@ public class Wall extends ElementGeneral {
     }
 
     @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) {
-        //TODO
+    public int doBoardFunction(int curX, int curY, Direction direction, FeldObject obj) {
+        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
     }
 }

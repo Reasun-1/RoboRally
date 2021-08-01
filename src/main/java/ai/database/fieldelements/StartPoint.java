@@ -1,10 +1,10 @@
 package ai.database.fieldelements;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.feldobjects.FeldObject;
 
+import ai.database.Simulator;
+import server.game.Direction;
 
-public class StartPoint extends ElementGeneral {
+public class StartPoint extends FeldObject {
 
     String isOnBoard;
 
@@ -23,7 +23,7 @@ public class StartPoint extends ElementGeneral {
     }
 
     @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) {
-        //TODO
+    public int doBoardFunction(int curX, int curY, Direction direction, FeldObject obj) {
+        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
     }
 }

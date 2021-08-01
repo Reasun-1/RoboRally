@@ -1,5 +1,6 @@
 package ai.database.cards;
 
+import ai.database.Simulator;
 import server.game.Direction;
 import server.game.Game;
 import server.network.Server;
@@ -29,16 +30,15 @@ public class UTurn extends CardGeneral {
     }
 
     @Override
-    public void doCardFunction(int clientID) throws IOException {
-        //set direction of this client -90 -90
-        Direction curDir = Game.directionsAllClients.get(clientID);
-        Direction newDir = Direction.turnCounterClock(curDir);
-        newDir = Direction.turnCounterClock(newDir);
+    public int doCardFunction(int x, int y, Direction currentDirection){
 
-        //update new direction in Game
-        Game.directionsAllClients.put(clientID, newDir);
-        // transport the new direction to clients
-        Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
-        Server.getServer().handlePlayerTurning(clientID, "counterclockwise");
+        int resultDistance = Integer.MAX_VALUE;
+
+        Simulator.curDirection = Direction.turnClock(currentDirection);
+        Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
+
+        resultDistance = Simulator.getInstance().doBoardFunction();
+
+        return resultDistance;
     }
 }

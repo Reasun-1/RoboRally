@@ -2,7 +2,7 @@ package ai.database.fieldelements;
 
 import java.util.List;
 
-public class Antenna extends ElementGeneral {
+public class Antenna extends FeldObject {
 
     private String isOnBoard;
     private List<String> orientations;
@@ -26,8 +26,4 @@ public class Antenna extends ElementGeneral {
         return orientations;
     }
 
-    @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) {
-        //TODO
-    }
 }

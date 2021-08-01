@@ -1,7 +1,7 @@
 package ai.database.fieldelements;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.feldobjects.FeldObject;
+import ai.database.Simulator;
+import server.game.Direction;
 import server.game.Game;
 import server.game.Position;
 import server.network.Server;
@@ -9,7 +9,7 @@ import server.network.Server;
 import java.io.IOException;
 import java.util.List;
 
-public class PushPanel extends ElementGeneral {
+public class PushPanel extends FeldObject {
 
 
     private String isOnBoard;
@@ -42,18 +42,14 @@ public class PushPanel extends ElementGeneral {
     }
 
     @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) throws IOException {
+    public int doBoardFunction(int curX, int curY, Direction direction, FeldObject obj){
+
+        int resultDistance = Integer.MAX_VALUE;
+
         List<String> orientations = obj.getOrientations();
         String pushDir = orientations.get(0);
         List<Integer> registers = obj.getRegisters();
 
-        // do push if the register no. in registers of push panels
-        if (registers.contains(Game.registerPointer+1)) {
-
-
-            Position position = Game.getInstance().playerPositions.get(clientID);
-            int curX = position.getX();
-            int curY = position.getY();
 
             Position newPosition = null;
 
@@ -73,14 +69,18 @@ public class PushPanel extends ElementGeneral {
                     break;
             }
 
-            // check if robot is still on board
-            boolean isOnBoard = Game.getInstance().checkOnBoard(clientID, newPosition);
-            if (isOnBoard) {
-                // set new Position in Game
-                Game.playerPositions.put(clientID, newPosition);
-                // transport new Position to client
-                Server.getServer().handleMovement(clientID, newPosition.getX(), newPosition.getY());
-            }
+        // check if robot is still on board
+        if (newPosition.getX() < 0 || newPosition.getX() > 12 || newPosition.getY() < 0 || newPosition.getY() > 9) {
+            resultDistance = 100;
+        } else if (Simulator.board.get(newPosition.getX()).get(newPosition.getY()).get(0).getClass().getSimpleName().equals("Pit")) {// check if robot is on Pit
+            resultDistance = 100;
+        } else {
+            Simulator.lastPosition = new Position(Simulator.curPosition.getX(), Simulator.curPosition.getY());
+            Simulator.curPosition = new Position(newPosition.getX(), newPosition.getY());
+            resultDistance = Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
         }
+
+        return resultDistance;
+
     }
 }

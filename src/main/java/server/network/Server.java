@@ -1,5 +1,6 @@
 package server.network;
 
+import ai.database.Simulator;
 import org.apache.log4j.Logger;
 import protocol.Protocol;
 import protocol.submessagebody.*;
@@ -323,7 +324,7 @@ public class Server {
     public void handleGameStarted(String mapName) throws IOException {
         // dummy map: soon with right maps
 
-        Protocol protocol = new Protocol("GameStarted", new GameStartedBody(Game.board));
+        Protocol protocol = new Protocol("GameStarted", new GameStartedBody(null));
         String json = Protocol.writeJson(protocol);
         logger.info("server sends map");
         makeOrderToAllClients(json);

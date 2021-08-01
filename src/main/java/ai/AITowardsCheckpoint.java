@@ -250,11 +250,11 @@ public class AITowardsCheckpoint implements Runnable{
                 break;
             case "GameStarted":
                 GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
-                List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
-                mapInGUI = gameMap;
+                //List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                //mapInGUI = gameMap;
                 // update flag for MapUpdate, so that viewController can listen
-                System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
+                //System.out.println("map size " + gameMap.size() + " : " + gameMap.get(0).size());
+                //System.out.println((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
                 initGameForClients();
                 break;
             case "ActivePhase":

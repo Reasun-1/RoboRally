@@ -247,11 +247,11 @@ public class AILow implements Runnable {
                 break;
             case "GameStarted":
                 GameStartedBody gameStartedBody = Protocol.readJsonGameStarted(json);
-                List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
-                mapInGUI = gameMap;
+                //List<List<List<FeldObject>>> gameMap = gameStartedBody.getGameMap();
+                //mapInGUI = gameMap;
                 // update flag for MapUpdate, so that viewController can listen
-                logger.info("map size " + gameMap.size() + " : " + gameMap.get(0).size());
-                logger.info((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
+                //logger.info("map size " + gameMap.size() + " : " + gameMap.get(0).size());
+                //logger.info((gameMap.get(0).get(0).get(0)).getClass().getSimpleName() + gameMap.get(0).get(0).get(0).getIsOnBoard() + gameMap.get(0).get(2).get(0).getOrientations());
                 initGameForClients();
                 break;
             case "ActivePhase":

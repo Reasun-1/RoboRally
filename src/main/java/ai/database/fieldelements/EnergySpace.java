@@ -1,12 +1,12 @@
 package ai.database.fieldelements;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import server.feldobjects.FeldObject;
+import ai.database.Simulator;
+import server.game.Direction;
 import server.game.Game;
 import server.network.Server;
 
 import java.io.IOException;
 
-public class EnergySpace extends ElementGeneral {
+public class EnergySpace extends FeldObject {
 
 
     private String isOnBoard;
@@ -32,11 +32,8 @@ public class EnergySpace extends ElementGeneral {
     }
 
     @Override
-    public void doBoardFunction(int clientID, ElementGeneral obj) throws IOException {
-        int addNumEnergy = obj.getCount();
-        //update energy cubes in Game
-        Game.energyCubes.put(clientID, Game.energyCubes.get(clientID)+addNumEnergy);
-        // send inform via server to all clients
-        Server.getServer().handleEnergy(clientID, addNumEnergy,"EnergySpace");
+    public int doBoardFunction(int curX, int curY, Direction direction, FeldObject obj){
+        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
+
     }
 }

@@ -1,5 +1,7 @@
 package ai.database.fieldelements;
 
+import server.game.Direction;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public abstract class ElementGeneral {
+public abstract class FeldObject {
 
 
     String isOnBoard;
@@ -36,5 +38,7 @@ public abstract class ElementGeneral {
         return count;
     }
 
-    public void doBoardFunction(int clientID, ElementGeneral obj) throws IOException {}
+    public int doBoardFunction(int x, int y, Direction dir, FeldObject obj) {
+        return 0;
+    }
 }
