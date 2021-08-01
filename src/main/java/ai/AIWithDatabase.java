@@ -184,7 +184,7 @@ public class AIWithDatabase extends Application {
                 if (errorMessage.equals("Version wrong! disconnected.")) {
                     socket.close();
                 }
-                if (errorMessage.equals("This figure exists already, choose again.")) {
+                if (errorMessage.equals("Figure is already taken")) {
                     numRobot++;
                     setPlayerValues("AI", numRobot);
                 }

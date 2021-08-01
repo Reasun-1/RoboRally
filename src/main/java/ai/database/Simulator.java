@@ -73,6 +73,7 @@ public class Simulator {
     public List<String> findBest5Cards(List<String> originalCards, AIWithDatabase aiDatabase) {
 
         aiWithDatabase = aiDatabase;
+        curBest5Cards.clear();
 
         curPosition = new Position(aiDatabase.currentPositions.get(aiDatabase.clientID)[0],aiDatabase.currentPositions.get(aiDatabase.clientID)[1]);
         curDirection = aiDatabase.currentDirections.get(aiDatabase.clientID);
@@ -225,6 +226,10 @@ public class Simulator {
     public int simulateMoves(List<String> fiveCards) {
 
         int resultDistance = Integer.MAX_VALUE;
+
+        curPosition = new Position(aiWithDatabase.currentPositions.get(aiWithDatabase.clientID)[0],aiWithDatabase.currentPositions.get(aiWithDatabase.clientID)[1]);
+        curDirection = aiWithDatabase.currentDirections.get(aiWithDatabase.clientID);
+
 
         List<CardGeneral> cards = new ArrayList<>();
 
