@@ -190,7 +190,7 @@ public class AIWithDatabase extends Application {
                 }
                 break;
             case "HelloClient":
-                Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", true, "Version 2.1"));
+                Protocol protocol = new Protocol("HelloServer", new HelloServerBody("CC", true, versionProtocol));
                 String js = Protocol.writeJson(protocol);
                 logger.info("protocol from Server: \n" + js);
                 if (!isGameOn) {
