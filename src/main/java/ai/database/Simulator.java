@@ -164,7 +164,7 @@ public class Simulator {
         }
 
         if (temp5Cards.size() < 5) {
-            for (int i = temp5Cards.size(); i < 4; i++) {
+            for (int i = temp5Cards.size(); i < 5; i++) {
                 all9Cards.get(0);
                 all9Cards.remove(0);
             }
@@ -195,18 +195,23 @@ public class Simulator {
 
                 logger.info("swap i j : " + i + " " + j);
 
-                swap2Cards(temp5Cards, i, j);
+                List<String> permutedList = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    permutedList.add(temp5Cards.get(k));
+                }
 
-                logger.info("swaped temp5cards: " + temp5Cards);
+                List<String> newTemp5Cards = swap2Cards(permutedList, i, j);
 
-                int curDistanceToCheckpoint = simulateMoves(temp5Cards);
+                logger.info("swaped temp5cards: " + newTemp5Cards);
+
+                int curDistanceToCheckpoint = simulateMoves(newTemp5Cards);
                 logger.info("current direction: " +  curDirection);
 
                 if(curDistanceToCheckpoint == 0){
                     curBest5Cards.clear();
                     // deep copy!!!
                     for (int k = 0; k < 5; k++) {
-                        curBest5Cards.add(temp5Cards.get(k));
+                        curBest5Cards.add(newTemp5Cards.get(k));
                     }
 
                     curMinDistanceToCheckpoint = 0;
@@ -224,7 +229,7 @@ public class Simulator {
                     curBest5Cards.clear();
                     // deep copy!!!
                     for (int k = 0; k < 5; k++) {
-                        curBest5Cards.add(temp5Cards.get(k));
+                        curBest5Cards.add(newTemp5Cards.get(k));
                     }
 
                     logger.info("curBest5 for now: " + curBest5Cards);
@@ -238,10 +243,11 @@ public class Simulator {
         }
     }
 
-    public void swap2Cards(List<String> toSortlist, int i, int j) {
+    public List<String> swap2Cards(List<String> toSortlist, int i, int j) {
         String tempI = toSortlist.get(i);
         toSortlist.set(i, toSortlist.get(j));
         toSortlist.set(j, tempI);
+        return toSortlist;
     }
 
     public int simulateMoves(List<String> fiveCards) {
