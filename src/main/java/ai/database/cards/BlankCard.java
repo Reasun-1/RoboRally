@@ -28,6 +28,7 @@ public class BlankCard extends CardGeneral {
 
     @Override
     public int doCardFunction(int x, int y, Direction curDirection) {
+
         return Math.abs(Simulator.checkpointPosition.getX()-x) + Math.abs(Simulator.checkpointPosition.getY()-y);
     }
 }

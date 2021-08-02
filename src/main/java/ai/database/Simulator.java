@@ -3,6 +3,7 @@ package ai.database;
 import ai.AIWithDatabase;
 import ai.database.cards.*;
 import ai.database.fieldelements.FeldObject;
+import com.sun.security.jgss.GSSUtil;
 import org.apache.log4j.Logger;
 import server.game.Direction;
 import server.game.Position;
@@ -41,17 +42,29 @@ public class Simulator {
 
     public static List<Position> pitPositions = new ArrayList<>();
 
+    public static int curToReachCheckpoint;
+
 
     public static Simulator getInstance() {
         return simulator;
     }
 
-    public void findCheckpoint() {
+    public void findCheckpoint(int numCheckpoint) {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 10; j++) {
                 if (board.get(i).get(j).size() == 2) {
                     if (board.get(i).get(j).get(1).getClass().getSimpleName().equals("CheckPoint")) {
-                        checkpointPosition = new Position(i, j);
+                        if(board.get(i).get(j).get(1).getCount() == numCheckpoint){
+                            checkpointPosition = new Position(i, j);
+                        }
+                    }
+                }
+
+                if (board.get(i).get(j).size() == 3) {
+                    if (board.get(i).get(j).get(2).getClass().getSimpleName().equals("CheckPoint")) {
+                        if(board.get(i).get(j).get(2).getCount() == numCheckpoint){
+                            checkpointPosition = new Position(i, j);
+                        }
                     }
                 }
             }
@@ -187,6 +200,7 @@ public class Simulator {
                 logger.info("swaped temp5cards: " + temp5Cards);
 
                 int curDistanceToCheckpoint = simulateMoves(temp5Cards);
+                logger.info("current direction: " +  curDirection);
 
                 if(curDistanceToCheckpoint == 0){
                     curBest5Cards.clear();
@@ -197,6 +211,11 @@ public class Simulator {
 
                     curMinDistanceToCheckpoint = 0;
                     logger.info("to checkpoint 0 distance!!");
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current Position: " + curPosition.getX() + " " + curPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
                     break;
                 }
 
@@ -210,6 +229,8 @@ public class Simulator {
 
                     logger.info("curBest5 for now: " + curBest5Cards);
                     logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
                 }
 
                 logger.info("check cur best cards: " +  curBest5Cards);

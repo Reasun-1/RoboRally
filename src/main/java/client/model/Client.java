@@ -1066,6 +1066,22 @@ public class Client extends Application {
                             RebootBody rebootBody = Protocol.readJsonReboot(json);
                             int clientReboot = rebootBody.getClientID();
 
+                            /*
+                            if(clientReboot != clientID){
+                                switch (currentDirections.get(clientReboot)){
+                                    case UP:
+                                        break;
+                                    case RIGHT:
+                                    case DOWN:
+                                    case LEFT:
+                                        currentDirections.put(clientID, Direction.UP);
+                                        break;
+                                }
+                            }
+                             */
+
+                            flagPositions.set(flagPositionsProperty().getValue() + 1);
+
                             // clear all my registers if I reboot
                             if (clientReboot == clientID) {
                                 // clear register cards in GUI
@@ -1315,7 +1331,7 @@ public class Client extends Application {
             if (readyClients.get(clientIDEach) == true) {
                 PLAYERSWHOAREREADY.set(PLAYERSWHOAREREADY.get() + clientIDEach + "\n");
                 // reset boolean canSelectMap to all false
-                CANSELECTMAP.set(false);
+                //CANSELECTMAP.set(false);
             }
         }
     }

@@ -1,4 +1,5 @@
 package ai.database.fieldelements;
+import ai.database.Simulator;
 import server.game.Direction;
 import server.game.Game;
 
@@ -31,6 +32,6 @@ public class CheckPoint extends FeldObject {
 
     @Override
     public int doBoardFunction(int x, int y, Direction dir, FeldObject obj){
-        return 0;
+        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
     }
 }

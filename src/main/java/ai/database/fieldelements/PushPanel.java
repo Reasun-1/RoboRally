@@ -80,6 +80,10 @@ public class PushPanel extends FeldObject {
             resultDistance = Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
         }
 
+
+        if(resultDistance == 0){
+            System.out.println("===========0000===============Position: " + newPosition.getX() + " " + newPosition.getY());
+        }
         return resultDistance;
 
     }

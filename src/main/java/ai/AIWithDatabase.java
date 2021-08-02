@@ -257,7 +257,8 @@ public class AIWithDatabase extends Application {
                 Simulator.board = changeFeldObjectMapToAIMap(gameMap);
                 logger.info("new board deep copy: " + Simulator.board);
 
-                Simulator.getInstance().findCheckpoint();
+                Simulator.getInstance().findCheckpoint(1);
+                Simulator.curToReachCheckpoint = 1;
                 Simulator.getInstance().findPit();
 
                 // update flag for MapUpdate, so that viewController can listen
@@ -400,6 +401,20 @@ public class AIWithDatabase extends Application {
                         myRegisters[i] = "";
                     }
                     registerPointer = 0;
+
+                    /*
+                    Simulator.curDirection = Direction.UP;
+
+                    switch (currentDirections.get(clientID)){
+                        case UP:
+                            break;
+                        case RIGHT:
+                        case DOWN:
+                        case LEFT:
+                            currentDirections.put(clientID, Direction.UP);
+                            break;
+                    }
+                     */
                 }
                 logger.info("client reboot to start point");
                 break;
@@ -502,6 +517,21 @@ public class AIWithDatabase extends Application {
                 location[0] = locX;
                 location[1] = locY;
                 movingCheckpoints.put(checkpointNr, location);
+                break;
+
+            case "CheckPointReached":
+                CheckPointReachedBody checkPointReachedBody = Protocol.readJsonCheckPointReached(json);
+                int reachedClient = checkPointReachedBody.getClientID();
+                int reachedNumber = checkPointReachedBody.getNumber();
+                int curCheckpoint = Simulator.curToReachCheckpoint;
+
+                if(reachedClient == clientID){
+                    if(reachedNumber == curCheckpoint){
+                        Simulator.curToReachCheckpoint = curCheckpoint + 1;
+                        Simulator.getInstance().findCheckpoint(curCheckpoint + 1);
+                    }
+                }
+
                 break;
         }
     }

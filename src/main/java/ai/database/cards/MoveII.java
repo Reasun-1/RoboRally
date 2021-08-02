@@ -52,6 +52,9 @@ public class MoveII extends CardGeneral {
                     }else{
                         newPosition.setX(x+2);
                     }
+                    if(Simulator.board.get(i).get(y).get(0).getClass().getSimpleName().equals("Pit")){
+                        resultDistance = 100;
+                    }
                 }
                 break;
 
@@ -67,6 +70,9 @@ public class MoveII extends CardGeneral {
                     }else{
                         newPosition.setX(x-2);
                     }
+                    if(Simulator.board.get(i).get(y).get(0).getClass().getSimpleName().equals("Pit")){
+                        resultDistance = 100;
+                    }
                 }
                 break;
             case UP:
@@ -80,6 +86,9 @@ public class MoveII extends CardGeneral {
                         break;
                     }else{
                         newPosition.setY(y-2);
+                    }
+                    if(Simulator.board.get(x).get(i).get(0).getClass().getSimpleName().equals("Pit")){
+                        resultDistance = 100;
                     }
                 }
                 break;
@@ -95,6 +104,9 @@ public class MoveII extends CardGeneral {
                     }else{
                         newPosition.setY(y+2);
                     }
+                    if(Simulator.board.get(x).get(i).get(0).getClass().getSimpleName().equals("Pit")){
+                        resultDistance = 100;
+                    }
                 }
                 break;
         }
@@ -105,11 +117,16 @@ public class MoveII extends CardGeneral {
         }else if(Simulator.board.get(newPosition.getX()).get(newPosition.getY()).get(0).getClass().getSimpleName().equals("Pit")){// check if robot is on Pit
             resultDistance = 100;
         }else{ // do the board function
-            Simulator.lastPosition  = new Position(Simulator.curPosition.getX(), Simulator.curPosition.getY());
-            Simulator.curPosition = new Position(newPosition.getX(), newPosition.getY());
-            resultDistance = Simulator.getInstance().doBoardFunction();
+            if(resultDistance != 100){
+                Simulator.lastPosition  = new Position(Simulator.curPosition.getX(), Simulator.curPosition.getY());
+                Simulator.curPosition = new Position(newPosition.getX(), newPosition.getY());
+                resultDistance = Simulator.getInstance().doBoardFunction();
+            }
         }
 
+        if(resultDistance == 0){
+            System.out.println("===========0000===============Position: " + newPosition.getX() + " " + newPosition.getY());
+        }
         return resultDistance;
     }
 }

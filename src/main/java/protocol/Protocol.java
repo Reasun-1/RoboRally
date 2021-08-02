@@ -960,6 +960,19 @@ public class Protocol {
         return messageBodyDetail;
     }
 
+    public static CheckPointReachedBody readJsonCheckPointReached(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Protocol protocol = objectMapper.readValue(json, Protocol.class);
+
+        Object messageBody = protocol.getMessageBody();
+
+        CheckPointReachedBody messageBodyDetail = objectMapper.convertValue(messageBody, new TypeReference<CheckPointReachedBody>() {
+        });
+
+        return messageBodyDetail;
+    }
+
     /**
      * Read json test test body.
      *

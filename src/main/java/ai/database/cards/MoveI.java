@@ -107,6 +107,9 @@ public class MoveI extends CardGeneral {
             resultDistance = Simulator.getInstance().doBoardFunction();
         }
 
+        if(resultDistance == 0){
+            System.out.println("===========0000===============Position: " + newPosition.getX() + " " + newPosition.getY());
+        }
         return resultDistance;
     }
 }

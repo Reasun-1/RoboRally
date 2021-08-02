@@ -26,7 +26,7 @@ public class selectDirectionControllr {
     @FXML
     public void clickUp() throws JsonProcessingException {
 
-        client.handleRebootDirection("up");
+        client.handleRebootDirection("top");
 
         Stage stage = (Stage) up.getScene().getWindow();
         stage.close();
@@ -35,7 +35,7 @@ public class selectDirectionControllr {
     @FXML
     public void clickDown() throws JsonProcessingException {
 
-        client.handleRebootDirection("down");
+        client.handleRebootDirection("bottom");
 
         Stage stage = (Stage) down.getScene().getWindow();
         stage.close();
