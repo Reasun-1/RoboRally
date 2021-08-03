@@ -12,9 +12,9 @@ import java.util.List;
 public class ConveyorBelt extends FeldObject {
 
 
-    private String isOnBoard;
-    private int speed;
-    private List<String> orientations;
+    public String isOnBoard;
+    public int speed;
+    public List<String> orientations;
 
     public ConveyorBelt() {
     }
@@ -78,9 +78,9 @@ public class ConveyorBelt extends FeldObject {
 
 
                         if (Simulator.board.get(curX).get(curY - 1).get(0).getClass().getSimpleName().equals("ConveyorBelt")) {
-                            if (Simulator.board.get(curX).get(curY - 1).get(0).speed == 1) {
-                                if (Simulator.board.get(curX).get(curY - 1).get(0).orientations.size() == 2) { // condition limited
-                                    for (String entrance : Simulator.board.get(curX).get(curY - 1).get(0).orientations) {
+                            if (Simulator.board.get(curX).get(curY - 1).get(0).getSpeed() == 1) {
+                                if (Simulator.board.get(curX).get(curY - 1).get(0).getOrientations().size() == 2) { // condition limited
+                                    for (String entrance : Simulator.board.get(curX).get(curY - 1).get(0).getOrientations()) {
                                         if (entrance.equals("right")) {
                                             turnClockwise(direction);
                                         } else if (entrance.equals("left")) {
@@ -97,7 +97,7 @@ public class ConveyorBelt extends FeldObject {
                         if(!Simulator.board.get(curX).get(curY-1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
                             newPosition = new Position(curX, curY-1);
                         }else if(Simulator.board.get(curX).get(curY-1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX).get(curY-1).get(0).speed == 2){
+                            if(Simulator.board.get(curX).get(curY-1).get(0).getSpeed() == 2){
                                 if(Simulator.board.get(curX).get(curY-1).get(0).getOrientations().get(0).equals("left")){
                                     newPosition = new Position(curX -1, curY-1);
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
@@ -108,10 +108,10 @@ public class ConveyorBelt extends FeldObject {
                             }
                         }
                         if(Simulator.board.get(curX).get(curY-2).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX).get(curY-2).get(0).speed == 2){
-                                if(Simulator.board.get(curX).get(curY-2).get(0).orientations.get(0).equals("left")){
+                            if(Simulator.board.get(curX).get(curY-2).get(0).getSpeed() == 2){
+                                if(Simulator.board.get(curX).get(curY-2).get(0).getOrientations().get(0).equals("left")){
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
-                                }else if(Simulator.board.get(curX).get(curY-2).get(0).orientations.get(0).equals("right")){
+                                }else if(Simulator.board.get(curX).get(curY-2).get(0).getOrientations().get(0).equals("right")){
                                     Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
                                 }
                             }
@@ -180,9 +180,9 @@ public class ConveyorBelt extends FeldObject {
 
 
                         if (Simulator.board.get(curX).get(curY + 1).get(0).getClass().getSimpleName().equals("ConveyorBelt")) {
-                            if (Simulator.board.get(curX).get(curY + 1).get(0).speed == 1) {
-                                if (Simulator.board.get(curX).get(curY + 1).get(0).orientations.size() == 2) { // condition limited
-                                    for (String entrance : Simulator.board.get(curX).get(curY + 1).get(0).orientations) {
+                            if (Simulator.board.get(curX).get(curY + 1).get(0).getSpeed() == 1) {
+                                if (Simulator.board.get(curX).get(curY + 1).get(0).getOrientations().size() == 2) { // condition limited
+                                    for (String entrance : Simulator.board.get(curX).get(curY + 1).get(0).getOrientations()) {
                                         if (entrance.equals("right")) {
                                             turnCounterclockwise(direction);
                                         } else if (entrance.equals("left")) {
@@ -199,7 +199,7 @@ public class ConveyorBelt extends FeldObject {
                         if(!Simulator.board.get(curX).get(curY+1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
                             newPosition = new Position(curX, curY+1);
                         }else if(Simulator.board.get(curX).get(curY+1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX).get(curY+1).get(0).speed == 2){
+                            if(Simulator.board.get(curX).get(curY+1).get(0).getSpeed() == 2){
                                 if(Simulator.board.get(curX).get(curY+1).get(0).getOrientations().get(0).equals("right")){
                                     newPosition = new Position(curX +1, curY+1);
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
@@ -211,7 +211,7 @@ public class ConveyorBelt extends FeldObject {
                             }
                         }
                         if(Simulator.board.get(curX).get(curY+2).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX).get(curY+2).get(0).speed == 2){
+                            if(Simulator.board.get(curX).get(curY+2).get(0).getSpeed() == 2){
                                 if(Simulator.board.get(curX).get(curY+2).get(0).getOrientations().get(0).equals("right")){
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
                                 }else if(Simulator.board.get(curX).get(curY+2).get(0).getOrientations().get(0).equals("left")){
@@ -284,16 +284,29 @@ public class ConveyorBelt extends FeldObject {
 
 
                         if (Simulator.board.get(curX + 1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")) {
-                            if (Simulator.board.get(curX + 1).get(curY).get(0).speed == 1) {
+                            System.out.println("###########FLAG 1############");
+                            if (Simulator.board.get(curX + 1).get(curY).get(0).getSpeed() == 1) {
+                                System.out.println("###########FLAG 2############");
+
+                                if(Simulator.board.get(curX + 1).get(curY).get(0).getOrientations().get(0).equals("top")){
+                                    turnCounterclockwise(direction);
+                                }else if(Simulator.board.get(curX + 1).get(curY).get(0).getOrientations().get(0).equals("bottom")){
+                                    Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
+                                    System.out.println("########BELT GREEN: TO DIR: "+Simulator.curDirection);
+                                }
+                                /*
                                 if (Simulator.board.get(curX + 1).get(curY).get(0).orientations.size() == 2) { // condition limited
                                     for (String entrance : Simulator.board.get(curX + 1).get(curY).get(0).orientations) {
                                         if (entrance.equals("top")) {
                                             turnCounterclockwise(direction);
                                         } else if (entrance.equals("bottom")) {
                                             Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
+                                            System.out.println("########BELT GREEN: TO DIR: "+Simulator.curDirection);
                                         }
                                     }
                                 }
+
+                                 */
                             }
                         }
                     }
@@ -304,21 +317,21 @@ public class ConveyorBelt extends FeldObject {
                         if(!Simulator.board.get(curX+1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
                             newPosition = new Position(curX+1, curY);
                         }else if(Simulator.board.get(curX+1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX+1).get(curY).get(0).speed == 2){
-                                if(Simulator.board.get(curX+1).get(curY).get(0).orientations.get(0).equals("top")){
+                            if(Simulator.board.get(curX+1).get(curY).get(0).getSpeed() == 2){
+                                if(Simulator.board.get(curX+1).get(curY).get(0).getOrientations().get(0).equals("top")){
                                     newPosition = new Position(curX +1, curY-1);
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
-                                }else if(Simulator.board.get(curX+1).get(curY).get(0).orientations.get(0).equals("bottom")){
+                                }else if(Simulator.board.get(curX+1).get(curY).get(0).getOrientations().get(0).equals("bottom")){
                                     newPosition = new Position(curX +1, curY+1);
                                     Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
                                 }
                             }
                         }
                         if(Simulator.board.get(curX+2).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX+2).get(curY).get(0).speed == 2){
-                                if(Simulator.board.get(curX+2).get(curY).get(0).orientations.get(0).equals("top")){
+                            if(Simulator.board.get(curX+2).get(curY).get(0).getSpeed() == 2){
+                                if(Simulator.board.get(curX+2).get(curY).get(0).getOrientations().get(0).equals("top")){
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
-                                }else if(Simulator.board.get(curX+2).get(curY).get(0).orientations.get(0).equals("bottom")){
+                                }else if(Simulator.board.get(curX+2).get(curY).get(0).getOrientations().get(0).equals("bottom")){
                                     Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
                                 }
                             }
@@ -387,9 +400,9 @@ public class ConveyorBelt extends FeldObject {
 
 
                         if (Simulator.board.get(curX - 1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")) {
-                            if (Simulator.board.get(curX - 1).get(curY).get(0).speed == 1) {
-                                if (Simulator.board.get(curX - 1).get(curY).get(0).orientations.size() == 2) { // condition limited
-                                    for (String entrance : Simulator.board.get(curX - 1).get(curY).get(0).orientations) {
+                            if (Simulator.board.get(curX - 1).get(curY).get(0).getSpeed() == 1) {
+                                if (Simulator.board.get(curX - 1).get(curY).get(0).getOrientations().size() == 2) { // condition limited
+                                    for (String entrance : Simulator.board.get(curX - 1).get(curY).get(0).getOrientations()) {
                                         if (entrance.equals("top")) {
                                             turnClockwise(direction);
                                         } else if (entrance.equals("bottom")) {
@@ -406,21 +419,21 @@ public class ConveyorBelt extends FeldObject {
                         if(!Simulator.board.get(curX-1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
                             newPosition = new Position(curX-1, curY);
                         }else if(Simulator.board.get(curX-1).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX-1).get(curY).get(0).speed == 2){
-                                if(Simulator.board.get(curX-1).get(curY).get(0).orientations.get(0).equals("bottom")){
+                            if(Simulator.board.get(curX-1).get(curY).get(0).getSpeed() == 2){
+                                if(Simulator.board.get(curX-1).get(curY).get(0).getOrientations().get(0).equals("bottom")){
                                     newPosition = new Position(curX -1, curY+1);
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
-                                }else if(Simulator.board.get(curX-1).get(curY).get(0).orientations.get(0).equals("top")){
+                                }else if(Simulator.board.get(curX-1).get(curY).get(0).getOrientations().get(0).equals("top")){
                                     newPosition = new Position(curX -1, curY-1);
                                     Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
                                 }
                             }
                         }
                         if(Simulator.board.get(curX-2).get(curY).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
-                            if(Simulator.board.get(curX-2).get(curY).get(0).speed == 2){
-                                if(Simulator.board.get(curX-2).get(curY).get(0).orientations.get(0).equals("bottom")){
+                            if(Simulator.board.get(curX-2).get(curY).get(0).getSpeed() == 2){
+                                if(Simulator.board.get(curX-2).get(curY).get(0).getOrientations().get(0).equals("bottom")){
                                     Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
-                                }else if(Simulator.board.get(curX-2).get(curY).get(0).orientations.get(0).equals("top")){
+                                }else if(Simulator.board.get(curX-2).get(curY).get(0).getOrientations().get(0).equals("top")){
                                     Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
                                 }
                             }
