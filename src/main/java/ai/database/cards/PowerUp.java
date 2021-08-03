@@ -30,6 +30,9 @@ public class PowerUp extends CardGeneral {
 
     @Override
     public int doCardFunction(int x, int y, Direction currentDirection){
-        return Math.abs(Simulator.checkpointPosition.getX()-x) + Math.abs(Simulator.checkpointPosition.getY()-y);
-    }
+        int resultDistance = Integer.MAX_VALUE;
+
+        resultDistance = Simulator.getInstance().doBoardFunction();
+
+        return resultDistance;    }
 }

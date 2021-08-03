@@ -31,6 +31,6 @@ public class Wall extends FeldObject {
 
     @Override
     public int doBoardFunction(int curX, int curY, Direction direction, FeldObject obj) {
-        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY());
+        return Math.abs(Simulator.checkpointPosition.getX() - Simulator.curPosition.getX()) + Math.abs(Simulator.checkpointPosition.getY() - Simulator.curPosition.getY()) + 1;
     }
 }

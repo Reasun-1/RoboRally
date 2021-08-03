@@ -1492,14 +1492,14 @@ public class Client extends Application {
             MYREGISTER[registerNum - 1].set(cardName);
             logger.info(json);
             OUT.println(json);
-            CANCLICKFINISH.set(true);
+            //CANCLICKFINISH.set(true);
         } else {
             Protocol protocol = new Protocol("SelectedCard", new SelectedCardBody(null, registerNum));
             String json = Protocol.writeJson(protocol);
             MYREGISTER[registerNum - 1].set("");
             logger.info(json);
             OUT.println(json);
-            CANCLICKFINISH.set(true);
+            //CANCLICKFINISH.set(true);
         }
 
     }

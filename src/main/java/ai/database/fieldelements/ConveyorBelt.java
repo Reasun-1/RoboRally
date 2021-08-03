@@ -70,6 +70,20 @@ public class ConveyorBelt extends FeldObject {
                             }
                         }
                     }
+
+                    if(Simulator.board.get(curX).get(curY-1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
+                        if(Simulator.board.get(curX).get(curY-1).get(0).speed == 1){
+                            if (Simulator.board.get(curX).get(curY-1).get(0).orientations.size() == 2) { // condition limited
+                                for (String entrance : Simulator.board.get(curX).get(curY-1).get(0).orientations) {
+                                    if (entrance.equals("right")) {
+                                        turnClockwise(direction);
+                                    } else if (entrance.equals("left")) {
+                                        Simulator.curDirection = Direction.turnCounterClock(Simulator.curDirection);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 } else { // blue belt
                     newPosition = new Position(curX, curY - 2);
                     if (orientations.size() == 1) {
@@ -94,6 +108,7 @@ public class ConveyorBelt extends FeldObject {
                                 }
                             }
                         }
+
                     }
                     if (orientations.size() == 2) {
                         for (String entrance : orientations) {
@@ -143,6 +158,20 @@ public class ConveyorBelt extends FeldObject {
                                 if (Simulator.lastPosition.getX() - Simulator.curPosition.getX() == 1
                                         && Simulator.lastPosition.getY() == Simulator.curPosition.getY()) {
                                     turnCounterclockwise(direction);
+                                }
+                            }
+                        }
+                    }
+
+                    if(Simulator.board.get(curX).get(curY+1).get(0).getClass().getSimpleName().equals("ConveyorBelt")){
+                        if(Simulator.board.get(curX).get(curY+1).get(0).speed == 1){
+                            if (Simulator.board.get(curX).get(curY+1).get(0).orientations.size() == 2) { // condition limited
+                                for (String entrance : Simulator.board.get(curX).get(curY+1).get(0).orientations) {
+                                    if (entrance.equals("right")) {
+                                        turnCounterclockwise(direction);
+                                    } else if (entrance.equals("left")) {
+                                        Simulator.curDirection = Direction.turnClock(Simulator.curDirection);
+                                    }
                                 }
                             }
                         }
@@ -398,6 +427,7 @@ public class ConveyorBelt extends FeldObject {
         if (newPosition.getX() < 0 || newPosition.getX() > 12 || newPosition.getY() < 0 || newPosition.getY() > 9) {
             resultDistance = 100;
         } else if (Simulator.board.get(newPosition.getX()).get(newPosition.getY()).get(0).getClass().getSimpleName().equals("Pit")) {// check if robot is on Pit
+            System.out.println("##############PIT REACHED!!!##################");
             resultDistance = 100;
         } else {
             Simulator.lastPosition = new Position(Simulator.curPosition.getX(), Simulator.curPosition.getY());
