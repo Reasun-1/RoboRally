@@ -81,6 +81,9 @@ public class AIWithDatabase extends Application {
     // protocol version for login
     public String versionProtocol = "";
 
+    // flag for REAR LASER
+    public boolean hasRearLaser = false;
+
     /**
      * Sets active phase.
      *
@@ -308,7 +311,13 @@ public class AIWithDatabase extends Application {
                             registerPointer = 0;
                         }
                     } else if (activePhase.equals("Upgradephase")) {
-                        handleBuyUpgrade();
+
+                        if (availableUpgradesCards.contains("REAR LASER")) {
+                            handleBuyUpgrade();
+                        }else{
+                            handleBuyNoUpgrade();
+                        }
+
                     }
 
                 } else {
@@ -431,7 +440,7 @@ public class AIWithDatabase extends Application {
                 currentPositions.get(movedClient)[0] = toX;
                 currentPositions.get(movedClient)[1] = toY;
 
-                if(movedClient == clientID){
+                if (movedClient == clientID) {
                     Simulator.curPosition = new Position(toX, toY);
                 }
                 break;
@@ -450,7 +459,7 @@ public class AIWithDatabase extends Application {
                 }
                 currentDirections.put(turnedClient, newDir);
 
-                if(turnedClient == clientID){
+                if (turnedClient == clientID) {
                     Simulator.curDirection = newDir;
                 }
                 break;
@@ -487,7 +496,8 @@ public class AIWithDatabase extends Application {
             case "RefillShop":
                 RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
                 List<String> upCards = refillShopBody.getCards();
-                availableUpgradesCards.clear();
+
+                //availableUpgradesCards.clear();
                 for (String upCard : upCards) {
                     availableUpgradesCards.add(upCard);
                 }
@@ -495,6 +505,7 @@ public class AIWithDatabase extends Application {
             case "ExchangeShop":
                 RefillShopBody exchangeShopBody = Protocol.readJsonRefillShop(json);
                 List<String> upgradesCards = exchangeShopBody.getCards();
+
                 availableUpgradesCards.clear();
                 for (String upCard : upgradesCards) {
                     availableUpgradesCards.add(upCard);
@@ -525,8 +536,8 @@ public class AIWithDatabase extends Application {
                 int reachedNumber = checkPointReachedBody.getNumber();
                 int curCheckpoint = Simulator.curToReachCheckpoint;
 
-                if(reachedClient == clientID){
-                    if(reachedNumber == curCheckpoint){
+                if (reachedClient == clientID) {
+                    if (reachedNumber == curCheckpoint) {
                         Simulator.curToReachCheckpoint = curCheckpoint + 1;
                         Simulator.getInstance().findCheckpoint(curCheckpoint + 1);
                     }
@@ -862,15 +873,26 @@ public class AIWithDatabase extends Application {
      * @throws JsonProcessingException the json processing exception
      */
     public void handleBuyUpgrade() throws JsonProcessingException {
+        if (!hasRearLaser) {
+            Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(true, "REAR LASER"));
+            String json = Protocol.writeJson(protocol);
+            logger.info(json);
+            OUT.println(json);
+            hasRearLaser = true;
+        }else{
+            handleBuyNoUpgrade();
+        }
 
+    }
+
+    public void handleBuyNoUpgrade() throws JsonProcessingException {
         Protocol protocol = new Protocol("BuyUpgrade", new BuyUpgradeBody(false, null));
         String json = Protocol.writeJson(protocol);
         logger.info(json);
         OUT.println(json);
-
     }
 
-    public List<List<List<ai.database.fieldelements.FeldObject>>> changeFeldObjectMapToAIMap(List<List<List<server.feldobjects.FeldObject>>> oriMap){
+    public List<List<List<ai.database.fieldelements.FeldObject>>> changeFeldObjectMapToAIMap(List<List<List<server.feldobjects.FeldObject>>> oriMap) {
 
         List<List<List<ai.database.fieldelements.FeldObject>>> aiBoard = new ArrayList<>();
 
@@ -886,11 +908,11 @@ public class AIWithDatabase extends Application {
                 List<ai.database.fieldelements.FeldObject> newObjs = new ArrayList<>();
 
                 List<server.feldobjects.FeldObject> feldObjects = oriMap.get(i).get(j);
-                for(server.feldobjects.FeldObject object : feldObjects){
+                for (server.feldobjects.FeldObject object : feldObjects) {
 
                     ai.database.fieldelements.FeldObject newObj = null;
 
-                    switch (object.getClass().getSimpleName()){
+                    switch (object.getClass().getSimpleName()) {
                         case "Antenna":
                             newObj = new Antenna(object.getIsOnBoard(), object.getOrientations());
                             break;

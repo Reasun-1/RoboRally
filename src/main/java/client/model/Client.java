@@ -1198,7 +1198,7 @@ public class Client extends Application {
                             RefillShopBody refillShopBody = Protocol.readJsonRefillShop(json);
                             List<String> upCards = refillShopBody.getCards();
                             // clear last round cards in list of availableUpgradesCards
-                            availableUpgradesCards.clear();
+                            //availableUpgradesCards.clear();
                             for (String upCard : upCards) {
                                 availableUpgradesCards.add(upCard);
                             }
