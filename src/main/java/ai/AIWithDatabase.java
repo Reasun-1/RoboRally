@@ -25,7 +25,8 @@ import java.util.*;
  * @author can ren
  * @create $(YEAR)-$(MONTH)-$(DAY)
  */
-public class AIWithDatabase extends Application {
+//public class AIWithDatabase {
+    public class AIWithDatabase extends Application {
 
     private static final Logger logger = Logger.getLogger(AILow.class.getName());
     // Launcher for new Windows
@@ -33,9 +34,9 @@ public class AIWithDatabase extends Application {
     // Socket for the TCP connection
     public volatile Socket socket;
     // Writer for outgoing messages
-    private final PrintWriter OUT;
+    private PrintWriter OUT;
     // Reader for incoming messages
-    private final BufferedReader IN;
+    private BufferedReader IN;
     // Name can be chosen in the login process
     private String name;
     // unique client ID given from server, key between Game, Server, Client and GUI!!
@@ -122,7 +123,7 @@ public class AIWithDatabase extends Application {
     }
 
 
-    @Override
+    //@Override
     public void start(Stage stage) {
         try {
             String json;
@@ -960,6 +961,53 @@ public class AIWithDatabase extends Application {
         }
 
         return aiBoard;
+    }
+
+    public static void main(String[] args) throws Exception {
+        String host = args[0];
+        String port = args[1];
+        String version = args[2];
+        if(version.equals("version2.1")){
+            version = "Version 2.1";
+        }else if(version.equals("version1.0")){
+            version = "Version 1.0";
+        }
+
+        AIWithDatabase aiWithDatabase = new AIWithDatabase();
+
+        aiWithDatabase.socket = new Socket(host, Integer.valueOf(port));
+        aiWithDatabase.versionProtocol = version;
+
+        aiWithDatabase.OUT = new PrintWriter(aiWithDatabase.socket.getOutputStream(), true);
+
+        // Create reader to receive messages from server via the TCP-socket
+        aiWithDatabase.IN = new BufferedReader(new InputStreamReader(aiWithDatabase.socket.getInputStream()));
+
+        String json;
+        while (!aiWithDatabase.socket.isClosed()) {
+            // Client socket waits for the input from the server
+            json = aiWithDatabase.IN.readLine();
+            //if(!line.isEmpty()) { // NullPointerException
+            if (json != null) {
+
+                if (Protocol.readJsonMessageType(json).equals("GameOn")) {
+                    logger.info("game on from server thread : " + json);
+                    aiWithDatabase.isGameOn = true;
+                    aiWithDatabase.socket.close();
+                } else {
+                    aiWithDatabase.executeOrder(json);
+                    if (!Protocol.readJsonMessageType(json).equals("Alive")) {
+                        logger.info("json from server: " + json + Thread.currentThread().getName());
+                    }
+                }
+            }
+        }
+        Platform.exit();
+
+        aiWithDatabase.socket.close();
+
+
+
     }
 
 }
