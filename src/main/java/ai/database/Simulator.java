@@ -150,7 +150,12 @@ public class Simulator {
             if (all9Cards.contains("BackUp")) {
                 temp5Cards.add("BackUp");
                 all9Cards.remove("BackUp");
-            } else if (all9Cards.contains("UTurn")) {
+            }
+            if (temp5Cards.size() == 5) {
+                break;
+            }
+
+            if (all9Cards.contains("UTurn")) {
                 temp5Cards.add("UTurn");
                 all9Cards.remove("UTurn");
             } else if (all9Cards.contains("PowerUp")) {
@@ -241,6 +246,224 @@ public class Simulator {
                 logger.info("check cur best cards: " +  curBest5Cards);
             }
         }
+
+        swap2Cards(temp5Cards, 0, 1);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+
+                logger.info("swap i j : " + i + " " + j);
+
+                List<String> permutedList = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    permutedList.add(temp5Cards.get(k));
+                }
+
+                List<String> newTemp5Cards = swap2Cards(permutedList, i, j);
+
+                logger.info("swaped temp5cards: " + newTemp5Cards);
+
+                int curDistanceToCheckpoint = simulateMoves(newTemp5Cards);
+                logger.info("current direction: " +  curDirection);
+
+                if(curDistanceToCheckpoint == 0){
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    curMinDistanceToCheckpoint = 0;
+                    logger.info("to checkpoint 0 distance!!");
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current Position: " + curPosition.getX() + " " + curPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    break;
+                }
+
+                if (curDistanceToCheckpoint < curMinDistanceToCheckpoint) {
+                    curMinDistanceToCheckpoint = curDistanceToCheckpoint;
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                }
+
+                logger.info("check cur best cards: " +  curBest5Cards);
+            }
+        }
+
+        swap2Cards(temp5Cards, 0, 2);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+
+                logger.info("swap i j : " + i + " " + j);
+
+                List<String> permutedList = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    permutedList.add(temp5Cards.get(k));
+                }
+
+                List<String> newTemp5Cards = swap2Cards(permutedList, i, j);
+
+                logger.info("swaped temp5cards: " + newTemp5Cards);
+
+                int curDistanceToCheckpoint = simulateMoves(newTemp5Cards);
+                logger.info("current direction: " +  curDirection);
+
+                if(curDistanceToCheckpoint == 0){
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    curMinDistanceToCheckpoint = 0;
+                    logger.info("to checkpoint 0 distance!!");
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current Position: " + curPosition.getX() + " " + curPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    break;
+                }
+
+                if (curDistanceToCheckpoint < curMinDistanceToCheckpoint) {
+                    curMinDistanceToCheckpoint = curDistanceToCheckpoint;
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                }
+
+                logger.info("check cur best cards: " +  curBest5Cards);
+            }
+        }
+
+        swap2Cards(temp5Cards, 0, 3);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+
+                logger.info("swap i j : " + i + " " + j);
+
+                List<String> permutedList = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    permutedList.add(temp5Cards.get(k));
+                }
+
+                List<String> newTemp5Cards = swap2Cards(permutedList, i, j);
+
+                logger.info("swaped temp5cards: " + newTemp5Cards);
+
+                int curDistanceToCheckpoint = simulateMoves(newTemp5Cards);
+                logger.info("current direction: " +  curDirection);
+
+                if(curDistanceToCheckpoint == 0){
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    curMinDistanceToCheckpoint = 0;
+                    logger.info("to checkpoint 0 distance!!");
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current Position: " + curPosition.getX() + " " + curPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    break;
+                }
+
+                if (curDistanceToCheckpoint < curMinDistanceToCheckpoint) {
+                    curMinDistanceToCheckpoint = curDistanceToCheckpoint;
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                }
+
+                logger.info("check cur best cards: " +  curBest5Cards);
+            }
+        }
+
+        swap2Cards(temp5Cards, 0, 4);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = i + 1; j < 5; j++) {
+
+                logger.info("swap i j : " + i + " " + j);
+
+                List<String> permutedList = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    permutedList.add(temp5Cards.get(k));
+                }
+
+                List<String> newTemp5Cards = swap2Cards(permutedList, i, j);
+
+                logger.info("swaped temp5cards: " + newTemp5Cards);
+
+                int curDistanceToCheckpoint = simulateMoves(newTemp5Cards);
+                logger.info("current direction: " +  curDirection);
+
+                if(curDistanceToCheckpoint == 0){
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    curMinDistanceToCheckpoint = 0;
+                    logger.info("to checkpoint 0 distance!!");
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current Position: " + curPosition.getX() + " " + curPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    break;
+                }
+
+                if (curDistanceToCheckpoint < curMinDistanceToCheckpoint) {
+                    curMinDistanceToCheckpoint = curDistanceToCheckpoint;
+                    curBest5Cards.clear();
+                    // deep copy!!!
+                    for (int k = 0; k < 5; k++) {
+                        curBest5Cards.add(newTemp5Cards.get(k));
+                    }
+
+                    logger.info("curBest5 for now: " + curBest5Cards);
+                    logger.info("curBestScore/Distance: " + curDistanceToCheckpoint);
+                    logger.info("current checkpoint: " + curToReachCheckpoint + " coordination: " + checkpointPosition.getX() + " " + checkpointPosition.getY());
+                    logger.info("real direction: " +  aiWithDatabase.currentDirections.get(aiWithDatabase.clientID));
+                }
+
+                logger.info("check cur best cards: " +  curBest5Cards);
+            }
+        }
+
+
     }
 
     public List<String> swap2Cards(List<String> toSortlist, int i, int j) {
