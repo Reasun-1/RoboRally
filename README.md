@@ -1,18 +1,3 @@
-# Zusätzliche Dokumentation für die finale Abgabe
-
-Auf unserer [Wiki page](/%2E%2E/wikis/home) findet ihr die folgenden relevanten Informationen:
-
-- [Protokoll aller Tutorentreffen](/%2E%2E/wikis/Tutorentreffen)
-- [Präsentation des Projekts](/%2E%2E/wikis/Präsentation-des-Projekts)
-- [Konzept der Künstlichen Intelligenz](/%2E%2E/wikis/Künstliche%20Intelligenz%20in%20Robo%20Rally)
-- [UML Diagramm](/%2E%2E/wikis/UML_Stand-Juli)
-- [JavaDocs](../Abgabe/JavaDocs)
-- [Source Code](../Abgabe/src)
-...
-
-
-Und vieles Mehr!
-
 
 
 #### Requirements: Please read carefully!
