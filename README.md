@@ -56,68 +56,67 @@ If you are brave enough for the game, just hit the button and let's go!
 
 The first Robot to enter the game, can choose the map - Dizzy Highway is a great choice for beginners!
 
-![](src/main/resources/images/Readme/map.png)
+<img src="src/main/resources/images/Readme/map.png" width="450" />
 
 
 <br />  
 
 By clicking on the gears on the start board, you can set your start position.
 
-![](src/main/resources/images/Readme/position.png)
+<img src="src/main/resources/images/Readme/position.png" width="500" />
 
 <br /> 
 If you can afford it, you can buy some upgrades in the Upgrade Shop:
 
-![](src/main/resources/images/Readme/shop.png)
+<img src="src/main/resources/images/Readme/shop.png" width="500" />
 
 <br />  
 
 If you choose Admin Privilege, don't forget to set the Register you want to get Priority in!
 
-![](src/main/resources/images/Readme/upgrade.png)
+<img src="src/main/resources/images/Readme/upgrade.png" width="500" />
 
 <br />  
 
 And now you can see your hand cards! Drag the Cards to the desired register and let it drop. But choose wisely ...
 
-![](src/main/resources/images/Readme/drag.png)
+<img src="src/main/resources/images/Readme/drag.png" width="500" />
 
 <br />  
 
 Fill the whole register with cards...
 
-![](src/main/resources/images/Readme/drop.png)
+<img src="src/main/resources/images/Readme/drop.png" width="500" />
 
 <br />  
 
 and after that, just hit the finish button.
 
-![](src/main/resources/images/Readme/finish.png)
+<img src="src/main/resources/images/Readme/finish.png" width="500" />
 
 <br />  
 
 Now you are all set up and play the first round!
 
-![](src/main/resources/images/Readme/play.png)
 
 <br />  
 
 
 Always keep an eye on your Energy and the Timer...
 
-![](src/main/resources/images/Readme/energy.png)
+<img src="src/main/resources/images/Readme/energy.png" width="500" />
 
 <br />   
 
 And don't worry if something goes wrong! Just prove that you are a Robot and keep playing ;)
 
-![](src/main/resources/images/Readme/error.png)
+<img src="src/main/resources/images/Readme/error.png" width="500" />
 
 <br />  
 
 Whenever you are confused or don't know what's going on, have a look at the top: there is a small info screen with the most important information
 
-![](src/main/resources/images/Readme/help.png)
+<img src="src/main/resources/images/Readme/help.png" width="450" />
 
 Have fun!
 
