@@ -1,9 +1,7 @@
 
-#### Requirements: Please read carefully!
+#### Requirements: 
 In order to run the Game without problems, you'll need to install Java to run the .JAR File
-Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
-
-java -jar clevere-cousins.jar
+Also in order for the Log Files to be created, please start the .JAR File in your terminal:
 
 
 
@@ -25,7 +23,7 @@ Note that for every additional Player, you have to start another Client Instance
 ### Gameplay
 Start by Clicking on an Icon representing the Robot you want to choose and enter your Name. If you can't click on the Icon, the Robot is already taken.
 
-![](src/main/resources/images/Readme/login.png)
+<img src="src/main/resources/images/Readme/login.png" width="450" />
 
 <br />  
 
