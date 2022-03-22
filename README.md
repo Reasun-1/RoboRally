@@ -104,7 +104,7 @@ Now you are all set up and play the first round!
 
 Always keep an eye on your Energy and the Timer...
 
-<img src="src/main/resources/images/Readme/energy.png" width="500" />
+<img src="src/main/resources/images/Readme/energy.png" width="300" />
 
 <br />   
 
