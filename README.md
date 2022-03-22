@@ -29,19 +29,19 @@ Start by Clicking on an Icon representing the Robot you want to choose and enter
 
 Now you can see which Robots are also online and maybe even ready for a match:
 
-![](src/main/resources/images/Readme/online.png)
+<img src="src/main/resources/images/Readme/online.png" width="300" />
 
 <br />  
 
 If you want, you can write them a nice message! Just click on the drop down menu to choose either all or one certain Robot.
 
-![](src/main/resources/images/Readme/chat.png)
+<img src="src/main/resources/images/Readme/chat.png" width="300" />
 
 <br />  
 
 Then you can write the message and hit the Send Button
 
-![](src/main/resources/images/Readme/message.png)
+<img src="src/main/resources/images/Readme/message.png" width="300" />
 
 <br />  
 
@@ -49,7 +49,7 @@ Then you can write the message and hit the Send Button
 
 If you are brave enough for the game, just hit the button and let's go!
 
-![](src/main/resources/images/Readme/start.png)
+<img src="src/main/resources/images/Readme/start.png" width="300" />
 
 <br />  
 
