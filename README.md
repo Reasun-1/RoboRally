@@ -1,10 +1,9 @@
 
 
-#### Requirements: Please read carefully!
-In order to run the Game without problems, you'll need to install Java to run the .JAR File
-Also in order for the Log Files to be created, please start the .JAR File in the following way from your terminal:
+#### Requirements: 
+In order to run the Game without problems, you'll need to install Java and JavaFX to run the .JAR File
+Also in order for the Log Files to be created, please start the .JAR File in your terminal.
 
-java -jar clevere-cousins.jar
 
 
 
